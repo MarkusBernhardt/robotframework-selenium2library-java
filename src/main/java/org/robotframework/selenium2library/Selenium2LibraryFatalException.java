@@ -1,0 +1,12 @@
+package org.robotframework.selenium2library;
+
+/**
+ * A raised exception of this type ends all test executions.
+ */
+@SuppressWarnings("serial")
+public class Selenium2LibraryFatalException extends RuntimeException {
+	/**
+	 * Mark this exception as fatal
+	 */
+	public static final boolean ROBOT_EXIT_ON_FAILURE = true;
+}
