@@ -1,0 +1,13 @@
+*** Settings ***
+Suite Setup       Google.Site.Open
+Suite Teardown    Google.Site.Close
+Test Setup        Google.Site.Init
+Resource          ../../settings/Settings.txt
+Resource          ../../imports/Google.txt
+
+*** Testcases ***
+Open And Close Google Site
+    Comment    Do nothing
+    
+Search Robotframework Selenium2Library
+    Google.Search.Search String    Robotframework Selenium2Library

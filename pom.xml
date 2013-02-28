@@ -96,11 +96,33 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>compile</goal>       <!-- use this goal to weave all your main classes -->
-							<goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
+							<goal>compile</goal>
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.robotframework</groupId>
+				<artifactId>robotframework-maven-plugin</artifactId>
+				<version>1.0.8</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<logLevel>debug</logLevel>
+					<testCasesDirectory>${project.basedir}/src/test/robotframework/testsuites</testCasesDirectory>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.robotframework</groupId>
+						<artifactId>robotframework</artifactId>
+						<version>${robotframework.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<!-- Set 1.6 as target -->

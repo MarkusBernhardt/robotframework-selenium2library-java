@@ -1,0 +1,8 @@
+*** Settings ***
+Documentation     A resource file with variables specific for the
+...               execution of the testsuites by the Jenkins CI server.
+
+*** Variables ***
+${Selenium.Grid}    true
+${Selenium.Host}    h142845
+${Selenium.Port}    5569

@@ -1,0 +1,6 @@
+*** Settings ***
+Documentation     A resource file with variables specific for the local
+...               execution of the testsuites.
+
+*** Variables ***
+${Selenium.Grid}    false

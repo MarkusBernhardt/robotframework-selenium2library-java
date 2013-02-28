@@ -1,0 +1,9 @@
+*** Settings ***
+Documentation     A resource file to setup all variables.
+Resource          profiles/${Profile}.txt
+
+*** Variables ***
+${Profile}    Local
+${Selenium.Browser.Name}    firefox
+${Selenium.Browser.Version}    17
+${Selenium.Timeout}        30.0

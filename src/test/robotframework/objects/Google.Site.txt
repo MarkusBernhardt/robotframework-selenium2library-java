@@ -1,0 +1,29 @@
+*** Settings ***
+Documentation     Defines all required resources and keywords
+...               handling the google website.
+Resource          ../adapters/Selenium2Library.txt
+
+*** Variables ***
+${Google.Site.Url}    http://www.google.de
+${Google.Site.PageTitle}    Google
+
+*** Keywords ***
+Open
+    [Arguments]    ${Browser.Alias}=default
+    Run Keyword If    '${Selenium.Grid}'!='true'    Open Browser    ${Google.Site.Url}    ${Selenium.Browser.Name}    ${Browser.Alias}
+    Run Keyword If    '${Selenium.Grid}'=='true'    Open Browser    ${Google.Site.Url}    ${Selenium.Browser.Name}    ${Browser.Alias}    http://${Selenium.Host}:${Selenium.Port}/wd/hub    browserName:${Selenium.Browser.Name},version:${Selenium.Browser.Version}
+    Set Selenium Implicit Wait    ${Selenium.Timeout}
+    Set Selenium Timeout    ${Selenium.Timeout}
+    Google.Site.Init
+
+Init
+    Delete All Cookies
+    Google.Site.Go To
+
+Go To
+    ${Current.Location}=    Get Location
+    Run Keyword If    '${Current.Location}'!='${Google.Site.Url}'    Selenium2Library.Go To    ${Google.Site.Url}
+    Title Should Be    ${Google.Site.PageTitle}
+
+Close
+    Close Browser
