@@ -41,15 +41,15 @@ Small differences
   This is not possible with a Java Library. But it can be done in a way
   that works with Java and Python
   
-  > *** Settings ***
-  > Library    Selenium2Library
-  >
-  > *** Keywords ***
-  > Open
-  >     Open Browser    <url>    <browser>
-  >     Set Selenium Timeout    15
-  >     Set Selenium Implicit Wait    30
-  >     Register Keyword To Run On Failure    Log Source
+        *** Settings ***
+        Library    Selenium2Library
+        
+        *** Keywords ***
+        Open
+            Open Browser    <url>    <browser>
+            Set Selenium Timeout    15
+            Set Selenium Implicit Wait    30
+            Register Keyword To Run On Failure    Log Source
 
 * Robotframework does not support named arguments with Java libraries
 
