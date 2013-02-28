@@ -11,6 +11,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.robotframework.selenium2library.Selenium2Library;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
+import org.robotframework.selenium2library.utils.Python;
 
 public class ElementFinder {
 
@@ -193,10 +195,12 @@ public class ElementFinder {
 			}
 			xpathSearchers.addAll(getAttrsWithUrl(webDriver, keyAttrs,
 					findByCoordinates.criteria));
-			String xpath = String.format("//%s[%s(%s)]", xpathTag,
-					Selenium2Library.join(" and ", xpathConstraints)
+			String xpath = String.format(
+					"//%s[%s(%s)]",
+					xpathTag,
+					Python.join(" and ", xpathConstraints)
 							+ (xpathConstraints.size() > 0 ? " and " : ""),
-					Selenium2Library.join(" or ", xpathSearchers));
+					Python.join(" or ", xpathSearchers));
 
 			return webDriver.findElements(By.xpath(xpath));
 		}
@@ -238,11 +242,11 @@ public class ElementFinder {
 	public static List<WebElement> find(WebDriver webDriver, String locator,
 			String tag) {
 		if (webDriver == null) {
-			throw new IllegalArgumentException(
+			throw new Selenium2LibraryNonFatalException(
 					"ElementFinder.find: webDriver is null.");
 		}
 		if (locator == null) {
-			throw new IllegalArgumentException(
+			throw new Selenium2LibraryNonFatalException(
 					"ElementFinder.find: locator is null.");
 		}
 

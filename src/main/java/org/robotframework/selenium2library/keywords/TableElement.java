@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
 import org.robotframework.selenium2library.locators.TableElementFinder;
 
 public abstract class TableElement extends SelectElement {
 
-	// =================================================================
-	// SECTION: TABLEELEMENT - KEYWORDS
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public String getTableCell(String tableLocator, int row, int column) {
 		return getTableCell(tableLocator, row, column, "INFO");
@@ -43,7 +44,7 @@ public abstract class TableElement extends SelectElement {
 			}
 		}
 		logSource(loglevel);
-		throw new AssertionError(
+		throw new Selenium2LibraryNonFatalException(
 				String.format(
 						"Cell in table %s in row #%d and column #%d could not be found.",
 						tableLocator, row, column));
@@ -65,13 +66,13 @@ public abstract class TableElement extends SelectElement {
 			content = getTableCell(tableLocator, row, column, loglevel);
 		} catch (AssertionError err) {
 			info(err.getMessage());
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 
 		info(String.format("Cell contains %s.", content));
 		if (!content.contains(expected)) {
 			logSource(loglevel);
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
 
@@ -86,7 +87,7 @@ public abstract class TableElement extends SelectElement {
 				webDriverCache.getCurrent(), tableLocator, col, expected);
 		if (element == null) {
 			logSource(loglevel);
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Column #%d in table identified by '%s' should have contained text '%s'.",
 							col, tableLocator, expected));
@@ -103,7 +104,7 @@ public abstract class TableElement extends SelectElement {
 				webDriverCache.getCurrent(), tableLocator, expected);
 		if (element == null) {
 			logSource(loglevel);
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Footer in table identified by '%s' should have contained text '%s'.",
 							tableLocator, expected));
@@ -120,7 +121,7 @@ public abstract class TableElement extends SelectElement {
 				webDriverCache.getCurrent(), tableLocator, expected);
 		if (element == null) {
 			logSource(loglevel);
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Header in table identified by '%s' should have contained text '%s'.",
 							tableLocator, expected));
@@ -138,7 +139,7 @@ public abstract class TableElement extends SelectElement {
 				webDriverCache.getCurrent(), tableLocator, row, expected);
 		if (element == null) {
 			logSource(loglevel);
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Row #%d in table identified by '%s' should have contained text '%s'.",
 							row, tableLocator, expected));
@@ -155,7 +156,7 @@ public abstract class TableElement extends SelectElement {
 				webDriverCache.getCurrent(), tableLocator, expected);
 		if (element == null) {
 			logSource(loglevel);
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Table identified by '%s' should have contained text '%s'.",
 							tableLocator, expected));

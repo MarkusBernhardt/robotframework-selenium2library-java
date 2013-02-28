@@ -2,11 +2,13 @@ package org.robotframework.selenium2library.keywords;
 
 import java.util.ArrayList;
 
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
+
 public abstract class Cookie extends BrowserManagement {
 
-	// =================================================================
-	// SECTION: COOKIE
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public void deleteAllCookies() {
 		webDriverCache.getCurrent().manage().deleteAllCookies();
@@ -39,7 +41,7 @@ public abstract class Cookie extends BrowserManagement {
 		if (cookie != null) {
 			return cookie.getValue();
 		} else {
-			throw new IllegalArgumentException(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Cookie with name %s not found.", name));
 		}
 	}

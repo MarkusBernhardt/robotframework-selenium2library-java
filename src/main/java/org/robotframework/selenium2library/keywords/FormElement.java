@@ -4,12 +4,13 @@ import java.io.File;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
 
 public abstract class FormElement extends Element {
 
-	// =================================================================
-	// SECTION: FORMELEMENT - KEYWORDS
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public void submitForm() {
 		submitForm(null);
@@ -28,7 +29,7 @@ public abstract class FormElement extends Element {
 		info(String.format("Verifying checkbox '%s' is selected.", locator));
 		WebElement element = getCheckbox(locator);
 		if (!element.isSelected()) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Checkbox '%s' should have been selected.", locator));
 		}
 	}
@@ -37,7 +38,7 @@ public abstract class FormElement extends Element {
 		info(String.format("Verifying checkbox '%s' is selected.", locator));
 		WebElement element = getCheckbox(locator);
 		if (element.isSelected()) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Checkbox '%s' should not have been selected.", locator));
 		}
 	}
@@ -116,7 +117,7 @@ public abstract class FormElement extends Element {
 		List<WebElement> elements = getRadioButtons(groupName);
 		String actualValue = getValueFromRadioButtons(elements);
 		if (actualValue == null || !actualValue.equals(value)) {
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Selection of radio button '%s' should have been '%s' but was '%s'",
 							groupName, value, actualValue));
@@ -129,7 +130,7 @@ public abstract class FormElement extends Element {
 		List<WebElement> elements = getRadioButtons(groupName);
 		String actualValue = getValueFromRadioButtons(elements);
 		if (actualValue != null) {
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Radio button group '%s' should not have had selection, but '%s' was selected",
 							groupName, actualValue));
@@ -204,7 +205,7 @@ public abstract class FormElement extends Element {
 						.format("Text field '%s' should have contained text '%s' but it contained '%s'",
 								locator, expected, actual);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 		info(String.format("Text field '%s' contains text '%s'.", locator,
 				expected));
@@ -223,7 +224,7 @@ public abstract class FormElement extends Element {
 						.format("Value of text field '%s' should have been '%s' but was '%s'",
 								locator, expected, actual);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 		info(String.format("Content of text field '%s' is '%s'.", locator,
 				expected));
@@ -269,9 +270,9 @@ public abstract class FormElement extends Element {
 		pageShouldNotContainElement(locator, "button", message, loglevel);
 	}
 
-	// =================================================================
-	// SECTION: FORMELEMENT - PROTECTED HELPERS
-	// =================================================================
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	protected WebElement getCheckbox(String locator) {
 		return elementFind(locator, true, true, "input").get(0);

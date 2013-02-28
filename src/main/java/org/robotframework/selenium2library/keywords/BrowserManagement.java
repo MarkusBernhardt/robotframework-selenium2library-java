@@ -16,13 +16,15 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.robotframework.selenium2library.Selenium2LibraryFatalException;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
 import org.robotframework.selenium2library.locators.WindowManager;
 import org.robotframework.selenium2library.utils.Robotframework;
 import org.robotframework.selenium2library.utils.WebDriverCache;
 
 import com.opera.core.systems.OperaDriver;
 
-public abstract class BrowserManagement extends Robotframework {
+public abstract class BrowserManagement {
 
 	/**
 	 * Cache for all open browsers.
@@ -39,9 +41,9 @@ public abstract class BrowserManagement extends Robotframework {
 	 */
 	protected double implicitWait = 0;
 
-	// =================================================================
-	// SECTION: BROWSERMANAGEMENT - PUBLIC KEYWORDS
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public void closeBrowser() {
 		if (webDriverCache.getCurrentSessionId() != null) {
@@ -105,7 +107,7 @@ public abstract class BrowserManagement extends Robotframework {
 						"Opening browser '%s' to base url '%s' failed",
 						browserName, url));
 			}
-			throw t;
+			throw new Selenium2LibraryFatalException(t);
 		}
 	}
 
@@ -116,7 +118,7 @@ public abstract class BrowserManagement extends Robotframework {
 					"Switched to browser with Selenium session id %s",
 					webDriverCache.getCurrentSessionId()));
 		} catch (Throwable t) {
-			throw new IllegalArgumentException(String.format(
+			throw new Selenium2LibraryFatalException(String.format(
 					"No browser with index or alias '%s' found.", indexOrAlias));
 		}
 	}
@@ -187,7 +189,7 @@ public abstract class BrowserManagement extends Robotframework {
 	public void locationShouldBe(String url) {
 		String actual = getLocation();
 		if (!actual.equals(url)) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Location should have been '%s' but was '%s'", url, actual));
 		}
 		info(String.format("Current location is '%s'.", url));
@@ -196,7 +198,7 @@ public abstract class BrowserManagement extends Robotframework {
 	public void locationShouldContain(String url) {
 		String actual = getLocation();
 		if (!actual.contains(url)) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Location should have been '%s' but was '%s'", url, actual));
 		}
 		info(String.format("Current location is '%s'.", url));
@@ -227,7 +229,7 @@ public abstract class BrowserManagement extends Robotframework {
 	public void titleShouldBe(String title) {
 		String actual = getTitle();
 		if (!actual.equals(title)) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Title should have been '%s' but was '%s'", title, actual));
 		}
 		info(String.format("Page title is '%s'.", title));
@@ -247,15 +249,15 @@ public abstract class BrowserManagement extends Robotframework {
 	}
 
 	public String getSeleniumSpeed() {
-		return secsToTimestr(0);
+		return Robotframework.secsToTimestr(0);
 	}
 
 	public String getSeleniumTimeout() {
-		return secsToTimestr(timeout);
+		return Robotframework.secsToTimestr(timeout);
 	}
 
 	public String getSeleniumImplicitWait() {
-		return secsToTimestr(implicitWait);
+		return Robotframework.secsToTimestr(implicitWait);
 	}
 
 	public String setSeleniumSpeed(String timestr) {
@@ -264,7 +266,7 @@ public abstract class BrowserManagement extends Robotframework {
 
 	public String setSeleniumTimeout(String timestr) {
 		String oldWait = getSeleniumTimeout();
-		timeout = timestrToSecs(timestr);
+		timeout = Robotframework.timestrToSecs(timestr);
 
 		for (WebDriver webDriver : webDriverCache.getWebDrivers()) {
 			webDriver
@@ -278,7 +280,7 @@ public abstract class BrowserManagement extends Robotframework {
 
 	public String setSeleniumImplicitWait(String timestr) {
 		String oldWait = getSeleniumTimeout();
-		implicitWait = timestrToSecs(timestr);
+		implicitWait = Robotframework.timestrToSecs(timestr);
 
 		for (WebDriver webDriver : webDriverCache.getWebDrivers()) {
 			webDriver
@@ -292,7 +294,7 @@ public abstract class BrowserManagement extends Robotframework {
 
 	public String setBrowserImplicitWait(String timestr) {
 		String oldWait = getSeleniumTimeout();
-		implicitWait = timestrToSecs(timestr);
+		implicitWait = Robotframework.timestrToSecs(timestr);
 		webDriverCache
 				.getCurrent()
 				.manage()
@@ -302,9 +304,9 @@ public abstract class BrowserManagement extends Robotframework {
 		return oldWait;
 	}
 
-	// =================================================================
-	// SECTION: BROWSERMANAGEMENT - PROTECTED HELPERS
-	// =================================================================
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	protected WebDriver createWebDriver(String browserName,
 			String desiredCapabilitiesString, String profileDirectory,
@@ -356,7 +358,7 @@ public abstract class BrowserManagement extends Robotframework {
 			return driver;
 		}
 
-		throw new IllegalArgumentException(browserName
+		throw new Selenium2LibraryFatalException(browserName
 				+ " is not a supported browser.");
 	}
 
@@ -389,7 +391,7 @@ public abstract class BrowserManagement extends Robotframework {
 				|| "htmlunitwithjs".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.htmlUnit();
 		} else {
-			throw new IllegalArgumentException(browserName
+			throw new Selenium2LibraryFatalException(browserName
 					+ " is not a supported browser.");
 		}
 
@@ -403,9 +405,9 @@ public abstract class BrowserManagement extends Robotframework {
 		return desiredCapabilities;
 	}
 
-	// =================================================================
-	// SECTION: BROWSERMANAGEMENT - FORWARD DECLARATIONS
-	// =================================================================
+	// ##############################
+	// Forward Declarations
+	// ##############################
 
 	protected abstract List<WebElement> elementFind(String locator,
 			boolean firstOnly, boolean required);

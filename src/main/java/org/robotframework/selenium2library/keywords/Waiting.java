@@ -1,12 +1,14 @@
 package org.robotframework.selenium2library.keywords;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
+import org.robotframework.selenium2library.utils.Robotframework;
 
 public abstract class Waiting extends TableElement {
 
-	// =================================================================
-	// SECTION: WAITING - KEYWORDS
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public void waitForCondition(String condition) {
 		waitForCondition(condition, null);
@@ -79,19 +81,20 @@ public abstract class Waiting extends TableElement {
 		});
 	}
 
-	// =================================================================
-	// SECTION: WAITING - PROTECTED HELPERS
-	// =================================================================
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	protected void waitUntil(String timestr, String error,
 			WaitUntilFunction function) {
-		double timeout = timestr != null ? timestrToSecs(timestr)
-				: this.timeout;
-		error = error.replace("<TIMEOUT>", secsToTimestr(timeout));
+		double timeout = timestr != null ? Robotframework
+				.timestrToSecs(timestr) : this.timeout;
+		error = error.replace("<TIMEOUT>",
+				Robotframework.secsToTimestr(timeout));
 		long maxtime = System.currentTimeMillis() + (long) (timeout * 1000);
 		while (!function.isFinished()) {
 			if (System.currentTimeMillis() > maxtime) {
-				throw new AssertionError(error);
+				throw new Selenium2LibraryNonFatalException(error);
 			}
 			try {
 				Thread.sleep(200);

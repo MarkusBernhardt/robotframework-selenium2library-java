@@ -4,9 +4,9 @@ import org.python.util.PythonInterpreter;
 
 public abstract class RunOnFailure extends Logging {
 
-	// =================================================================
-	// SECTION: RUNONFAILURE - KEYWORDS
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public String registerKeywordToRunOnFailure(String keyword) {
 		String oldKeyword = runOnFailureKeyword;
@@ -22,9 +22,9 @@ public abstract class RunOnFailure extends Logging {
 		return oldKeywordText;
 	}
 
-	// =================================================================
-	// SECTION: RUNONFAILURE - PROTECTED HELPERS
-	// =================================================================
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	/**
 	 * The keyword to run an failure
@@ -32,7 +32,7 @@ public abstract class RunOnFailure extends Logging {
 	protected String runOnFailureKeyword = "Capture Page Screenshot";
 	protected boolean runningOnFailureRoutine;
 
-	private ThreadLocal<PythonInterpreter> runOnFailurePythonInterpreter = new ThreadLocal<PythonInterpreter>() {
+	protected ThreadLocal<PythonInterpreter> runOnFailurePythonInterpreter = new ThreadLocal<PythonInterpreter>() {
 
 		@Override
 		protected PythonInterpreter initialValue() {

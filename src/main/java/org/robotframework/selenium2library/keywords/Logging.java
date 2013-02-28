@@ -6,8 +6,14 @@ import java.util.List;
 
 import org.python.core.PyString;
 import org.python.util.PythonInterpreter;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
+import org.robotframework.selenium2library.utils.Python;
 
 public abstract class Logging extends JavaScript {
+
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	@Override
 	protected void trace(String msg) {
@@ -58,7 +64,7 @@ public abstract class Logging extends JavaScript {
 		} else if (logLevel.equals("warn")) {
 			warn(msg);
 		} else {
-			throw new IllegalArgumentException(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Given log level %s is invalid.", logLevel));
 		}
 	}
@@ -76,7 +82,7 @@ public abstract class Logging extends JavaScript {
 		for (int index = 0; index < items.size(); index++) {
 			msg.add(String.format("%d: %s", index + 1, items.get(index)));
 		}
-		info(join("\n", msg));
+		info(Python.join("\n", msg));
 		return items;
 	}
 
@@ -92,7 +98,7 @@ public abstract class Logging extends JavaScript {
 		return new File(logDirName.asString()).getParentFile();
 	}
 
-	private ThreadLocal<PythonInterpreter> loggingPythonInterpreter = new ThreadLocal<PythonInterpreter>() {
+	protected ThreadLocal<PythonInterpreter> loggingPythonInterpreter = new ThreadLocal<PythonInterpreter>() {
 
 		@Override
 		protected PythonInterpreter initialValue() {

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.openqa.selenium.WebDriver;
+import org.robotframework.selenium2library.Selenium2LibraryFatalException;
 
 public class WebDriverCache {
 
@@ -71,13 +72,13 @@ public class WebDriverCache {
 			try {
 				sessionId = Integer.parseInt(sessionIdOrAlias);
 			} catch (NullPointerException npe) {
-				throw new IllegalArgumentException(String.format(
+				throw new Selenium2LibraryFatalException(String.format(
 						"Non-existing index or alias '%s'", sessionIdOrAlias));
 			}
 		}
 		WebDriver webDriver = webDriverBySessionId.get(sessionId);
 		if (webDriver == null) {
-			throw new IllegalArgumentException(String.format(
+			throw new Selenium2LibraryFatalException(String.format(
 					"Non-existing index or alias '%s'", sessionIdOrAlias));
 		}
 		currentWebDriver = webDriver;

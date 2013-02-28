@@ -3,8 +3,13 @@ package org.robotframework.selenium2library.keywords;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
 
-public class Selenium2LibraryExtension extends Waiting {
+public class Selenium2LibraryEnhancement extends Waiting {
+
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public void waitUntilPageNotContains(String condition) {
 		waitUntilPageNotContains(condition, null);
@@ -208,7 +213,7 @@ public class Selenium2LibraryExtension extends Waiting {
 						"Element '%s' should be selected, but it is not.",
 						locator);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
 
@@ -226,7 +231,7 @@ public class Selenium2LibraryExtension extends Waiting {
 						"Element '%s' should not be selected, but it is.",
 						locator);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
 
@@ -276,15 +281,6 @@ public class Selenium2LibraryExtension extends Waiting {
 		});
 	}
 
-	protected boolean isSelected(String locator) {
-		List<WebElement> elements = elementFind(locator, true, false);
-		if (elements.size() == 0) {
-			return false;
-		}
-		WebElement element = elements.get(0);
-		return element.isSelected();
-	}
-
 	public void elementShouldBeClickable(String locator) {
 		this.elementShouldBeClickable(locator, "");
 	}
@@ -299,7 +295,7 @@ public class Selenium2LibraryExtension extends Waiting {
 						"Element '%s' should be clickable, but it is not.",
 						locator);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
 
@@ -317,7 +313,7 @@ public class Selenium2LibraryExtension extends Waiting {
 						"Element '%s' should not be clickable, but it is.",
 						locator);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
 
@@ -367,15 +363,6 @@ public class Selenium2LibraryExtension extends Waiting {
 		});
 	}
 
-	protected boolean isClickable(String locator) {
-		List<WebElement> elements = elementFind(locator, true, false);
-		if (elements.size() == 0) {
-			return false;
-		}
-		WebElement element = elements.get(0);
-		return element.isDisplayed() && element.isEnabled();
-	}
-
 	public void elementShouldNotContain(String locator, String expected) {
 		this.elementShouldNotContain(locator, expected, "");
 	}
@@ -387,7 +374,7 @@ public class Selenium2LibraryExtension extends Waiting {
 		if (actual.toLowerCase().contains(expected.toLowerCase())) {
 			info(String.format("Element Should Not Contain: %s => FAILED",
 					expected));
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Element should not have contained text '%s' but its text was %s.",
 							expected, actual));
@@ -416,7 +403,30 @@ public class Selenium2LibraryExtension extends Waiting {
 						.format("The text of element '%s' should have been '%s', but it was '%s'.",
 								locator, expected, actual);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
+	
+	// ##############################
+	// Internal Methods
+	// ##############################
+
+	protected boolean isClickable(String locator) {
+		List<WebElement> elements = elementFind(locator, true, false);
+		if (elements.size() == 0) {
+			return false;
+		}
+		WebElement element = elements.get(0);
+		return element.isDisplayed() && element.isEnabled();
+	}
+
+	protected boolean isSelected(String locator) {
+		List<WebElement> elements = elementFind(locator, true, false);
+		if (elements.size() == 0) {
+			return false;
+		}
+		WebElement element = elements.get(0);
+		return element.isSelected();
+	}
+
 }

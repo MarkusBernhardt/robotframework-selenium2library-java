@@ -6,8 +6,17 @@ package org.robotframework.selenium2library;
  */
 @SuppressWarnings("serial")
 public class Selenium2LibraryNonFatalException extends RuntimeException {
+
 	/**
 	 * Mark this exception as non fatal
 	 */
 	public static final boolean ROBOT_EXIT_ON_FAILURE = false;
+
+	public Selenium2LibraryNonFatalException(String string) {
+		super(string);
+	}
+	
+	public Selenium2LibraryNonFatalException(Throwable t) {
+		super(t);
+	}
 }

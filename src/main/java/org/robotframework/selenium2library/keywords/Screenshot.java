@@ -6,12 +6,13 @@ import java.io.IOException;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.robotframework.selenium2library.utils.Robotframework;
 
 public abstract class Screenshot extends RunOnFailure {
 
-	// =================================================================
-	// SECTION: SCREENSHOT - KEYWORDS
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public void capturePageScreenshot() {
 		capturePageScreenshot(null);
@@ -26,15 +27,15 @@ public abstract class Screenshot extends RunOnFailure {
 				.getScreenshotAs(OutputType.BYTES);
 		writeScreenshot(path, png);
 
-		String link = getLinkPath(path, logdir);
+		String link = Robotframework.getLinkPath(path, logdir);
 		html(String
 				.format("</td></tr><tr><td colspan=\"3\"><a href=\"%s\"><img src=\"%s\" width=\"800px\"></a>",
 						link, link));
 	}
 
-	// =================================================================
-	// SECTION: SCREENSHOT - PRIVATE HELPERS
-	// =================================================================
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	private int screenshotIndex = 0;
 

@@ -11,12 +11,14 @@ import java.util.Arrays;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriverException;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
+import org.robotframework.selenium2library.utils.Python;
 
 public abstract class JavaScript extends FormElement {
 
-	// =================================================================
-	// SECTION: JAVASCRIPT - KEYWORDS
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public void alertShouldBePresent() {
 		alertShouldBePresent("");
@@ -25,7 +27,7 @@ public abstract class JavaScript extends FormElement {
 	public void alertShouldBePresent(String text) {
 		String alertText = getAlertMessage();
 		if (text != null && !alertText.equals(text)) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Alert text should have been '%s' but was '%s'", text,
 					alertText));
 		}
@@ -46,14 +48,14 @@ public abstract class JavaScript extends FormElement {
 	}
 
 	public Object executeJavascript(String... code) {
-		String js = getJavascriptToExecute(join("", Arrays.asList(code)));
+		String js = getJavascriptToExecute(Python.join("", Arrays.asList(code)));
 		String.format("Executing JavaScript:\n%s", js);
 		return ((JavascriptExecutor) webDriverCache.getCurrent())
 				.executeScript(js);
 	}
 
 	public Object executeAsyncJavascript(String... code) {
-		String js = getJavascriptToExecute(join("", Arrays.asList(code)));
+		String js = getJavascriptToExecute(Python.join("", Arrays.asList(code)));
 		String.format("Executing JavaScript:\n%s", js);
 		return ((JavascriptExecutor) webDriverCache.getCurrent())
 				.executeAsyncScript(js);
@@ -63,9 +65,9 @@ public abstract class JavaScript extends FormElement {
 		return closeAlert();
 	}
 
-	// =================================================================
-	// SECTION: JAVASCRIPT - PROTECTED HELPERS
-	// =================================================================
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	protected boolean cancelOnNextConfirmation = false;
 
@@ -85,7 +87,7 @@ public abstract class JavaScript extends FormElement {
 			}
 			return text;
 		} catch (WebDriverException wde) {
-			throw new RuntimeException("There were no alerts");
+			throw new Selenium2LibraryNonFatalException("There were no alerts");
 		}
 	}
 
@@ -113,7 +115,7 @@ public abstract class JavaScript extends FormElement {
 		try {
 			return readFile(codepath);
 		} catch (IOException e) {
-			throw new RuntimeException("Cannot read JavaScript file: "
+			throw new Selenium2LibraryNonFatalException("Cannot read JavaScript file: "
 					+ codepath);
 		}
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
 
 public class WindowManager {
 
@@ -13,7 +14,7 @@ public class WindowManager {
 	public static int WINDOW_INFO_INDEX_DOCUMENT_TITLE = 2;
 	public static int WINDOW_INFO_INDEX_DOCUMENT_URL = 3;
 
-	private enum Strategy {
+	private enum WindowManagerStrategy {
 		DEFAULT {
 
 			@Override
@@ -37,7 +38,7 @@ public class WindowManager {
 					return;
 				} catch (Throwable t) {
 				}
-				throw new RuntimeException(
+				throw new Selenium2LibraryNonFatalException(
 						"Unable to locate window with name or title '"
 								+ selectCoordinates.criteria + "'");
 			}
@@ -109,7 +110,7 @@ public class WindowManager {
 		abstract public void select(WebDriver webDriver,
 				SelectCoordinates selectCoordinates);
 
-		private static void selectMatching(WebDriver webDriver,
+		protected static void selectMatching(WebDriver webDriver,
 				Matcher matcher, String error) {
 			String startingHandle = webDriver.getWindowHandle();
 			for (String handle : webDriver.getWindowHandles()) {
@@ -119,7 +120,7 @@ public class WindowManager {
 				}
 			}
 			webDriver.switchTo().window(startingHandle);
-			throw new RuntimeException(error);
+			throw new Selenium2LibraryNonFatalException(error);
 		}
 	}
 
@@ -163,16 +164,16 @@ public class WindowManager {
 
 	public static void select(WebDriver webDriver, String locator) {
 		if (webDriver == null) {
-			throw new IllegalArgumentException(
+			throw new Selenium2LibraryNonFatalException(
 					"WindowManager.select: webDriver is null.");
 		}
 
 		SelectCoordinates selectCoordinates = new SelectCoordinates();
-		Strategy strategy = parseLocator(selectCoordinates, locator);
+		WindowManagerStrategy strategy = parseLocator(selectCoordinates, locator);
 		strategy.select(webDriver, selectCoordinates);
 	}
 
-	private static Strategy parseLocator(SelectCoordinates selectCoordinates,
+	protected static WindowManagerStrategy parseLocator(SelectCoordinates selectCoordinates,
 			String locator) {
 		String prefix = null;
 		String criteria = locator;
@@ -190,26 +191,26 @@ public class WindowManager {
 			}
 		}
 
-		Strategy strategy = Strategy.DEFAULT;
+		WindowManagerStrategy strategy = WindowManagerStrategy.DEFAULT;
 		if (prefix != null) {
-			strategy = Strategy.valueOf(prefix);
+			strategy = WindowManagerStrategy.valueOf(prefix);
 		}
 		selectCoordinates.criteria = criteria;
 		return strategy;
 	}
 
 	@SuppressWarnings("unchecked")
-	private static List<String> getCurrentWindowInfo(WebDriver webDriver) {
+	protected static List<String> getCurrentWindowInfo(WebDriver webDriver) {
 		return (List<String>) ((JavascriptExecutor) webDriver)
 				.executeScript("return [ window.id, window.name, document.title, document.url ];");
 	}
 
-	private static class SelectCoordinates {
+	protected static class SelectCoordinates {
 
 		String criteria;
 	}
 
-	private static interface Matcher {
+	protected static interface Matcher {
 
 		boolean match(List<String> currentWindowInfo);
 

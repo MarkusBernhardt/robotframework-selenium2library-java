@@ -3,12 +3,12 @@ package org.robotframework.selenium2library;
 import java.io.File;
 import java.util.ResourceBundle;
 
-import org.robotframework.selenium2library.keywords.Selenium2LibraryExtension;
+import org.robotframework.selenium2library.keywords.Selenium2LibraryEnhancement;
 
 /**
  * Robotframework Library. All public methods are keywords.
  */
-public class Selenium2Library extends Selenium2LibraryExtension {
+public class Selenium2Library extends Selenium2LibraryEnhancement {
 
 	/**
 	 * This means the same instance of this class is used throughout the
@@ -39,18 +39,39 @@ public class Selenium2Library extends Selenium2LibraryExtension {
 		}
 	}
 
+	/**
+	 * Default constructor
+	 */
 	public Selenium2Library() {
 		this(5.0);
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param timeout Default timeout in seconds for all wait methods
+	 */
 	public Selenium2Library(double timeout) {
-		this(timeout, 0);
+		this(timeout, 0.0);
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param timeout Default timeout in seconds for all wait methods
+	 * @param implicitWait Selenium implicit wait time in seconds
+	 */
 	public Selenium2Library(double timeout, double implicitWait) {
 		this(timeout, implicitWait, "Capture Page Screenshot");
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param timeout Default timeout in seconds for all wait methods
+	 * @param implicitWait Selenium implicit wait time in seconds
+	 * @param runOnFailureKeyword Keyword to run opn failure
+	 */
 	public Selenium2Library(double timeout, double implicitWait,
 			String runOnFailureKeyword) {
 		this.timeout = timeout;

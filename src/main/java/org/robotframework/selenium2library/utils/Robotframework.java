@@ -3,21 +3,19 @@ package org.robotframework.selenium2library.utils;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.robotframework.selenium2library.Selenium2Library;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
 
-public abstract class Robotframework extends Python {
+public class Robotframework {
 
-	protected String getLinkPath(File target, File base) {
+	public static String getLinkPath(File target, File base) {
 		String path = getPathname(target, base);
 		path = new File(path).getAbsolutePath();
 		String url;
 		try {
 			url = URLEncoder.encode(path, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e.getMessage());
+			throw new Selenium2LibraryNonFatalException(e.getMessage());
 		}
 		url = "file:" + url;
 		// At least Jython seems to use 'C|/Path' and not 'C:/Path'
@@ -27,7 +25,7 @@ public abstract class Robotframework extends Python {
 		return url.replace("%5C", "/").replace("%3A", ":").replace('|', ':');
 	}
 
-	protected String getPathname(File target, File base) {
+	public static String getPathname(File target, File base) {
 		String targetName = target.getAbsolutePath();
 		String baseName = base.getAbsolutePath();
 		if (base.isFile()) {
@@ -66,7 +64,7 @@ public abstract class Robotframework extends Python {
 		return builder.toString();
 	}
 
-	protected String commonPath(String p1, String p2) {
+	public static String commonPath(String p1, String p2) {
 		while (p1.length() > 0 && p2.length() > 0) {
 			if (p1.equals(p2)) {
 				return p1;
@@ -80,16 +78,16 @@ public abstract class Robotframework extends Python {
 		return "";
 	}
 
-	protected String secsToTimestr(double double_secs) {
-		SecsToTimestrHelper secsToTimestrHelper = new SecsToTimestrHelper(
+	public static String secsToTimestr(double double_secs) {
+		TimestrHelper secsToTimestrHelper = new TimestrHelper(
 				double_secs);
 		return secsToTimestrHelper.getValue();
 	}
 
-	protected double timestrToSecs(String timestr) {
+	public static double timestrToSecs(String timestr) {
 		timestr = normalizeTimestr(timestr);
 		if (timestr.length() == 0) {
-			throw new RuntimeException("Invalid timestr: " + timestr);
+			throw new Selenium2LibraryNonFatalException("Invalid timestr: " + timestr);
 		}
 
 		try {
@@ -139,13 +137,13 @@ public abstract class Robotframework extends Python {
 			}
 		}
 		if (stringBuilder.length() != 0) {
-			throw new RuntimeException("Invalid timestr: " + timestr);
+			throw new Selenium2LibraryNonFatalException("Invalid timestr: " + timestr);
 		}
 		return sign
 				* (millis / 1000 + secs + mins * 60 + hours * 60 * 60 + days * 60 * 60 * 24);
 	}
 
-	protected String normalizeTimestr(String timestr) {
+	public static String normalizeTimestr(String timestr) {
 		timestr = timestr.toLowerCase().replace(" ", "");
 		timestr = timestr.replace("milliseconds", "ms");
 		timestr = timestr.replace("millisecond", "ms");
@@ -168,78 +166,6 @@ public abstract class Robotframework extends Python {
 		timestr = timestr.replace("ms", "x");
 		timestr = timestr.replace("d", "p");
 		return timestr;
-	}
-
-	private static class SecsToTimestrHelper {
-
-		private boolean compact;
-		private List<String> ret = new ArrayList<String>();
-		private String sign;
-		private int millis;
-		private int secs;
-		private int mins;
-		private int hours;
-		private int days;
-
-		public SecsToTimestrHelper(double double_secs) {
-			this(double_secs, false);
-		}
-
-		public SecsToTimestrHelper(double double_secs, boolean compact) {
-			this.compact = compact;
-			secsToComponents(double_secs);
-			addItem(days, "d", "day");
-			addItem(hours, "h", "hour");
-			addItem(mins, "min", "minute");
-			addItem(secs, "s", "second");
-			addItem(millis, "ms", "millisecond");
-		}
-
-		public String getValue() {
-			if (ret.size() > 0) {
-				return sign + Selenium2Library.join(" ", ret);
-			}
-			return compact ? "0s" : "0 seconds";
-		}
-
-		private int doubleSecsToSecs(double double_secs) {
-			return (int) double_secs;
-		}
-
-		private int doubleSecsToMillis(double double_secs) {
-			int int_secs = doubleSecsToSecs(double_secs);
-			return (int) Math.round((double_secs - int_secs) * 1000);
-		}
-
-		private void addItem(int value, String compactSuffix, String longSuffix) {
-			if (value == 0) {
-				return;
-			}
-			String suffix = compactSuffix;
-			if (!compact) {
-				suffix = String.format(" %s%s", longSuffix, pluralOrNot(value));
-			}
-			ret.add(String.format("%d%s", value, suffix));
-		}
-
-		private void secsToComponents(double double_secs) {
-			if (double_secs < 0) {
-				sign = "- ";
-				double_secs = Math.abs(double_secs);
-			} else {
-				sign = "";
-			}
-			int int_secs = doubleSecsToSecs(double_secs);
-			millis = doubleSecsToMillis(double_secs);
-			secs = int_secs % 60;
-			mins = int_secs / 60 % 60;
-			hours = int_secs / (60 * 60) % 24;
-			days = int_secs / (60 * 60 * 24);
-		}
-
-		private String pluralOrNot(int value) {
-			return value == 1 ? "" : "s";
-		}
 	}
 
 }

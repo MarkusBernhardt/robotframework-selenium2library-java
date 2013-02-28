@@ -7,13 +7,14 @@ import java.util.Map;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
 import org.robotframework.selenium2library.utils.Python;
 
 public abstract class SelectElement extends Screenshot {
 
-	// =================================================================
-	// SECTION: SELECT ELEMENT
-	// =================================================================
+	// ##############################
+	// Keywords
+	// ##############################
 
 	public List<String> getListItems(String locator) {
 		List<WebElement> options = this.getSelectListOptions(locator);
@@ -31,7 +32,7 @@ public abstract class SelectElement extends Screenshot {
 		List<WebElement> options = getSelectListOptionsSelected(locator);
 
 		if (options.size() == 0) {
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Select list with locator '%s' does not have any selected values.",
 							locator));
@@ -50,7 +51,7 @@ public abstract class SelectElement extends Screenshot {
 		List<WebElement> options = getSelectListOptionsSelected(locator);
 
 		if (options.size() == 0) {
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Select list with locator '%s' does not have any selected values.",
 							locator));
@@ -61,7 +62,7 @@ public abstract class SelectElement extends Screenshot {
 
 	public void listSelectionShouldBe(String locator, List<String> items) {
 		String itemList = items.size() != 0 ? String.format("option(s) [ %s ]",
-				join(" | ", items)) : "no options";
+				Python.join(" | ", items)) : "no options";
 		info(String.format("Verifying list '%s' has %s selected.", locator,
 				itemList));
 
@@ -74,13 +75,13 @@ public abstract class SelectElement extends Screenshot {
 
 			String message = String
 					.format("List '%s' should have had selection [ %s ] but it was [ %s ].",
-							locator, join(" | ", items),
-							join(" | ", selectedLabels));
+							locator, Python.join(" | ", items),
+							Python.join(" | ", selectedLabels));
 
 			for (String item : items) {
 				if (!selectedValues.contains(item)
 						|| !selectedLabels.contains(item)) {
-					throw new AssertionError(message);
+					throw new Selenium2LibraryNonFatalException(message);
 				}
 			}
 
@@ -89,7 +90,7 @@ public abstract class SelectElement extends Screenshot {
 			for (Map.Entry<String, String> entry : map.entrySet()) {
 				if (!items.contains(entry.getKey())
 						|| !items.contains(entry.getValue())) {
-					throw new AssertionError(message);
+					throw new Selenium2LibraryNonFatalException(message);
 				}
 			}
 		}
@@ -101,8 +102,8 @@ public abstract class SelectElement extends Screenshot {
 		List<WebElement> options = getSelectListOptionsSelected(locator);
 		if (!options.equals(null)) {
 			List<String> selectedLabels = getLabelsForOptions(options);
-			String items = join(" | ", selectedLabels);
-			throw new AssertionError(
+			String items = Python.join(" | ", selectedLabels);
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"List '%s' should have had no selection (selection was [ %s ]).",
 							locator, items.toString()));
@@ -140,7 +141,7 @@ public abstract class SelectElement extends Screenshot {
 
 		Select select = getSelectList(locator);
 		if (!isMultiselectList(select)) {
-			throw new RuntimeException(
+			throw new Selenium2LibraryNonFatalException(
 					"Keyword 'Select all from list' works only for multiselect lists.");
 		}
 
@@ -151,7 +152,7 @@ public abstract class SelectElement extends Screenshot {
 
 	public void selectFromList(String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
-				join(" | ", items)) : "all options";
+				Python.join(" | ", items)) : "all options";
 		info(String.format("Selecting %s from list '%s'.", itemList, locator));
 
 		Select select = getSelectList(locator);
@@ -177,7 +178,7 @@ public abstract class SelectElement extends Screenshot {
 
 	public void selectFromListByIndex(String locator, String... indexes) {
 		if (indexes.length == 0) {
-			throw new IllegalArgumentException("No index given.");
+			throw new Selenium2LibraryNonFatalException("No index given.");
 		}
 
 		List<String> tmp = new ArrayList<String>();
@@ -195,7 +196,7 @@ public abstract class SelectElement extends Screenshot {
 
 	public void selectFromListByValue(String locator, String... values) {
 		if (values.length == 0) {
-			throw new IllegalArgumentException("No value given.");
+			throw new Selenium2LibraryNonFatalException("No value given.");
 		}
 
 		String items = String
@@ -210,7 +211,7 @@ public abstract class SelectElement extends Screenshot {
 
 	public void selectFromListByLabel(String locator, String... labels) {
 		if (labels.length == 0) {
-			throw new IllegalArgumentException("No value given.");
+			throw new Selenium2LibraryNonFatalException("No value given.");
 		}
 
 		String items = String
@@ -225,13 +226,13 @@ public abstract class SelectElement extends Screenshot {
 
 	public void unselectFromList(String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
-				join(" | ", items)) : "all options";
+				Python.join(" | ", items)) : "all options";
 		info(String.format("Unselecting %s from list '%s'.", itemList, locator));
 
 		Select select = getSelectList(locator);
 
 		if (!isMultiselectList(select)) {
-			throw new RuntimeException(
+			throw new Selenium2LibraryNonFatalException(
 					"Keyword 'Unselect from list' works only for multiselect lists.");
 		}
 
@@ -249,7 +250,7 @@ public abstract class SelectElement extends Screenshot {
 
 	public void unselectFromListByIndex(String locator, Integer... indexes) {
 		if (indexes.equals(null)) {
-			throw new IllegalArgumentException("No index given.");
+			throw new Selenium2LibraryNonFatalException("No index given.");
 		}
 
 		List<String> tmp = new ArrayList<String>();
@@ -262,7 +263,7 @@ public abstract class SelectElement extends Screenshot {
 		Select select = getSelectList(locator);
 
 		if (!isMultiselectList(select)) {
-			throw new RuntimeException(
+			throw new Selenium2LibraryNonFatalException(
 					"Keyword 'Unselect from list' works only for multiselect lists.");
 		}
 
@@ -273,7 +274,7 @@ public abstract class SelectElement extends Screenshot {
 
 	public void unselectFromListByValue(String locator, String... values) {
 		if (values.equals(null)) {
-			throw new IllegalArgumentException("No value given.");
+			throw new Selenium2LibraryNonFatalException("No value given.");
 		}
 
 		String items = String
@@ -283,7 +284,7 @@ public abstract class SelectElement extends Screenshot {
 		Select select = getSelectList(locator);
 
 		if (!isMultiselectList(select)) {
-			throw new RuntimeException(
+			throw new Selenium2LibraryNonFatalException(
 					"Keyword 'Unselect from list' works only for multiselect lists.");
 		}
 
@@ -294,7 +295,7 @@ public abstract class SelectElement extends Screenshot {
 
 	public void unselectFromListByLabel(String locator, String... labels) {
 		if (labels.equals(null)) {
-			throw new IllegalArgumentException("No value given.");
+			throw new Selenium2LibraryNonFatalException("No value given.");
 		}
 
 		String items = String
@@ -304,7 +305,7 @@ public abstract class SelectElement extends Screenshot {
 		Select select = getSelectList(locator);
 
 		if (!isMultiselectList(select)) {
-			throw new RuntimeException(
+			throw new Selenium2LibraryNonFatalException(
 					"Keyword 'Unselect from list' works only for multiselect lists.");
 		}
 
@@ -313,9 +314,9 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
-	// =================================================================
-	// SECTION: SELECT ELEMENT - PRIVATE HELPERS
-	// =================================================================
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	private List<String> getLabelsForOptions(List<WebElement> options) {
 		List<String> labels = new ArrayList<String>();

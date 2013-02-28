@@ -11,13 +11,15 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.robotframework.selenium2library.Selenium2LibraryNonFatalException;
 import org.robotframework.selenium2library.locators.ElementFinder;
+import org.robotframework.selenium2library.utils.Python;
 
 public abstract class Element extends Cookie {
 
-	// =================================================================
-	// SECTION: ELEMENT - LOOKUPS (LINE 12)
-	// =================================================================
+	// ##############################
+	// Keywords - Element Lookups
+	// ##############################
 
 	public void currentFrameContains(String text) {
 		this.currentFrameContains(text, "INFO");
@@ -27,7 +29,7 @@ public abstract class Element extends Cookie {
 		if (!isTextPresent(text)) {
 			log(String.format("Current Frame Contains: %s => FAILED", text),
 					logLevel);
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Page should have contained text '%s' but did not.", text));
 		} else {
 			log(String.format("Current Frame Contains: %s => OK", text),
@@ -46,7 +48,7 @@ public abstract class Element extends Cookie {
 		if (!actual.toLowerCase().contains(expected.toLowerCase())) {
 			info(String
 					.format("Element Should Contain: %s => FAILED", expected));
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Element should have contained text '%s' but its text was %s.",
 							expected, actual));
@@ -63,7 +65,7 @@ public abstract class Element extends Cookie {
 		if (!frameContains(locator, text)) {
 			log(String.format("Frame Should Contain: %s => FAILED", text),
 					logLevel);
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Frame should have contained text '%s' but did not.", text));
 		} else {
 			log(String.format("Frame Should Contain: %s => OK", text), logLevel);
@@ -78,7 +80,7 @@ public abstract class Element extends Cookie {
 		if (!pageContains(text)) {
 			log(String.format("Page Should Contain: %s => FAILED", text),
 					logLevel);
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Page should have contained text '%s' but did not.", text));
 		} else {
 			log(String.format("Page Should Contain: %s => OK", text), logLevel);
@@ -111,7 +113,7 @@ public abstract class Element extends Cookie {
 		if (pageContains(text)) {
 			log(String.format("Page Should Not Contain: %s => FAILED", text),
 					logLevel);
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Page should not have contained text '%s' but did.", text));
 		} else {
 			log(String.format("Page Should Not Contain: %s => OK", text),
@@ -137,9 +139,9 @@ public abstract class Element extends Cookie {
 		helperPageShouldNotContainElement(locator, tag, message, logLevel);
 	}
 
-	// =================================================================
-	// SECTION: ELEMENT - ATTRIBUTES (LINE 106)
-	// =================================================================
+	// ##############################
+	// Keywords - Attributes
+	// ##############################
 
 	public void assignIdToElement(String locator, String id) {
 		info(String.format("Assigning temporary id '%s' to element '%s'", id,
@@ -152,14 +154,14 @@ public abstract class Element extends Cookie {
 
 	public void elementShouldBeDisabled(String locator) {
 		if (isEnabled(locator)) {
-			throw new AssertionError(String.format("Element %s is enabled.",
+			throw new Selenium2LibraryNonFatalException(String.format("Element %s is enabled.",
 					locator));
 		}
 	}
 
 	public void elementShouldBeEnabled(String locator) {
 		if (!isEnabled(locator)) {
-			throw new AssertionError(String.format("Element %s is disabled.",
+			throw new Selenium2LibraryNonFatalException(String.format("Element %s is disabled.",
 					locator));
 		}
 	}
@@ -178,7 +180,7 @@ public abstract class Element extends Cookie {
 						"Element '%s' should be visible, but it is not.",
 						locator);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
 
@@ -196,7 +198,7 @@ public abstract class Element extends Cookie {
 						"Element '%s' should not be visible, but it is.",
 						locator);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
 
@@ -219,7 +221,7 @@ public abstract class Element extends Cookie {
 						.format("The text of element '%s' should have been '%s', but it was '%s'.",
 								locator, expected, actual);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
 
@@ -229,7 +231,7 @@ public abstract class Element extends Cookie {
 		List<WebElement> elements = elementFind(parts[0], true, false);
 
 		if (elements.size() == 0) {
-			throw new AssertionError(String.format("Element '%s' not found.",
+			throw new Selenium2LibraryNonFatalException(String.format("Element '%s' not found.",
 					parts[0]));
 		}
 
@@ -240,7 +242,7 @@ public abstract class Element extends Cookie {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Could not determine position for '%s'.", locator));
 		}
 
@@ -263,16 +265,16 @@ public abstract class Element extends Cookie {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"Could not determine position for '%s'.", locator));
 		}
 
 		return elements.get(0).getLocation().getY();
 	}
 
-	// =================================================================
-	// SECTION: ELEMENT - MOUSE AND INPUT EVENTS (Line 252)
-	// =================================================================
+	// ##############################
+	// Keywords - Mouse Input/Events
+	// ##############################
 
 	public void clickElement(String locator) {
 		info(String.format("Clicking element '%s'.", locator));
@@ -317,7 +319,7 @@ public abstract class Element extends Cookie {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"ERROR: Element %s not found.", locator));
 		}
 
@@ -330,7 +332,7 @@ public abstract class Element extends Cookie {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"ERROR: Element %s not found.", locator));
 		}
 
@@ -348,7 +350,7 @@ public abstract class Element extends Cookie {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"ERROR: Element %s not found.", locator));
 		}
 
@@ -362,7 +364,7 @@ public abstract class Element extends Cookie {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"ERROR: Element %s not found.", locator));
 		}
 
@@ -401,9 +403,9 @@ public abstract class Element extends Cookie {
 		element.get(0).sendKeys(key);
 	}
 
-	// =================================================================
-	// SECTION: ELEMENT - LINKS (Line 252)
-	// =================================================================
+	// ##############################
+	// Keywords - Links
+	// ##############################
 
 	public void clickLink(String locator) {
 		info(String.format("Clicking link '%s'.", locator));
@@ -456,9 +458,9 @@ public abstract class Element extends Cookie {
 		this.pageShouldNotContainElement(locator, "link", message, logLevel);
 	}
 
-	// =================================================================
-	// SECTION: ELEMENT - IMAGES (LINE 460)
-	// =================================================================
+	// ##############################
+	// Keywords - Images
+	// ##############################
 
 	public void clickImage(String locator) {
 		info(String.format("Clicking image '%s'.", locator));
@@ -505,9 +507,9 @@ public abstract class Element extends Cookie {
 		pageShouldNotContainElement(locator, "image", message, logLevel);
 	}
 
-	// =================================================================
-	// SECTION: ELEMENT - XPATH (LINE 506)
-	// =================================================================
+	// ##############################
+	// Keywords - Xpath
+	// ##############################
 
 	public int getMatchingXpathCount(String xpath) {
 		List<WebElement> elements = elementFind(
@@ -537,16 +539,16 @@ public abstract class Element extends Cookie {
 						.format("Xpath %s should have matched %s times but matched %s times.",
 								xpath, expectedXpathCount, actualXpathCount);
 			}
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		}
 
 		log(String.format("Current page contains %s elements matching '%s'.",
 				actualXpathCount, xpath), logLevel);
 	}
 
-	// =================================================================
-	// SECTION: ELEMENT - PROTECTED HELPERS
-	// =================================================================
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	@Override
 	protected List<WebElement> elementFind(String locator, boolean firstOnly,
@@ -560,7 +562,7 @@ public abstract class Element extends Cookie {
 				webDriverCache.getCurrent(), locator, tag);
 
 		if (required && elements.size() == 0) {
-			throw new IllegalArgumentException(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Element locator '%s' did not match any elements.",
 							locator));
@@ -625,7 +627,7 @@ public abstract class Element extends Cookie {
 		WebElement element = elements.get(0);
 
 		if (!isFormElement(element)) {
-			throw new AssertionError(String.format(
+			throw new Selenium2LibraryNonFatalException(String.format(
 					"ERROR: Element %s is not an input.", locator));
 		}
 		if (!element.isEnabled()) {
@@ -651,13 +653,13 @@ public abstract class Element extends Cookie {
 	protected String[] parseAttributeLocator(String attributeLocator) {
 		int index = attributeLocator.lastIndexOf('@');
 		if (index <= 0) {
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Attribute locator '%s' does not contain an element locator.",
 							attributeLocator));
 		}
 		if (index + 1 == attributeLocator.length()) {
-			throw new AssertionError(
+			throw new Selenium2LibraryNonFatalException(
 					String.format(
 							"Attribute locator '%s' does not contain an attribute name.",
 							attributeLocator));
@@ -710,7 +712,7 @@ public abstract class Element extends Cookie {
 						locator);
 			}
 			log(message, logLevel);
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		} else {
 			log(String.format("Current page contains %s '%s'.", name, locator),
 					logLevel);
@@ -727,7 +729,7 @@ public abstract class Element extends Cookie {
 						locator);
 			}
 			log(message, logLevel);
-			throw new AssertionError(message);
+			throw new Selenium2LibraryNonFatalException(message);
 		} else {
 			log(String.format("Current page does not contain %s '%s'.", name,
 					locator), logLevel);
@@ -779,7 +781,7 @@ public abstract class Element extends Cookie {
 		if (value.contains("\"") && value.contains("'")) {
 			String[] partsWoApos = value.split("'");
 			return String.format("concat('%s')",
-					join("', \"'\", '", Arrays.asList(partsWoApos)));
+					Python.join("', \"'\", '", Arrays.asList(partsWoApos)));
 		}
 		if (value.contains("'")) {
 			return String.format("\"%s\"", value);
@@ -787,9 +789,9 @@ public abstract class Element extends Cookie {
 		return String.format("'%s'", value);
 	}
 
-	// =================================================================
-	// SECTION: ELEMENT - FORWARD DECLARATIONS
-	// =================================================================
+	// ##############################
+	// Forward Declarations
+	// ##############################
 
 	protected abstract boolean isFormElement(WebElement element);
 }
