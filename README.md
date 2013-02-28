@@ -36,7 +36,7 @@ Small differences
 
   With Python it is possible to provide arguments to libraries
   
-  > Library    Selenium2Library    15    30    run_on_failure=Log Source
+      Library    Selenium2Library    15    30    run_on_failure=Log Source
   
   This is not possible with a Java Library. But it can be done in a way
   that works with Java and Python
