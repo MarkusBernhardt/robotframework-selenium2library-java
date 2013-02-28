@@ -96,6 +96,7 @@ are needed. The list of new keywords:
 Demo
 ----
 
-This is a maven project. You can execute the unit tests with:
+This is a maven project. If you have firefox installed,
+you can execute the unit tests with:
 
     mvn integration-test
