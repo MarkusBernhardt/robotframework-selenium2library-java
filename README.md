@@ -23,14 +23,14 @@ short future) use this library by adding the following dependency to
 your pom.xml:
 
     <dependency>
-        <groupId>org.robotframework</groupId>
+        <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
         <version>1.1.0.0</version>
         <scope>test</scope>
     </dependency>
 
-Small differences
------------------
+Differences
+-----------
 
 * Robotframework does not support providing arguments to Java libraries
 
