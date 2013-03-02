@@ -40,6 +40,13 @@
 		</license>
 	</licenses>
 
+	<developers>
+		<developer>
+			<name>Markus Bernhardt</name>
+			<email>markus.bernhardt@me.com</email>
+		</developer>
+	</developers>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
