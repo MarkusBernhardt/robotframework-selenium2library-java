@@ -28,7 +28,7 @@
 	<scm>
 		<url>https://github.com/MarkusBernhardt/robotframework-selenium2library-java</url>
 		<connection>scm:git://github.com/MarkusBernhardt/robotframework-selenium2library-java.git</connection>
-		<developerConnection>scm:ssh://git@github.com/MarkusBernhardt/robotframework-selenium2library-java.git</developerConnection>
+		<developerConnection>scm:git://git@github.com/MarkusBernhardt/robotframework-selenium2library-java.git</developerConnection>
 	</scm>
 
 	<licenses>
