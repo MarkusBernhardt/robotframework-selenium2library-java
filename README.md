@@ -18,8 +18,8 @@ This library is a direct replacement to the Python Selenium2Library.
 There are almost no changes necesssary to the existing code. You 
 can execute the same testcases and keywords with Python and Jython.
 
-If you are using the robotframework-maven-plugin you can (in the 
-short future) use this library by adding the following dependency to 
+If you are using the robotframework-maven-plugin you can
+use this library by adding the following dependency to 
 your pom.xml:
 
     <dependency>
