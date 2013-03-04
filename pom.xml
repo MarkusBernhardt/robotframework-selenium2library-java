@@ -186,6 +186,16 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<configuration>
+						<use>false</use>
+						<links>
+							<link>http://java.sun.com/javase/6/docs/api/</link>
+						</links>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
