@@ -25,7 +25,7 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.1.0.0</version>
+        <version>1.1.0.1</version>
         <scope>test</scope>
     </dependency>
 
