@@ -513,8 +513,11 @@ public abstract class Element extends Cookie {
 	// ##############################
 
 	public int getMatchingXpathCount(String xpath) {
+		if(!xpath.startsWith("xpath=")) {
+			xpath = "xpath=" + xpath;
+		}
 		List<WebElement> elements = elementFind(
-				String.format("xpath=%s", xpath), false, false);
+				xpath, false, false);
 
 		return elements.size();
 	}
@@ -530,8 +533,11 @@ public abstract class Element extends Cookie {
 
 	public void xpathShouldMatchXTimes(String xpath, int expectedXpathCount,
 			String message, String logLevel) {
+		if(!xpath.startsWith("xpath=")) {
+			xpath = "xpath=" + xpath;
+		}
 		List<WebElement> elements = elementFind(
-				String.format("xpath=%s", xpath), false, false);
+				xpath, false, false);
 		int actualXpathCount = elements.size();
 
 		if (actualXpathCount != expectedXpathCount) {
