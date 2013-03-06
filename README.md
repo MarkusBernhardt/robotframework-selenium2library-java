@@ -93,6 +93,9 @@ are needed. The list of new keywords:
 * Wait Until Title Contains
 * Wait Until Title Not Contains
 
+We extended _wait_until to keep waiting, if a 
+StaleElementReferenceException is thrown.
+
 We extended the following keywords to be called with a xpath 
 statement that starts with "xpath=".
 * Get Matching Xpath Count
