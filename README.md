@@ -94,11 +94,11 @@ are needed. The list of new keywords:
 * Wait Until Title Contains
 * Wait Until Title Not Contains
 
-We extended com.github.markusbernhardt.selenium2library.keywords.Waiting.waitUntil
-to keep waiting, when a StaleElementReferenceException is thrown.
+We extended _wait_until to keep waiting, when a 
+StaleElementReferenceException is thrown.
 
-We extended the following keywords to be optionally called with a
-xpath statement that already starts with "xpath=".
+We extended the following keywords to be called with a
+xpath statement that optionally starts with "xpath=".
 * Get Matching Xpath Count
 * Xpath Should Match X Times
 
