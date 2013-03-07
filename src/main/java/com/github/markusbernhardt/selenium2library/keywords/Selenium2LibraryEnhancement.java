@@ -23,8 +23,8 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	public void waitUntilPageNotContains(final String text, String timestr,
 			String error) {
 		if (error == null) {
-			error = String
-					.format("Text '%s' did not disappear in <TIMEOUT>", text);
+			error = String.format("Text '%s' did not disappear in <TIMEOUT>",
+					text);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -341,6 +341,32 @@ public class Selenium2LibraryEnhancement extends Waiting {
 		});
 	}
 
+	public void waitUntilElementIsSuccessfullyClicked(String locator) {
+		waitUntilElementIsSuccessfullyClicked(locator, null);
+	}
+
+	public void waitUntilElementIsSuccessfullyClicked(String locator,
+			String timestr) {
+		waitUntilElementIsSuccessfullyClicked(locator, timestr, null);
+	}
+
+	public void waitUntilElementIsSuccessfullyClicked(final String locator,
+			String timestr, String error) {
+		if (error == null) {
+			error = String.format(
+					"Element '%s' not successfully clicked in <TIMEOUT>",
+					locator);
+		}
+		waitUntil(timestr, error, new WaitUntilFunction() {
+
+			@Override
+			public boolean isFinished() {
+				clickElement(locator);
+				return true;
+			}
+		});
+	}
+
 	public void waitUntilElementIsNotClickable(String locator) {
 		waitUntilElementIsNotClickable(locator, null);
 	}
@@ -407,7 +433,7 @@ public class Selenium2LibraryEnhancement extends Waiting {
 			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
-	
+
 	// ##############################
 	// Internal Methods
 	// ##############################

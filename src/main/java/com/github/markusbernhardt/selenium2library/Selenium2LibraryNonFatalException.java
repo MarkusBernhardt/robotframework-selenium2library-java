@@ -15,7 +15,7 @@ public class Selenium2LibraryNonFatalException extends RuntimeException {
 	public Selenium2LibraryNonFatalException(String string) {
 		super(string);
 	}
-	
+
 	public Selenium2LibraryNonFatalException(Throwable t) {
 		super(t);
 	}

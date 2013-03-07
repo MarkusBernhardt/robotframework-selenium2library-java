@@ -116,8 +116,8 @@ public abstract class JavaScript extends FormElement {
 		try {
 			return readFile(codepath);
 		} catch (IOException e) {
-			throw new Selenium2LibraryNonFatalException("Cannot read JavaScript file: "
-					+ codepath);
+			throw new Selenium2LibraryNonFatalException(
+					"Cannot read JavaScript file: " + codepath);
 		}
 	}
 

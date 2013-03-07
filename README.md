@@ -25,7 +25,7 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.1.0.1</version>
+        <version>1.1.0.2</version>
         <scope>test</scope>
     </dependency>
 
@@ -82,6 +82,7 @@ are needed. The list of new keywords:
 * Element Text Should Not Be
 * Wait Until Element Is Clickable
 * Wait Until Element Is Not Clickable
+* Wait Until Element Is Successfully Clicked
 * Wait Until Element Is Selected
 * Wait Until Element Is Not Selected
 * Wait Until Element Is Visible
@@ -93,8 +94,8 @@ are needed. The list of new keywords:
 * Wait Until Title Contains
 * Wait Until Title Not Contains
 
-We extended _wait_until to keep waiting, when a 
-StaleElementReferenceException is thrown.
+We extended com.github.markusbernhardt.selenium2library.keywords.Waiting.waitUntil
+to keep waiting, when a StaleElementReferenceException is thrown.
 
 We extended the following keywords to be optionally called with a
 xpath statement that already starts with "xpath=".

@@ -170,12 +170,13 @@ public class WindowManager {
 		}
 
 		SelectCoordinates selectCoordinates = new SelectCoordinates();
-		WindowManagerStrategy strategy = parseLocator(selectCoordinates, locator);
+		WindowManagerStrategy strategy = parseLocator(selectCoordinates,
+				locator);
 		strategy.select(webDriver, selectCoordinates);
 	}
 
-	protected static WindowManagerStrategy parseLocator(SelectCoordinates selectCoordinates,
-			String locator) {
+	protected static WindowManagerStrategy parseLocator(
+			SelectCoordinates selectCoordinates, String locator) {
 		String prefix = null;
 		String criteria = locator;
 		if (locator != null && locator.length() > 0) {

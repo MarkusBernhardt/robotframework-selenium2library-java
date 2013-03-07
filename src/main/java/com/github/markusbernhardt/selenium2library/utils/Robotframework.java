@@ -79,15 +79,15 @@ public class Robotframework {
 	}
 
 	public static String secsToTimestr(double double_secs) {
-		TimestrHelper secsToTimestrHelper = new TimestrHelper(
-				double_secs);
+		TimestrHelper secsToTimestrHelper = new TimestrHelper(double_secs);
 		return secsToTimestrHelper.getValue();
 	}
 
 	public static double timestrToSecs(String timestr) {
 		timestr = normalizeTimestr(timestr);
 		if (timestr.length() == 0) {
-			throw new Selenium2LibraryNonFatalException("Invalid timestr: " + timestr);
+			throw new Selenium2LibraryNonFatalException("Invalid timestr: "
+					+ timestr);
 		}
 
 		try {
@@ -137,7 +137,8 @@ public class Robotframework {
 			}
 		}
 		if (stringBuilder.length() != 0) {
-			throw new Selenium2LibraryNonFatalException("Invalid timestr: " + timestr);
+			throw new Selenium2LibraryNonFatalException("Invalid timestr: "
+					+ timestr);
 		}
 		return sign
 				* (millis / 1000 + secs + mins * 60 + hours * 60 * 60 + days * 60 * 60 * 24);

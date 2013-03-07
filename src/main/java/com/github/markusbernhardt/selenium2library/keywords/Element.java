@@ -155,15 +155,15 @@ public abstract class Element extends Cookie {
 
 	public void elementShouldBeDisabled(String locator) {
 		if (isEnabled(locator)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Element %s is enabled.",
-					locator));
+			throw new Selenium2LibraryNonFatalException(String.format(
+					"Element %s is enabled.", locator));
 		}
 	}
 
 	public void elementShouldBeEnabled(String locator) {
 		if (!isEnabled(locator)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Element %s is disabled.",
-					locator));
+			throw new Selenium2LibraryNonFatalException(String.format(
+					"Element %s is disabled.", locator));
 		}
 	}
 
@@ -232,8 +232,8 @@ public abstract class Element extends Cookie {
 		List<WebElement> elements = elementFind(parts[0], true, false);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format("Element '%s' not found.",
-					parts[0]));
+			throw new Selenium2LibraryNonFatalException(String.format(
+					"Element '%s' not found.", parts[0]));
 		}
 
 		return elements.get(0).getAttribute(parts[1]);
@@ -513,11 +513,10 @@ public abstract class Element extends Cookie {
 	// ##############################
 
 	public int getMatchingXpathCount(String xpath) {
-		if(!xpath.startsWith("xpath=")) {
+		if (!xpath.startsWith("xpath=")) {
 			xpath = "xpath=" + xpath;
 		}
-		List<WebElement> elements = elementFind(
-				xpath, false, false);
+		List<WebElement> elements = elementFind(xpath, false, false);
 
 		return elements.size();
 	}
@@ -533,11 +532,10 @@ public abstract class Element extends Cookie {
 
 	public void xpathShouldMatchXTimes(String xpath, int expectedXpathCount,
 			String message, String logLevel) {
-		if(!xpath.startsWith("xpath=")) {
+		if (!xpath.startsWith("xpath=")) {
 			xpath = "xpath=" + xpath;
 		}
-		List<WebElement> elements = elementFind(
-				xpath, false, false);
+		List<WebElement> elements = elementFind(xpath, false, false);
 		int actualXpathCount = elements.size();
 
 		if (actualXpathCount != expectedXpathCount) {

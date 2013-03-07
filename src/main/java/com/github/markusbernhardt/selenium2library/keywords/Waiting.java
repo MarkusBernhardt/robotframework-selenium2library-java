@@ -1,7 +1,6 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 import com.github.markusbernhardt.selenium2library.utils.Robotframework;
@@ -99,7 +98,7 @@ public abstract class Waiting extends TableElement {
 				if (function.isFinished()) {
 					break;
 				}
-			} catch (StaleElementReferenceException e) {
+			} catch (Throwable t) {
 			}
 			if (System.currentTimeMillis() > maxtime) {
 				throw new Selenium2LibraryNonFatalException(error);
