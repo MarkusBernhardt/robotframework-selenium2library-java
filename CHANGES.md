@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+1.1.0.3
+-------
+
+* Changed the wrongly set artifactId from selenium2library to 
+  robotframework-selenium2library-java.
+
 1.1.0.2
 -------
 
