@@ -25,7 +25,7 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.1.0.3</version>
+        <version>1.1.0.4</version>
         <scope>test</scope>
     </dependency>
 
@@ -95,7 +95,7 @@ are needed. The list of new keywords:
 * Wait Until Title Not Contains
 
 We extended _wait_until to keep waiting, when a 
-StaleElementReferenceException is thrown.
+Throwable is thrown.
 
 We extended the following keywords to be called with a
 xpath statement that optionally starts with "xpath=".
