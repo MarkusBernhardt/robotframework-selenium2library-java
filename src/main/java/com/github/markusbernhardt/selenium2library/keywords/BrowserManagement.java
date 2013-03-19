@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.DefaultHttpRoutePlanner;
@@ -360,8 +361,12 @@ public abstract class BrowserManagement {
 		}
 
 		if (user.length() == 0) {
-			// look for a username
-			user = System.getProperty("http.proxyUser", "");
+			// look for a username from properties
+			if (System.getProperty("http.proxyHost", "").equals(host)
+					&& System.getProperty("http.proxyPort", "").equals(port)) {
+				user = System.getProperty("http.proxyUser", "");
+			}
+			// look for a username from environment
 			if (user.length() == 0) {
 				if (proxyUrl != null && proxyUrl.getHost().equals(host)
 						&& Integer.toString(proxyUrl.getPort()).equals(port)) {
@@ -371,8 +376,13 @@ public abstract class BrowserManagement {
 		}
 
 		if (password.length() == 0) {
-			// look for a password
-			password = System.getProperty("http.proxyPassword", "");
+			// look for a password from properties
+			if (System.getProperty("http.proxyHost", "").equals(host)
+					&& System.getProperty("http.proxyPort", "").equals(port)
+					&& System.getProperty("http.proxyUser", "").equals(user)) {
+				password = System.getProperty("http.proxyPassword", "");
+			}
+			// look for a password from environment
 			if (password.length() == 0) {
 				if (proxyUrl != null && proxyUrl.getHost().equals(host)
 						&& Integer.toString(proxyUrl.getPort()).equals(port)
@@ -541,12 +551,22 @@ public abstract class BrowserManagement {
 			// set the credentials for the proxy
 			AuthScope authScope = new AuthScope(remoteWebDriverProxyHost,
 					Integer.parseInt(remoteWebDriverProxyPort));
-			client.getCredentialsProvider().setCredentials(
-					authScope,
-					new NTCredentials(remoteWebDriverProxyUser,
-							remoteWebDriverProxyPassword,
-							remoteWebDriverProxyWorkstation,
-							remoteWebDriverProxyDomain));
+			if (remoteWebDriverProxyDomain.length() == 0) {
+				// BASIC Authentication
+				client.getCredentialsProvider().setCredentials(
+						authScope,
+						new UsernamePasswordCredentials(
+								remoteWebDriverProxyUser,
+								remoteWebDriverProxyPassword));
+			} else {
+				// NTLM Authentication
+				client.getCredentialsProvider().setCredentials(
+						authScope,
+						new NTCredentials(remoteWebDriverProxyUser,
+								remoteWebDriverProxyPassword,
+								remoteWebDriverProxyWorkstation,
+								remoteWebDriverProxyDomain));
+			}
 
 			// Set the RoutePlanner back to something that handles
 			// proxies correctly.

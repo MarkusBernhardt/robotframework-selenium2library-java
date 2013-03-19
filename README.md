@@ -72,35 +72,54 @@ Differences
 Enhancements
 ------------
 
+We added proper proxy handling for RemoteWebDriver instances. This is
+needed, if you want to connect to an external Selenium grid through a
+local HTTP proxy. Our implementation handles BASIC, DIGEST and NTLM
+based authentication schemes correctly. We added the following keyword.
+<table>
+  <tr><th>Keyword</th><th>Arguments</th></tr>
+  <tr>Set Remote Web Driver Proxy<td></td><td>host,port,user=NONE,password=NONE,domain=NONE,workstation=NONE</td></tr>
+</table>
+Some additional info:
+* If you set a proxy, it will be used for all subsequent calls of Open Browser
+* You can remove the proxy by calling: Set Remote Web Driver Proxy$nbsp;$nbsp;$nbsp;$nbsp;$amp;{EMPTY}$amp;$nbsp;$nbsp;$nbsp;$nbsp;{EMPTY}
+* If you provide no username, we are looking for a username at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a username, it is only used, if the host and port also match.
+* If you provide no password, we are looking for a password at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a password, it is only used, if the host, port and password also match.
+* If you provide a domain, we use NTLM based authentication
+* If you provide no workstation and we use NTLM based authentication, we use the hostname as workstation name
+
 Our application is heavily using AJAX. So much more waiting keywords
 are needed. The list of new keywords:
-* Element Should Be Clickable
-* Element Should Not Be Clickable
-* Element Should Be Selected
-* Element Should Not Be Selected
-* Element Should Not Contain
-* Element Text Should Not Be
-* Wait Until Element Is Clickable
-* Wait Until Element Is Not Clickable
-* Wait Until Element Is Successfully Clicked
-* Wait Until Element Is Selected
-* Wait Until Element Is Not Selected
-* Wait Until Element Is Visible
-* Wait Until Element Is Not Visible
-* Wait Until Page Not Contains
-* Wait Until Page Not Contains Element
-* Wait Until Title Is
-* Wait Until Title Is Not
-* Wait Until Title Contains
-* Wait Until Title Not Contains
-
-We extended _wait_until to keep waiting, when a 
-Throwable is thrown.
+<table>
+  <tr><th>Keyword</th><th>Arguments</th></tr>
+  <tr>Element Should Be Clickable<td></td><td>locator,message=NONE</td></tr>
+  <tr>Element Should Not Be Clickable<td></td><td>locator,message=NONE</td></tr>
+  <tr>Element Should Be Selected<td></td><td>locator,message=NONE</td></tr>
+  <tr>Element Should Not Be Selected<td></td><td>locator,message=NONE</td></tr>
+  <tr>Element Should Not Contain<td></td><td>locator,expected,message=NONE</td></tr>
+  <tr>Element Should Text Should Not Be<td></td><td>locator,expected,message=NONE</td></tr>
+  <tr>Wait Until Element Is Clickable<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Element Is Successfully Clicked<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Element Is Not Clickable<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Element Is Selected<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Element Is Not Selected<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Element Is Visible<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Element Is Not Visible<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Page Not Contains<td></td><td>condition,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Page Not Contains Element<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Title Is<td></td><td>title,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Title Is Not<td></td><td>title,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Title Contains<td></td><td>title,timeout=NONE,message=NONE</td></tr>
+  <tr>Wait Until Title Not Contains<td></td><td>title,timeout=NONE,message=NONE</td></tr>
+</table>
 
 We extended the following keywords to be called with a
 xpath statement that optionally starts with "xpath=".
-* Get Matching Xpath Count
-* Xpath Should Match X Times
+<table>
+  <tr><th>Keyword</th><th>Arguments</th></tr>
+  <tr>Get Matching Xpath Count<td></td><td>xpath</td></tr>
+  <tr>Xpath Should Match X Times<td></td><td>xpath, expected_xpath_count, message=NONE, loglevel=INFO</td></tr>
+</table>
 
 Demo
 ----
