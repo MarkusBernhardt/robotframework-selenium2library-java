@@ -87,7 +87,7 @@ Some additional info:
 <li>If you set a proxy, it will be used for all subsequent calls of Open Browser</li>
 <li>You can remove the proxy by calling: Set Remote Web Driver Proxy    ${EMPTY}    ${EMPTY}</li>
 <li>If you provide no username, we are looking for a username at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a username, it is only used, if the host and port also match.</li>
-<li>If you provide no password, we are looking for a password at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a password, it is only used, if the host, port and password also match.</li>
+<li>If you provide no password, we are looking for a password at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a password, it is only used, if the host, port and username also match.</li>
 <li>If you provide a domain, we use NTLM based authentication
 <li>If you provide no workstation and we use NTLM based authentication, we use the hostname as workstation name
 </ul>
