@@ -1,11 +1,20 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.NTCredentials;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.DefaultHttpRoutePlanner;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,6 +24,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryFatalException;
@@ -25,6 +35,13 @@ import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
 import com.opera.core.systems.OperaDriver;
 
 public abstract class BrowserManagement {
+
+	public String remoteWebDriverProxyHost = "";
+	public String remoteWebDriverProxyPort = "";
+	public String remoteWebDriverProxyUser = "";
+	public String remoteWebDriverProxyPassword = "";
+	public String remoteWebDriverProxyDomain = "";
+	public String remoteWebDriverProxyWorkstation = "";
 
 	/**
 	 * Cache for all open browsers.
@@ -304,9 +321,105 @@ public abstract class BrowserManagement {
 		return oldWait;
 	}
 
+	public void setRemoteWebDriverProxy(String host, String port) {
+		setRemoteWebDriverProxy(host, port, "", "", "", "");
+	}
+
+	public void setRemoteWebDriverProxy(String host, String port, String user,
+			String password) {
+		setRemoteWebDriverProxy(host, port, user, password, "", "");
+	}
+
+	public void setRemoteWebDriverProxy(String host, String port, String user,
+			String password, String domain, String workstation) {
+
+		if (host.length() == 0 || port.length() == 0) {
+			// No host and port given as proxy
+			remoteWebDriverProxyHost = "";
+			remoteWebDriverProxyPort = "";
+			remoteWebDriverProxyUser = "";
+			remoteWebDriverProxyPassword = "";
+			remoteWebDriverProxyDomain = "";
+			remoteWebDriverProxyWorkstation = "";
+			return;
+		}
+
+		URL proxyUrl = null;
+		try {
+			String httpProxy = System.getenv().get("http_proxy");
+			if (httpProxy != null) {
+				proxyUrl = new URL(httpProxy);
+			} else {
+				httpProxy = System.getenv().get("HTTP_PROXY");
+				if (httpProxy != null) {
+					proxyUrl = new URL(httpProxy);
+				}
+			}
+		} catch (MalformedURLException e) {
+			throw new Selenium2LibraryNonFatalException(e.getMessage());
+		}
+
+		if (user.length() == 0) {
+			// look for a username
+			user = System.getProperty("http.proxyUser", "");
+			if (user.length() == 0) {
+				if (proxyUrl != null && proxyUrl.getHost().equals(host)
+						&& Integer.toString(proxyUrl.getPort()).equals(port)) {
+					user = getUserFromURL(proxyUrl);
+				}
+			}
+		}
+
+		if (password.length() == 0) {
+			// look for a password
+			password = System.getProperty("http.proxyPassword", "");
+			if (password.length() == 0) {
+				if (proxyUrl != null && proxyUrl.getHost().equals(host)
+						&& Integer.toString(proxyUrl.getPort()).equals(port)
+						&& getUserFromURL(proxyUrl).equals(user)) {
+					password = getPasswordFromURL(proxyUrl);
+				}
+			}
+		}
+
+		if (domain.length() != 0 && workstation.length() == 0) {
+			try {
+				workstation = InetAddress.getLocalHost().getHostName()
+						.split("\\.")[0];
+			} catch (UnknownHostException e) {
+				warn("No workstation name found");
+			}
+		}
+
+		remoteWebDriverProxyHost = host;
+		remoteWebDriverProxyPort = port;
+		remoteWebDriverProxyUser = user;
+		remoteWebDriverProxyPassword = password;
+		remoteWebDriverProxyDomain = domain;
+		remoteWebDriverProxyWorkstation = workstation;
+	}
+
 	// ##############################
 	// Internal Methods
 	// ##############################
+
+	protected String getUserFromURL(URL url) {
+		String auth = url.getUserInfo();
+		int index = auth.indexOf(':');
+		if (index == -1) {
+			return auth;
+		}
+		return auth.substring(0, index);
+	}
+
+	protected String getPasswordFromURL(URL url) {
+		String auth = url.getUserInfo();
+		int index = auth.indexOf(':');
+		if (index == -1) {
+			return "";
+		}
+		return auth.substring(index + 1);
+	}
 
 	protected WebDriver createWebDriver(String browserName,
 			String desiredCapabilitiesString, String profileDirectory,
@@ -364,7 +477,10 @@ public abstract class BrowserManagement {
 
 	protected WebDriver createRemoteWebDriver(
 			DesiredCapabilities desiredCapabilities, URL remoteUrl) {
-		return new Augmenter().augment(new RemoteWebDriver(remoteUrl,
+		HttpCommandExecutor httpCommandExecutor = new HttpCommandExecutor(
+				remoteUrl);
+		setRemoteWebDriverProxy(httpCommandExecutor);
+		return new Augmenter().augment(new RemoteWebDriver(httpCommandExecutor,
 				desiredCapabilities));
 	}
 
@@ -403,6 +519,68 @@ public abstract class BrowserManagement {
 			}
 		}
 		return desiredCapabilities;
+	}
+
+	protected void setRemoteWebDriverProxy(
+			HttpCommandExecutor httpCommandExecutor) {
+		if (remoteWebDriverProxyHost.length() == 0) {
+			return;
+		}
+
+		String fieldName = "<unknown>";
+		String className = "<unknown>";
+		try {
+			// Get access to the client instance
+			fieldName = "client";
+			className = "DefaultHttpClient";
+			Field field = HttpCommandExecutor.class.getDeclaredField(fieldName);
+			field.setAccessible(true);
+			DefaultHttpClient client = (DefaultHttpClient) field
+					.get(httpCommandExecutor);
+
+			// set the credentials for the proxy
+			AuthScope authScope = new AuthScope(remoteWebDriverProxyHost,
+					Integer.parseInt(remoteWebDriverProxyPort));
+			client.getCredentialsProvider().setCredentials(
+					authScope,
+					new NTCredentials(remoteWebDriverProxyUser,
+							remoteWebDriverProxyPassword,
+							remoteWebDriverProxyWorkstation,
+							remoteWebDriverProxyDomain));
+
+			// Set the RoutePlanner back to something that handles
+			// proxies correctly.
+			client.setRoutePlanner(new DefaultHttpRoutePlanner(client
+					.getConnectionManager().getSchemeRegistry()));
+			HttpHost proxy = new HttpHost(remoteWebDriverProxyHost,
+					Integer.parseInt(remoteWebDriverProxyPort));
+			client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
+					proxy);
+		} catch (SecurityException e) {
+			throw new Selenium2LibraryFatalException(
+					String.format(
+							"The SecurityManager does not allow us to lookup to the %s field.",
+							fieldName));
+		} catch (NoSuchFieldException e) {
+			throw new Selenium2LibraryFatalException(
+					String.format(
+							"The RemoteWebDriver dose not declare the %s field any more.",
+							fieldName));
+		} catch (IllegalArgumentException e) {
+			throw new Selenium2LibraryFatalException(String.format(
+					"The field %s does not belong to the given object.",
+					fieldName));
+		} catch (IllegalAccessException e) {
+			throw new Selenium2LibraryFatalException(
+					String.format(
+							"The SecurityManager does not allow us to access to the %s field.",
+							fieldName));
+		} catch (ClassCastException e) {
+			throw new Selenium2LibraryFatalException(
+					String.format("The %s field does not contain a %s.",
+							fieldName, className));
+		}
+
 	}
 
 	// ##############################
