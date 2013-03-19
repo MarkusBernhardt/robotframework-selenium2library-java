@@ -84,19 +84,17 @@ based authentication schemes correctly. We added the following keyword.
 </table>
 Some additional info:
 <ul>
-<li>asdf</li>
+<li>If you set a proxy, it will be used for all subsequent calls of Open Browser</li>
+<li>You can remove the proxy by calling: Set Remote Web Driver Proxy$nbsp;$nbsp;$nbsp;$nbsp;$amp;{EMPTY}$amp;$nbsp;$nbsp;$nbsp;$nbsp;{EMPTY}</li>
+<li>If you provide no username, we are looking for a username at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a username, it is only used, if the host and port also match.</li>
+<li>If you provide no password, we are looking for a password at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a password, it is only used, if the host, port and password also match.</li>
+<li>If you provide a domain, we use NTLM based authentication
+<li>If you provide no workstation and we use NTLM based authentication, we use the hostname as workstation name
 </ul>
-* If you set a proxy, it will be used for all subsequent calls of Open Browser
-* You can remove the proxy by calling: Set Remote Web Driver Proxy$nbsp;$nbsp;$nbsp;$nbsp;$amp;{EMPTY}$amp;$nbsp;$nbsp;$nbsp;$nbsp;{EMPTY}
-* If you provide no username, we are looking for a username at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a username, it is only used, if the host and port also match.
-* If you provide no password, we are looking for a password at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a password, it is only used, if the host, port and password also match.
-* If you provide a domain, we use NTLM based authentication
-* If you provide no workstation and we use NTLM based authentication, we use the hostname as workstation name
 </dd>
-</dl>
 
-*Waiting*
-Our application is heavily using AJAX. So much more waiting keywords
+  <dt>Waiting</dt>
+<dd>Our application is heavily using AJAX. So much more waiting keywords
 are needed. The list of new keywords:
 <table>
   <tr><th>Keyword</th><th>Arguments</th></tr>
@@ -120,15 +118,18 @@ are needed. The list of new keywords:
   <tr><td>Wait Until Title Contains</td><td>title,timeout=NONE,message=NONE</td></tr>
   <tr><td>Wait Until Title Not Contains</td><td>title,timeout=NONE,message=NONE</td></tr>
 </table>
+</dd>
 
-*XPatch Count*
-We extended the following keywords to be called with a
+  <dt>XPatch Count</dt>
+<dd>We extended the following keywords to be called with a
 xpath statement that optionally starts with "xpath=".
 <table>
   <tr><th>Keyword</th><th>Arguments</th></tr>
   <tr><td>Get Matching Xpath Count</td><td>xpath</td></tr>
   <tr><td>Xpath Should Match X Times</td><td>xpath, expected_xpath_count, message=NONE, loglevel=INFO</td></tr>
 </table>
+</dd>
+</dl>
 
 Demo
 ----
