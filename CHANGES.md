@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+1.1.0.4
+-------
+
+* Added proxy handling for RemoteWebDriver
+* Minor fixes
+
 1.1.0.3
 -------
 
