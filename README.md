@@ -85,7 +85,7 @@ based authentication schemes correctly. We added the following keyword.
 Some additional info:
 <ul>
 <li>If you set a proxy, it will be used for all subsequent calls of Open Browser</li>
-<li>You can remove the proxy by calling: Set Remote Web Driver Proxy$nbsp;$nbsp;$nbsp;$nbsp;$amp;{EMPTY}$amp;$nbsp;$nbsp;$nbsp;$nbsp;{EMPTY}</li>
+<li>You can remove the proxy by calling: Set Remote Web Driver Proxy    ${EMPTY}    ${EMPTY}</li>
 <li>If you provide no username, we are looking for a username at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a username, it is only used, if the host and port also match.</li>
 <li>If you provide no password, we are looking for a password at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a password, it is only used, if the host, port and password also match.</li>
 <li>If you provide a domain, we use NTLM based authentication
@@ -122,7 +122,7 @@ are needed. The list of new keywords:
 
   <dt>XPatch Count</dt>
 <dd>We extended the following keywords to be called with a
-xpath statement that optionally starts with "xpath=".
+xpath statement that optionally can start with "xpath=".
 <table>
   <tr><th>Keyword</th><th>Arguments</th></tr>
   <tr><td>Get Matching Xpath Count</td><td>xpath</td></tr>
