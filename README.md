@@ -72,14 +72,9 @@ Differences
 Enhancements
 ------------
 
-<<<<<<< HEAD
 <dl>
   <dt>Proxy Handling</dt>
 <dd>We added proper proxy handling for RemoteWebDriver instances. This is
-=======
-*Proxy Handling*
-We added proper proxy handling for RemoteWebDriver instances. This is
->>>>>>> branch 'master' of git@github.com:MarkusBernhardt/robotframework-selenium2library-java.git
 needed, if you want to connect to an external Selenium grid through a
 local HTTP proxy. Our implementation handles BASIC, DIGEST and NTLM
 based authentication schemes correctly. We added the following keyword.
