@@ -72,13 +72,14 @@ Differences
 Enhancements
 ------------
 
+*Proxy Handling*
 We added proper proxy handling for RemoteWebDriver instances. This is
 needed, if you want to connect to an external Selenium grid through a
 local HTTP proxy. Our implementation handles BASIC, DIGEST and NTLM
 based authentication schemes correctly. We added the following keyword.
 <table>
   <tr><th>Keyword</th><th>Arguments</th></tr>
-  <tr>Set Remote Web Driver Proxy<td></td><td>host,port,user=NONE,password=NONE,domain=NONE,workstation=NONE</td></tr>
+  <tr><td>Set Remote Web Driver Proxy</td><td>host,port,user=NONE,password=NONE,domain=NONE,workstation=NONE</td></tr>
 </table>
 Some additional info:
 * If you set a proxy, it will be used for all subsequent calls of Open Browser
@@ -88,37 +89,39 @@ Some additional info:
 * If you provide a domain, we use NTLM based authentication
 * If you provide no workstation and we use NTLM based authentication, we use the hostname as workstation name
 
+*Waiting*
 Our application is heavily using AJAX. So much more waiting keywords
 are needed. The list of new keywords:
 <table>
   <tr><th>Keyword</th><th>Arguments</th></tr>
-  <tr>Element Should Be Clickable<td></td><td>locator,message=NONE</td></tr>
-  <tr>Element Should Not Be Clickable<td></td><td>locator,message=NONE</td></tr>
-  <tr>Element Should Be Selected<td></td><td>locator,message=NONE</td></tr>
-  <tr>Element Should Not Be Selected<td></td><td>locator,message=NONE</td></tr>
-  <tr>Element Should Not Contain<td></td><td>locator,expected,message=NONE</td></tr>
-  <tr>Element Should Text Should Not Be<td></td><td>locator,expected,message=NONE</td></tr>
-  <tr>Wait Until Element Is Clickable<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Element Is Successfully Clicked<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Element Is Not Clickable<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Element Is Selected<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Element Is Not Selected<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Element Is Visible<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Element Is Not Visible<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Page Not Contains<td></td><td>condition,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Page Not Contains Element<td></td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Title Is<td></td><td>title,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Title Is Not<td></td><td>title,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Title Contains<td></td><td>title,timeout=NONE,message=NONE</td></tr>
-  <tr>Wait Until Title Not Contains<td></td><td>title,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Element Should Be Clickable</td><td>locator,message=NONE</td></tr>
+  <tr><td>Element Should Not Be Clickable</td><td>locator,message=NONE</td></tr>
+  <tr><td>Element Should Be Selected</td><td>locator,message=NONE</td></tr>
+  <tr><td>Element Should Not Be Selected</td><td>locator,message=NONE</td></tr>
+  <tr><td>Element Should Not Contain</td><td>locator,expected,message=NONE</td></tr>
+  <tr><td>Element Should Text Should Not Be</td><td>locator,expected,message=NONE</td></tr>
+  <tr><td>Wait Until Element Is Clickable</td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Element Is Successfully Clicked</td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Element Is Not Clickable</td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Element Is Selected</td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Element Is Not Selected</td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Element Is Visible</td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Element Is Not Visible</td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Page Not Contains</td><td>condition,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Page Not Contains Element</td><td>locator,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Title Is</td><td>title,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Title Is Not</td><td>title,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Title Contains</td><td>title,timeout=NONE,message=NONE</td></tr>
+  <tr><td>Wait Until Title Not Contains</td><td>title,timeout=NONE,message=NONE</td></tr>
 </table>
 
+*XPatch Count*
 We extended the following keywords to be called with a
 xpath statement that optionally starts with "xpath=".
 <table>
   <tr><th>Keyword</th><th>Arguments</th></tr>
-  <tr>Get Matching Xpath Count<td></td><td>xpath</td></tr>
-  <tr>Xpath Should Match X Times<td></td><td>xpath, expected_xpath_count, message=NONE, loglevel=INFO</td></tr>
+  <tr><td>Get Matching Xpath Count</td><td>xpath</td></tr>
+  <tr><td>Xpath Should Match X Times</td><td>xpath, expected_xpath_count, message=NONE, loglevel=INFO</td></tr>
 </table>
 
 Demo
