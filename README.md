@@ -83,6 +83,9 @@ based authentication schemes correctly. We added the following keyword.
   <tr><td>Set Remote Web Driver Proxy</td><td>host,port,user=NONE,password=NONE,domain=NONE,workstation=NONE</td></tr>
 </table>
 Some additional info:
+<ul>
+<li>asdf</li>
+</ul>
 * If you set a proxy, it will be used for all subsequent calls of Open Browser
 * You can remove the proxy by calling: Set Remote Web Driver Proxy$nbsp;$nbsp;$nbsp;$nbsp;$amp;{EMPTY}$amp;$nbsp;$nbsp;$nbsp;$nbsp;{EMPTY}
 * If you provide no username, we are looking for a username at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If we find a username, it is only used, if the host and port also match.
