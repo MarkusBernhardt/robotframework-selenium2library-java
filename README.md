@@ -83,14 +83,15 @@ null. This feature was requested in issue #1.
   <tr><th>Keyword</th><th>Arguments</th></tr>
   <tr><td>Add Location Strategy</td><td>strategy_name, function_definition</td></tr>
 </table>
+</dd>
+</dl>
 
 A small example:
 
-        Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
-        Input Text    elementById=firstName    Max
-
-</dd>
+        Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);<br>
+        Input Text    elementById=firstName    Max<br>
   
+<dl>
   <dt>Proxy Handling</dt>
 <dd>We added proper proxy handling for RemoteWebDriver instances. This is
 needed, if you want to connect to an external Selenium grid through a
