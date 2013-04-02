@@ -5,12 +5,18 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.selenium2library.locators.ElementFinder;
 
 public class Selenium2LibraryEnhancement extends Waiting {
 
 	// ##############################
 	// Keywords
 	// ##############################
+
+	public void addLocationStrategy(String strategyName,
+			String functionDefinition) {
+		ElementFinder.addLocationStrategy(strategyName, functionDefinition);
+	}
 
 	public void waitUntilPageNotContains(String condition) {
 		waitUntilPageNotContains(condition, null);

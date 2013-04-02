@@ -11,3 +11,9 @@ Open And Close Google Site
     
 Search Robotframework Selenium2Library
     Google.Search.Search String    Robotframework Selenium2Library
+    
+Search With JavaScript Locator
+    Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
+    Input Text    elementById=gbqfq    Robotframework Selenium2Library
+    Press Key    elementById=gbqfq    \\13
+    Wait Until Element Is Visible    xpath=//cite[contains(., 'https://github.com/rtomac/')]

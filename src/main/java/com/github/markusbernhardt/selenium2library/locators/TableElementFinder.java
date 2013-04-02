@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 
 public class TableElementFinder {
 
-	private static TreeMap<String, List<String>> locatorSuffixesMap;
+	private final static TreeMap<String, List<String>> locatorSuffixesMap;
 
 	static {
 		locatorSuffixesMap = new TreeMap<String, List<String>>();

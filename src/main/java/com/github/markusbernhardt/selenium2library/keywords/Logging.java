@@ -99,7 +99,7 @@ public abstract class Logging extends JavaScript {
 		return new File(logDirName.asString()).getParentFile();
 	}
 
-	protected ThreadLocal<PythonInterpreter> loggingPythonInterpreter = new ThreadLocal<PythonInterpreter>() {
+	protected static ThreadLocal<PythonInterpreter> loggingPythonInterpreter = new ThreadLocal<PythonInterpreter>() {
 
 		@Override
 		protected PythonInterpreter initialValue() {

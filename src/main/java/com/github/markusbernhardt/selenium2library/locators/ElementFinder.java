@@ -1,6 +1,7 @@
 package com.github.markusbernhardt.selenium2library.locators;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -8,14 +9,18 @@ import java.util.TreeMap;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.python.util.PythonInterpreter;
 
 import com.github.markusbernhardt.selenium2library.Selenium2Library;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 import com.github.markusbernhardt.selenium2library.utils.Python;
 
 public class ElementFinder {
+
+	private final static Hashtable<String, String> registeredLocationStrategies = new Hashtable<String, String>();
 
 	private enum KeyAttrs {
 		DEFAULT("@id,@name"), A(
@@ -34,11 +39,17 @@ public class ElementFinder {
 		}
 	}
 
-	private enum Strategy {
+	private interface Strategy {
+		List<WebElement> findBy(WebDriver webDriver,
+				FindByCoordinates findByCoordinates);
+
+	};
+
+	private enum StrategyEnum implements Strategy {
 		DEFAULT {
 
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				if (findByCoordinates.criteria.startsWith("//")) {
 					return XPATH.findBy(webDriver, findByCoordinates);
@@ -49,7 +60,7 @@ public class ElementFinder {
 		IDENTIFIER {
 
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				List<WebElement> elements = webDriver.findElements(By
 						.id(findByCoordinates.criteria));
@@ -61,7 +72,7 @@ public class ElementFinder {
 		ID {
 
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				return filterElements(webDriver.findElements(By
 						.id(findByCoordinates.criteria)), findByCoordinates);
@@ -70,7 +81,7 @@ public class ElementFinder {
 		NAME {
 
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				return filterElements(webDriver.findElements(By
 						.name(findByCoordinates.criteria)), findByCoordinates);
@@ -79,7 +90,7 @@ public class ElementFinder {
 		XPATH {
 
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				return filterElements(webDriver.findElements(By
 						.xpath(findByCoordinates.criteria)), findByCoordinates);
@@ -89,7 +100,7 @@ public class ElementFinder {
 
 			@SuppressWarnings("unchecked")
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				Object result = ((JavascriptExecutor) webDriver)
 						.executeScript(String.format("return %s;",
@@ -108,7 +119,7 @@ public class ElementFinder {
 		LINK {
 
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				return filterElements(webDriver.findElements(By
 						.linkText(findByCoordinates.criteria)),
@@ -118,7 +129,7 @@ public class ElementFinder {
 		CSS {
 
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				return filterElements(webDriver.findElements(By
 						.cssSelector(findByCoordinates.criteria)),
@@ -128,7 +139,7 @@ public class ElementFinder {
 		TAG {
 
 			@Override
-			List<WebElement> findBy(WebDriver webDriver,
+			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				return filterElements(webDriver.findElements(By
 						.tagName(findByCoordinates.criteria)),
@@ -136,75 +147,72 @@ public class ElementFinder {
 			}
 		};
 
-		abstract List<WebElement> findBy(WebDriver webDriver,
-				FindByCoordinates findByCoordinates);
+	}
 
-		private static List<WebElement> filterElements(
-				List<WebElement> elements, FindByCoordinates findByCoordinates) {
-			if (findByCoordinates.tag == null) {
-				return elements;
-			}
-
-			List<WebElement> result = new ArrayList<WebElement>();
-			for (WebElement element : elements) {
-				if (elementMatches(element, findByCoordinates)) {
-					result.add(element);
-				}
-			}
-			return result;
+	private static List<WebElement> filterElements(List<WebElement> elements,
+			FindByCoordinates findByCoordinates) {
+		if (findByCoordinates.tag == null) {
+			return elements;
 		}
 
-		private static boolean elementMatches(WebElement element,
-				FindByCoordinates findByCoordinates) {
-			if (!element.getTagName().toLowerCase()
-					.equals(findByCoordinates.tag)) {
+		List<WebElement> result = new ArrayList<WebElement>();
+		for (WebElement element : elements) {
+			if (elementMatches(element, findByCoordinates)) {
+				result.add(element);
+			}
+		}
+		return result;
+	}
+
+	private static boolean elementMatches(WebElement element,
+			FindByCoordinates findByCoordinates) {
+		if (!element.getTagName().toLowerCase().equals(findByCoordinates.tag)) {
+			return false;
+		}
+
+		for (String name : findByCoordinates.constraints.keySet()) {
+			if (!element.getAttribute(name).equals(
+					findByCoordinates.constraints.get(name))) {
 				return false;
 			}
-
-			for (String name : findByCoordinates.constraints.keySet()) {
-				if (!element.getAttribute(name).equals(
-						findByCoordinates.constraints.get(name))) {
-					return false;
-				}
-			}
-
-			return true;
 		}
 
-		private static List<WebElement> findByKeyAttrs(WebDriver webDriver,
-				FindByCoordinates findByCoordinates) {
-			KeyAttrs keyAttrs = KeyAttrs.DEFAULT;
-			if (findByCoordinates.tag != null) {
-				keyAttrs = KeyAttrs.valueOf(findByCoordinates.tag.trim()
-						.toUpperCase());
-			}
-			String xpathCriteria = Selenium2Library
-					.escapeXpathValue(findByCoordinates.criteria);
-			String xpathTag = findByCoordinates.tag;
-			if (findByCoordinates.tag == null) {
-				xpathTag = "*";
-			}
-			List<String> xpathConstraints = new ArrayList<String>();
-			for (Entry<String, String> entry : findByCoordinates.constraints
-					.entrySet()) {
-				xpathConstraints.add(String.format("@%s='%s'", entry.getKey(),
-						entry.getValue()));
-			}
-			List<String> xpathSearchers = new ArrayList<String>();
-			for (String attr : keyAttrs.getKeyAttrs()) {
-				xpathSearchers.add(String.format("%s=%s", attr, xpathCriteria));
-			}
-			xpathSearchers.addAll(getAttrsWithUrl(webDriver, keyAttrs,
-					findByCoordinates.criteria));
-			String xpath = String.format(
-					"//%s[%s(%s)]",
-					xpathTag,
-					Python.join(" and ", xpathConstraints)
-							+ (xpathConstraints.size() > 0 ? " and " : ""),
-					Python.join(" or ", xpathSearchers));
+		return true;
+	}
 
-			return webDriver.findElements(By.xpath(xpath));
+	private static List<WebElement> findByKeyAttrs(WebDriver webDriver,
+			FindByCoordinates findByCoordinates) {
+		KeyAttrs keyAttrs = KeyAttrs.DEFAULT;
+		if (findByCoordinates.tag != null) {
+			keyAttrs = KeyAttrs.valueOf(findByCoordinates.tag.trim()
+					.toUpperCase());
 		}
+		String xpathCriteria = Selenium2Library
+				.escapeXpathValue(findByCoordinates.criteria);
+		String xpathTag = findByCoordinates.tag;
+		if (findByCoordinates.tag == null) {
+			xpathTag = "*";
+		}
+		List<String> xpathConstraints = new ArrayList<String>();
+		for (Entry<String, String> entry : findByCoordinates.constraints
+				.entrySet()) {
+			xpathConstraints.add(String.format("@%s='%s'", entry.getKey(),
+					entry.getValue()));
+		}
+		List<String> xpathSearchers = new ArrayList<String>();
+		for (String attr : keyAttrs.getKeyAttrs()) {
+			xpathSearchers.add(String.format("%s=%s", attr, xpathCriteria));
+		}
+		xpathSearchers.addAll(getAttrsWithUrl(webDriver, keyAttrs,
+				findByCoordinates.criteria));
+		String xpath = String.format(
+				"//%s[%s(%s)]",
+				xpathTag,
+				Python.join(" and ", xpathConstraints)
+						+ (xpathConstraints.size() > 0 ? " and " : ""),
+				Python.join(" or ", xpathSearchers));
+
+		return webDriver.findElements(By.xpath(xpath));
 	}
 
 	private static List<String> getAttrsWithUrl(WebDriver webDriver,
@@ -236,6 +244,11 @@ public class ElementFinder {
 		return url;
 	}
 
+	public static void addLocationStrategy(String strategyName,
+			String functionDefinition) {
+		registeredLocationStrategies.put(strategyName.toUpperCase(), functionDefinition);
+	}
+
 	public static List<WebElement> find(WebDriver webDriver, String locator) {
 		return find(webDriver, locator, null);
 	}
@@ -257,6 +270,23 @@ public class ElementFinder {
 		return strategy.findBy(webDriver, findByCoordinates);
 	}
 
+	protected static ThreadLocal<PythonInterpreter> loggingPythonInterpreter = new ThreadLocal<PythonInterpreter>() {
+
+		@Override
+		protected PythonInterpreter initialValue() {
+			PythonInterpreter pythonInterpreter = new PythonInterpreter();
+			pythonInterpreter
+					.exec("from robot.variables import GLOBAL_VARIABLES; from robot.api import logger;");
+			return pythonInterpreter;
+		}
+	};
+	
+	protected static void warn(String msg) {
+		loggingPythonInterpreter.get().exec(
+				String.format("logger.warn('%s');", msg.replace("'", "\\'")
+						.replace("\n", "\\n")));
+	}
+	
 	private static Strategy parseLocator(FindByCoordinates findByCoordinates,
 			String locator) {
 		String prefix = null;
@@ -269,9 +299,18 @@ public class ElementFinder {
 			}
 		}
 
-		Strategy strategy = Strategy.DEFAULT;
+		Strategy strategy = StrategyEnum.DEFAULT;
 		if (prefix != null) {
-			strategy = Strategy.valueOf(prefix);
+			try {
+				strategy = StrategyEnum.valueOf(prefix);
+			} catch (IllegalArgumentException e) {
+				// No standard locator type. Look for custom strategy
+				final String functionDefinition = registeredLocationStrategies
+						.get(prefix);
+				if (functionDefinition != null) {
+					strategy = new CustomStrategy(functionDefinition);
+				}
+			}
 		}
 		findByCoordinates.criteria = criteria;
 		return strategy;
@@ -312,5 +351,37 @@ public class ElementFinder {
 		String criteria;
 		String tag;
 		Map<String, String> constraints;
+	}
+
+	private static class CustomStrategy implements Strategy {
+
+		private String functionDefinition;
+
+		public CustomStrategy(String functionDefinition) {
+			this.functionDefinition = functionDefinition;
+		}
+
+		@Override
+		public List<WebElement> findBy(final WebDriver webDriver,
+				final FindByCoordinates findByCoordinates) {
+			return filterElements(webDriver.findElements(new By() {
+
+				@SuppressWarnings("unchecked")
+				@Override
+				public List<WebElement> findElements(SearchContext context) {
+					Object o = ((JavascriptExecutor) webDriver).executeScript(
+							functionDefinition, findByCoordinates.criteria);
+					if (o instanceof List<?>) {
+						return (List<WebElement>) o;
+					} else if (o instanceof WebElement) {
+						List<WebElement> list = new ArrayList<WebElement>();
+						list.add((WebElement) o);
+						return list;
+					}
+					return null;
+				}
+
+			}), findByCoordinates);
+		}
 	}
 }

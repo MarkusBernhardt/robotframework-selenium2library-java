@@ -25,7 +25,7 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.1.0.4</version>
+        <version>1.1.0.5</version>
         <scope>test</scope>
     </dependency>
 
@@ -73,6 +73,22 @@ Enhancements
 ------------
 
 <dl>
+  <dt>Custom JavaScript Locators</dt>
+<dd>We added the keyword Add Location Strategy. This keyword is somewhat
+analogous to the SeleniumLibrary (RC) keyword. It can be used to register
+a JavaScript function as locator with the specified strategy name. The 
+registered function has to return a WebElement, a List of WebElements or
+null. This feature was requested in issue #1.
+<table>
+  <tr><th>Keyword</th><th>Arguments</th></tr>
+  <tr><td>Add Location Strategy</td><td>strategy_name, function_definition</td></tr>
+</table>
+
+A small example:
+        Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
+        Input Text    elementById=firstName    Max
+</dd>
+  
   <dt>Proxy Handling</dt>
 <dd>We added proper proxy handling for RemoteWebDriver instances. This is
 needed, if you want to connect to an external Selenium grid through a
