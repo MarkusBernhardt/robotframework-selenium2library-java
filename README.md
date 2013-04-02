@@ -85,9 +85,11 @@ null. This feature was requested in issue #1.
 </table>
 
 A small example:
-
-        Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
-        Input Text    elementById=firstName    Max
+<p>
+<code>
+        Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);<br>
+        Input Text    elementById=firstName    Max<br>
+</code>
 
 </dd>
   
