@@ -85,8 +85,10 @@ null. This feature was requested in issue #1.
 </table>
 
 A small example:
+
         Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
         Input Text    elementById=firstName    Max
+
 </dd>
   
   <dt>Proxy Handling</dt>
