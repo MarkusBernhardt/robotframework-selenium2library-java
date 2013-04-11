@@ -17,3 +17,8 @@ Search With JavaScript Locator
     Input Text    elementById=gbqfq    Robotframework Selenium2Library
     Press Key    elementById=gbqfq    \\13
     Wait Until Element Is Visible    xpath=//cite[contains(., 'https://github.com/rtomac/')]
+    
+Search Without Locator Type
+    Input Text    gbqfq    Robotframework Selenium2Library
+    Press Key    gbqfq    \\13
+    Wait Until Element Is Visible    //cite[contains(., 'https://github.com/rtomac/')]

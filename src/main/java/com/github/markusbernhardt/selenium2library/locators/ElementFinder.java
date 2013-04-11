@@ -207,10 +207,12 @@ public class ElementFinder {
 			return false;
 		}
 
-		for (String name : findByCoordinates.constraints.keySet()) {
-			if (!element.getAttribute(name).equals(
-					findByCoordinates.constraints.get(name))) {
-				return false;
+		if (findByCoordinates.constraints != null) {
+			for (String name : findByCoordinates.constraints.keySet()) {
+				if (!element.getAttribute(name).equals(
+						findByCoordinates.constraints.get(name))) {
+					return false;
+				}
 			}
 		}
 
@@ -231,11 +233,12 @@ public class ElementFinder {
 			xpathTag = "*";
 		}
 		List<String> xpathConstraints = new ArrayList<String>();
+		if (findByCoordinates.constraints != null) {
 		for (Entry<String, String> entry : findByCoordinates.constraints
 				.entrySet()) {
 			xpathConstraints.add(String.format("@%s='%s'", entry.getKey(),
 					entry.getValue()));
-		}
+		}	}
 		List<String> xpathSearchers = new ArrayList<String>();
 		for (String attr : keyAttrs.getKeyAttrs()) {
 			xpathSearchers.add(String.format("%s=%s", attr, xpathCriteria));
@@ -331,7 +334,7 @@ public class ElementFinder {
 		String criteria = locator;
 		if (!locator.startsWith("//")) {
 			String[] locatorParts = locator.split("=", 2);
-			if (locatorParts[1] != null) {
+			if (locatorParts.length == 2) {
 				prefix = locatorParts[0].trim().toUpperCase();
 				criteria = locatorParts[1].trim();
 			}
