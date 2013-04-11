@@ -143,7 +143,7 @@ are needed. The list of new keywords:
 </table>
 </dd>
 
-  <dt>XPatch Count</dt>
+  <dt>XPath Count</dt>
 <dd>We extended the following keywords to be called with a
 xpath statement that optionally can start with "xpath=".
 <table>
