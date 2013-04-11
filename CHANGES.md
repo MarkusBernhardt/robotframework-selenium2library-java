@@ -18,6 +18,7 @@ CHANGES
 
 * Added the following keyword:
   * Add Location Strategy
+  
     This keyword is somewhat analogous to the SeleniumLibrary (RC) keyword. 
     It can be used to register a JavaScript function as locator. 
 * Changed all ThreadLocal<PythonInterpreter> to static
@@ -44,6 +45,7 @@ CHANGES
   to keep waiting, when a Throwable is thrown.
 * Added the following keyword:
   * Wait Until Element Is Successfully Clicked
+  
     In a AJAX site it sometimes happens, that an element disappears between
     a call to Wait Until Element Is Visible and Click Element. This keyword
     simply tries to click on the element until it worked or the timeout

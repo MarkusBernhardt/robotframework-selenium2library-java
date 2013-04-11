@@ -73,6 +73,10 @@ Enhancements
 ------------
 
 <dl>
+  <dt>Safari browser supported</dt>
+<dd>Too use the Safari browser specify *safari* as browser name.
+</dd>
+
   <dt>Custom JavaScript Locators</dt>
 <dd>We added the keyword Add Location Strategy. This keyword is somewhat
 analogous to the SeleniumLibrary (RC) keyword. It can be used to register
