@@ -1,6 +1,21 @@
 CHANGES
 =======
 
+1.1.0.6
+-------
+
+* Default Selenium dependency updated to 2.32.0
+
+* Support for Safari browser
+
+* Porting recent changes in the master branch of the Python Selenium2Library
+  from id 966a4c5f until 2d3adce8 to this Java port. This contains roughly:
+  
+  * Support for PhantomJS browser
+  
+  * jquery/sizzle locator
+  
+
 1.1.0.5
 -------
 
@@ -18,6 +33,7 @@ CHANGES
 -------
 
 * Added proxy handling for RemoteWebDriver
+
 * Minor fixes
 
 

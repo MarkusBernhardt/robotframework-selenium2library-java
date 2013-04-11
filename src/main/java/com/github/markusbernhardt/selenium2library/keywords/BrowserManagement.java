@@ -23,10 +23,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryFatalException;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
@@ -473,6 +475,10 @@ public abstract class BrowserManagement {
 			return new ChromeDriver(desiredCapabilities);
 		} else if ("opera".equals(browserName)) {
 			new OperaDriver(desiredCapabilities);
+		} else if ("phantomjs".equals(browserName)) {
+			new PhantomJSDriver(desiredCapabilities);
+		} else if ("safari".equals(browserName)) {
+			new SafariDriver(desiredCapabilities);
 		} else if ("htmlunit".equals(browserName)) {
 			return new HtmlUnitDriver(desiredCapabilities);
 		} else if ("htmlunitwithjs".equals(browserName)) {
@@ -513,6 +519,10 @@ public abstract class BrowserManagement {
 			desiredCapabilities = DesiredCapabilities.chrome();
 		} else if ("opera".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.opera();
+		} else if ("phantomjs".equals(browserName)) {
+			desiredCapabilities = DesiredCapabilities.phantomjs();
+		} else if ("safari".equals(browserName)) {
+			desiredCapabilities = DesiredCapabilities.safari();
 		} else if ("htmlunit".equals(browserName)
 				|| "htmlunitwithjs".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.htmlUnit();

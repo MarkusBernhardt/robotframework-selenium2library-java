@@ -145,8 +145,45 @@ public class ElementFinder {
 						.tagName(findByCoordinates.criteria)),
 						findByCoordinates);
 			}
+		},
+		JQUERY {
+
+			@Override
+			public List<WebElement> findBy(WebDriver webDriver,
+					FindByCoordinates findByCoordinates) {
+
+				return findByJQuerySizzle(webDriver, findByCoordinates);
+			}
+
+		},
+		SIZZLE {
+
+			@Override
+			public List<WebElement> findBy(WebDriver webDriver,
+					FindByCoordinates findByCoordinates) {
+
+				return findByJQuerySizzle(webDriver, findByCoordinates);
+			}
+
 		};
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private static List<WebElement> findByJQuerySizzle(WebDriver webDriver,
+			FindByCoordinates findByCoordinates) {
+		String js = String.format("return jQuery('%s').get();",
+				findByCoordinates.criteria.replace("'", "\\'"));
+
+		List<WebElement> list = new ArrayList<WebElement>();
+		Object o = ((JavascriptExecutor) webDriver).executeScript(js);
+		if (o instanceof List<?>) {
+			list = (List<WebElement>) o;
+		} else if (o instanceof WebElement) {
+			list.add((WebElement) o);
+		}
+
+		return filterElements(list, findByCoordinates);
 	}
 
 	private static List<WebElement> filterElements(List<WebElement> elements,
@@ -246,7 +283,8 @@ public class ElementFinder {
 
 	public static void addLocationStrategy(String strategyName,
 			String functionDefinition) {
-		registeredLocationStrategies.put(strategyName.toUpperCase(), functionDefinition);
+		registeredLocationStrategies.put(strategyName.toUpperCase(),
+				functionDefinition);
 	}
 
 	public static List<WebElement> find(WebDriver webDriver, String locator) {
@@ -280,13 +318,13 @@ public class ElementFinder {
 			return pythonInterpreter;
 		}
 	};
-	
+
 	protected static void warn(String msg) {
 		loggingPythonInterpreter.get().exec(
 				String.format("logger.warn('%s');", msg.replace("'", "\\'")
 						.replace("\n", "\\n")));
 	}
-	
+
 	private static Strategy parseLocator(FindByCoordinates findByCoordinates,
 			String locator) {
 		String prefix = null;

@@ -21,6 +21,15 @@ public class TableElementFinder {
 		addLocatorSuffix(locatorSuffixesMap, "css.row", " tr:nth-child(%s)");
 		addLocatorSuffix(locatorSuffixesMap, "css.col", " tr td:nth-child(%s)",
 				" tr th:nth-child(%s)");
+
+		addLocatorSuffix(locatorSuffixesMap, "sizzle.default", "");
+		addLocatorSuffix(locatorSuffixesMap, "sizzle.content", "");
+		addLocatorSuffix(locatorSuffixesMap, "sizzle.header", " th");
+		addLocatorSuffix(locatorSuffixesMap, "sizzle.footer", " tfoot td");
+		addLocatorSuffix(locatorSuffixesMap, "sizzle.row", " tr:nth-child(%s)");
+		addLocatorSuffix(locatorSuffixesMap, "sizzle.col",
+				" tr td:nth-child(%s)", " tr th:nth-child(%s)");
+
 		addLocatorSuffix(locatorSuffixesMap, "xpath.default", "");
 		addLocatorSuffix(locatorSuffixesMap, "xpath.content", "//*");
 		addLocatorSuffix(locatorSuffixesMap, "xpath.header", "//th");
@@ -90,12 +99,15 @@ public class TableElementFinder {
 		String tableLocatorType = null;
 
 		if (tableLocator.startsWith("xpath=")) {
-			tableLocatorType = "xpath";
+			tableLocatorType = "xpath.";
+		} else if (tableLocator.startsWith("jquery=")
+				|| tableLocator.startsWith("sizzle=")) {
+			tableLocatorType = "sizzle.";
 		} else {
 			if (!tableLocator.startsWith("css=")) {
 				tableLocator = String.format("css=table#%s", tableLocator);
 			}
-			tableLocatorType = "css";
+			tableLocatorType = "css.";
 		}
 
 		List<String> locatorSuffixes = locatorSuffixesMap.get(tableLocatorType
