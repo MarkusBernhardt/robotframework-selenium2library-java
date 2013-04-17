@@ -22,3 +22,7 @@ Search Without Locator Type
     Input Text    gbqfq    Robotframework Selenium2Library
     Press Key    gbqfq    \\13
     Wait Until Element Is Visible    //cite[contains(., 'https://github.com/rtomac/')]
+    
+Get Id Of Active Element With JavaScript
+    Input Text    gbqfq    Robotframework Selenium2Library
+    ${activeElementId}=    Execute JavaScript    return window.document.activeElement.id;    
