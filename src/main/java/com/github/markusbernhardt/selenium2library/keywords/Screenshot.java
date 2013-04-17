@@ -24,8 +24,13 @@ public abstract class Screenshot extends RunOnFailure {
 		File logdir = getLogDir();
 		File path = new File(logdir, normalizedFilename);
 
-		byte[] png = ((TakesScreenshot) webDriverCache.getCurrent())
-				.getScreenshotAs(OutputType.BYTES);
+		TakesScreenshot takesScreenshot = ((TakesScreenshot) webDriverCache
+				.getCurrent());
+		if (takesScreenshot == null) {
+			warn("Can't take screenshot. No open browser found");
+		}
+
+		byte[] png = takesScreenshot.getScreenshotAs(OutputType.BYTES);
 		writeScreenshot(path, png);
 
 		String link = Robotframework.getLinkPath(path, logdir);
