@@ -2,7 +2,7 @@ package com.github.markusbernhardt.selenium2library.utils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.Locale;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 
@@ -10,46 +10,65 @@ public class Robotframework {
 
 	public static String getLinkPath(File target, File base) {
 		String path = getPathname(target, base);
-		path = new File(path).getAbsolutePath();
-		String url;
+		return encodeURLComponent(path);
+	}
+
+	public static String encodeURLComponent(final String s) {
+		if (s == null) {
+			return "";
+		}
+
+		final StringBuilder sb = new StringBuilder();
 		try {
-			url = URLEncoder.encode(path, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new Selenium2LibraryNonFatalException(e.getMessage());
+			for (int i = 0; i < s.length(); i++) {
+				final char c = s.charAt(i);
+				if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z'))
+						|| ((c >= '0') && (c <= '9')) || (c == '-')
+						|| (c == '.') || (c == '_') || (c == '~')) {
+					sb.append(c);
+				} else {
+					final byte[] bytes = ("" + c).getBytes("UTF-8");
+					for (byte b : bytes) {
+						sb.append('%');
+
+						int upper = (((int) b) >> 4) & 0xf;
+						sb.append(Integer.toHexString(upper).toUpperCase(
+								Locale.US));
+
+						int lower = ((int) b) & 0xf;
+						sb.append(Integer.toHexString(lower).toUpperCase(
+								Locale.US));
+					}
+				}
+			}
+
+			return sb.toString();
+		} catch (UnsupportedEncodingException uee) {
+			throw new Selenium2LibraryNonFatalException(uee);
 		}
-		url = "file:" + url;
-		// At least Jython seems to use 'C|/Path' and not 'C:/Path'
-		if (File.separatorChar == '\\' && url.contains("|/")) {
-			url = url.replaceFirst("|/", ":/");
-		}
-		return url.replace("%5C", "/").replace("%3A", ":").replace('|', ':');
 	}
 
 	public static String getPathname(File target, File base) {
 		String targetName = target.getAbsolutePath();
 		String baseName = base.getAbsolutePath();
 		if (base.isFile()) {
-			baseName = baseName.substring(0,
-					baseName.lastIndexOf(File.separatorChar));
+			baseName = Python.osPathDirname(baseName);
 		}
 		if (baseName.equals(targetName)) {
-			return targetName.substring(targetName
-					.lastIndexOf(File.separatorChar) + 1);
+			return Python.osPathBasename(targetName);
 		}
 
-		String baseDrive = baseName.substring(0, baseName.lastIndexOf(':') + 1);
-		String basePath = baseName.substring(baseName.lastIndexOf(':') + 1);
-		// if in Windows and base and link on different drives
-		if (!targetName.substring(0, targetName.lastIndexOf(':') + 1).equals(
-				baseDrive)) {
+		String[] splittedBaseName = Python.osPathSplitDrive(baseName);
+		if (!Python.osPathSplitDrive(targetName)[0].equals(splittedBaseName[0])) {
 			return targetName;
 		}
 
 		int commonLen = commonPath(baseName, targetName).length();
-		if (basePath.equals(File.separator)) {
+		if (splittedBaseName[1].equals(File.separator)) {
 			return targetName.substring(commonLen);
 		}
-		if (commonLen == baseDrive.length() + File.separator.length()) {
+
+		if (commonLen == splittedBaseName[0].length() + File.separator.length()) {
 			commonLen -= File.separator.length();
 		}
 
@@ -61,6 +80,7 @@ public class Robotframework {
 			builder.append(File.separator);
 		}
 		builder.append(targetName.substring(commonLen + 1));
+
 		return builder.toString();
 	}
 
@@ -70,9 +90,9 @@ public class Robotframework {
 				return p1;
 			}
 			if (p1.length() > p2.length()) {
-				p1 = p1.substring(0, p1.lastIndexOf(File.separatorChar));
+				p1 = Python.osPathDirname(p1);
 			} else {
-				p2 = p2.substring(0, p2.lastIndexOf(File.separatorChar));
+				p2 = Python.osPathDirname(p2);
 			}
 		}
 		return "";

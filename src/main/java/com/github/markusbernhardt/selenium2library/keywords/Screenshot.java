@@ -20,20 +20,20 @@ public abstract class Screenshot extends RunOnFailure {
 	}
 
 	public void capturePageScreenshot(String filename) {
-		String normalizedFilename = normalizeFilename(filename);
 		File logdir = getLogDir();
-		File path = new File(logdir, normalizedFilename);
+		File path = new File(logdir, normalizeFilename(filename));
+		String link = Robotframework.getLinkPath(path, logdir);
 
 		TakesScreenshot takesScreenshot = ((TakesScreenshot) webDriverCache
 				.getCurrent());
 		if (takesScreenshot == null) {
 			warn("Can't take screenshot. No open browser found");
+			return;
 		}
 
 		byte[] png = takesScreenshot.getScreenshotAs(OutputType.BYTES);
 		writeScreenshot(path, png);
 
-		String link = Robotframework.getLinkPath(path, logdir);
 		html(String
 				.format("</td></tr><tr><td colspan=\"3\"><a href=\"%s\"><img src=\"%s\" width=\"800px\"></a>",
 						link, link));
@@ -70,9 +70,7 @@ public abstract class Screenshot extends RunOnFailure {
 			screenshotIndex++;
 			filename = String.format("selenium-screenshot-%d.png",
 					screenshotIndex);
-		}
-
-		else {
+		} else {
 			filename = filename.replace('/', File.separatorChar);
 		}
 		return filename;

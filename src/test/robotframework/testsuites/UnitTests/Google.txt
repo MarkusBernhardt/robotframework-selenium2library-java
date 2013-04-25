@@ -7,7 +7,7 @@ Resource          ../../imports/Google.txt
 
 *** Testcases ***
 Open And Close Google Site
-    Comment    Do nothing
+    Capture Page Screenshot
     
 Search Robotframework Selenium2Library
     Google.Search.Search String    Robotframework Selenium2Library
@@ -17,6 +17,7 @@ Search With JavaScript Locator
     Input Text    elementById=gbqfq    Robotframework Selenium2Library
     Press Key    elementById=gbqfq    \\13
     Wait Until Element Is Visible    xpath=//cite[contains(., 'https://github.com/rtomac/')]
+    Capture Page Screenshot
     
 Search Without Locator Type
     Input Text    gbqfq    Robotframework Selenium2Library

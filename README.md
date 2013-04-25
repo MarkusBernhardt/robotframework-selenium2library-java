@@ -8,8 +8,8 @@ This Java port of the existing Selenium2Library was created to enable
 the usage of a Selenium 2 library with Jython.
 * Python Selenium2Library needs Python 2.6 upwards
 * The latests stable release of Jython is 2.5.3
-* Jython 2.7a2 is a alpha version and missing essential features
-* There seems to be no further development of a stable Jython 2.7
+* Jython 2.7b2 is a beta version
+* There seems to be only slow development of a stable Jython 2.7
 
 Usage
 -----
@@ -25,7 +25,7 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.1.0.6</version>
+        <version>1.1.0.7</version>
         <scope>test</scope>
     </dependency>
 

@@ -1,6 +1,13 @@
 CHANGES
 =======
 
+1.1.0.7
+-------
+
+* Fixing a problem at opening a Safari, Opera or PhantomJS browser that caused a Selenium2LibraryFatalException("... is not a supported browser.")
+* Fixing a problem with screenshots not showing in the log
+* Added a jar with all required dependencies to the deployed packages   
+
 1.1.0.6
 -------
 
