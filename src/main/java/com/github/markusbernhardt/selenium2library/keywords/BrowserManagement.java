@@ -474,11 +474,11 @@ public abstract class BrowserManagement {
 				|| "googlechrome".equals(browserName)) {
 			return new ChromeDriver(desiredCapabilities);
 		} else if ("opera".equals(browserName)) {
-			new OperaDriver(desiredCapabilities);
+			return new OperaDriver(desiredCapabilities);
 		} else if ("phantomjs".equals(browserName)) {
-			new PhantomJSDriver(desiredCapabilities);
+			return new PhantomJSDriver(desiredCapabilities);
 		} else if ("safari".equals(browserName)) {
-			new SafariDriver(desiredCapabilities);
+			return new SafariDriver(desiredCapabilities);
 		} else if ("htmlunit".equals(browserName)) {
 			return new HtmlUnitDriver(desiredCapabilities);
 		} else if ("htmlunitwithjs".equals(browserName)) {
