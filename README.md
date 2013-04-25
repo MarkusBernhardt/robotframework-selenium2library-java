@@ -31,7 +31,7 @@ your pom.xml:
 
 If you cannot use the robotframework-maven-plugin you can use the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.1.0.7/robotframework-selenium2library-java-1.1.0.7-jar-with-dependencies.jar), which contains all required libraries.
 
-If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.1.0.7/robotframework-selenium2library-java-1.1.0.7.jar) and provide all required libraries from this list on your own.
+If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.1.0.7/robotframework-selenium2library-java-1.1.0.7.jar) and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
 
 Differences
 -----------
