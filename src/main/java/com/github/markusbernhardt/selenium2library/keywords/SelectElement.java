@@ -26,7 +26,7 @@ public abstract class SelectElement extends Screenshot {
 	public String getSelectedListLabel(String locator) {
 		Select select = getSelectList(locator);
 
-		return select.getFirstSelectedOption().getAttribute("label");
+		return select.getFirstSelectedOption().getText();
 	}
 
 	public List<String> getSelectedListLabels(String locator) {

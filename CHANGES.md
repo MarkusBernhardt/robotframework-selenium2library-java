@@ -1,6 +1,15 @@
 CHANGES
 =======
 
+1.2.0.0
+-------
+
+* Upgrading to version 1.2.0 of the Python Selenium2Library
+* Porting recent changes in the master branch of the Python Selenium2Library
+  from id 2d3adce8 until 6793340d to this Java port. This contains roughly:
+  * Add Cookie keyword
+  * Fixed 'Get Selected List Label' under IE7 or IE8.
+
 1.1.0.7
 -------
 

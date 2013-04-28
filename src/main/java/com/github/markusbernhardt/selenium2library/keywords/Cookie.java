@@ -46,4 +46,11 @@ public abstract class Cookie extends BrowserManagement {
 		}
 	}
 
+	public void addCookie(String name, String value, String path,
+			String domain, String secure, String expiry) {
+		// Parameter expiry not used by Python library
+		org.openqa.selenium.Cookie cookie = new org.openqa.selenium.Cookie(
+				name, value, domain, path, null, secure.equals("True"));
+		webDriverCache.getCurrent().manage().addCookie(cookie);
+	}
 }
