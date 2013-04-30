@@ -19,6 +19,11 @@ Search With JavaScript Locator
     Wait Until Element Is Visible    xpath=//cite[contains(., 'https://github.com/rtomac/')]
     Capture Page Screenshot
     
+Search With JavaScript Locator And Delimiter
+    Selenium2Library.Add Location Strategy    elementByClassname    return window.document.getElementsByClassName(arguments[0])[arguments[1]];    ,
+    Element Text Should Be    elementByClassname=gbqfba,0    Google-Suche
+    Element Text Should Be    elementByClassname=gbqfba,1    Auf gut Glück!
+
 Search Without Locator Type
     Input Text    gbqfq    Robotframework Selenium2Library
     Press Key    gbqfq    \\13

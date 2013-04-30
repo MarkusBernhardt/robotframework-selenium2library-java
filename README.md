@@ -87,9 +87,11 @@ analogous to the SeleniumLibrary (RC) keyword. It can be used to register
 a JavaScript function as locator with the specified strategy name. The 
 registered function has to return a WebElement, a List of WebElements or
 null. This feature was requested in issue #1.
+
+Since 1.2.0.1 an optional delimiter can be specified. See #3 for more info.
 <table>
   <tr><th>Keyword</th><th>Arguments</th></tr>
-  <tr><td>Add Location Strategy</td><td>strategy_name, function_definition</td></tr>
+  <tr><td>Add Location Strategy</td><td>strategy_name, function_definition, delimiter=NONE</td></tr>
 </table>
 </dd>
 </dl>

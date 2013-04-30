@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.2.0.1
+-------
+
+* Added a delimiter to custom locator strategies to enable multiple arguments. See ticket #3.
+
 1.2.0.0
 -------
 

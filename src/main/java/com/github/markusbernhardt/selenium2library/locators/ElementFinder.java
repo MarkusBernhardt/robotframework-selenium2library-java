@@ -20,7 +20,7 @@ import com.github.markusbernhardt.selenium2library.utils.Python;
 
 public class ElementFinder {
 
-	private final static Hashtable<String, String> registeredLocationStrategies = new Hashtable<String, String>();
+	private final static Hashtable<String, CustomStrategy> registeredLocationStrategies = new Hashtable<String, CustomStrategy>();
 
 	private enum KeyAttrs {
 		DEFAULT("@id,@name"), A(
@@ -169,20 +169,13 @@ public class ElementFinder {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private static List<WebElement> findByJQuerySizzle(WebDriver webDriver,
 			FindByCoordinates findByCoordinates) {
 		String js = String.format("return jQuery('%s').get();",
 				findByCoordinates.criteria.replace("'", "\\'"));
 
-		List<WebElement> list = new ArrayList<WebElement>();
 		Object o = ((JavascriptExecutor) webDriver).executeScript(js);
-		if (o instanceof List<?>) {
-			list = (List<WebElement>) o;
-		} else if (o instanceof WebElement) {
-			list.add((WebElement) o);
-		}
-
+		List<WebElement> list = toList(o);
 		return filterElements(list, findByCoordinates);
 	}
 
@@ -234,11 +227,12 @@ public class ElementFinder {
 		}
 		List<String> xpathConstraints = new ArrayList<String>();
 		if (findByCoordinates.constraints != null) {
-		for (Entry<String, String> entry : findByCoordinates.constraints
-				.entrySet()) {
-			xpathConstraints.add(String.format("@%s='%s'", entry.getKey(),
-					entry.getValue()));
-		}	}
+			for (Entry<String, String> entry : findByCoordinates.constraints
+					.entrySet()) {
+				xpathConstraints.add(String.format("@%s='%s'", entry.getKey(),
+						entry.getValue()));
+			}
+		}
 		List<String> xpathSearchers = new ArrayList<String>();
 		for (String attr : keyAttrs.getKeyAttrs()) {
 			xpathSearchers.add(String.format("%s=%s", attr, xpathCriteria));
@@ -285,9 +279,9 @@ public class ElementFinder {
 	}
 
 	public static void addLocationStrategy(String strategyName,
-			String functionDefinition) {
+			String functionDefinition, String delimiter) {
 		registeredLocationStrategies.put(strategyName.toUpperCase(),
-				functionDefinition);
+				new CustomStrategy(functionDefinition, delimiter));
 	}
 
 	public static List<WebElement> find(WebDriver webDriver, String locator) {
@@ -346,10 +340,10 @@ public class ElementFinder {
 				strategy = StrategyEnum.valueOf(prefix);
 			} catch (IllegalArgumentException e) {
 				// No standard locator type. Look for custom strategy
-				final String functionDefinition = registeredLocationStrategies
+				CustomStrategy customStrategy = registeredLocationStrategies
 						.get(prefix);
-				if (functionDefinition != null) {
-					strategy = new CustomStrategy(functionDefinition);
+				if (customStrategy != null) {
+					strategy = customStrategy;
 				}
 			}
 		}
@@ -387,6 +381,18 @@ public class ElementFinder {
 		findByCoordinates.constraints = constraints;
 	}
 
+	@SuppressWarnings("unchecked")
+	private static List<WebElement> toList(Object o) {
+		List<WebElement> list = new ArrayList<WebElement>();
+		if (o instanceof List<?>) {
+			return (List<WebElement>) o;
+		} else if (o instanceof WebElement) {
+			list.add((WebElement) o);
+			return list;
+		}
+		return list;
+	}
+
 	private static class FindByCoordinates {
 
 		String criteria;
@@ -398,8 +404,11 @@ public class ElementFinder {
 
 		private String functionDefinition;
 
-		public CustomStrategy(String functionDefinition) {
+		private String delimiter;
+
+		public CustomStrategy(String functionDefinition, String delimiter) {
 			this.functionDefinition = functionDefinition;
+			this.delimiter = delimiter;
 		}
 
 		@Override
@@ -407,19 +416,23 @@ public class ElementFinder {
 				final FindByCoordinates findByCoordinates) {
 			return filterElements(webDriver.findElements(new By() {
 
-				@SuppressWarnings("unchecked")
 				@Override
 				public List<WebElement> findElements(SearchContext context) {
-					Object o = ((JavascriptExecutor) webDriver).executeScript(
-							functionDefinition, findByCoordinates.criteria);
-					if (o instanceof List<?>) {
-						return (List<WebElement>) o;
-					} else if (o instanceof WebElement) {
-						List<WebElement> list = new ArrayList<WebElement>();
-						list.add((WebElement) o);
-						return list;
+					Object[] arguments = null;
+					if (delimiter == null) {
+						arguments = new Object[1];
+						arguments[0] = findByCoordinates.criteria;
+					} else {
+						String[] splittedCriteria = findByCoordinates.criteria
+								.split(delimiter);
+						arguments = new Object[splittedCriteria.length];
+						for (int i = 0; i < splittedCriteria.length; i++) {
+							arguments[i] = splittedCriteria[i];
+						}
 					}
-					return null;
+					Object o = ((JavascriptExecutor) webDriver).executeScript(
+							functionDefinition, arguments);
+					return toList(o);
 				}
 
 			}), findByCoordinates);

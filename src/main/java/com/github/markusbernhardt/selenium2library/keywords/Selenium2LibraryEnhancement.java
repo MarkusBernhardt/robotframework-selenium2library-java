@@ -15,7 +15,13 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	public void addLocationStrategy(String strategyName,
 			String functionDefinition) {
-		ElementFinder.addLocationStrategy(strategyName, functionDefinition);
+		addLocationStrategy(strategyName, functionDefinition, null);
+	}
+
+	public void addLocationStrategy(String strategyName,
+			String functionDefinition, String delimiter) {
+		ElementFinder.addLocationStrategy(strategyName, functionDefinition,
+				delimiter);
 	}
 
 	public void waitUntilPageNotContains(String condition) {
