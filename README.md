@@ -85,7 +85,7 @@ ul>
 <li>iphone</li>
 <li>safari</li>
 </ul>
-<</dd>
+</dd>
 
   <dt>Custom JavaScript Locators</dt>
 <dd>We added the keyword Add Location Strategy. This keyword is somewhat
