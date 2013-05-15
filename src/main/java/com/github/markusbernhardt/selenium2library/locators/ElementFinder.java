@@ -98,22 +98,13 @@ public class ElementFinder {
 		},
 		DOM {
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public List<WebElement> findBy(WebDriver webDriver,
 					FindByCoordinates findByCoordinates) {
 				Object result = ((JavascriptExecutor) webDriver)
 						.executeScript(String.format("return %s;",
 								findByCoordinates.criteria));
-				if (result == null) {
-					return new ArrayList<WebElement>();
-				} else if (result instanceof WebElement) {
-					List<WebElement> list = new ArrayList<WebElement>();
-					list.add((WebElement) result);
-					result = list;
-				}
-				return filterElements((List<WebElement>) result,
-						findByCoordinates);
+				return filterElements(toList(result), findByCoordinates);
 			}
 		},
 		LINK {
