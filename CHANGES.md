@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+
+1.2.0.3
+-------
+
+* Rerelease of 1.2.0.2, because the upload to maven central was corrupt
+
 1.2.0.2
 -------
 
