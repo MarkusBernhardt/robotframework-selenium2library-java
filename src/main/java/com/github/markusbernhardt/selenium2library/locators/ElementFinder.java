@@ -374,10 +374,11 @@ public class ElementFinder {
 
 	@SuppressWarnings("unchecked")
 	private static List<WebElement> toList(Object o) {
-		List<WebElement> list = new ArrayList<WebElement>();
 		if (o instanceof List<?>) {
 			return (List<WebElement>) o;
-		} else if (o instanceof WebElement) {
+		}
+		List<WebElement> list = new ArrayList<WebElement>();
+		if (o instanceof WebElement) {
 			list.add((WebElement) o);
 			return list;
 		}
