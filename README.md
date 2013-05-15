@@ -79,7 +79,7 @@ Enhancements
 <dl>
   <dt>More browser supported</dt>
 <dd>
-ul>
+<ul>
 <li>android</li>
 <li>ipad</li>
 <li>iphone</li>
