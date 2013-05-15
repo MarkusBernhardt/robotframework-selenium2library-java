@@ -12,11 +12,19 @@ public class Selenium2LibraryNonFatalException extends RuntimeException {
 	 */
 	public static final boolean ROBOT_EXIT_ON_FAILURE = false;
 
+	public Selenium2LibraryNonFatalException() {
+		super();
+	}
+
 	public Selenium2LibraryNonFatalException(String string) {
 		super(string);
 	}
 
 	public Selenium2LibraryNonFatalException(Throwable t) {
 		super(t);
+	}
+
+	public Selenium2LibraryNonFatalException(String string, Throwable t) {
+		super(string, t);
 	}
 }

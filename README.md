@@ -77,9 +77,15 @@ Enhancements
 ------------
 
 <dl>
-  <dt>Safari browser supported</dt>
-<dd>Too use the Safari browser specify *safari* as browser name.
-</dd>
+  <dt>More browser supported</dt>
+<dd>
+ul>
+<li>android</li>
+<li>ipad</li>
+<li>iphone</li>
+<li>safari</li>
+</ul>
+<</dd>
 
   <dt>Custom JavaScript Locators</dt>
 <dd>We added the keyword Add Location Strategy. This keyword is somewhat

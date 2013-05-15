@@ -1,10 +1,15 @@
 CHANGES
 =======
 
+1.2.0.2
+-------
+
+* Support for iPhone, iPad and Android started. See issue #6.
+
 1.2.0.1
 -------
 
-* Added a delimiter to custom locator strategies to enable multiple arguments. See ticket #3.
+* Added a delimiter to custom locator strategies to enable multiple arguments. See issue #3.
 
 1.2.0.0
 -------
