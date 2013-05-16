@@ -1,0 +1,24 @@
+*** Settings ***
+Suite Setup       Open Page
+Suite Teardown    Close Browser
+Library           Selenium2Library
+
+*** Variables ***
+${URL Application}     http://dev.sencha.com/deploy/ext-4.0.0/examples/writer/writer.html
+${add}                 extJsButton=button[text='Add']
+${inputfield email}    extJsTextfield=textfield[name='email']
+
+*** Keywords ***
+Open Page
+    Add Location Strategy    extJs               return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).getId());
+    Add Location Strategy    extJsButton         return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).btnEl.id);
+    Add Location Strategy    extJsTextfield      return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).getInputId());
+    Open Browser    ${URL Application}    firefox    mainbrowser
+
+*** Test Cases ***
+Add Employee
+    Click Button    ${add}
+    Capture Page Screenshot
+
+    Input Text    ${inputfield email}    Haaalloooo Welt
+    Capture Page Screenshot
