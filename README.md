@@ -25,13 +25,13 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.2.0.1</version>
+        <version>1.2.0.3</version>
         <scope>test</scope>
     </dependency>
 
-If you cannot use the robotframework-maven-plugin you can use the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.1/robotframework-selenium2library-java-1.2.0.1-jar-with-dependencies.jar), which contains all required libraries.
+If you cannot use the robotframework-maven-plugin you can use the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.3/robotframework-selenium2library-java-1.2.0.3-jar-with-dependencies.jar), which contains all required libraries.
 
-If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.1/robotframework-selenium2library-java-1.2.0.1.jar) and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
+If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.3/robotframework-selenium2library-java-1.2.0.3.jar) and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
 
 Differences
 -----------
@@ -106,6 +106,13 @@ A small example:
 
         Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
         Input Text    elementById=firstName    Max
+
+A small example with delimiter:
+
+        Selenium2Library.Add Location Strategy    elementByClassname    return window.document.getElementsByClassName(arguments[0])[arguments[1]];    ,
+        Input Text    elementByClassname=inputField,0    Max
+        Input Text    elementByClassname=inputField,1    Mustermann
+
   
 <dl>
   <dt>Proxy Handling</dt>
