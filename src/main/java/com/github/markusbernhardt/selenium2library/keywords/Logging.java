@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.python.core.PyString;
 import org.python.util.PythonInterpreter;
@@ -16,15 +16,15 @@ import com.github.markusbernhardt.selenium2library.utils.Python;
 
 public abstract class Logging extends JavaScript {
 
-	protected final static Set<String> VALID_LOG_LEVELS;
+	protected final static Map<String, String[]> VALID_LOG_LEVELS;
 
 	static {
-		VALID_LOG_LEVELS = new HashSet<String>();
-		VALID_LOG_LEVELS.add("debug");
-		VALID_LOG_LEVELS.add("html");
-		VALID_LOG_LEVELS.add("info");
-		VALID_LOG_LEVELS.add("trace");
-		VALID_LOG_LEVELS.add("warn");
+		VALID_LOG_LEVELS = new HashMap<String, String[]>();
+		VALID_LOG_LEVELS.put("debug", new String[] { "debug", "" });
+		VALID_LOG_LEVELS.put("html", new String[] { "info", ", True, False" });
+		VALID_LOG_LEVELS.put("info", new String[] { "info", "" });
+		VALID_LOG_LEVELS.put("trace", new String[] { "trace", "" });
+		VALID_LOG_LEVELS.put("warn", new String[] { "warn", "" });
 	}
 
 	// ##############################
@@ -33,40 +33,42 @@ public abstract class Logging extends JavaScript {
 
 	@Override
 	protected void trace(String msg) {
-		log0(msg, "trace");
+		log(msg, "trace");
 	}
 
 	@Override
 	protected void debug(String msg) {
-		log0(msg, "debug");
+		log(msg, "debug");
 	}
 
 	@Override
 	protected void info(String msg) {
-		log0(msg, "info");
+		log(msg, "info");
 	}
 
 	@Override
 	protected void html(String msg) {
-		log0(msg, "html");
+		log(msg, "html");
 	}
 
 	@Override
 	protected void warn(String msg) {
-		log0(msg, "warn");
+		log(msg, "warn");
 	}
 
 	@Override
 	protected void log(String msg, String logLevel) {
-		if (VALID_LOG_LEVELS.contains(logLevel.toLowerCase())) {
-			log0(msg, logLevel);
+		String[] methodParameters = VALID_LOG_LEVELS
+				.get(logLevel.toLowerCase());
+		if (methodParameters != null) {
+			log0(msg, methodParameters[0], methodParameters[1]);
 		} else {
 			throw new Selenium2LibraryNonFatalException(String.format(
 					"Given log level %s is invalid.", logLevel));
 		}
 	}
 
-	protected void log0(String msg, String logLevel) {
+	protected void log0(String msg, String methodName, String methodArguments) {
 		if (msg.length() > 1024) {
 			// Message is too large.
 			// There is a hard limit of 100k in the Jython source code parser
@@ -80,12 +82,13 @@ public abstract class Logging extends JavaScript {
 				writer.close();
 
 				// Read the message in Python back and log it.
-				loggingPythonInterpreter
-						.get()
-						.exec("from __future__ import with_statement\n\nwith open('"
-								+ tempFile.getAbsolutePath()
-								+ "', 'r') as msg_file:\n    msg = msg_file.read()\n    logger."
-								+ logLevel + "(msg)");
+				loggingPythonInterpreter.get().exec(
+						String.format("from __future__ import with_statement\n"
+								+ "\n" + "with open('%s', 'r') as msg_file:\n"
+								+ "    msg = msg_file.read()\n"
+								+ "    logger.%s(msg%s)",
+								tempFile.getAbsolutePath(), methodName,
+								methodArguments));
 
 			} catch (IOException e) {
 				throw new Selenium2LibraryNonFatalException(
@@ -94,8 +97,9 @@ public abstract class Logging extends JavaScript {
 		} else {
 			// Message is small enough to get parsed by Jython
 			loggingPythonInterpreter.get().exec(
-					String.format("logger." + logLevel + "('%s');", msg
-							.replace("'", "\\'").replace("\n", "\\n")));
+					String.format("logger.%s('%s'%s)", methodName,
+							msg.replace("'", "\\'").replace("\n", "\\n"),
+							methodArguments));
 		}
 	}
 

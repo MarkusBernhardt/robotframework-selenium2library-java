@@ -2,6 +2,11 @@ CHANGES
 =======
 
 
+1.2.0.5
+-------
+
+* Fixing stupid bugs in the new logging functionality
+
 1.2.0.4
 -------
 
