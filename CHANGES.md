@@ -2,6 +2,13 @@ CHANGES
 =======
 
 
+1.2.0.4
+-------
+
+* Log messages larger than 1kB are now written to a temp file on the Java side and then read back
+  on the Python side. This avoids long messages to get parsed by the Jython source code parser.
+  See issue #7.
+
 1.2.0.3
 -------
 
