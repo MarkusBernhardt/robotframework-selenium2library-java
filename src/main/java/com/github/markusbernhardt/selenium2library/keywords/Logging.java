@@ -94,8 +94,8 @@ public abstract class Logging extends JavaScript {
 		} else {
 			// Message is small enough to get parsed by Jython
 			loggingPythonInterpreter.get().exec(
-					String.format("logger.info('%s');", msg.replace("'", "\\'")
-							.replace("\n", "\\n")));
+					String.format("logger." + logLevel + "('%s');", msg
+							.replace("'", "\\'").replace("\n", "\\n")));
 		}
 	}
 
