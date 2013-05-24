@@ -31,4 +31,4 @@ Search Without Locator Type
     
 Get Id Of Active Element With JavaScript
     Input Text    gbqfq    Robotframework Selenium2Library
-    ${activeElementId}=    Execute JavaScript    return window.document.activeElement.id;    
+    ${activeElementId}=    Execute JavaScript    return window.document.activeElement.id;
