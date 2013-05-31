@@ -2,6 +2,11 @@ CHANGES
 =======
 
 
+1.2.0.6
+-------
+
+* Fixing a IllegalArgumentException when using the keyword 'Select From List'. See issue #8.
+  
 1.2.0.5
 -------
 

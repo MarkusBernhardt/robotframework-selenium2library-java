@@ -207,8 +207,12 @@ public class ElementFinder {
 			FindByCoordinates findByCoordinates) {
 		KeyAttrs keyAttrs = KeyAttrs.DEFAULT;
 		if (findByCoordinates.tag != null) {
-			keyAttrs = KeyAttrs.valueOf(findByCoordinates.tag.trim()
-					.toUpperCase());
+			try {
+				keyAttrs = KeyAttrs.valueOf(findByCoordinates.tag.trim()
+						.toUpperCase());
+			} catch (IllegalArgumentException e) {
+				// No special keyAttrs available for this tag
+			}
 		}
 		String xpathCriteria = Selenium2Library
 				.escapeXpathValue(findByCoordinates.criteria);
