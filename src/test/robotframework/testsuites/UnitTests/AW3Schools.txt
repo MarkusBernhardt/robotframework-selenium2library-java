@@ -1,0 +1,19 @@
+*** Settings ***
+Suite Setup       Open Page
+Suite Teardown    Close Browser
+Library           Selenium2Library
+
+*** Variables ***
+${URL Application}     http://www.w3schools.com
+
+*** Keywords ***
+Open Page
+    Open Browser    http://www.w3schools.com    firefox    mainbrowser
+
+*** Test Cases ***
+Select
+    Go To    http://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select
+    Wait Until Page Contains Element    iframeResult
+    Select Frame    iframeResult
+    Wait Until Page Contains Element    xpath=//select
+    Select From List    xpath=//select    Volvo    Audi

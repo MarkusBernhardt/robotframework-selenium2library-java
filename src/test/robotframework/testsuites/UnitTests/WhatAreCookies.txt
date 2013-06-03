@@ -5,5 +5,5 @@ Library           Selenium2Library
 Cookies
     Open Browser    http://www.whatarecookies.com/cookietest.asp    firefox    mainbrowser
     ${all_cookies}=    Get Cookies
-    ${test}=    Get Cookie Value    ASPSESSIONIDAARDTTDS
+    ${test}=    Get Cookie Value    __atuvc
     Close Browser 
