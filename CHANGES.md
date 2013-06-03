@@ -6,6 +6,7 @@ CHANGES
 -------
 
 * Fixing a IllegalArgumentException when using the keyword 'Select From List'. See issue #8.
+* Renamed keyword "Textfield Should Be" to "Textfield Value Should Be" to be in sync with Python library. See issue #9.
   
 1.2.0.5
 -------

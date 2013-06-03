@@ -212,11 +212,11 @@ public abstract class FormElement extends Element {
 				expected));
 	}
 
-	public void textfieldShouldBe(String locator, String expected) {
-		textfieldShouldBe(locator, expected, "");
+	public void textfieldValueShouldBe(String locator, String expected) {
+		textfieldValueShouldBe(locator, expected, "");
 	}
 
-	public void textfieldShouldBe(String locator, String expected,
+	public void textfieldValueShouldBe(String locator, String expected,
 			String message) {
 		String actual = getValue(locator, "text field");
 		if (!actual.contains(expected)) {
