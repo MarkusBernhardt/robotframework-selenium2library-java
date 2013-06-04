@@ -171,6 +171,17 @@ xpath statement that optionally can start with "xpath=".
   <tr><td>Xpath Should Match X Times</td><td>xpath, expected_xpath_count, message=NONE, loglevel=INFO</td></tr>
 </table>
 </dd>
+
+  <dt>Remote Session Id</dt>
+<dd>We introduced two keywords to get the session id from the
+RemoteWebDriver. This is mainly needed to identify the test 
+session at external grids like SauceLabs.
+<table>
+  <tr><th>Keyword</th><th>Arguments</th></tr>
+  <tr><td>Get Remote Session Id</td><td></td></tr>
+  <tr><td>Log Remote Session Id</td><td></td></tr>
+</table>
+</dd>
 </dl>
 
 Demo
