@@ -15,10 +15,10 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	// ##############################
 
 	public String getRemoteSessionId() {
-		try {
+		if (webDriverCache.getCurrent() instanceof RemoteWebDriver) {
 			return ((RemoteWebDriver) webDriverCache.getCurrent())
 					.getSessionId().toString();
-		} catch (ClassCastException e) {
+		} else {
 			return "No remote session id";
 		}
 	}
@@ -28,7 +28,7 @@ public class Selenium2LibraryEnhancement extends Waiting {
 		info(actual);
 		return actual;
 	}
-	
+
 	public void addLocationStrategy(String strategyName,
 			String functionDefinition) {
 		addLocationStrategy(strategyName, functionDefinition, null);
