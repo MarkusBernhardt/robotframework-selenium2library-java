@@ -153,6 +153,11 @@ public abstract class BrowserManagement {
 	public void closeWindow() {
 		webDriverCache.getCurrent().close();
 	}
+	
+	public String getSauceJobID() {
+		String jobId = ((RemoteWebDriver) webDriverCache.getCurrent()).getSessionId().toString();
+		return jobId;
+	}
 
 	public List<String> getWindowIdentifiers() {
 		return logList(WindowManager.getWindowIds(webDriverCache.getCurrent()),
