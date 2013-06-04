@@ -7,6 +7,7 @@ CHANGES
 
 * Fixing a IllegalArgumentException when using the keyword 'Select From List'. See issue #8.
 * Renamed keyword "Textfield Should Be" to "Textfield Value Should Be" to be in sync with Python library. See issue #9.
+* New keywords "Get Remote Session Id" and "Log Remote Session Id". See issue #10.
   
 1.2.0.5
 -------
