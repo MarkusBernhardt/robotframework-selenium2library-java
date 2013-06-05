@@ -3,6 +3,7 @@ package com.github.markusbernhardt.selenium2library.keywords;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 import com.github.markusbernhardt.selenium2library.locators.ElementFinder;
@@ -12,6 +13,21 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	// ##############################
 	// Keywords
 	// ##############################
+
+	public String getRemoteSessionId() {
+		if (webDriverCache.getCurrent() instanceof RemoteWebDriver) {
+			return ((RemoteWebDriver) webDriverCache.getCurrent())
+					.getSessionId().toString();
+		} else {
+			return "No remote session id";
+		}
+	}
+
+	public String logRemoteSessionId() {
+		String actual = getRemoteSessionId();
+		info(actual);
+		return actual;
+	}
 
 	public void addLocationStrategy(String strategyName,
 			String functionDefinition) {

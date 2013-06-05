@@ -25,13 +25,13 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.2.0.5</version>
+        <version>1.2.0.6</version>
         <scope>test</scope>
     </dependency>
 
-If you cannot use the robotframework-maven-plugin you can use the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.5/robotframework-selenium2library-java-1.2.0.5-jar-with-dependencies.jar), which contains all required libraries.
+If you cannot use the robotframework-maven-plugin you can use the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.6/robotframework-selenium2library-java-1.2.0.6-jar-with-dependencies.jar), which contains all required libraries.
 
-If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.5/robotframework-selenium2library-java-1.2.0.5.jar) and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
+If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.6/robotframework-selenium2library-java-1.2.0.6.jar) and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
 
 Differences
 -----------
@@ -169,6 +169,17 @@ xpath statement that optionally can start with "xpath=".
   <tr><th>Keyword</th><th>Arguments</th></tr>
   <tr><td>Get Matching Xpath Count</td><td>xpath</td></tr>
   <tr><td>Xpath Should Match X Times</td><td>xpath, expected_xpath_count, message=NONE, loglevel=INFO</td></tr>
+</table>
+</dd>
+
+  <dt>Remote Session Id</dt>
+<dd>We introduced two keywords to get the session id from the
+RemoteWebDriver. This is mainly needed to identify the test 
+session at external grids like SauceLabs.
+<table>
+  <tr><th>Keyword</th><th>Arguments</th></tr>
+  <tr><td>Get Remote Session Id</td><td></td></tr>
+  <tr><td>Log Remote Session Id</td><td></td></tr>
 </table>
 </dd>
 </dl>
