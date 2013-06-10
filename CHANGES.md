@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+1.2.0.7
+-------
+
+* Fixing a ConcurrentModificationException when using the keyword 'Close All Browsers'. See issue #11.
 
 1.2.0.6
 -------
