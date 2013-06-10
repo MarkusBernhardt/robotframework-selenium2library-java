@@ -63,8 +63,10 @@ public class WebDriverCache {
 
 	public void closeAll() {
 		for (WebDriver webDriver : webDriverBySessionId.values()) {
-			close(webDriver);
+			webDriver.quit();
 		}
+		webDriverBySessionId = new TreeMap<Integer, WebDriver>();
+		sessionIdByAlias = new TreeMap<String, Integer>();
 	}
 
 	public void switchBrowser(String sessionIdOrAlias) {
