@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+Recent
+-------
+
+* Updated Selenium to 2.33.0
+* Updated Robot Framework to 2.8
+
 1.2.0.8
 -------
 
