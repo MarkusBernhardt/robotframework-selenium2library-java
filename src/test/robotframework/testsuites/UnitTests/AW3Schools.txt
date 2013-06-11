@@ -4,11 +4,7 @@ Suite Teardown    Close Browser
 Library           Selenium2Library
 
 *** Variables ***
-${URL Application}     http://www.w3schools.com
-
-*** Keywords ***
-Open Page
-    Open Browser    http://www.w3schools.com    firefox    mainbrowser
+${URL Application}    http://www.w3schools.com
 
 *** Test Cases ***
 Select
@@ -22,3 +18,25 @@ Multiple Browsers
     Open Browser    http://www.w3schools.com    firefox    mainbrowser1
     Open Browser    http://www.w3schools.com    firefox    mainbrowser2
     Close All Browsers
+
+Close All Browsers reset the browser index to 1
+    [Documentation]    Ensure that the Browser count is reset to 0 when Close All Browsers is used.
+    Open Browser    http://www.w3schools.com    firefox    mainbrowser1
+    Open Browser    http://www.w3schools.com    firefox    mainbrowser2
+    Close All Browsers
+    Open Browser    http://www.w3schools.com    firefox    mainbrowser1
+    Switch browser    1
+    Close All Browsers
+
+Close Browser decrements browser index by 1
+    [Documentation]    Ensure that the Close Browser keyword doesn't reset the count, rather that it decrements.
+    Open Browser    http://www.w3schools.com    firefox    mainbrowser1
+    Open Browser    http://www.w3schools.com    firefox    mainbrowser2
+    Close browser
+    Open Browser    http://www.w3schools.com    firefox    mainbrowser1
+    Switch browser    2
+    Close All Browsers
+
+*** Keywords ***
+Open Page
+    Open Browser    http://www.w3schools.com    firefox    mainbrowser
