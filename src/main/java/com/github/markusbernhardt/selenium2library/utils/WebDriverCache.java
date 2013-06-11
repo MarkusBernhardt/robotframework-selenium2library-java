@@ -67,6 +67,7 @@ public class WebDriverCache {
 		}
 		webDriverBySessionId = new TreeMap<Integer, WebDriver>();
 		sessionIdByAlias = new TreeMap<String, Integer>();
+		currentSessionId = 0;
 	}
 
 	public void switchBrowser(String sessionIdOrAlias) {
