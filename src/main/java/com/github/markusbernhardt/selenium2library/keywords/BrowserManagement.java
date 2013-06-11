@@ -37,6 +37,7 @@ import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalExcep
 import com.github.markusbernhardt.selenium2library.locators.WindowManager;
 import com.github.markusbernhardt.selenium2library.utils.Robotframework;
 import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
+import com.github.markusbernhardt.selenium2library.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
 import com.opera.core.systems.OperaDriver;
 
 public abstract class BrowserManagement {
@@ -290,8 +291,9 @@ public abstract class BrowserManagement {
 		String oldWait = getSeleniumTimeout();
 		timeout = Robotframework.timestrToSecs(timestr);
 
-		for (WebDriver webDriver : webDriverCache.getWebDrivers()) {
-			webDriver
+		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : webDriverCache
+				.getWebDrivers()) {
+			sessionIdAliasWebDriverTuple.webDriver
 					.manage()
 					.timeouts()
 					.setScriptTimeout((int) (timeout * 1000.0),
@@ -304,8 +306,9 @@ public abstract class BrowserManagement {
 		String oldWait = getSeleniumTimeout();
 		implicitWait = Robotframework.timestrToSecs(timestr);
 
-		for (WebDriver webDriver : webDriverCache.getWebDrivers()) {
-			webDriver
+		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : webDriverCache
+				.getWebDrivers()) {
+			sessionIdAliasWebDriverTuple.webDriver
 					.manage()
 					.timeouts()
 					.implicitlyWait((int) (implicitWait * 1000.0),

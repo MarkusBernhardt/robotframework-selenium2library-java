@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.2.0.8
+-------
+
+* More sophisticated algorithm to create new session ids at Open Browser. See issue #11 and #14.
+
 1.2.0.7
 -------
 
