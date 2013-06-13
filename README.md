@@ -182,6 +182,26 @@ session at external grids like SauceLabs.
   <tr><td>Log Remote Session Id</td><td></td></tr>
 </table>
 </dd>
+
+  <dt>Remote Capabilities</dt>
+<dd>According to the Javadoc no error is thrown, if a session cannot support a capability that is requested
+in the desired capabilities. Therefore it can happen that you are silently running your tests on the wrong
+environment. With the following two keywords you can control what capabilities the actual session supports.
+<table>
+  <tr><th>Keyword</th><th>Arguments</th></tr>
+  <tr><td>Get Remote Capabilities</td><td></td></tr>
+  <tr><td>Log Remote Capabilities</td><td></td></tr>
+</table>
+</dd>
+
+  <dt>System Info</dt>
+<dd>The following two keywords are outputting the current system info as in the WebDriverException.
+<table>
+  <tr><th>Keyword</th><th>Arguments</th></tr>
+  <tr><td>Get System Info</td><td></td></tr>
+  <tr><td>Log System Info</td><td></td></tr>
+</table>
+</dd>
 </dl>
 
 Demo

@@ -14,6 +14,36 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	// Keywords
 	// ##############################
 
+	public String getSystemInfo() {
+		return String
+				.format("      os.name: '%s'\n      os.arch: '%s'\n   os.version: '%s'\n java.version: '%s'",
+						System.getProperty("os.name"),
+						System.getProperty("os.arch"),
+						System.getProperty("os.version"),
+						System.getProperty("java.version"));
+	}
+
+	public String logSystemInfo() {
+		String actual = getSystemInfo();
+		info(actual);
+		return actual;
+	}
+
+	public String getRemoteCapabilities() {
+		if (webDriverCache.getCurrent() instanceof RemoteWebDriver) {
+			return ((RemoteWebDriver) webDriverCache.getCurrent())
+					.getCapabilities().toString();
+		} else {
+			return "No remote session id";
+		}
+	}
+
+	public String logRemoteCapabilities() {
+		String actual = getRemoteCapabilities();
+		info(actual);
+		return actual;
+	}
+
 	public String getRemoteSessionId() {
 		if (webDriverCache.getCurrent() instanceof RemoteWebDriver) {
 			return ((RemoteWebDriver) webDriverCache.getCurrent())

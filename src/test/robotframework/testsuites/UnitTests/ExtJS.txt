@@ -14,6 +14,9 @@ Open Page
     Add Location Strategy    extJsButton         return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).btnEl.id);
     Add Location Strategy    extJsTextfield      return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).getInputId());
     Open Browser    ${URL Application}    firefox    mainbrowser
+    Log System Info
+    Log Remote Session Id
+    Log Remote Capabilities
 
 *** Test Cases ***
 Add Employee
