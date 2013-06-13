@@ -1,11 +1,18 @@
 CHANGES
 =======
 
-Recent
+1.2.0.9
 -------
 
 * Updated Selenium to 2.33.0
 * Updated Robot Framework to 2.8
+* Fixing a bug in "Select From List" that leads to traversing all list entries before selecting 
+  the correct one. See issue #12. 
+* New keywords:
+  * Get Remote Capabilities
+  * Log Remote Capabilities
+  * Get System Info
+  * Log System Info
 
 1.2.0.8
 -------
