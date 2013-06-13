@@ -12,8 +12,10 @@ Select
     Wait Until Page Contains Element    iframeResult
     Select Frame    iframeResult
     Wait Until Page Contains Element    xpath=//select
-    Select From List    xpath=//select    Volvo    Audi
-
+    Select From List    xpath=//select    Opel
+    ${label}    Get Selected List Label    xpath=//select
+    Should Be Equal    ${label}    Opel
+    
 Multiple Browsers
     Open Browser    http://www.w3schools.com    firefox    mainbrowser1
     Open Browser    http://www.w3schools.com    firefox    mainbrowser2

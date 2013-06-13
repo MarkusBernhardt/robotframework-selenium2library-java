@@ -159,7 +159,7 @@ public abstract class SelectElement extends Screenshot {
 		Select select = getSelectList(locator);
 
 		//If no items given, select all values (of in case of single select list, go through all values)
-		if (items.length < 1) {
+		if (items.length == 0) {
 			for (int i = 0; i < select.getOptions().size(); i++) {
 				select.selectByIndex(i);
 			}

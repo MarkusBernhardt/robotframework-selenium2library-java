@@ -10,6 +10,7 @@ ${URL Application}     http://fiddle.jshell.net/ShPVX/show/
 Open Page
     Open Browser    ${URL Application}
     Wait Until Page Contains Element    xpath=//select[@name='test']
+    
 *** Test Cases ***
 Change dropdown value
     Select From List    xpath=//select[@name='test']    10
