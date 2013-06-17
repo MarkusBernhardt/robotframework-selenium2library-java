@@ -86,9 +86,9 @@ public abstract class Logging extends JavaScript {
 						String.format("from __future__ import with_statement\n"
 								+ "\n" + "with open('%s', 'r') as msg_file:\n"
 								+ "    msg = msg_file.read()\n"
-								+ "    logger.%s(msg%s)",
-								tempFile.getAbsolutePath(), methodName,
-								methodArguments));
+								+ "    logger.%s(msg%s)", tempFile
+								.getAbsolutePath().replace("\\", "\\\\"),
+								methodName, methodArguments));
 
 			} catch (IOException e) {
 				throw new Selenium2LibraryNonFatalException(
