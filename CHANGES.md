@@ -1,7 +1,8 @@
 CHANGES
 =======
 
-1.2.0.10
+1.2.0.10-SNAPSHOT
+-----------------
 
 * Fixed a TypeError in List Selection Should Be. See #18.
 
