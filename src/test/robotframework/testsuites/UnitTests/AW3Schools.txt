@@ -15,6 +15,7 @@ Select
     Select From List    xpath=//select    Opel
     ${label}    Get Selected List Label    xpath=//select
     Should Be Equal    ${label}    Opel
+    List Selection Should Be    xpath=//select    Opel
     
 Multiple Browsers
     Open Browser    http://www.w3schools.com    firefox    mainbrowser1

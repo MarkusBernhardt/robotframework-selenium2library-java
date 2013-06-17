@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+1.2.0.10
+
+* Fixed a TypeError in List Selection Should Be. See #18.
+
 1.2.0.9
 -------
 

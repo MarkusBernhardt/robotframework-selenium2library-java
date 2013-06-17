@@ -2,7 +2,6 @@ package com.github.markusbernhardt.selenium2library.keywords;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -61,8 +60,8 @@ public abstract class SelectElement extends Screenshot {
 		return getValuesForOptions(options);
 	}
 
-	public void listSelectionShouldBe(String locator, List<String> items) {
-		String itemList = items.size() != 0 ? String.format("option(s) [ %s ]",
+	public void listSelectionShouldBe(String locator, String... items) {
+		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
 				Python.join(" | ", items)) : "no options";
 		info(String.format("Verifying list '%s' has %s selected.", locator,
 				itemList));
@@ -70,27 +69,19 @@ public abstract class SelectElement extends Screenshot {
 		this.pageShouldContainList(locator);
 
 		List<WebElement> options = getSelectListOptionsSelected(locator);
-		if (items.size() > 0 || options.size() > 0) {
+		List<String> selectedLabels = getLabelsForOptions(options);
+		String message = String
+				.format("List '%s' should have had selection [ %s ] but it was [ %s ].",
+						locator, Python.join(" | ", items),
+						Python.join(" | ", selectedLabels));
+		if (items.length != options.size()) {
+			throw new Selenium2LibraryNonFatalException(message);
+		} else {
 			List<String> selectedValues = getValuesForOptions(options);
-			List<String> selectedLabels = getLabelsForOptions(options);
-
-			String message = String
-					.format("List '%s' should have had selection [ %s ] but it was [ %s ].",
-							locator, Python.join(" | ", items),
-							Python.join(" | ", selectedLabels));
 
 			for (String item : items) {
 				if (!selectedValues.contains(item)
-						|| !selectedLabels.contains(item)) {
-					throw new Selenium2LibraryNonFatalException(message);
-				}
-			}
-
-			Map<String, String> map = Python
-					.zip(selectedValues, selectedLabels);
-			for (Map.Entry<String, String> entry : map.entrySet()) {
-				if (!items.contains(entry.getKey())
-						|| !items.contains(entry.getValue())) {
+						&& !selectedLabels.contains(item)) {
 					throw new Selenium2LibraryNonFatalException(message);
 				}
 			}
@@ -158,7 +149,8 @@ public abstract class SelectElement extends Screenshot {
 
 		Select select = getSelectList(locator);
 
-		//If no items given, select all values (of in case of single select list, go through all values)
+		// If no items given, select all values (of in case of single select
+		// list, go through all values)
 		if (items.length == 0) {
 			for (int i = 0; i < select.getOptions().size(); i++) {
 				select.selectByIndex(i);
