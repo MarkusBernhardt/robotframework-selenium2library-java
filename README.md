@@ -80,9 +80,7 @@ Enhancements
   <dt>More browser supported</dt>
 <dd>
 <ul>
-<li>android</li>
 <li>ipad</li>
-<li>iphone</li>
 <li>safari</li>
 </ul>
 </dd>
@@ -151,7 +149,6 @@ are needed. The list of new keywords:
   <tr><td>Wait Until Element Is Not Clickable</td><td>locator,timeout=NONE,message=NONE</td></tr>
   <tr><td>Wait Until Element Is Selected</td><td>locator,timeout=NONE,message=NONE</td></tr>
   <tr><td>Wait Until Element Is Not Selected</td><td>locator,timeout=NONE,message=NONE</td></tr>
-  <tr><td>Wait Until Element Is Visible</td><td>locator,timeout=NONE,message=NONE</td></tr>
   <tr><td>Wait Until Element Is Not Visible</td><td>locator,timeout=NONE,message=NONE</td></tr>
   <tr><td>Wait Until Page Not Contains</td><td>condition,timeout=NONE,message=NONE</td></tr>
   <tr><td>Wait Until Page Not Contains Element</td><td>locator,timeout=NONE,message=NONE</td></tr>

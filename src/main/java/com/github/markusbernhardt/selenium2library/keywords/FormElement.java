@@ -316,7 +316,7 @@ public abstract class FormElement extends Element {
 		}
 		String tag = element.getTagName().toLowerCase();
 		return tag == "input" || tag == "select" || tag == "textarea"
-				|| tag == "button";
+				|| tag == "button" || tag == "option";
 	}
 
 }

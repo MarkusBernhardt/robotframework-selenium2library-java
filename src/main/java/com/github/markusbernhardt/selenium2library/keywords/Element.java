@@ -31,9 +31,25 @@ public abstract class Element extends Cookie {
 			log(String.format("Current Frame Contains: %s => FAILED", text),
 					logLevel);
 			throw new Selenium2LibraryNonFatalException(String.format(
-					"Page should have contained text '%s' but did not.", text));
+					"Page should have contained text '%s', but did not.", text));
 		} else {
 			log(String.format("Current Frame Contains: %s => OK", text),
+					logLevel);
+		}
+	}
+
+	public void currentFrameShouldNotContain(String text) {
+		this.currentFrameShouldNotContain(text, "INFO");
+	}
+
+	public void currentFrameShouldNotContain(String text, String logLevel) {
+		if (isTextPresent(text)) {
+			log(String.format("Current Frame Should Not Contain: %s => FAILED", text),
+					logLevel);
+			throw new Selenium2LibraryNonFatalException(String.format(
+					"Page should have not contained text '%s', but did.", text));
+		} else {
+			log(String.format("Current Frame Should Not Contain: %s => OK", text),
 					logLevel);
 		}
 	}

@@ -6,6 +6,11 @@ CHANGES
 
 * Fixed a TypeError in List Selection Should Be. See #18.
 * Fixed a problem with logging a string longer then 1024 characters on Windows systems. See #17.
+* Porting recent changes in the master branch of the Python Selenium2Library
+  from id 6793340d until b4a3e500 to this Java port. This contains roughly:
+  * Keyword 'Current Frame Should Not Contain'
+  * Tag 'option' also marks an form element
+  
 
 1.2.0.9
 -------
