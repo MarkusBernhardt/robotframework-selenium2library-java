@@ -5,7 +5,7 @@ CHANGES
 -----------------
 
 * Fixed a TypeError in List Selection Should Be. See #18.
-* Fixed a problem with string longer then 1024 characters. See #17.
+* Fixed a problem with logging a string longer then 1024 characters on Windows systems. See #17.
 
 1.2.0.9
 -------
