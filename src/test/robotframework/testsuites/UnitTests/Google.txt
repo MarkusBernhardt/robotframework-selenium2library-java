@@ -24,6 +24,10 @@ Search With JavaScript Locator And Delimiter
     Element Text Should Be    elementByClassname=gbqfba,0    Google-Suche
     Element Text Should Be    elementByClassname=gbqfba,1    Auf gut Glück!
 
+Search With JavaScript Locator Text
+    Selenium2Library.Add Location Strategy    text    return window.document.evaluate("//*[contains(text(),'" + arguments[0] + "')]", window.document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    Wait Until Element Is Visible    text=Google-Suche
+
 Search Without Locator Type
     Input Text    gbqfq    Robotframework Selenium2Library
     Press Key    gbqfq    \\13

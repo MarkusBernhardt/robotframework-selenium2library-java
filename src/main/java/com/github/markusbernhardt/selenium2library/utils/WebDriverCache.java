@@ -22,6 +22,11 @@ public class WebDriverCache {
 	int maxAssignedSessionId = 0;
 
 	/**
+	 * Stack of currently open session ids to reuse
+	 */
+	Stack<String> openSessionIds = new Stack<String>();
+
+	/**
 	 * Stack of already closed session ids to reuse
 	 */
 	Stack<String> closedSessionIds = new Stack<String>();
@@ -52,6 +57,7 @@ public class WebDriverCache {
 		}
 
 		// store the new tuple
+		openSessionIds.push(currentSessionIdAliasWebDriverTuple.id);
 		tupleBySessionId.put(currentSessionIdAliasWebDriverTuple.id,
 				currentSessionIdAliasWebDriverTuple);
 		if (alias != null) {
@@ -62,19 +68,35 @@ public class WebDriverCache {
 	}
 
 	public WebDriver getCurrent() {
-		return currentSessionIdAliasWebDriverTuple.webDriver;
+		if (currentSessionIdAliasWebDriverTuple != null) {
+			return currentSessionIdAliasWebDriverTuple.webDriver;
+		}
+		return null;
 	}
 
 	public String getCurrentSessionId() {
-		return currentSessionIdAliasWebDriverTuple.id;
+		if (currentSessionIdAliasWebDriverTuple != null) {
+			return currentSessionIdAliasWebDriverTuple.id;
+		}
+		return null;
 	}
 
 	public void close() {
 		if (currentSessionIdAliasWebDriverTuple != null) {
+			// Close the webdriver and remove it fomr all stores
 			currentSessionIdAliasWebDriverTuple.webDriver.quit();
 			tupleBySessionId.remove(currentSessionIdAliasWebDriverTuple.id);
 			tupleByAlias.remove(currentSessionIdAliasWebDriverTuple.alias);
+			openSessionIds.remove(currentSessionIdAliasWebDriverTuple.id);
 			closedSessionIds.push(currentSessionIdAliasWebDriverTuple.id);
+
+			// Set the last opened webdriver as current webdriver
+			if (openSessionIds.size() != 0) {
+				currentSessionIdAliasWebDriverTuple = tupleBySessionId
+						.get(openSessionIds.pop());
+			} else {
+				currentSessionIdAliasWebDriverTuple = null;
+			}
 		}
 	}
 
@@ -85,6 +107,7 @@ public class WebDriverCache {
 		}
 		maxAssignedSessionId = 0;
 		currentSessionIdAliasWebDriverTuple = null;
+		openSessionIds = new Stack<String>();
 		closedSessionIds = new Stack<String>();
 		tupleBySessionId = new TreeMap<String, SessionIdAliasWebDriverTuple>();
 		tupleByAlias = new TreeMap<String, SessionIdAliasWebDriverTuple>();
@@ -95,12 +118,16 @@ public class WebDriverCache {
 				.get(sessionIdOrAlias);
 		if (sessionIdAliasWebDriverTuple != null) {
 			currentSessionIdAliasWebDriverTuple = sessionIdAliasWebDriverTuple;
+			openSessionIds.remove(currentSessionIdAliasWebDriverTuple.id);
+			openSessionIds.push(currentSessionIdAliasWebDriverTuple.id);
 			return;
 		}
 
 		sessionIdAliasWebDriverTuple = tupleBySessionId.get(sessionIdOrAlias);
 		if (sessionIdAliasWebDriverTuple != null) {
 			currentSessionIdAliasWebDriverTuple = sessionIdAliasWebDriverTuple;
+			openSessionIds.remove(currentSessionIdAliasWebDriverTuple.id);
+			openSessionIds.push(currentSessionIdAliasWebDriverTuple.id);
 			return;
 		}
 		throw new Selenium2LibraryFatalException(String.format(

@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+unreleased
+----------
+
+* Fixed a NullPointerException in WebDriverCache.getCurrent. See #21
+
 1.2.0.10
 --------
 
