@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.2.0.12
+--------
+
+* Fixed a NullPointerException in Close Browser. See #23
+
 1.2.0.11
 --------
 

@@ -83,12 +83,14 @@ public class WebDriverCache {
 
 	public void close() {
 		if (currentSessionIdAliasWebDriverTuple != null) {
-			// Close the webdriver and remove it fomr all stores
+			// Close the webdriver and remove it from all stores
 			currentSessionIdAliasWebDriverTuple.webDriver.quit();
 			tupleBySessionId.remove(currentSessionIdAliasWebDriverTuple.id);
-			tupleByAlias.remove(currentSessionIdAliasWebDriverTuple.alias);
 			openSessionIds.remove(currentSessionIdAliasWebDriverTuple.id);
 			closedSessionIds.push(currentSessionIdAliasWebDriverTuple.id);
+			if (currentSessionIdAliasWebDriverTuple.alias != null) {
+				tupleByAlias.remove(currentSessionIdAliasWebDriverTuple.alias);
+			}
 
 			// Set the last opened webdriver as current webdriver
 			if (openSessionIds.size() != 0) {

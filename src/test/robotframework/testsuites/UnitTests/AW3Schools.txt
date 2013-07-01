@@ -22,6 +22,10 @@ Multiple Browsers
     Open Browser    http://www.w3schools.com    firefox    mainbrowser2
     Close All Browsers
 
+No Browser Alias
+    Open Browser    http://www.w3schools.com    firefox
+    Close Browser
+
 Close All Browsers reset the browser index to 1
     [Documentation]    Ensure that the Browser count is reset to 0 when Close All Browsers is used.
     ${id}    Open Browser    http://www.w3schools.com    firefox    mainbrowser1
