@@ -124,7 +124,8 @@ public abstract class Logging extends JavaScript {
 	protected File getLogDir() {
 		PyString logDirName = (PyString) loggingPythonInterpreter.get().eval(
 				"GLOBAL_VARIABLES['${LOG FILE}']");
-		if (logDirName != null && !(logDirName.asString().equals("NONE"))) {
+		if (logDirName != null
+				&& !(logDirName.asString().toUpperCase().equals("NONE"))) {
 			return new File(logDirName.asString()).getParentFile();
 		}
 		logDirName = (PyString) loggingPythonInterpreter.get().eval(

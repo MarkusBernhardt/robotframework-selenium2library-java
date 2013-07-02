@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+unreleased
+----------
+
+* Fixed a NullPointerException in Capture Page Screenshot when Log File is set to NONE. See #24
+
 1.2.0.12
 --------
 
