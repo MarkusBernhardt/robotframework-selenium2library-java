@@ -5,6 +5,9 @@ unreleased
 ----------
 
 * Fixed a NullPointerException in Capture Page Screenshot when Log File is set to NONE. See #24
+* Update robotframework to 2.8.1
+* Update robotframework-maven-plugin to 1.2
+* Update aspectj to 1.7.3
 
 1.2.0.12
 --------
