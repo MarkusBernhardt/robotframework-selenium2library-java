@@ -1,5 +1,6 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
+import java.io.File;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
@@ -489,6 +490,16 @@ public class Selenium2LibraryEnhancement extends Waiting {
 								locator, expected, actual);
 			}
 			throw new Selenium2LibraryNonFatalException(message);
+		}
+	}
+	
+	public void setLogDirectory(String logDirectory) throws Exception {
+		File file = new File(logDirectory);
+
+		if(file.exists() && file.isDirectory() && file.canWrite()) {
+			Logging.setLogDir(file.getAbsolutePath());
+		} else {
+			throw new Exception("Location given as parameter: " + logDirectory + " must exist and must be a writeable directory!");
 		}
 	}
 
