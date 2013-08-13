@@ -1,6 +1,7 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
 import java.io.File;
+
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -31,6 +32,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.RobotKeyword;
+import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryFatalException;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
@@ -40,6 +44,7 @@ import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
 import com.github.markusbernhardt.selenium2library.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
 import com.opera.core.systems.OperaDriver;
 
+@RobotKeywords
 public abstract class BrowserManagement {
 
 	public String remoteWebDriverProxyHost = "";
@@ -76,6 +81,43 @@ public abstract class BrowserManagement {
 		}
 	}
 
+	@RobotKeyword("Opens a new browser instance to given URL.\n\n"
+ 				
+			+ "Returns the index of this browser instance which can be used later to switch "
+			+ "back to it. Index starts from 1 and is reset back to it when Close All "
+			+ "Browsers keyword is used. See Switch Browser for example.\n\n"
+ 				
+ 			+ "Optional alias is an alias for the browser instance and it can be used for "
+ 			+ "switching between browsers (just as index can be used). See Switch Browser "
+ 			+ "for more details.\n\n"
+
+			+ "Possible values for browser are as follows:\n"
+			+ "| firefox | FireFox |\n"
+			+ "| ff | FireFox |\n"
+			+ "| internetexplorer | Internet Explorer |\n"
+			+ "| ie | Internet Explorer |\n"
+			+ "| googlechrome | Google Chrome |\n"
+			+ "| gc | Google Chrome |\n"
+			+ "| chrome | Google Chrome |\n"
+			+ "| opera | Opera |\n"
+			+ "| phantomjs | PhantomJS |\n"
+			+ "| htmlunit | HTMLUnit |\n"
+			+ "| htmlunitwithjs | HTMLUnit with Javascipt support |\n\n"
+
+			+ "Note, that you will encounter strange behavior, if you open multiple Internet "
+			+ "Explorer browser instances. That is also why Switch Browser only works with "
+			+ "one IE browser at most. For more information see:\n"
+			+ "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine\n\n"
+
+			+ "Optional 'remote_url' is the url for a remote selenium server for example "
+			+ "http://127.0.0.1/wd/hub. If you specify a value for remote you can also specify "
+			+ "'desired_capabilities' which is a string in the form key1:val1,key2:val2 that "
+			+ "will be used to specify desired_capabilities to the remote server. This is "
+			+ "useful for doing things like specify a proxy server for internet explorer or for "
+			+ "specify browser and os if your using saucelabs.com.\n\n"
+
+			+"Optional 'ff_profile_dir' is the path to the firefox profile dir if you wish to overwrite the default.")
+	@ArgumentNames({"url"})
 	public String openBrowser(String url) throws Throwable {
 		return openBrowser(url, "firefox");
 	}
