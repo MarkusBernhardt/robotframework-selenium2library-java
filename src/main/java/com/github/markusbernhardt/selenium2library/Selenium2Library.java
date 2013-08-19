@@ -3,15 +3,23 @@ package com.github.markusbernhardt.selenium2library;
 import java.io.File;
 import java.util.ResourceBundle;
 
-import org.robotframework.javalib.annotation.RobotKeywords;
-
 import com.github.markusbernhardt.selenium2library.keywords.Selenium2LibraryEnhancement;
 
 /**
  * Robotframework Library. All public methods are keywords.
  */
-@RobotKeywords
 public class Selenium2Library extends Selenium2LibraryEnhancement {
+
+	/**
+	 * This means the same instance of this class is used throughout the
+	 * lifecycle of a Robot Framework test execution.
+	 */
+	public static String ROBOT_LIBRARY_SCOPE = "GLOBAL";
+
+	/**
+	 * Documentation is in text format.
+	 */
+	public static String ROBOT_LIBRARY_DOC_FORMAT = "TEXT";
 
 	/**
 	 * The actual version of this library. Loaded from maven project.
