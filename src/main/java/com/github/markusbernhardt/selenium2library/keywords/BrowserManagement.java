@@ -1,7 +1,6 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
 import java.io.File;
-
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -34,6 +33,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.RobotKeyword;
+import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryFatalException;
@@ -73,6 +73,7 @@ public abstract class BrowserManagement {
 	// Keywords
 	// ##############################
 
+	@RobotKeyword("Closes the current browser.")
 	public void closeBrowser() {
 		if (webDriverCache.getCurrentSessionId() != null) {
 			debug(String.format("Closing browser with session id %s",
@@ -81,8 +82,42 @@ public abstract class BrowserManagement {
 		}
 	}
 
+	@RobotKeyword("Overloaded")
+	@ArgumentNames({"url"})
+	public String openBrowser(String url) throws Throwable {
+		return openBrowser(url, "firefox");
+	}
+
+	@RobotKeyword("Overloaded")
+	@ArgumentNames({"url", "browserName=firefox"})
+	public String openBrowser(String url, String browserName) throws Throwable {
+		return openBrowser(url, browserName, null);
+	}
+
+	@RobotKeyword("Overloaded")
+	@ArgumentNames({"url", "browserName=firefox", "alias=NONE"})
+	public String openBrowser(String url, String browserName, String alias)
+			throws Throwable {
+		return openBrowser(url, browserName, alias, null);
+	}
+
+	@RobotKeyword("Overloaded")
+	@ArgumentNames({"url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE"})
+	public String openBrowser(String url, String browserName, String alias,
+			String remoteUrl) throws Throwable {
+		return openBrowser(url, browserName, alias, remoteUrl, null);
+	}
+
+	@RobotKeyword("Overloaded")
+	@ArgumentNames({"url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE"})
+	public String openBrowser(String url, String browserName, String alias,
+			String remoteUrl, String desiredCapabilities) throws Throwable {
+		return openBrowser(url, browserName, alias, remoteUrl,
+				desiredCapabilities, null);
+	}
+
 	@RobotKeyword("Opens a new browser instance to given URL.\n\n"
- 				
+				
 			+ "Returns the index of this browser instance which can be used later to switch "
 			+ "back to it. Index starts from 1 and is reset back to it when Close All "
 			+ "Browsers keyword is used. See Switch Browser for example.\n\n"
@@ -116,32 +151,8 @@ public abstract class BrowserManagement {
 			+ "useful for doing things like specify a proxy server for internet explorer or for "
 			+ "specify browser and os if your using saucelabs.com.\n\n"
 
-			+"Optional 'ff_profile_dir' is the path to the firefox profile dir if you wish to overwrite the default.")
-	@ArgumentNames({"url"})
-	public String openBrowser(String url) throws Throwable {
-		return openBrowser(url, "firefox");
-	}
-
-	public String openBrowser(String url, String browserName) throws Throwable {
-		return openBrowser(url, browserName, null);
-	}
-
-	public String openBrowser(String url, String browserName, String alias)
-			throws Throwable {
-		return openBrowser(url, browserName, alias, null);
-	}
-
-	public String openBrowser(String url, String browserName, String alias,
-			String remoteUrl) throws Throwable {
-		return openBrowser(url, browserName, alias, remoteUrl, null);
-	}
-
-	public String openBrowser(String url, String browserName, String alias,
-			String remoteUrl, String desiredCapabilities) throws Throwable {
-		return openBrowser(url, browserName, alias, remoteUrl,
-				desiredCapabilities, null);
-	}
-
+			+"Optional 'ff_profile_dir' is the path to the firefox profile dir if you wish to overwrite the default.\n")
+	@ArgumentNames({"url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE", "ffProfileDir=NONE"})
 	public String openBrowser(String url, String browserName, String alias,
 			String remoteUrl, String desiredCapabilities, String ffProfileDir)
 			throws Throwable {
@@ -176,6 +187,28 @@ public abstract class BrowserManagement {
 		}
 	}
 
+	@RobotKeyword("Switches between active browsers using _index_ or _alias_.\n"
+				+ "Index is returned from Open Browser and alias can be given to it.\n\n"
+
+				+ "Example:\n"
+				+ "| Open Browser | http://google.com | ff |\n"
+				+ "| Location Should Be | http://google.com |\n"
+				+ "| Open Browser | http://yahoo.com | ie | 2nd conn |\n"
+				+ "| Location Should Be | http://yahoo.com |\n"
+				+ "| Switch Browser | 1 | #index |\n"
+				+ "| Page Should Contain | I'm feeling lucky |\n"
+				+ "| Switch Browser | 2nd conn | # alias |\n"
+				+ "| Page Should Contain | More Yahoo! |\n"
+				+ "| Close All Browsers |\n\n"
+
+				+ "Above example expects that there was no other open browsers when "
+				+ "opening the first one because it used index '1' when switching to it "
+				+ "later. If you aren't sure about that you can store the index into a "
+				+ "variable as below.\n"
+				+ "| ${id} = | Open Browser | http://google.com | *firefox |\n"
+				+ "| # Do something ... |\n"
+				+ "| Switch Browser | ${id} |\n")
+	@ArgumentNames({"indexOrAlias"})
 	public void switchBrowser(String indexOrAlias) {
 		try {
 			webDriverCache.switchBrowser(indexOrAlias);
@@ -187,21 +220,31 @@ public abstract class BrowserManagement {
 					"No browser with index or alias '%s' found.", indexOrAlias));
 		}
 	}
-
+	
+	@RobotKeyword("Closes all open browsers and resets the browser cache.\n\n"
+			
+			+ "After this keyword new indexes returned from Open Browser keyword are reset "
+			+ "to 1.\n\n"
+			
+			+ "This keyword should be used in test or suite teardown to make sure all browsers "
+			+ "are closed.\n")
 	public void closeAllBrowsers() {
 		debug("Closing all browsers");
 		webDriverCache.closeAll();
 	}
 
+	@RobotKeyword("Closes currently opened pop-up window.\n")
 	public void closeWindow() {
 		webDriverCache.getCurrent().close();
 	}
-
+	
+	@RobotKeyword("Returns and logs id attributes of all windows known to the browser.\n")
 	public List<String> getWindowIdentifiers() {
 		return logList(WindowManager.getWindowIds(webDriverCache.getCurrent()),
 				"Window Id");
 	}
-
+	
+	@RobotKeyword("Returns and logs names of all windows known to the browser.\n")
 	public List<String> getWindowNames() {
 		List<String> windowNames = WindowManager.getWindowNames(webDriverCache
 				.getCurrent());
@@ -210,47 +253,85 @@ public abstract class BrowserManagement {
 		}
 		return logList(windowNames, "Window Name");
 	}
-
+	
+	@RobotKeyword("Returns and logs titles of all windows known to the browser.\n")
 	public List<String> getWindowTitles() {
 		return logList(
 				WindowManager.getWindowTitles(webDriverCache.getCurrent()),
 				"Window Title");
 	}
 
+	@RobotKeyword("Maximizes current browser window.\n")
 	public void maximizeBrowserWindow() {
 		webDriverCache.getCurrent().manage().window().maximize();
 	}
 
+	@RobotKeyword("Sets frame identified by _locator_ as current frame.\n\n"
+	
+			+ "Key attributes for frames are id and name. See introduction for details "
+			+ "about locating elements.\n")
+	@ArgumentNames({"locator"})
 	public void selectFrame(String locator) {
 		info(String.format("Selecting frame '%s'.", locator));
 		List<WebElement> elements = elementFind(locator, true, true);
 		webDriverCache.getCurrent().switchTo().frame(elements.get(0));
 	}
 
+	@RobotKeywordOverload
 	public void selectWindow() {
 		selectWindow(null);
 	}
 
+	@RobotKeyword("Selects the window found with _locator_ as the context of actions.\n\n"
+
+	+ "If the window is found, all subsequent commands use that window, until this keyword "
+	+ "is used again. If the window is not found, this keyword fails.\n\n"
+
+	+ "By default, when a locator value is provided, it is matched against the title of the "
+	+ "window and the javascript name of the window. If multiple windows with same identifier"
+	+ " are found, the first one is selected.\n\n"
+
+	+ "Special locator main (default) can be used to select the main window.\n"
+	+ "It is also possible to specify the approach Selenium2Library should take to find a window"
+	+ " by specifying a locator strategy:\n\n"
+
+	+ "| Strategy | Example | Description |\n"
+	+ "| title | Select Window title=My Document | Matches by window title |\n"
+	+ "| name | Select Window name=${name} | Matches by window javascript name |\n"
+	+ "| url | Select Window url=http://google.com | Matches by window's current URL |\n\n"
+
+	+ "Example:\n"
+	+ "| Click Link | popup_link | #opens new window |\n"
+	+ "| Select Window | popupName | |\n"
+	+ "| Title Should Be | Popup Title | |\n"
+	+ "| Select Window | | #Chooses the main window again |\n")
+	@ArgumentNames({"locator=NONE"})
 	public void selectWindow(String locator) {
 		WindowManager.select(webDriverCache.getCurrent(), locator);
 	}
 
+	@RobotKeyword("Sets the top frame as the current frame.\n")
 	public void unselectFrame() {
 		webDriverCache.getCurrent().switchTo().defaultContent();
 	}
 
+	@RobotKeyword("Returns the current location.\n")
 	public String getLocation() {
 		return webDriverCache.getCurrent().getCurrentUrl();
 	}
 
+	@RobotKeyword("Returns the entire html source of the current page or frame.\n")
 	public String getSource() {
 		return webDriverCache.getCurrent().getPageSource();
 	}
 
+	@RobotKeyword("Returns title of current page.\n")
 	public String getTitle() {
 		return webDriverCache.getCurrent().getTitle();
 	}
 
+	@RobotKeyword("Verifies that current URL is exactly _url_.\n")
+	@ArgumentNames({"url"})
 	public void locationShouldBe(String url) {
 		String actual = getLocation();
 		if (!actual.equals(url)) {
@@ -260,6 +341,8 @@ public abstract class BrowserManagement {
 		info(String.format("Current location is '%s'.", url));
 	}
 
+	@RobotKeyword("Verifies that current URL contains expected.\n")
+	@ArgumentNames({"url"})
 	public void locationShouldContain(String url) {
 		String actual = getLocation();
 		if (!actual.contains(url)) {
@@ -269,28 +352,38 @@ public abstract class BrowserManagement {
 		info(String.format("Current location is '%s'.", url));
 	}
 
+	@RobotKeyword("Logs and returns the current location.\n")
 	public String logLocation() {
 		String actual = getLocation();
 		info(actual);
 		return actual;
 	}
 
+	@RobotKeyword("Overloaded.")
 	public String logSource() {
 		return logSource("INFO");
 	}
 
+	@RobotKeyword("Logs and returns the entire html source of the current page or frame.\n\n"
+			
+			+ "The loglevel argument defines the used log level. Valid log levels are WARN, "
+			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
+	@ArgumentNames({"logLevel=INFO"})
 	public String logSource(String logLevel) {
 		String actual = getSource();
 		log(actual, logLevel);
 		return actual;
 	}
 
+	@RobotKeyword("Logs and returns the title of current page.\n")
 	public String logTitle() {
 		String actual = getTitle();
 		info(actual);
 		return actual;
 	}
 
+	@RobotKeyword("Verifies that current page title equals _title_.\n")
+	@ArgumentNames({"title"})
 	public void titleShouldBe(String title) {
 		String actual = getTitle();
 		if (!actual.equals(title)) {
@@ -299,36 +392,68 @@ public abstract class BrowserManagement {
 		}
 		info(String.format("Page title is '%s'.", title));
 	}
-
+	
+	@RobotKeyword("Simulates the user clicking the \"back\" button on their browser.\n")
 	public void goBack() {
 		webDriverCache.getCurrent().navigate().back();
 	}
 
+	@RobotKeyword("Navigates the active browser instance to the provided URL.\n")
+	@ArgumentNames({"url"})
 	public void goTo(String url) {
 		info(String.format("Opening url '%s'", url));
 		webDriverCache.getCurrent().get(url);
 	}
 
+	@RobotKeyword("Simulates user reloading page.\n")
 	public void reloadPage() {
 		webDriverCache.getCurrent().navigate().refresh();
 	}
 
+	@RobotKeyword("Gets the delay in seconds that is waited after each Selenium command.\n\n"
+			
+			+ "See Set Selenium Speed for an explanation.\n")
 	public String getSeleniumSpeed() {
 		return Robotframework.secsToTimestr(0);
 	}
 
+	@RobotKeyword("Gets the timeout in seconds that is used by various keywords.\n\n"
+			
+			+ "See Set Selenium Timeout for an explanation.\n")
 	public String getSeleniumTimeout() {
 		return Robotframework.secsToTimestr(timeout);
 	}
 
+	@RobotKeyword("Gets the wait in seconds that is waited by Selenium.\n\n"
+			
+			+ "See Set Selenium Implicit Wait for an explanation.\n")
 	public String getSeleniumImplicitWait() {
 		return Robotframework.secsToTimestr(implicitWait);
 	}
 
+	@RobotKeyword("(NOT IMPLEMENTED)\n\nSets the delay in seconds that is waited after each "
+			+ "Selenium command.\n")
+	@ArgumentNames({"timestr"})
 	public String setSeleniumSpeed(String timestr) {
 		return "0s";
 	}
 
+	@RobotKeyword("Sets the timeout in seconds used by various keywords.\n\n"
+
+			+ "There are several Wait ... keywords that take timeout as an argument. All of "
+			+ "these timeout arguments are optional. The timeout used by all of them can be "
+			+ "set globally using this keyword. See introduction for more information about "
+			+ "timeouts.\n\n"
+
+			+ "The previous timeout value is returned by this keyword and can be used to set "
+			+ "the old value back later. The default timeout is 5 seconds, but it can be "
+			+ "altered in importing.\n\n"
+
+			+ "Example:\n"
+			+ "| ${orig timeout} = | Set Selenium Timeout | 15 seconds |\n"
+			+ "| Open page that loads slowly |\n"
+			+ "| Set Selenium Timeout | ${orig timeout} |\n")
+	@ArgumentNames({"timestr"})
 	public String setSeleniumTimeout(String timestr) {
 		String oldWait = getSeleniumTimeout();
 		timeout = Robotframework.timestrToSecs(timestr);
@@ -344,6 +469,18 @@ public abstract class BrowserManagement {
 		return oldWait;
 	}
 
+	@RobotKeyword("Sets Selenium 2's default implicit wait in seconds and sets the implicit wait "
+			+ "for all open browsers.\n\n"
+
+			+ "From selenium 2 function 'Sets a sticky timeout to implicitly wait for an element "
+			+ "to be found, or a command to complete. This method only needs to be called one time "
+			+ "per session.'\n\n"
+
+			+ "	Example:\n"
+			+ "| ${orig wait} = | Set Selenium Implicit Wait | 10 seconds |\n"
+			+ "| Perform AJAX call that is slow |\n"
+			+ "| Set Selenium Implicit Wait | ${orig wait} |\n")
+	@ArgumentNames({"timestr"})
 	public String setSeleniumImplicitWait(String timestr) {
 		String oldWait = getSeleniumTimeout();
 		implicitWait = Robotframework.timestrToSecs(timestr);
@@ -359,6 +496,16 @@ public abstract class BrowserManagement {
 		return oldWait;
 	}
 
+	@RobotKeyword("Sets current browser's implicit wait in seconds.\n\n"
+
+			+ "From selenium 2 function 'Sets a sticky timeout to implicitly wait for an element to be found, "
+			+ "or a command to complete. This method only needs to be called one time per session.'\n\n"
+
+			+ "Example:\n"
+			+ "| Set Browser Implicit Wait | 10 seconds |\n\n"
+		
+			+ "See also Set Selenium Implicit Wait.\n")
+	@ArgumentNames({"timestr"})
 	public String setBrowserImplicitWait(String timestr) {
 		String oldWait = getSeleniumTimeout();
 		implicitWait = Robotframework.timestrToSecs(timestr);
@@ -371,15 +518,22 @@ public abstract class BrowserManagement {
 		return oldWait;
 	}
 
+
+	@RobotKeywordOverload
+	@ArgumentNames({"host", "port"})
 	public void setRemoteWebDriverProxy(String host, String port) {
 		setRemoteWebDriverProxy(host, port, "", "", "", "");
 	}
-
+	
+	@RobotKeywordOverload
+	@ArgumentNames({"host", "port", "user=", "password="})
 	public void setRemoteWebDriverProxy(String host, String port, String user,
 			String password) {
 		setRemoteWebDriverProxy(host, port, user, password, "", "");
 	}
 
+	@RobotKeyword
+	@ArgumentNames({"host", "port", "user=", "password=", "domain=", "workstation="})
 	public void setRemoteWebDriverProxy(String host, String port, String user,
 			String password, String domain, String workstation) {
 
