@@ -10,7 +10,6 @@ import com.github.markusbernhardt.selenium2library.keywords.Selenium2LibraryEnha
 /**
  * Robotframework Library. All public methods are keywords.
  */
-@RobotKeywords
 public class Selenium2Library extends Selenium2LibraryEnhancement {
 
 	/**

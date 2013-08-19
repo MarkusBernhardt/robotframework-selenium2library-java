@@ -11,7 +11,6 @@ public class Selenium2Library extends
 
     static List<String> keywordPatterns = new ArrayList<String>() {{
         add("com/github/markusbernhardt/selenium2library/keywords/**/*.class");
-        add("com/github/markusbernhardt/selenium2library/Selenium2Library.class");
       }};
       
 	private final AnnotationLibrary annotationLibrary = new AnnotationLibrary(keywordPatterns);
