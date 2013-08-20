@@ -71,14 +71,13 @@ public class Selenium2LibraryEnhancement extends Waiting {
 		return actual;
 	}
 
-	@RobotKeyword
-	@ArgumentNames({"strategyName", "functionDefinition"})
+	@RobotKeywordOverload
 	public void addLocationStrategy(String strategyName,
 			String functionDefinition) {
 		addLocationStrategy(strategyName, functionDefinition, null);
 	}
 
-	@RobotKeyword("Overloaded")
+	@RobotKeyword
 	@ArgumentNames({"strategyName", "functionDefinition", "delimiter=NONE"})
 	public void addLocationStrategy(String strategyName,
 			String functionDefinition, String delimiter) {
