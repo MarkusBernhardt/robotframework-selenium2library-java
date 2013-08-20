@@ -232,7 +232,7 @@ public class Selenium2LibraryEnhancement extends Waiting {
 		waitUntilTitleContains(title, null, null);
 	}
 
-	@RobotKeywordOverload
+	@RobotKeyword
 	@ArgumentNames({"title", "timestr=", "error=NONE"})
 	public void waitUntilTitleNotContains(final String title, String timestr,
 			String error) {
@@ -248,6 +248,18 @@ public class Selenium2LibraryEnhancement extends Waiting {
 				return currentTitle == null || !currentTitle.contains(title);
 			}
 		});
+	}
+	
+	@RobotKeywordOverload
+	@ArgumentNames({"title", "timestr="})
+	public void waitUntilTitleNotContains(String title, String timestr) {
+		waitUntilTitleNotContains(title, timestr, null);
+	}	
+
+	@RobotKeywordOverload
+	@ArgumentNames({"title"})
+	public void waitUntilTitleNotContains(String title) {
+		waitUntilTitleNotContains(title, null, null);
 	}
 
 	@RobotKeyword
@@ -280,18 +292,6 @@ public class Selenium2LibraryEnhancement extends Waiting {
 		waitUntilTitleIs(title, null);
 	}
 	
-	@RobotKeywordOverload
-	@ArgumentNames({"title", "timestr="})
-	public void waitUntilTitleNotContains(String title, String timestr) {
-		waitUntilTitleNotContains(title, timestr, null);
-	}	
-
-	@RobotKeywordOverload
-	@ArgumentNames({"title"})
-	public void waitUntilTitleNotContains(String title) {
-		waitUntilTitleNotContains(title, null, null);
-	}
-	
 	@RobotKeyword
 	@ArgumentNames({"title", "timestr=", "error=NONE"})
 	public void waitUntilTitleIsNot(final String title, String timestr,
@@ -322,13 +322,13 @@ public class Selenium2LibraryEnhancement extends Waiting {
 		waitUntilTitleIsNot(title, null, null);
 	}
 
-	@RobotKeyword
+	@RobotKeywordOverload
 	@ArgumentNames({"locator"})
 	public void elementShouldBeSelected(String locator) {
 		this.elementShouldBeSelected(locator, "");
 	}
 
-	@RobotKeyword("Overloaded")
+	@RobotKeyword
 	@ArgumentNames({"locator", "message=NONE"})
 	public void elementShouldBeSelected(String locator, String message) {
 		info(String.format("Verifying element '%s' is selected.", locator));

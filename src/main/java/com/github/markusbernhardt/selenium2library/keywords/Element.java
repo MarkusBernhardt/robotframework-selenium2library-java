@@ -381,7 +381,7 @@ public abstract class Element extends Cookie {
 
 	@RobotKeyword("Return value of element attribute.\n\n"
 			
-			+ "attribute_locator consists of element locator followed by an @ sign and attribute name, "
+			+ "_attribute_locator_ consists of element locator followed by an @ sign and attribute name, "
 			+ "for example \"element_id@class\".\n")
 	@ArgumentNames({"attributeLocator"})
 	public String getElementAttribute(String attributeLocator) {
@@ -395,6 +395,22 @@ public abstract class Element extends Cookie {
 		}
 
 		return elements.get(0).getAttribute(parts[1]);
+	}
+	
+	@RobotKeyword("Clears the text from element identified by _locator_\n\n"
+			
+			+ "NOTE: This keyword does not execute any checks on whether or not the clear method has "
+			+ "succeeded, so if any subsequent checks are needed, they should be executed using method "
+			+ "_Element Text Should Be_.\n\n"
+			
+			+ "Also, this method will use WebDriver's internal _element.clear()_ method, i.e. it will not "
+			+ "send any keypresses, and it will not have any effect whatsoever on elements other than input "
+			+ "textfields or input textareas. Clients relying on keypresses should implement their own methods.")
+	@ArgumentNames({"locator"})
+	public void clearElementText(String locator) {
+		List<WebElement> elements = elementFind(locator, true, true);
+		
+		elements.get(0).clear();
 	}
 
 	@RobotKeyword("Returns horizontal position of element identified by _locator_.\n\n"
