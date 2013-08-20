@@ -82,34 +82,29 @@ public abstract class BrowserManagement {
 		}
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"url"})
+	@RobotKeywordOverload
 	public String openBrowser(String url) throws Throwable {
 		return openBrowser(url, "firefox");
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"url", "browserName=firefox"})
+	@RobotKeywordOverload
 	public String openBrowser(String url, String browserName) throws Throwable {
 		return openBrowser(url, browserName, null);
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"url", "browserName=firefox", "alias=NONE"})
+	@RobotKeywordOverload
 	public String openBrowser(String url, String browserName, String alias)
 			throws Throwable {
 		return openBrowser(url, browserName, alias, null);
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE"})
+	@RobotKeywordOverload
 	public String openBrowser(String url, String browserName, String alias,
 			String remoteUrl) throws Throwable {
 		return openBrowser(url, browserName, alias, remoteUrl, null);
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE"})
+	@RobotKeywordOverload
 	public String openBrowser(String url, String browserName, String alias,
 			String remoteUrl, String desiredCapabilities) throws Throwable {
 		return openBrowser(url, browserName, alias, remoteUrl,
@@ -359,7 +354,7 @@ public abstract class BrowserManagement {
 		return actual;
 	}
 
-	@RobotKeyword("Overloaded.")
+	@RobotKeywordOverload
 	public String logSource() {
 		return logSource("INFO");
 	}

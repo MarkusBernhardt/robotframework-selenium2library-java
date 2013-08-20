@@ -27,7 +27,7 @@ public abstract class Element extends Cookie {
 	// Keywords - Element Lookups
 	// ##############################
 
-	@RobotKeyword("Overloaded")
+	@RobotKeywordOverload
 	@ArgumentNames({"text"})
 	public void currentFrameContains(String text) {
 		this.currentFrameContains(text, "INFO");
@@ -35,7 +35,7 @@ public abstract class Element extends Cookie {
 
 	@RobotKeyword("Verifies that current frame contains _text_.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n")
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n")
 	@ArgumentNames({"text", "loglevel=INFO"})
 	public void currentFrameContains(String text, String logLevel) {
 		if (!isTextPresent(text)) {
@@ -49,15 +49,14 @@ public abstract class Element extends Cookie {
 		}
 	}
 
-	@RobotKeyword("Verifies that current frame does not contain _text_.\n\n"
-			
-			+ "See Page Should Contain for explanation about loglevel argument.\n")
-	@ArgumentNames({"text"})
+	@RobotKeywordOverload
 	public void currentFrameShouldNotContain(String text) {
 		this.currentFrameShouldNotContain(text, "INFO");
 	}
-
-	@RobotKeyword("Overloaded")
+	
+	@RobotKeyword("Verifies that current frame does not contain _text_.\n\n"
+			
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n")
 	@ArgumentNames({"text", "loglevel=INFO"})
 	public void currentFrameShouldNotContain(String text, String logLevel) {
 		if (isTextPresent(text)) {
@@ -71,9 +70,7 @@ public abstract class Element extends Cookie {
 		}
 	}
 
-
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"locator", "expected"})
+	@RobotKeywordOverload
 	public void elementShouldContain(String locator, String expected) {
 		this.elementShouldContain(locator, expected, "");
 	}
@@ -103,15 +100,14 @@ public abstract class Element extends Cookie {
 		}
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"locator", "text"})
+	@RobotKeywordOverload
 	public void frameShouldContain(String locator, String text) {
 		this.frameShouldContain(locator, text, "INFO");
 	}
 
 	@RobotKeyword("Verifies frame identified by _locator_ contains _text_.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n\n"
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n\n"
 			
 			+ "Key attributes for frames are id and name. See introduction for details about "
 			+ "locating elements.\n")
@@ -128,7 +124,6 @@ public abstract class Element extends Cookie {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"text"})
 	public void pageShouldContain(String text) {
 		this.pageShouldContain(text, "INFO");
 	}
@@ -150,33 +145,30 @@ public abstract class Element extends Cookie {
 		}
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"locator"})
+	@RobotKeywordOverload
 	public void pageShouldContainElement(String locator) {
 		this.pageShouldContainElement(locator, "", "INFO");
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"text", "message=NONE"})
+	@RobotKeywordOverload
 	public void pageShouldContainElement(String locator, String message) {
 		this.pageShouldContainElement(locator, message, "INFO");
+	}
+
+	@RobotKeywordOverload
+	public void pageShouldContainElement(String locator, String message,
+			String logLevel) {
+		this.pageShouldContainElement(locator, null, message, "INFO");
 	}
 
 	@RobotKeyword("Verifies element identified by _locator_ is found on the current page.\n\n"
 			
 			+ "_message_ can be used to override default error message.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n\n"
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n\n"
 			
 			+ "Key attributes for arbitrary elements are id and name. See introduction for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"text", "tag=NONE", "message=NONE", "loglevel=INFO"})
-	public void pageShouldContainElement(String locator, String message,
-			String logLevel) {
-		this.pageShouldContainElement(locator, null, message, "INFO");
-	}
-
-	@RobotKeyword("Overloaded")
 	@ArgumentNames({"text", "tag=NONE", "message=NONE", "loglevel=INFO"})
 	public void pageShouldContainElement(String locator, String tag,
 			String message, String logLevel) {
@@ -184,14 +176,13 @@ public abstract class Element extends Cookie {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"text"})
 	public void pageShouldNotContain(String text) {
 		this.pageShouldNotContain(text, "INFO");
 	}
 
 	@RobotKeyword("Verifies the current page does not contain _text_.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n")
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n")
 	@ArgumentNames({"text", "loglevel=INFO"})
 	public void pageShouldNotContain(String text, String logLevel) {
 		if (pageContains(text)) {
@@ -205,20 +196,17 @@ public abstract class Element extends Cookie {
 		}
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"locator"})
+	@RobotKeywordOverload
 	public void pageShouldNotContainElement(String locator) {
 		this.pageShouldNotContainElement(locator, "", "INFO");
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"text", "message=NONE"})
+	@RobotKeywordOverload
 	public void pageShouldNotContainElement(String locator, String message) {
 		this.pageShouldNotContainElement(locator, message, "INFO");
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"text", "message=NONE", "loglevel=INFO"})
+	@RobotKeywordOverload
 	public void pageShouldNotContainElement(String locator, String message,
 			String logLevel) {
 		this.pageShouldNotContainElement(locator, null, message, "INFO");
@@ -228,7 +216,7 @@ public abstract class Element extends Cookie {
 			
 			+ "_message_ can be used to override default error message.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n\n"
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n\n"
 			
 			+ "Key attributes for arbitrary elements are id and name. See introduction for details "
 			+ "about locating elements.\n")
@@ -284,8 +272,7 @@ public abstract class Element extends Cookie {
 		}
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"locator"})
+	@RobotKeywordOverload
 	public void elementShouldBeVisible(String locator) {
 		this.elementShouldBeVisible(locator, "");
 	}
@@ -316,7 +303,6 @@ public abstract class Element extends Cookie {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void elementShouldNotBeVisible(String locator) {
 		this.elementShouldNotBeVisible(locator, "");
 	}
@@ -345,7 +331,6 @@ public abstract class Element extends Cookie {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "expected"})
 	public void elementTextShouldBe(String locator, String expected) {
 		this.elementTextShouldBe(locator, expected, "");
 	}
@@ -432,7 +417,6 @@ public abstract class Element extends Cookie {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public String getValue(String locator) {
 		return getValue(locator, null);
 	}
@@ -703,7 +687,7 @@ public abstract class Element extends Cookie {
 		return ret;
 	}
 	
-	@RobotKeyword("Simulates a mouse down event on a link. identified by _locator_.\n\n"
+	@RobotKeyword("Simulates a mouse down event on a link identified by _locator_.\n\n"
 			
 			+ "Key attributes for links are id, name, href and link text. See introduction for details "
 			+ "about locating elements.\n")
@@ -731,7 +715,7 @@ public abstract class Element extends Cookie {
 			
 			+ "_message_ can be used to override default error message.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n\n"
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n\n"
 			
 			+ "Key attributes for links are id, name, href and link text. See introduction for details "
 			+ "about locating elements.\n")
@@ -741,14 +725,12 @@ public abstract class Element extends Cookie {
 		this.pageShouldContainElement(locator, "link", message, logLevel);
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"locator"})
+	@RobotKeywordOverload
 	public void pageShouldNotContainLink(String locator) {
 		this.pageShouldNotContainLink(locator, "", "INFO");
 	}
 
-	@RobotKeyword("Overloaded")
-	@ArgumentNames({"locator", "message=NONE"})
+	@RobotKeywordOverload
 	public void pageShouldNotContainLink(String locator, String message) {
 		this.pageShouldNotContainLink(locator, message, "INFO");
 	}
@@ -757,7 +739,7 @@ public abstract class Element extends Cookie {
 			
 			+ "_message_ can be used to override default error message.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n\n"
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n\n"
 			
 			+ "Key attributes for links are id, name, href and link text. See introduction for details "
 			+ "about locating elements.\n")
@@ -816,7 +798,7 @@ public abstract class Element extends Cookie {
 			
 			+ "_message_ can be used to override default error message.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n\n"
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n\n"
 			
 			+ "Key attributes for images are id, src and alt. See introduction for details "
 			+ "about locating elements.\n")
@@ -842,7 +824,7 @@ public abstract class Element extends Cookie {
 			
 			+ "_message_ can be used to override default error message.\n\n"
 			
-			+ "See Page Should Contain for explanation about loglevel argument.\n\n"
+			+ "See _Page Should Contain_ for explanation about _loglevel_ argument.\n\n"
 			
 			+ "Key attributes for images are id, src and alt. See introduction for details "
 			+ "about locating elements.\n")
@@ -886,7 +868,7 @@ public abstract class Element extends Cookie {
 			
 			+ "_message_ can be used to override default error message.\n\n"
 			
-			+ "See Page Should Contain Element for explanation about message and loglevel arguments.\n")
+			+ "See _Page Should Contain Element_ for explanation about _message_ and _loglevel_ arguments.\n")
 	@ArgumentNames({"xpath", "expectedXpathCount", "message=NONE", "logLevel=INFO"})
 	public void xpathShouldMatchXTimes(String xpath, int expectedXpathCount,
 			String message, String logLevel) {

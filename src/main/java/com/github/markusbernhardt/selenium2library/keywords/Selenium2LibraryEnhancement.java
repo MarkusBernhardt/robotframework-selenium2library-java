@@ -87,7 +87,7 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({"condition", "timestr=", "error=NONE"})
+	@ArgumentNames({"text", "timestr=", "error=NONE"})
 	public void waitUntilPageNotContains(final String text, String timestr,
 			String error) {
 		if (error == null) {
