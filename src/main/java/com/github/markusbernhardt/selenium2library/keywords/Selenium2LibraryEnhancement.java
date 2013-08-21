@@ -103,13 +103,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 	
 	@RobotKeywordOverload
-	@ArgumentNames({"condition", "timestr="})
 	public void waitUntilPageNotContains(String condition, String timestr) {
 		waitUntilPageNotContains(condition, timestr, null);
 	}
 	
 	@RobotKeywordOverload
-	@ArgumentNames({"condition"})
 	public void waitUntilPageNotContains(String condition) {
 		waitUntilPageNotContains(condition, null);
 	}
@@ -132,13 +130,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "timestr="})
 	public void waitUntilPageNotContainsElement(String locator, String timestr) {
 		waitUntilPageNotContainsElement(locator, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void waitUntilPageNotContainsElement(String locator) {
 		waitUntilPageNotContainsElement(locator, null);
 	}
@@ -161,13 +157,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "timestr="})
 	public void waitUntilElementIsVisible(String locator, String timestr) {
 		waitUntilElementIsVisible(locator, timestr, null);
 	}
 	
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void waitUntilElementIsVisible(String locator) {
 		waitUntilElementIsVisible(locator, null);
 	}
@@ -190,13 +184,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "timestr="})
 	public void waitUntilElementIsNotVisible(String locator, String timestr) {
 		waitUntilElementIsNotVisible(locator, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void waitUntilElementIsNotVisible(String locator) {
 		waitUntilElementIsNotVisible(locator, null);
 	}
@@ -220,13 +212,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"title", "timestr="})
 	public void waitUntilTitleContains(String title, String timestr) {
 		waitUntilTitleContains(title, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"title"})
 	public void waitUntilTitleContains(String title) {
 		waitUntilTitleContains(title, null, null);
 	}
@@ -250,13 +240,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 	
 	@RobotKeywordOverload
-	@ArgumentNames({"title", "timestr="})
 	public void waitUntilTitleNotContains(String title, String timestr) {
 		waitUntilTitleNotContains(title, timestr, null);
 	}	
 
 	@RobotKeywordOverload
-	@ArgumentNames({"title"})
 	public void waitUntilTitleNotContains(String title) {
 		waitUntilTitleNotContains(title, null, null);
 	}
@@ -280,13 +268,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"title", "timestr="})
 	public void waitUntilTitleIs(String title, String timestr) {
 		waitUntilTitleIs(title, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"title"})
 	public void waitUntilTitleIs(String title) {
 		waitUntilTitleIs(title, null);
 	}
@@ -310,19 +296,16 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"title", "timestr="})
 	public void waitUntilTitleIsNot(String title, String timestr) {
 		waitUntilTitleIsNot(title, timestr, null);
 	}
 	
 	@RobotKeywordOverload
-	@ArgumentNames({"title"})
 	public void waitUntilTitleIsNot(String title) {
 		waitUntilTitleIsNot(title, null, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void elementShouldBeSelected(String locator) {
 		this.elementShouldBeSelected(locator, "");
 	}
@@ -344,7 +327,6 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void elementShouldNotBeSelected(String locator) {
 		this.elementShouldNotBeSelected(locator, "");
 	}
@@ -383,13 +365,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 	
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "timestr="})
 	public void waitUntilElementIsSelected(String locator, String timestr) {
 		waitUntilElementIsSelected(locator, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void waitUntilElementIsSelected(String locator) {
 		waitUntilElementIsSelected(locator, null);
 	}
@@ -412,19 +392,16 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "timestr="})
 	public void waitUntilElementIsNotSelected(String locator, String timestr) {
 		waitUntilElementIsNotSelected(locator, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void waitUntilElementIsNotSelected(String locator) {
 		waitUntilElementIsNotSelected(locator, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void elementShouldBeClickable(String locator) {
 		this.elementShouldBeClickable(locator, "");
 	}
@@ -446,7 +423,6 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void elementShouldNotBeClickable(String locator) {
 		this.elementShouldNotBeClickable(locator, "");
 	}
@@ -485,13 +461,11 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "timestr="})
 	public void waitUntilElementIsClickable(String locator, String timestr) {
 		waitUntilElementIsClickable(locator, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void waitUntilElementIsClickable(String locator) {
 		waitUntilElementIsClickable(locator, null, null);
 	}
@@ -516,14 +490,12 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "timestr="})
 	public void waitUntilElementIsSuccessfullyClicked(String locator,
 			String timestr) {
 		waitUntilElementIsSuccessfullyClicked(locator, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void waitUntilElementIsSuccessfullyClicked(String locator) {
 		waitUntilElementIsSuccessfullyClicked(locator, null);
 	}
@@ -546,19 +518,16 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "timestr="})
 	public void waitUntilElementIsNotClickable(String locator, String timestr) {
 		waitUntilElementIsNotClickable(locator, timestr, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator"})
 	public void waitUntilElementIsNotClickable(String locator) {
 		waitUntilElementIsNotClickable(locator, null);
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "expected"})
 	public void elementShouldNotContain(String locator, String expected) {
 		this.elementShouldNotContain(locator, expected, "");
 	}
@@ -583,7 +552,6 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({"locator", "expected"})
 	public void elementTextShouldNotBe(String locator, String expected) {
 		this.elementTextShouldNotBe(locator, expected, "");
 	}

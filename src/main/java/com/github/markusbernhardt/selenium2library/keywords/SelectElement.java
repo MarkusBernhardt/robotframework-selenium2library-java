@@ -6,28 +6,55 @@ import java.util.List;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.RobotKeyword;
+import org.robotframework.javalib.annotation.RobotKeywordOverload;
+import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 import com.github.markusbernhardt.selenium2library.utils.Python;
 
+@RobotKeywords
 public abstract class SelectElement extends Screenshot {
 
 	// ##############################
 	// Keywords
 	// ##############################
 
+	@RobotKeyword("Returns the values in the select list identified by _locator_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for "
+			+ "select lists are id and name. See introduction for details about locating "
+			+ "elements.\n")
+	@ArgumentNames({"locator"})
 	public List<String> getListItems(String locator) {
 		List<WebElement> options = this.getSelectListOptions(locator);
 
 		return getLabelsForOptions(options);
 	}
 
+	@RobotKeyword("Returns the visible label of the selected element from the select list "
+			+ "identified by _locator_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for "
+			+ "select lists are id and name. See introduction for details about locating "
+			+ "elements.\n")
+	@ArgumentNames({"locator"})
 	public String getSelectedListLabel(String locator) {
 		Select select = getSelectList(locator);
 
 		return select.getFirstSelectedOption().getText();
 	}
 
+	@RobotKeyword("Returns the visible labels of selected elements (as a list) from the select "
+			+ "list identified by _locator_.\n\n"
+			
+			+ "Fails if there is no selection.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for "
+			+ "select lists are id and name. See introduction for details about locating "
+			+ "elements.\n")
+	@ArgumentNames({"locator"})
 	public List<String> getSelectedListLabels(String locator) {
 		List<WebElement> options = getSelectListOptionsSelected(locator);
 
@@ -41,12 +68,30 @@ public abstract class SelectElement extends Screenshot {
 		return getLabelsForOptions(options);
 	}
 
+	@RobotKeyword("Returns the value of the selected element from the select list identified "
+			+ "by _locator_.\n\n"
+			
+			+ "Return value is read from value attribute of the selected element.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for "
+			+ "select lists are id and name. See introduction for details about locating "
+			+ "elements.\n")
+	@ArgumentNames({"locator"})
 	public String getSelectedListValue(String locator) {
 		Select select = getSelectList(locator);
 
 		return select.getFirstSelectedOption().getAttribute("value");
 	}
 
+	@RobotKeyword("Returns the values of selected elements (as a list) from the select list "
+			+ "identified by _locator_.\n\n"
+			
+			+ "Fails if there is no selection.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for "
+			+ "select lists are id and name. See introduction for details about locating "
+			+ "elements.\n")
+	@ArgumentNames({"locator"})
 	public List<String> getSelectedListValues(String locator) {
 		List<WebElement> options = getSelectListOptionsSelected(locator);
 
@@ -60,6 +105,14 @@ public abstract class SelectElement extends Screenshot {
 		return getValuesForOptions(options);
 	}
 
+	@RobotKeyword("Verifies the selection of select list identified by _locator_ is exactly _*items_.\n\n"
+			
+			+ "If you want to test that no option is selected, simply give no _items_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for "
+			+ "select lists are id and name. See introduction for details about locating "
+			+ "elements.\n")
+	@ArgumentNames({"locator, *items=NONE"})
 	public void listSelectionShouldBe(String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
 				Python.join(" | ", items)) : "no options";
@@ -88,6 +141,12 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Verifies select list identified by _locator_ has no selections.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for "
+			+ "select lists are id and name. See introduction for details about locating "
+			+ "elements.")
+	@ArgumentNames({"locator"})
 	public void listShouldHaveNoSelections(String locator) {
 		info(String.format("Verifying list '%s' has no selection.", locator));
 
@@ -101,33 +160,58 @@ public abstract class SelectElement extends Screenshot {
 							locator, items.toString()));
 		}
 	}
-
+	
+	@RobotKeywordOverload
 	public void pageShouldContainList(String locator) {
 		pageShouldContainList(locator, "");
 	}
-
+	
+	@RobotKeywordOverload
 	public void pageShouldContainList(String locator, String message) {
 		pageShouldContainList(locator, message, "INFO");
 	}
 
+	@RobotKeyword("Verifies select list identified by _locator_ is found on current page.\n\n"
+			
+			+ "See _Page Should Contain Element_ for explanation about _message_ and _loglevel_"
+			+ " arguments.\n\n"
+	
+			+ "Key attributes for lists are id and name. See introduction for details about "
+			+ "locating elements.")
+	@ArgumentNames({"locator, message=NONE, logleve=INFO"})
 	public void pageShouldContainList(String locator, String message,
 			String logLevel) {
 		this.pageShouldContainElement(locator, "list", message, logLevel);
 	}
 
+	@RobotKeywordOverload
 	public void pageShouldNotContainList(String locator) {
 		pageShouldNotContainList(locator, "");
 	}
 
+	@RobotKeywordOverload
 	public void pageShouldNotContainList(String locator, String message) {
 		pageShouldNotContainList(locator, message, "INFO");
 	}
 
+	@RobotKeyword("Verifies select list identified by _locator_ is not found on current page.\n\n"
+			
+			+ "See _Page Should Contain Element_ for explanation about _message_ and _loglevel_"
+			+ " arguments.\n\n"
+	
+			+ "Key attributes for lists are id and name. See introduction for details about "
+			+ "locating elements.\n")
+	@ArgumentNames({"locator, message=NONE, logleve=INFO"})
 	public void pageShouldNotContainList(String locator, String message,
 			String logLevel) {
 		this.pageShouldNotContainElement(locator, "list", message, logLevel);
 	}
 
+	@RobotKeyword("Selects all values from multi-select list identified by _locator_.\n\n"
+			
+			+ "Key attributes for lists are id and name. See introduction for details about "
+			+ "locating elements.")
+	@ArgumentNames({"locator"})
 	public void selectAllFromList(String locator) {
 		info(String.format("Selecting all options from list '%s'.", locator));
 
@@ -142,6 +226,11 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Selects all values from multi-select list identified by _locator_.\n\n"
+			
+			+ "Key attributes for lists are id and name. See introduction for details about "
+			+ "locating elements.")
+	@ArgumentNames({"locator, *items=NONE"})
 	public void selectFromList(String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
 				Python.join(" | ", items)) : "all options";
@@ -170,6 +259,11 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Selects _*indexes_ from list identified by _locator_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
+			+ "lists are id and name. See introduction for details about locating elements.")
+	@ArgumentNames({"locator, *indexes"})
 	public void selectFromListByIndex(String locator, String... indexes) {
 		if (indexes.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No index given.");
@@ -188,6 +282,11 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Selects _*values_ from list identified by _locator_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
+			+ "lists are id and name. See introduction for details about locating elements.")
+	@ArgumentNames({"locator, *values"})
 	public void selectFromListByValue(String locator, String... values) {
 		if (values.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
@@ -203,6 +302,11 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Selects _*labels_ from list identified by _locator_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
+			+ "lists are id and name. See introduction for details about locating elements.")
+	@ArgumentNames({"locator, *labels"})
 	public void selectFromListByLabel(String locator, String... labels) {
 		if (labels.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
@@ -218,6 +322,17 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Unselects given values from select list identified by _locator_.\n\n"
+			
+			+ "As a special case, giving empty list as _*items_ will remove all selections.\n\n"
+			
+			+ "_*items_ try to unselect by value AND by label.\n\n"
+			
+			+ "It's faster to use 'by index/value/label' functions.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
+			+ "lists are id and name. See introduction for details about locating elements.")
+	@ArgumentNames({"locator, *items"})
 	public void unselectFromList(String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
 				Python.join(" | ", items)) : "all options";
@@ -242,6 +357,11 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Unselects _*indexes_ from list identified by _locator_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
+			+ "lists are id and name. See introduction for details about locating elements.")
+	@ArgumentNames({"locator, *indexes"})
 	public void unselectFromListByIndex(String locator, Integer... indexes) {
 		if (indexes.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No index given.");
@@ -266,6 +386,11 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Unselects _*values_ from list identified by _locator_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
+			+ "lists are id and name. See introduction for details about locating elements.")
+	@ArgumentNames({"locator, *values"})
 	public void unselectFromListByValue(String locator, String... values) {
 		if (values.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
@@ -287,6 +412,11 @@ public abstract class SelectElement extends Screenshot {
 		}
 	}
 
+	@RobotKeyword("Unselects _*labels_ from list identified by _locator_.\n\n"
+			
+			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
+			+ "lists are id and name. See introduction for details about locating elements.")
+	@ArgumentNames({"locator, *labels"})
 	public void unselectFromListByLabel(String locator, String... labels) {
 		if (labels.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No value given.");

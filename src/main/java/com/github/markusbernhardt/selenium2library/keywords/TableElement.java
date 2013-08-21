@@ -4,20 +4,28 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.RobotKeyword;
+import org.robotframework.javalib.annotation.RobotKeywordOverload;
+import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 import com.github.markusbernhardt.selenium2library.locators.TableElementFinder;
 
+@RobotKeywords
 public abstract class TableElement extends SelectElement {
 
 	// ##############################
 	// Keywords
 	// ##############################
-
+	
+	@RobotKeywordOverload
 	public String getTableCell(String tableLocator, int row, int column) {
 		return getTableCell(tableLocator, row, column, "INFO");
 	}
 
+	@RobotKeyword
+	@ArgumentNames({"locator, row, column, loglevel=INFO"})
 	public String getTableCell(String tableLocator, int row, int column,
 			String loglevel) {
 		int rowIndex = row - 1;
@@ -51,11 +59,14 @@ public abstract class TableElement extends SelectElement {
 						tableLocator, row, column));
 	}
 
+	@RobotKeywordOverload
 	public void tableCellShouldContain(String tableLocator, int row,
 			int column, String expected) {
 		tableCellShouldContain(tableLocator, row, column, expected, "INFO");
 	}
 
+	@RobotKeyword
+	@ArgumentNames({"locator, row, column, expected, loglevel=INFO"})
 	public void tableCellShouldContain(String tableLocator, int row,
 			int column, String expected, String loglevel) {
 		String message = String
@@ -77,11 +88,14 @@ public abstract class TableElement extends SelectElement {
 		}
 	}
 
+	@RobotKeywordOverload
 	public void tableColumnShouldContain(String tableLocator, int col,
 			String expected) {
 		tableColumnShouldContain(tableLocator, col, expected, "INFO");
 	}
 
+	@RobotKeyword
+	@ArgumentNames({"locator, col, expected, loglevel=INFO"})
 	public void tableColumnShouldContain(String tableLocator, int col,
 			String expected, String loglevel) {
 		WebElement element = TableElementFinder.findByCol(
@@ -95,10 +109,13 @@ public abstract class TableElement extends SelectElement {
 		}
 	}
 
+	@RobotKeywordOverload
 	public void tableFooterShouldContain(String tableLocator, String expected) {
 		tableFooterShouldContain(tableLocator, expected, "INFO");
 	}
 
+	@RobotKeyword
+	@ArgumentNames({"tableLocator, expected, loglevel=INFO"})
 	public void tableFooterShouldContain(String tableLocator, String expected,
 			String loglevel) {
 		WebElement element = TableElementFinder.findByFooter(
@@ -112,10 +129,13 @@ public abstract class TableElement extends SelectElement {
 		}
 	}
 
+	@RobotKeywordOverload
 	public void tableHeaderShouldContain(String tableLocator, String expected) {
 		tableHeaderShouldContain(tableLocator, expected, "INFO");
 	}
 
+	@RobotKeyword
+	@ArgumentNames({"tableLocator, expected, loglevel=INFO"})
 	public void tableHeaderShouldContain(String tableLocator, String expected,
 			String loglevel) {
 		WebElement element = TableElementFinder.findByHeader(
@@ -129,11 +149,14 @@ public abstract class TableElement extends SelectElement {
 		}
 	}
 
+	@RobotKeywordOverload
 	public void tableRowShouldContain(String tableLocator, int row,
 			String expected) {
 		tableRowShouldContain(tableLocator, row, expected, "INFO");
 	}
 
+	@RobotKeyword
+	@ArgumentNames({"tableLocator, row, expected, loglevel=INFO"})
 	public void tableRowShouldContain(String tableLocator, int row,
 			String expected, String loglevel) {
 		WebElement element = TableElementFinder.findByRow(
@@ -147,10 +170,13 @@ public abstract class TableElement extends SelectElement {
 		}
 	}
 
+	@RobotKeywordOverload
 	public void tableShouldContain(String tableLocator, String expected) {
 		tableShouldContain(tableLocator, expected, "INFO");
 	}
 
+	@RobotKeyword
+	@ArgumentNames({"tableLocator, expected, loglevel=INFO"})
 	public void tableShouldContain(String tableLocator, String expected,
 			String loglevel) {
 		WebElement element = TableElementFinder.findByContent(
