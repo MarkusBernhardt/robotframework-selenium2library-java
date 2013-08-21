@@ -31,6 +31,7 @@ public class Selenium2LibraryEnhancement extends Waiting {
 						System.getProperty("java.version"));
 	}
 
+	@RobotKeyword
 	public String logSystemInfo() {
 		String actual = getSystemInfo();
 		info(actual);

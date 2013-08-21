@@ -385,7 +385,7 @@ public abstract class FormElement extends Element {
 			
 			+ "Key attributes for buttons are id, name and value. See introduction for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "expected", "message=NONE"})
+	@ArgumentNames({"locator"})
 	public void clickButton(String locator) {
 		info(String.format("Clicking button '%s'.", locator));
 		List<WebElement> elements = elementFind(locator, true, false, "input");

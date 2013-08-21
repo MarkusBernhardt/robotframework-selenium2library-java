@@ -40,7 +40,7 @@ public abstract class Waiting extends TableElement {
 			
 			+ "See also _Wait Until Page Contains_, _Wait Until Page Contains Element_ and BuiltIn "
 			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({"condition, timestr=NONE, error=NONE"})
+	@ArgumentNames({"condition", "timestr=NONE", "error=NONE"})
 	public void waitForCondition(final String condition, String timestr,
 			String error) {
 		if (error == null) {
@@ -77,7 +77,7 @@ public abstract class Waiting extends TableElement {
 			
 			+ "See also _Wait Until Page Contains Element_, _Wait For Condition_ and BuiltIn keyword "
 			+ "_Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({"condition, timestr=NONE, error=NONE"})
+	@ArgumentNames({"condition", "timestr=NONE", "error=NONE"})
 	public void waitUntilPageContains(final String text, String timestr,
 			String error) {
 		if (error == null) {
@@ -111,7 +111,7 @@ public abstract class Waiting extends TableElement {
 			
 			+ "See also _Wait Until Page Contains Element_, _Wait For Condition_ and BuiltIn keyword "
 			+ "_Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({"condition, timestr=NONE, error=NONE"})
+	@ArgumentNames({"condition", "timestr=NONE", "error=NONE"})
 	public void waitUntilPageContainsElement(final String locator,
 			String timestr, String error) {
 		if (error == null) {

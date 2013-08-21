@@ -25,7 +25,7 @@ public abstract class TableElement extends SelectElement {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({"locator, row, column, loglevel=INFO"})
+	@ArgumentNames({"locator", "row", "column", "loglevel=INFO"})
 	public String getTableCell(String tableLocator, int row, int column,
 			String loglevel) {
 		int rowIndex = row - 1;
@@ -66,7 +66,7 @@ public abstract class TableElement extends SelectElement {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({"locator, row, column, expected, loglevel=INFO"})
+	@ArgumentNames({"locator", "row", "column", "expected", "loglevel=INFO"})
 	public void tableCellShouldContain(String tableLocator, int row,
 			int column, String expected, String loglevel) {
 		String message = String
@@ -95,7 +95,7 @@ public abstract class TableElement extends SelectElement {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({"locator, col, expected, loglevel=INFO"})
+	@ArgumentNames({"locator", "col", "expected", "loglevel=INFO"})
 	public void tableColumnShouldContain(String tableLocator, int col,
 			String expected, String loglevel) {
 		WebElement element = TableElementFinder.findByCol(
@@ -115,7 +115,7 @@ public abstract class TableElement extends SelectElement {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({"tableLocator, expected, loglevel=INFO"})
+	@ArgumentNames({"tableLocator", "expected", "loglevel=INFO"})
 	public void tableFooterShouldContain(String tableLocator, String expected,
 			String loglevel) {
 		WebElement element = TableElementFinder.findByFooter(
@@ -135,7 +135,7 @@ public abstract class TableElement extends SelectElement {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({"tableLocator, expected, loglevel=INFO"})
+	@ArgumentNames({"tableLocator", "expected", "loglevel=INFO"})
 	public void tableHeaderShouldContain(String tableLocator, String expected,
 			String loglevel) {
 		WebElement element = TableElementFinder.findByHeader(
@@ -156,7 +156,7 @@ public abstract class TableElement extends SelectElement {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({"tableLocator, row, expected, loglevel=INFO"})
+	@ArgumentNames({"tableLocator", "row", "expected", "loglevel=INFO"})
 	public void tableRowShouldContain(String tableLocator, int row,
 			String expected, String loglevel) {
 		WebElement element = TableElementFinder.findByRow(
@@ -176,7 +176,7 @@ public abstract class TableElement extends SelectElement {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({"tableLocator, expected, loglevel=INFO"})
+	@ArgumentNames({"tableLocator", "expected", "loglevel=INFO"})
 	public void tableShouldContain(String tableLocator, String expected,
 			String loglevel) {
 		WebElement element = TableElementFinder.findByContent(

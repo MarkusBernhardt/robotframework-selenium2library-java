@@ -112,7 +112,7 @@ public abstract class SelectElement extends Screenshot {
 			+ "Select list keywords work on both lists and combo boxes. Key attributes for "
 			+ "select lists are id and name. See introduction for details about locating "
 			+ "elements.\n")
-	@ArgumentNames({"locator, *items=NONE"})
+	@ArgumentNames({"locator", "*items"})
 	public void listSelectionShouldBe(String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
 				Python.join(" | ", items)) : "no options";
@@ -178,7 +178,7 @@ public abstract class SelectElement extends Screenshot {
 	
 			+ "Key attributes for lists are id and name. See introduction for details about "
 			+ "locating elements.")
-	@ArgumentNames({"locator, message=NONE, logleve=INFO"})
+	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
 	public void pageShouldContainList(String locator, String message,
 			String logLevel) {
 		this.pageShouldContainElement(locator, "list", message, logLevel);
@@ -201,7 +201,7 @@ public abstract class SelectElement extends Screenshot {
 	
 			+ "Key attributes for lists are id and name. See introduction for details about "
 			+ "locating elements.\n")
-	@ArgumentNames({"locator, message=NONE, logleve=INFO"})
+	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
 	public void pageShouldNotContainList(String locator, String message,
 			String logLevel) {
 		this.pageShouldNotContainElement(locator, "list", message, logLevel);
@@ -230,7 +230,7 @@ public abstract class SelectElement extends Screenshot {
 			
 			+ "Key attributes for lists are id and name. See introduction for details about "
 			+ "locating elements.")
-	@ArgumentNames({"locator, *items=NONE"})
+	@ArgumentNames({"locator", "*items"})
 	public void selectFromList(String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
 				Python.join(" | ", items)) : "all options";
@@ -263,7 +263,7 @@ public abstract class SelectElement extends Screenshot {
 			
 			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
 			+ "lists are id and name. See introduction for details about locating elements.")
-	@ArgumentNames({"locator, *indexes"})
+	@ArgumentNames({"locator", "*indexes"})
 	public void selectFromListByIndex(String locator, String... indexes) {
 		if (indexes.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No index given.");
@@ -286,7 +286,7 @@ public abstract class SelectElement extends Screenshot {
 			
 			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
 			+ "lists are id and name. See introduction for details about locating elements.")
-	@ArgumentNames({"locator, *values"})
+	@ArgumentNames({"locator", "*values"})
 	public void selectFromListByValue(String locator, String... values) {
 		if (values.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
@@ -306,7 +306,7 @@ public abstract class SelectElement extends Screenshot {
 			
 			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
 			+ "lists are id and name. See introduction for details about locating elements.")
-	@ArgumentNames({"locator, *labels"})
+	@ArgumentNames({"locator", "*labels"})
 	public void selectFromListByLabel(String locator, String... labels) {
 		if (labels.length == 0) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
@@ -332,7 +332,7 @@ public abstract class SelectElement extends Screenshot {
 			
 			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
 			+ "lists are id and name. See introduction for details about locating elements.")
-	@ArgumentNames({"locator, *items"})
+	@ArgumentNames({"locator", "*items"})
 	public void unselectFromList(String locator, String... items) {
 		String itemList = items.length != 0 ? String.format("option(s) [ %s ]",
 				Python.join(" | ", items)) : "all options";
@@ -361,7 +361,7 @@ public abstract class SelectElement extends Screenshot {
 			
 			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
 			+ "lists are id and name. See introduction for details about locating elements.")
-	@ArgumentNames({"locator, *indexes"})
+	@ArgumentNames({"locator", "*indexes"})
 	public void unselectFromListByIndex(String locator, Integer... indexes) {
 		if (indexes.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No index given.");
@@ -390,7 +390,7 @@ public abstract class SelectElement extends Screenshot {
 			
 			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
 			+ "lists are id and name. See introduction for details about locating elements.")
-	@ArgumentNames({"locator, *values"})
+	@ArgumentNames({"locator", "*values"})
 	public void unselectFromListByValue(String locator, String... values) {
 		if (values.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
@@ -416,7 +416,7 @@ public abstract class SelectElement extends Screenshot {
 			
 			+ "Select list keywords work on both lists and combo boxes. Key attributes for select "
 			+ "lists are id and name. See introduction for details about locating elements.")
-	@ArgumentNames({"locator, *labels"})
+	@ArgumentNames({"locator", "*labels"})
 	public void unselectFromListByLabel(String locator, String... labels) {
 		if (labels.equals(null)) {
 			throw new Selenium2LibraryNonFatalException("No value given.");
