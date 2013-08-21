@@ -114,11 +114,11 @@ public abstract class BrowserManagement {
 	@RobotKeyword("Opens a new browser instance to given URL.\n\n"
 				
 			+ "Returns the index of this browser instance which can be used later to switch "
-			+ "back to it. Index starts from 1 and is reset back to it when Close All "
-			+ "Browsers keyword is used. See Switch Browser for example.\n\n"
+			+ "back to it. Index starts from 1 and is reset back to it when `Close All "
+			+ "Browsers` keyword is used. See `Switch Browser` for example.\n\n"
  				
  			+ "Optional alias is an alias for the browser instance and it can be used for "
- 			+ "switching between browsers (just as index can be used). See Switch Browser "
+ 			+ "switching between browsers (just as index can be used). See `Switch Browser` "
  			+ "for more details.\n\n"
 
 			+ "Possible values for browser are as follows:\n"
@@ -135,7 +135,7 @@ public abstract class BrowserManagement {
 			+ "| htmlunitwithjs | HTMLUnit with Javascipt support |\n\n"
 
 			+ "Note, that you will encounter strange behavior, if you open multiple Internet "
-			+ "Explorer browser instances. That is also why Switch Browser only works with "
+			+ "Explorer browser instances. That is also why `Switch Browser` only works with "
 			+ "one IE browser at most. For more information see:\n"
 			+ "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine\n\n"
 
@@ -183,7 +183,7 @@ public abstract class BrowserManagement {
 	}
 
 	@RobotKeyword("Switches between active browsers using _index_ or _alias_.\n"
-				+ "Index is returned from Open Browser and alias can be given to it.\n\n"
+				+ "Index is returned from `Open Browser` and alias can be given to it.\n\n"
 
 				+ "Example:\n"
 				+ "| Open Browser | http://google.com | ff |\n"
@@ -218,7 +218,7 @@ public abstract class BrowserManagement {
 	
 	@RobotKeyword("Closes all open browsers and resets the browser cache.\n\n"
 			
-			+ "After this keyword new indexes returned from Open Browser keyword are reset "
+			+ "After this keyword new indexes returned from `Open Browser` keyword are reset "
 			+ "to 1.\n\n"
 			
 			+ "This keyword should be used in test or suite teardown to make sure all browsers "
@@ -263,7 +263,7 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Sets frame identified by _locator_ as current frame.\n\n"
 	
-			+ "Key attributes for frames are id and name. See introduction for details "
+			+ "Key attributes for frames are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
 	@ArgumentNames({"locator"})
 	public void selectFrame(String locator) {
@@ -407,21 +407,21 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Gets the delay in seconds that is waited after each Selenium command.\n\n"
 			
-			+ "See Set Selenium Speed for an explanation.\n")
+			+ "See `Set Selenium Speed` for an explanation.\n")
 	public String getSeleniumSpeed() {
 		return Robotframework.secsToTimestr(0);
 	}
 
 	@RobotKeyword("Gets the timeout in seconds that is used by various keywords.\n\n"
 			
-			+ "See Set Selenium Timeout for an explanation.\n")
+			+ "See `Set Selenium Timeout` for an explanation.\n")
 	public String getSeleniumTimeout() {
 		return Robotframework.secsToTimestr(timeout);
 	}
 
 	@RobotKeyword("Gets the wait in seconds that is waited by Selenium.\n\n"
 			
-			+ "See Set Selenium Implicit Wait for an explanation.\n")
+			+ "See `Set Selenium Implicit Wait` for an explanation.\n")
 	public String getSeleniumImplicitWait() {
 		return Robotframework.secsToTimestr(implicitWait);
 	}
@@ -437,7 +437,7 @@ public abstract class BrowserManagement {
 
 			+ "There are several Wait ... keywords that take timeout as an argument. All of "
 			+ "these timeout arguments are optional. The timeout used by all of them can be "
-			+ "set globally using this keyword. See introduction for more information about "
+			+ "set globally using this keyword. See `Introduction` for more information about "
 			+ "timeouts.\n\n"
 
 			+ "The previous timeout value is returned by this keyword and can be used to set "
@@ -499,7 +499,7 @@ public abstract class BrowserManagement {
 			+ "Example:\n"
 			+ "| Set Browser Implicit Wait | 10 seconds |\n\n"
 		
-			+ "See also Set Selenium Implicit Wait.\n")
+			+ "See also `Set Selenium Implicit Wait`.\n")
 	@ArgumentNames({"timestr"})
 	public String setBrowserImplicitWait(String timestr) {
 		String oldWait = getSeleniumTimeout();

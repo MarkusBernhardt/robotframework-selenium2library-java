@@ -13,24 +13,6 @@ import com.github.markusbernhardt.selenium2library.keywords.Selenium2LibraryEnha
 public class Selenium2Library extends Selenium2LibraryEnhancement {
 
 	/**
-	 * The actual version of this library. Loaded from maven project.
-	 */
-	public static String ROBOT_LIBRARY_VERSION;
-
-	static {
-		/**
-		 * Load the version from file
-		 */
-		try {
-			ROBOT_LIBRARY_VERSION = ResourceBundle.getBundle(
-					Selenium2Library.class.getCanonicalName().replace(".",
-							File.separator)).getString("version");
-		} catch (RuntimeException e) {
-			ROBOT_LIBRARY_VERSION = "unknown";
-		}
-	}
-
-	/**
 	 * Default constructor
 	 */
 	public Selenium2Library() {

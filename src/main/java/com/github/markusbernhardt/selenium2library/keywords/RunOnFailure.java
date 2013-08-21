@@ -20,7 +20,7 @@ public abstract class RunOnFailure extends Logging {
 			+ "altogether.\n\n"
 			
 			+ "The initial keyword to use is set in importing, and the keyword that is used by "
-			+ "default is _Capture Page Screenshot_. Taking a screenshot when something failed is "
+			+ "default is `Capture Page Screenshot`. Taking a screenshot when something failed is "
 			+ "a very useful feature, but notice that it can slow down the execution.\n\n"
 			
 			+ "This keyword returns the name of the previously registered failure keyword. It can "

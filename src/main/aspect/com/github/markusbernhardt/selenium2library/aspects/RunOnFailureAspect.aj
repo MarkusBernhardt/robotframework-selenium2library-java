@@ -10,7 +10,7 @@ public aspect RunOnFailureAspect {
 	private static ThreadLocal<Throwable> lastThrowable = new ThreadLocal<Throwable>();
 
 	pointcut handleThrowable() : 
-    execution(public * com.github.markusbernhardt.selenium2library.keywords.*.*(..));
+    execution(public * com.github.markusbernhardt.selenium2library.*.*(..));
 
 	after() throwing(Throwable t) : handleThrowable() {
 		if (lastThrowable.get() == t) {

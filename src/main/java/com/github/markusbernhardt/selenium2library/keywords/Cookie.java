@@ -22,6 +22,7 @@ public abstract class Cookie extends BrowserManagement {
 	}
 
 	@RobotKeyword("Deletes cookie matching _name_.\n\n"
+			
 			+ "If the cookie is not found, nothing happens.\n")
 	@ArgumentNames({"name"})
 	public void deleteCookie(String name) {
@@ -46,6 +47,7 @@ public abstract class Cookie extends BrowserManagement {
 	}
 
 	@RobotKeyword("Returns value of cookie found with _name_.\n\n"
+			
 			+ "If no cookie is found with name, this keyword fails.\n")
 	@ArgumentNames({"name"})
 	public String getCookieValue(String name) {

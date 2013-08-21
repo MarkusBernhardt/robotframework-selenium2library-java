@@ -37,7 +37,7 @@ public abstract class JavaScript extends FormElement {
 			+ "of the alert equals to _text_.\n\n"
 			
 			+ "Will fail if no alert is present. Note that following keywords will fail "
-			+ "unless the alert is dismissed by this keyword or another like _Get Alert Message_.\n")
+			+ "unless the alert is dismissed by this keyword or another like `Get Alert Message`.\n")
 	@ArgumentNames({"text=NONE"})
 	public void alertShouldBePresent(String text) {
 		String alertText = getAlertMessage();
@@ -61,10 +61,10 @@ public abstract class JavaScript extends FormElement {
 			
 			+ "After any confirmation, Selenium will resume using the default behavior for future "
 			+ "confirmations, automatically returning true (OK) unless/until you explicitly use "
-			+ "_Choose Cancel On Next Confirmation_ for each confirmation.\n\n"
+			+ "`Choose Cancel On Next Confirmation` for each confirmation.\n\n"
 			
 			+ "Note that every time a confirmation comes up, you must consume it by using a keywords "
-			+ "such as _Get Alert Message_, or else the following selenium operations will fail.")
+			+ "such as `Get Alert Message`, or else the following selenium operations will fail.")
 	public void chooseOkOnNextConfirmation() {
 		cancelOnNextConfirmation = false;
 	}
@@ -72,7 +72,7 @@ public abstract class JavaScript extends FormElement {
 	@RobotKeyword("Dismisses currently shown confirmation dialog and returns its message.\n\n"
 
 			+ "By default, this keyword chooses 'OK' option from the dialog. If 'Cancel' needs to be "
-			+ "chosen, keyword _Choose Cancel On Next Confirmation_ must be called before the action "
+			+ "chosen, keyword `Choose Cancel On Next Confirmation` must be called before the action "
 			+ "that causes the confirmation dialog to be shown.\n\n"
 
 			+ "Examples:\n"
@@ -141,7 +141,7 @@ public abstract class JavaScript extends FormElement {
 	@RobotKeyword("Returns the text of current JavaScript alert.\n\n"
 			
 			+ "This keyword will fail if no alert is present. Note that following keywords will fail "
-			+ "unless the alert is dismissed by this keyword or another like _Get Alert Message_.\n")
+			+ "unless the alert is dismissed by this keyword or another like `Get Alert Message`.\n")
 	public String getAlertMessage() {
 		return closeAlert();
 	}
