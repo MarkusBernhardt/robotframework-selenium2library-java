@@ -336,7 +336,7 @@ public abstract class BrowserManagement {
 		info(String.format("Current location is '%s'.", url));
 	}
 
-	@RobotKeyword("Verifies that current URL contains expected.\n")
+	@RobotKeyword("Verifies that current URL contains _url_.\n")
 	@ArgumentNames({"url"})
 	public void locationShouldContain(String url) {
 		String actual = getLocation();
@@ -361,7 +361,7 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Logs and returns the entire html source of the current page or frame.\n\n"
 			
-			+ "The loglevel argument defines the used log level. Valid log levels are WARN, "
+			+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
 			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
 	@ArgumentNames({"logLevel=INFO"})
 	public String logSource(String logLevel) {
