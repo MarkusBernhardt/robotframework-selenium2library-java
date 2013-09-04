@@ -4,6 +4,9 @@ CHANGES
 unreleased
 ----------
 
+1.2.0.13
+--------
+
 * Fixed a NullPointerException in Capture Page Screenshot when Log File is set to NONE. See #24
 * Fixed that library can't be instrumented with JaCoCo. See #22
 * Update robotframework to 2.8.1

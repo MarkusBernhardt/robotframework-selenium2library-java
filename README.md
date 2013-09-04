@@ -25,19 +25,19 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.2.0.12</version>
+        <version>1.2.0.13</version>
         <scope>test</scope>
     </dependency>
 
-If you cannot use the robotframework-maven-plugin you can use the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.12/robotframework-selenium2library-java-1.2.0.12-jar-with-dependencies.jar), which contains all required libraries.
+If you cannot use the robotframework-maven-plugin you can use the [jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.13/robotframework-selenium2library-java-1.2.0.13-jar-with-dependencies.jar), which contains all required libraries.
 
-If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.12/robotframework-selenium2library-java-1.2.0.12.jar) and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
+If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.13/robotframework-selenium2library-java-1.2.0.13.jar) and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
 
 Road map
 --------
 
 Because I had very few time the last 2 months to take care of the project here my road map of the upcoming topics:
-* Make a release with Java 7
+* (Done) Make a release with Java 7
 * Fix Issues #27, #28, #30
 * Back-port recent changes from version 1.3 and 1.4 of python library
 * Switch to javaLibCore
