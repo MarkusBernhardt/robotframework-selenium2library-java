@@ -33,6 +33,16 @@ If you cannot use the robotframework-maven-plugin you can use the [jar-with-depe
 
 If you want more control and feel adventurous you could you use this [jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.12/robotframework-selenium2library-java-1.2.0.12.jar) and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
 
+Road map
+--------
+
+Because I had very few time the last 2 months to take care of the project here my road map of the upcoming topics:
+* Make a release with Java 7
+* Fix Issues #27, #28, #30
+* Back-port recent changes from version 1.3 and 1.4 of python library
+* Switch to javaLibCore
++ Fix Issues #16, #26
+
 Differences
 -----------
 
