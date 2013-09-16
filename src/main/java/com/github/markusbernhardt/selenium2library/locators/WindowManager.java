@@ -181,7 +181,7 @@ public class WindowManager {
 		String criteria = locator;
 		if (locator != null && locator.length() > 0) {
 			String[] locatorParts = locator.split("=", 2);
-			if (locatorParts[1] != null) {
+			if (locatorParts.length == 2) {
 				prefix = locatorParts[0].trim().toUpperCase();
 				criteria = locatorParts[1].trim();
 			}
