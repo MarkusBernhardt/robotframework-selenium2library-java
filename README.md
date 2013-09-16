@@ -39,7 +39,7 @@ Road map
 Because I had very few time the last 2 months to take care of the project here my road map of the upcoming topics:
 * (Done) Make a release with Java 7
 * Fix Issues 
-  * #27
+  * (Done) #27
   * #28
   * #30
   * #31
