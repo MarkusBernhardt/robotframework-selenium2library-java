@@ -24,11 +24,11 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Submits a form identified by _locator_.\n\n"
-			
+
 			+ "If _locator_ is empty, first form in the page will be submitted. Key "
 			+ "attributes for forms are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator=NONE"})
+	@ArgumentNames({ "locator=NONE" })
 	public void submitForm(String locator) {
 		info(String.format("Submitting form '%s'.", locator));
 		if (locator == null) {
@@ -39,10 +39,10 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies checkbox identified by _locator_ is selected/checked.\n\n"
-			
+
 			+ "Key attributes for checkboxes are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator"})
+	@ArgumentNames({ "locator" })
 	public void checkboxShouldBeSelected(String locator) {
 		info(String.format("Verifying checkbox '%s' is selected.", locator));
 		WebElement element = getCheckbox(locator);
@@ -53,10 +53,10 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies checkbox identified by _locator_ is not selected/checked.\n\n"
-			
+
 			+ "Key attributes for checkboxes are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator"})
+	@ArgumentNames({ "locator" })
 	public void checkboxShouldNotBeSelected(String locator) {
 		info(String.format("Verifying checkbox '%s' is selected.", locator));
 		WebElement element = getCheckbox(locator);
@@ -77,46 +77,46 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies checkbox identified by _locator_ is found on current page.\n\n"
-			
+
 			+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ "
 			+ "arguments.\n\n"
-			
+
 			+ "Key attributes for checkboxes are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldContainCheckbox(String locator, String message,
 			String loglevel) {
 		pageShouldContainElement(locator, "checkbox", message, loglevel);
 	}
-	
+
 	@RobotKeywordOverload
 	public void pageShouldNotContainCheckbox(String locator) {
 		pageShouldNotContainCheckbox(locator, "");
 	}
-	
+
 	@RobotKeywordOverload
 	public void pageShouldNotContainCheckbox(String locator, String message) {
 		pageShouldNotContainCheckbox(locator, message, "INFO");
 	}
 
 	@RobotKeyword("Verifies checkbox identified by _locator_ is not found on current page.\n\n"
-			
+
 			+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ "
 			+ "arguments.\n\n"
-			
+
 			+ "Key attributes for checkboxes are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldNotContainCheckbox(String locator, String message,
 			String loglevel) {
 		pageShouldNotContainElement(locator, "checkbox", message, loglevel);
 	}
 
 	@RobotKeyword("Selects checkbox identified by _locator_.\n\n"
-			
+
 			+ "Does nothing if checkbox is already selected. Key attributes for checkboxes are id "
 			+ "and name. See `Introduction` for details about locating elements.\n")
-	@ArgumentNames({"locator"})
+	@ArgumentNames({ "locator" })
 	public void selectCheckbox(String locator) {
 		info(String.format("Selecting checkbox '%s'.", locator));
 		WebElement element = getCheckbox(locator);
@@ -126,10 +126,10 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Removes selection of checkbox identified by _locator_.\n\n"
-			
+
 			+ "Does nothing if checkbox is not checked. Key attributes for checkboxes are id "
 			+ "and name. See `Introduction` for details about locating elements.\n")
-	@ArgumentNames({"locator"})
+	@ArgumentNames({ "locator" })
 	public void unselectCheckbox(String locator) {
 		info(String.format("Selecting checkbox '%s'.", locator));
 		WebElement element = getCheckbox(locator);
@@ -142,25 +142,25 @@ public abstract class FormElement extends Element {
 	public void pageShouldContainRadioButton(String locator) {
 		pageShouldContainRadioButton(locator, "");
 	}
-	
+
 	@RobotKeywordOverload
 	public void pageShouldContainRadioButton(String locator, String message) {
 		pageShouldContainRadioButton(locator, message, "INFO");
 	}
 
 	@RobotKeyword("Verifies radio button identified by _locator_ is found on current page.\n\n"
-			
+
 			+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ "
 			+ "arguments.\n\n"
-			
+
 			+ "Key attributes for radio buttons are id, name and value. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldContainRadioButton(String locator, String message,
 			String loglevel) {
 		pageShouldContainElement(locator, "radio button", message, loglevel);
 	}
-	
+
 	@RobotKeywordOverload
 	public void pageShouldNotContainRadioButton(String locator) {
 		pageShouldNotContainRadioButton(locator, "");
@@ -172,13 +172,13 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies radio button identified by _locator_ is not found on current page.\n\n"
-			
+
 			+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ "
 			+ "arguments.\n\n"
-			
+
 			+ "Key attributes for radio buttons are id, name and value. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldNotContainRadioButton(String locator, String message,
 			String loglevel) {
 		pageShouldNotContainElement(locator, "radio button", message, loglevel);
@@ -186,9 +186,9 @@ public abstract class FormElement extends Element {
 
 	@RobotKeyword("Verifies radio button group identified by _group_name_ has its selection "
 			+ "set to _value_.\n\n"
-			
+
 			+ "See `Select Radio Button` for information about how radio buttons are located.\n")
-	@ArgumentNames({"groupName", "value"})
+	@ArgumentNames({ "groupName", "value" })
 	public void radioButtonShouldBeSetTo(String groupName, String value) {
 		info(String.format("Verifying radio button '%s' has selection '%s'.",
 				groupName, value));
@@ -203,9 +203,9 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies radio button group identified by _group_name_ has no selection.\n\n"
-			
+
 			+ "See `Select Radio Button` for information about how radio buttons are located.\n")
-	@ArgumentNames({"groupName"})
+	@ArgumentNames({ "groupName" })
 	public void radioButtonShouldNotBeSelected(String groupName) {
 		info(String.format("Verifying radio button '%s' has no selection.",
 				groupName));
@@ -227,13 +227,13 @@ public abstract class FormElement extends Element {
 			+ "The XPath used to locate the correct radio button then looks like this: "
 			+ "//input[@type='radio' and @name='group_name' and (@value='value' "
 			+ "or @id='value')]\n\n"
-		
+
 			+ "Examples:\n"
 			+ "| Select Radio Button | size | XL | # Matches HTML like <input type=\"radio\" name=\"size\""
 			+ " value=\"XL\">XL</input> |\n"
 			+ "| Select Radio Button | size | sizeXL | # Matches HTML like <input type=\"radio\" name=\"size\" "
 			+ "value=\"XL\" id=\"sizeXL\">XL</input> |\n")
-	@ArgumentNames({"groupName", "value"})
+	@ArgumentNames({ "groupName", "value" })
 	public void selectRadioButton(String groupName, String value) {
 		info(String.format("Selecting '%s' from radio button '%s'.", value,
 				groupName));
@@ -247,10 +247,10 @@ public abstract class FormElement extends Element {
 
 			+ "This keyword is most often used to input files into upload forms. The file specified with "
 			+ "_file_path_ must be available on the same host where the Selenium Server is running.\n\n"
-	
+
 			+ "Example:\n"
 			+ "| Choose File | my_upload_field | /home/user/files/trades.csv |\n")
-	@ArgumentNames({"locator", "filePath"})
+	@ArgumentNames({ "locator", "filePath" })
 	public void chooseFile(String locator, String filePath) {
 		if (!new File(filePath).isFile()) {
 			info(String.format(
@@ -261,19 +261,19 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Types the given _password_ into text field identified by _locator_.\n\n"
-			
+
 			+ "Difference between this keyword and `Input Text` is that this keyword does not log the given "
 			+ "password. See `Introduction` for details about locating elements.")
-	@ArgumentNames({"locator", "text"})
+	@ArgumentNames({ "locator", "text" })
 	public void inputPassword(String locator, String text) {
 		info(String.format("Typing password into text field '%s'", locator));
 		inputTextIntoTextField(locator, text);
 	}
 
 	@RobotKeyword("Types the given _text_ into text field identified by _locator_.\n\n"
-			
+
 			+ "See `Introduction` for details about locating elements.")
-	@ArgumentNames({"locator", "text"})
+	@ArgumentNames({ "locator", "text" })
 	public void inputText(String locator, String text) {
 		info(String.format("Typing text '%s' into text field '%s'", text,
 				locator));
@@ -291,17 +291,17 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies text field identified by _locator_ is found on current page.\n\n"
-			
+
 			+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ "
 			+ "arguments.\n\n"
-			
+
 			+ "Key attributes for text fields are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldContainTextfield(String locator, String message,
 			String loglevel) {
 		pageShouldContainElement(locator, "text field", message, loglevel);
-	}	
+	}
 
 	@RobotKeywordOverload
 	public void pageShouldNotContainTextfield(String locator) {
@@ -314,13 +314,13 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies text field identified by _locator_ is not found on current page.\n\n"
-			
+
 			+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ "
 			+ "arguments.\n\n"
-			
+
 			+ "Key attributes for text fields are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldNotContainTextfield(String locator, String message,
 			String loglevel) {
 		pageShouldNotContainElement(locator, "text field", message, loglevel);
@@ -330,14 +330,14 @@ public abstract class FormElement extends Element {
 	public void textfieldShouldContain(String locator, String expected) {
 		textfieldShouldContain(locator, expected, "");
 	}
-	
+
 	@RobotKeyword("Verifies text field identified by _locator_ contains text _expected_.\n\n"
-			
+
 			+ "_message_ can be used to override default error message.\n\n"
-			
+
 			+ "Key attributes for text fields are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "expected", "message=NONE"})
+	@ArgumentNames({ "locator", "expected", "message=NONE" })
 	public void textfieldShouldContain(String locator, String expected,
 			String message) {
 		String actual = getValue(locator, "text field");
@@ -352,7 +352,7 @@ public abstract class FormElement extends Element {
 		info(String.format("Text field '%s' contains text '%s'.", locator,
 				expected));
 	}
-	
+
 	@RobotKeywordOverload
 	public void textfieldValueShouldBe(String locator, String expected) {
 		textfieldValueShouldBe(locator, expected, "");
@@ -360,12 +360,12 @@ public abstract class FormElement extends Element {
 
 	@RobotKeyword("Verifies the value in text field identified by _locator_ is exactly "
 			+ "_expected_.\n\n"
-			
+
 			+ "_message_ can be used to override default error message.\n\n"
-			
+
 			+ "Key attributes for text fields are id and name. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "expected", "message=NONE"})
+	@ArgumentNames({ "locator", "expected", "message=NONE" })
 	public void textfieldValueShouldBe(String locator, String expected,
 			String message) {
 		String actual = getValue(locator, "text field");
@@ -382,10 +382,10 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Clicks a button identified by _locator_.\n\n"
-			
+
 			+ "Key attributes for buttons are id, name and value. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator"})
+	@ArgumentNames({ "locator" })
 	public void clickButton(String locator) {
 		info(String.format("Clicking button '%s'.", locator));
 		List<WebElement> elements = elementFind(locator, true, false, "input");
@@ -406,15 +406,15 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies button identified by _locator_ is found on current page.\n\n"
-		
+
 			+ "This keyword searches for buttons created with either _input_ or _button_ tag.\n\n"
-			
+
 			+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ "
 			+ "arguments.\n\n"
-			
+
 			+ "Key attributes for buttons are id, name and value. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldContainButton(String locator, String message,
 			String loglevel) {
 		try {
@@ -435,15 +435,15 @@ public abstract class FormElement extends Element {
 	}
 
 	@RobotKeyword("Verifies button identified by _locator_ is not found on current page.\n\n"
-			
+
 			+ "This keyword searches for buttons created with either _input_ or _button_ tag.\n\n"
-			
+
 			+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ "
 			+ "arguments.\n\n"
-			
+
 			+ "Key attributes for buttons are id, name and value. See `Introduction` for details "
 			+ "about locating elements.\n")
-	@ArgumentNames({"locator", "message=NONE", "loglevel=INFO"})
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldNotContainButton(String locator, String message,
 			String loglevel) {
 		pageShouldNotContainElement(locator, "input", message, loglevel);

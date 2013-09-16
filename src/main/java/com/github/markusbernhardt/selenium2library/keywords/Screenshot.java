@@ -28,11 +28,11 @@ public abstract class Screenshot extends RunOnFailure {
 			+ "filename is given, the screenshot is saved into file selenium-screenshot-<counter>.png "
 			+ "under the directory where the Robot Framework log file is written into. The filename is "
 			+ "also considered relative to the same directory, if it is not given in absolute format.\n\n"
-		
+
 			+ "_css_ can be used to modify how the screenshot is taken. By default the bakground color is "
 			+ "changed to avoid possible problems with background leaking when the page layout is somehow "
 			+ "broken.\n")
-	@ArgumentNames({"filename=NONE"})
+	@ArgumentNames({ "filename=NONE" })
 	public void capturePageScreenshot(String filename) {
 		File logdir = getLogDir();
 		File path = new File(logdir, normalizeFilename(filename));

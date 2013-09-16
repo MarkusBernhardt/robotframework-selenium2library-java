@@ -123,9 +123,9 @@ public abstract class Logging extends JavaScript {
 
 	@Override
 	protected File getLogDir() {
-		if(logDir == null) {		
-			PyString logDirName = (PyString) loggingPythonInterpreter.get().eval(
-					"GLOBAL_VARIABLES['${LOG FILE}']");
+		if (logDir == null) {
+			PyString logDirName = (PyString) loggingPythonInterpreter.get()
+					.eval("GLOBAL_VARIABLES['${LOG FILE}']");
 			if (logDirName != null
 					&& !(logDirName.asString().toUpperCase().equals("NONE"))) {
 				return new File(logDirName.asString()).getParentFile();
@@ -137,7 +137,7 @@ public abstract class Logging extends JavaScript {
 			return new File(logDir);
 		}
 	}
-	
+
 	public static void setLogDir(String logDirectory) {
 		logDir = logDirectory;
 	}

@@ -32,13 +32,13 @@ public abstract class JavaScript extends FormElement {
 	}
 
 	@RobotKeyword("Verifies an alert is present and dismisses it.\n\n"
-			
+
 			+ "If _text_ is a non-empty string, then it is also verified that the message "
 			+ "of the alert equals to _text_.\n\n"
-			
+
 			+ "Will fail if no alert is present. Note that following keywords will fail "
 			+ "unless the alert is dismissed by this keyword or another like `Get Alert Message`.\n")
-	@ArgumentNames({"text=NONE"})
+	@ArgumentNames({ "text=NONE" })
 	public void alertShouldBePresent(String text) {
 		String alertText = getAlertMessage();
 		if (text != null && !alertText.equals(text)) {
@@ -47,7 +47,7 @@ public abstract class JavaScript extends FormElement {
 					alertText));
 		}
 	}
-	
+
 	@RobotKeyword("Cancel will be selected the next time _Confirm Action_ is used.\n")
 	public void chooseCancelOnNextConfirmation() {
 		cancelOnNextConfirmation = true;
@@ -58,11 +58,11 @@ public abstract class JavaScript extends FormElement {
 			+ "true, as if the user had manually clicked OK, so you shouldn't need to use this "
 			+ "command unless for some reason you need to change your mind prior to the next "
 			+ "confirmation\n\n. "
-			
+
 			+ "After any confirmation, Selenium will resume using the default behavior for future "
 			+ "confirmations, automatically returning true (OK) unless/until you explicitly use "
 			+ "`Choose Cancel On Next Confirmation` for each confirmation.\n\n"
-			
+
 			+ "Note that every time a confirmation comes up, you must consume it by using a keywords "
 			+ "such as `Get Alert Message`, or else the following selenium operations will fail.")
 	public void chooseOkOnNextConfirmation() {
@@ -92,20 +92,20 @@ public abstract class JavaScript extends FormElement {
 
 			+ "_code_ may contain multiple lines of code but must contain a return statement (with the "
 			+ "value to be returned) at the end.\n\n"
-		
+
 			+ "_code_ may be divided into multiple cells in the test data. In that case, the parts are "
 			+ "catenated together without adding spaces.\n"
 			+ "If _code_ is an absolute path to an existing file, the JavaScript to execute will be read "
 			+ "from that file. Forward slashes work as a path separator on all operating systems.\n\n"
-		
+
 			+ "Note that, by default, the code will be executed in the context of the Selenium object "
 			+ "itself, so this will refer to the Selenium object. Use _window_ to refer to the window of "
 			+ "your application, e.g. _window.document.getElementById('foo')_.\n\n"
-		
+
 			+ "Example:\n"
 			+ "| Execute JavaScript | window.my_js_function('arg1', 'arg2') |\n"
 			+ "| Execute JavaScript | ${CURDIR}/js_to_execute.js |\n")
-	@ArgumentNames({"*code"})
+	@ArgumentNames({ "*code" })
 	public Object executeJavascript(String... code) {
 		String js = getJavascriptToExecute(Python.join("", Arrays.asList(code)));
 		String.format("Executing JavaScript:\n%s", js);
@@ -117,20 +117,20 @@ public abstract class JavaScript extends FormElement {
 
 			+ "_code_ may contain multiple lines of code but must contain a return statement (with the "
 			+ "value to be returned) at the end.\n\n"
-		
+
 			+ "_code_ may be divided into multiple cells in the test data. In that case, the parts are "
 			+ "catenated together without adding spaces.\n"
 			+ "If _code_ is an absolute path to an existing file, the JavaScript to execute will be read "
 			+ "from that file. Forward slashes work as a path separator on all operating systems.\n\n"
-		
+
 			+ "Note that, by default, the code will be executed in the context of the Selenium object "
 			+ "itself, so this will refer to the Selenium object. Use _window_ to refer to the window of "
 			+ "your application, e.g. _window.document.getElementById('foo')_.\n\n"
-		
+
 			+ "Example:\n"
 			+ "| Execute Async JavaScript | window.my_js_function('arg1', 'arg2') |\n"
 			+ "| Execute Async JavaScript | ${CURDIR}/js_to_execute.js |\n")
-	@ArgumentNames({"*code"})
+	@ArgumentNames({ "*code" })
 	public Object executeAsyncJavascript(String... code) {
 		String js = getJavascriptToExecute(Python.join("", Arrays.asList(code)));
 		String.format("Executing JavaScript:\n%s", js);
@@ -139,7 +139,7 @@ public abstract class JavaScript extends FormElement {
 	}
 
 	@RobotKeyword("Returns the text of current JavaScript alert.\n\n"
-			
+
 			+ "This keyword will fail if no alert is present. Note that following keywords will fail "
 			+ "unless the alert is dismissed by this keyword or another like `Get Alert Message`.\n")
 	public String getAlertMessage() {

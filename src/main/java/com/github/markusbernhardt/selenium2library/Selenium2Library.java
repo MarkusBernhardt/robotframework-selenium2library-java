@@ -1,10 +1,5 @@
 package com.github.markusbernhardt.selenium2library;
 
-import java.io.File;
-import java.util.ResourceBundle;
-
-import org.robotframework.javalib.annotation.RobotKeywords;
-
 import com.github.markusbernhardt.selenium2library.keywords.Selenium2LibraryEnhancement;
 
 /**

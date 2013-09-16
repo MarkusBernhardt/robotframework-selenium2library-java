@@ -15,16 +15,15 @@ public abstract class Cookie extends BrowserManagement {
 	// Keywords
 	// ##############################
 
-	
 	@RobotKeyword("Deletes all cookies.")
 	public void deleteAllCookies() {
 		webDriverCache.getCurrent().manage().deleteAllCookies();
 	}
 
 	@RobotKeyword("Deletes cookie matching _name_.\n\n"
-			
-			+ "If the cookie is not found, nothing happens.\n")
-	@ArgumentNames({"name"})
+
+	+ "If the cookie is not found, nothing happens.\n")
+	@ArgumentNames({ "name" })
 	public void deleteCookie(String name) {
 		webDriverCache.getCurrent().manage().deleteCookieNamed(name);
 	}
@@ -47,9 +46,9 @@ public abstract class Cookie extends BrowserManagement {
 	}
 
 	@RobotKeyword("Returns value of cookie found with _name_.\n\n"
-			
-			+ "If no cookie is found with name, this keyword fails.\n")
-	@ArgumentNames({"name"})
+
+	+ "If no cookie is found with name, this keyword fails.\n")
+	@ArgumentNames({ "name" })
 	public String getCookieValue(String name) {
 		org.openqa.selenium.Cookie cookie = webDriverCache.getCurrent()
 				.manage().getCookieNamed(name);
@@ -63,7 +62,7 @@ public abstract class Cookie extends BrowserManagement {
 	}
 
 	@RobotKeyword("Adds a cookie to your current session.")
-	@ArgumentNames({"name", "value", "path", "domain", "secure", "expiry"})
+	@ArgumentNames({ "name", "value", "path", "domain", "secure", "expiry" })
 	public void addCookie(String name, String value, String path,
 			String domain, String secure, String expiry) {
 		// Parameter expiry not used by Python library

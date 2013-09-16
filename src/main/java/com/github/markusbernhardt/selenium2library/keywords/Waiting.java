@@ -19,7 +19,7 @@ public abstract class Waiting extends TableElement {
 	public void waitForCondition(String condition) {
 		waitForCondition(condition, null);
 	}
-	
+
 	@RobotKeywordOverload
 	public void waitForCondition(String condition, String timestr) {
 		waitForCondition(condition, timestr, null);
@@ -29,18 +29,18 @@ public abstract class Waiting extends TableElement {
 
 			+ "_code_ may contain multiple lines of code but must contain a return statement (with "
 			+ "the value to be returned) at the end.\n\n"
-			
+
 			+ "The _condition_ can be arbitrary JavaScript expression but must contain a return "
 			+ "statement (with the value to be returned) at the end. See `Execute JavaScript` for "
 			+ "information about accessing the actual contents of the window through JavaScript.\n\n"
-			
+
 			+ "_error_ can be used to override the default error message.\n\n"
-			
+
 			+ "See `Introduction` for more information about _timeout_ and its default value.\n\n"
-			
+
 			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
 			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({"condition", "timestr=NONE", "error=NONE"})
+	@ArgumentNames({ "condition", "timestr=NONE", "error=NONE" })
 	public void waitForCondition(final String condition, String timestr,
 			String error) {
 		if (error == null) {
@@ -69,15 +69,15 @@ public abstract class Waiting extends TableElement {
 	}
 
 	@RobotKeyword("Waits until _text_ appears on current page.\n\n"
-			
+
 			+ "Fails if _timeout_ expires before the _text_ appears. See `Introduction` for more information "
 			+ "about _timeout_ and its default value.\n\n"
-			
+
 			+ "_error_ can be used to override the default error message.\n\n"
-			
-+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
-+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({"condition", "timestr=NONE", "error=NONE"})
+
+			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
+			+ "keyword _Wait Until Keyword Succeeds_.\n")
+	@ArgumentNames({ "condition", "timestr=NONE", "error=NONE" })
 	public void waitUntilPageContains(final String text, String timestr,
 			String error) {
 		if (error == null) {
@@ -92,7 +92,7 @@ public abstract class Waiting extends TableElement {
 			}
 		});
 	}
-	
+
 	@RobotKeywordOverload
 	public void waitUntilPageContainsElement(String condition) {
 		waitUntilPageContainsElement(condition, null);
@@ -106,12 +106,12 @@ public abstract class Waiting extends TableElement {
 	@RobotKeyword("Waits until element specified with _locator_ appears on current page.\n\n"
 			+ "Fails if _timeout_ expires before the _text_ appears. See `Introduction` for more information "
 			+ "about _timeout_ and its default value.\n\n"
-			
+
 			+ "_error_ can be used to override the default error message.\n\n"
-			
+
 			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
 			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({"condition", "timestr=NONE", "error=NONE"})
+	@ArgumentNames({ "condition", "timestr=NONE", "error=NONE" })
 	public void waitUntilPageContainsElement(final String locator,
 			String timestr, String error) {
 		if (error == null) {
