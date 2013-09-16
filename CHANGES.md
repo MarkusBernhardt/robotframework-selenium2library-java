@@ -4,6 +4,8 @@ CHANGES
 unreleased
 ----------
 
+* Fixed an ArrayIndexOutOfBoundsException in the Select Window keyword. See #27 
+
 1.2.0.13
 --------
 
