@@ -17,6 +17,7 @@ import com.github.markusbernhardt.selenium2library.utils.Python;
 public abstract class Logging extends JavaScript {
 
 	protected final static Map<String, String[]> VALID_LOG_LEVELS;
+	protected static String logDir = null;
 
 	static {
 		VALID_LOG_LEVELS = new HashMap<String, String[]>();
@@ -122,15 +123,23 @@ public abstract class Logging extends JavaScript {
 
 	@Override
 	protected File getLogDir() {
-		PyString logDirName = (PyString) loggingPythonInterpreter.get().eval(
-				"GLOBAL_VARIABLES['${LOG FILE}']");
-		if (logDirName != null
-				&& !(logDirName.asString().toUpperCase().equals("NONE"))) {
+		if(logDir == null) {		
+			PyString logDirName = (PyString) loggingPythonInterpreter.get().eval(
+					"GLOBAL_VARIABLES['${LOG FILE}']");
+			if (logDirName != null
+					&& !(logDirName.asString().toUpperCase().equals("NONE"))) {
+				return new File(logDirName.asString()).getParentFile();
+			}
+			logDirName = (PyString) loggingPythonInterpreter.get().eval(
+					"GLOBAL_VARIABLES['${OUTPUTDIR}']");
 			return new File(logDirName.asString()).getParentFile();
+		} else {
+			return new File(logDir);
 		}
-		logDirName = (PyString) loggingPythonInterpreter.get().eval(
-				"GLOBAL_VARIABLES['${OUTPUTDIR}']");
-		return new File(logDirName.asString()).getParentFile();
+	}
+	
+	public static void setLogDir(String logDirectory) {
+		logDir = logDirectory;
 	}
 
 	protected static ThreadLocal<PythonInterpreter> loggingPythonInterpreter = new ThreadLocal<PythonInterpreter>() {

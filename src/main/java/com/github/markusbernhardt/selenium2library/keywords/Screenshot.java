@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.RobotKeyword;
+import org.robotframework.javalib.annotation.RobotKeywordOverload;
 
 import com.github.markusbernhardt.selenium2library.utils.Robotframework;
 
@@ -14,11 +17,22 @@ public abstract class Screenshot extends RunOnFailure {
 	// ##############################
 	// Keywords
 	// ##############################
-
+	@RobotKeywordOverload
 	public void capturePageScreenshot() {
 		capturePageScreenshot(null);
 	}
 
+	@RobotKeyword("Takes a screenshot of the current page and embeds it into the log.\n\n"
+
+			+ "_filename_ argument specifies the name of the file to write the screenshot into. If no "
+			+ "filename is given, the screenshot is saved into file selenium-screenshot-<counter>.png "
+			+ "under the directory where the Robot Framework log file is written into. The filename is "
+			+ "also considered relative to the same directory, if it is not given in absolute format.\n\n"
+		
+			+ "_css_ can be used to modify how the screenshot is taken. By default the bakground color is "
+			+ "changed to avoid possible problems with background leaking when the page layout is somehow "
+			+ "broken.\n")
+	@ArgumentNames({"filename=NONE"})
 	public void capturePageScreenshot(String filename) {
 		File logdir = getLogDir();
 		File path = new File(logdir, normalizeFilename(filename));
