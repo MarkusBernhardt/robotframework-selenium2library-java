@@ -4,7 +4,11 @@ CHANGES
 unreleased
 ----------
 
-* Fixed an ArrayIndexOutOfBoundsException in the Select Window keyword. See #27 
+* Fixed an ArrayIndexOutOfBoundsException in the Select Window keyword. See #27
+* Added the possibility to set logging directory. See #28.
+* Refactoring of the library to a JavaLibCore AnnotationLibrary. See #28.
+* Added keyword documentation from library for e.g. Ride. See #16, #28.
+ 
 
 1.2.0.13
 --------

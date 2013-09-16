@@ -40,14 +40,14 @@ Because I had very few time the last 2 months to take care of the project here m
 * (Done) Make a release with Java 7
 * Fix Issues 
   * (Done) #27
-  * #28
+  * (Done) #28
   * #30
   * #31
 * Back-port recent changes from version 1.3 and 1.4 of python library
-* Switch to javaLibCore
+* (Done) Switch to JavaLibCore
 * Fix Issues
-  * #16
-  * #26
+  * (Done) #16
+  * (Done) #26
 
 Differences
 -----------
