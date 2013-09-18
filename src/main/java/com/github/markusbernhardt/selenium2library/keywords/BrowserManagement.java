@@ -54,20 +54,6 @@ public abstract class BrowserManagement {
 	public String remoteWebDriverProxyDomain = "";
 	public String remoteWebDriverProxyWorkstation = "";
 
-	/**
-	 * Cache for all open browsers.
-	 */
-	protected WebDriverCache webDriverCache = new WebDriverCache();
-
-	/**
-	 * Timeout in milliseconds
-	 */
-	protected double timeout = 5.0;
-
-	/**
-	 * Implicit wait in milliseconds
-	 */
-	protected double implicitWait = 0;
 
 	// ##############################
 	// Keywords

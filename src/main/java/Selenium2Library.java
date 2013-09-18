@@ -1,13 +1,104 @@
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class Selenium2Library extends
-		org.robotframework.javalib.library.AnnotationLibrary {
+import org.openqa.selenium.WebDriver;
 
+import com.github.markusbernhardt.selenium2library.javalibcore.InjectingAnnotationLibrary;
+import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
+
+public class Selenium2Library extends InjectingAnnotationLibrary {
+
+	// ##############################
+	// Library Variables
+	// ##############################
+
+	/**
+	 * Cache for all open browsers.
+	 */
+	protected WebDriverCache webDriverCache = new WebDriverCache();
+
+	/**
+	 * Timeout in milliseconds
+	 */
+	protected double timeout = 5.0;
+
+	/**
+	 * Implicit wait in milliseconds
+	 */
+	protected double implicitWait = 0;
+
+	/**
+	 * The keyword to run an failure
+	 */
+	protected String runOnFailureKeyword = "Capture Page Screenshot";
+
+	/**
+	 * Only run keyword on failure if true
+	 */
+	protected boolean runningOnFailureRoutine;
+
+	// ##############################
+	// Library Methods
+	// ##############################
+
+	public WebDriver getCurrentWebDriver() {
+		return getWebDriverCache().getCurrent();
+	}
+
+	// ##############################
+	// Getter / Setter
+	// ##############################
+
+	public double getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(double timeout) {
+		this.timeout = timeout;
+	}
+
+	public double getImplicitWait() {
+		return implicitWait;
+	}
+
+	public void setImplicitWait(double implicitWait) {
+		this.implicitWait = implicitWait;
+	}
+
+	public String getRunOnFailureKeyword() {
+		return runOnFailureKeyword;
+	}
+
+	public void setRunOnFailureKeyword(String runOnFailureKeyword) {
+		this.runOnFailureKeyword = runOnFailureKeyword;
+	}
+
+	public boolean isRunningOnFailureRoutine() {
+		return runningOnFailureRoutine;
+	}
+
+	public void setRunningOnFailureRoutine(boolean runningOnFailureRoutine) {
+		this.runningOnFailureRoutine = runningOnFailureRoutine;
+	}
+
+	public WebDriverCache getWebDriverCache() {
+		return webDriverCache;
+	}
+
+	// ##############################
+	// Boiler Plate
+	// ##############################
+
+	/**
+	 * The list of keyword patterns for the AnnotationLibrary
+	 */
+	private static String KEYWORD_PATTERN = "com/github/markusbernhardt/selenium2library/keywords/**/*.class";
+
+	/**
+	 * The scope of this library is global.
+	 */
 	public static final String ROBOT_LIBRARY_SCOPE = "GLOBAL";
-	public static Selenium2Library instance;
 
 	/**
 	 * The actual version of this library. Loaded from maven project.
@@ -27,23 +118,47 @@ public class Selenium2Library extends
 		}
 	}
 
-	private static List<String> keywordPatterns = new ArrayList<String>();
-
-	static {
-		keywordPatterns
-				.add("com/github/markusbernhardt/selenium2library/keywords/**/*.class");
-	}
-
 	public Selenium2Library() {
-		super(keywordPatterns);
-		instance = this;
+		super();
+		addKeywordPattern(KEYWORD_PATTERN);
 	}
 
+	public Selenium2Library(List<String> keywordPatterns) {
+		super(keywordPatterns);
+		addKeywordPattern(KEYWORD_PATTERN);
+	}
+
+	public Selenium2Library(String keywordPattern) {
+		super(keywordPattern);
+		addKeywordPattern(KEYWORD_PATTERN);
+	}
+
+	@Override
+	public Object runKeyword(String keywordName, Object[] args) {
+		return super.runKeyword(keywordName, toStrings(args));
+	}
+
+	@Override
 	public String getKeywordDocumentation(String keywordName) {
 		if (keywordName.equals("__intro__")) {
 			return this.docIntro;
 		}
 		return super.getKeywordDocumentation(keywordName);
+	}
+
+	/**
+	 * Convert all arguments in the object array to string
+	 */
+	private Object[] toStrings(Object[] args) {
+		Object[] newArgs = new Object[args.length];
+		for (int i = 0; i < newArgs.length; i++) {
+			if (args[i].getClass().isArray()) {
+				newArgs[i] = args[i];
+			} else {
+				newArgs[i] = args[i].toString();
+			}
+		}
+		return newArgs;
 	}
 
 	private final String docIntro = "Selenium2Library is a web testing library for Robot Framework.\n\n"

@@ -54,11 +54,6 @@ public abstract class RunOnFailure extends Logging {
 	// Internal Methods
 	// ##############################
 
-	/**
-	 * The keyword to run an failure
-	 */
-	protected String runOnFailureKeyword = "Capture Page Screenshot";
-	protected boolean runningOnFailureRoutine;
 
 	protected static ThreadLocal<PythonInterpreter> runOnFailurePythonInterpreter = new ThreadLocal<PythonInterpreter>() {
 
