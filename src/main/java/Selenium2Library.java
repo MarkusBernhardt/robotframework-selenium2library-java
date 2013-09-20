@@ -2,93 +2,9 @@ import java.io.File;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.openqa.selenium.WebDriver;
+import org.robotframework.javalib.library.AnnotationLibrary;
 
-import com.github.markusbernhardt.selenium2library.javalibcore.InjectingAnnotationLibrary;
-import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
-
-public class Selenium2Library extends InjectingAnnotationLibrary {
-
-	// ##############################
-	// Library Variables
-	// ##############################
-
-	/**
-	 * Cache for all open browsers.
-	 */
-	protected WebDriverCache webDriverCache = new WebDriverCache();
-
-	/**
-	 * Timeout in milliseconds
-	 */
-	protected double timeout = 5.0;
-
-	/**
-	 * Implicit wait in milliseconds
-	 */
-	protected double implicitWait = 0;
-
-	/**
-	 * The keyword to run an failure
-	 */
-	protected String runOnFailureKeyword = "Capture Page Screenshot";
-
-	/**
-	 * Only run keyword on failure if true
-	 */
-	protected boolean runningOnFailureRoutine;
-
-	// ##############################
-	// Library Methods
-	// ##############################
-
-	public WebDriver getCurrentWebDriver() {
-		return getWebDriverCache().getCurrent();
-	}
-
-	// ##############################
-	// Getter / Setter
-	// ##############################
-
-	public double getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(double timeout) {
-		this.timeout = timeout;
-	}
-
-	public double getImplicitWait() {
-		return implicitWait;
-	}
-
-	public void setImplicitWait(double implicitWait) {
-		this.implicitWait = implicitWait;
-	}
-
-	public String getRunOnFailureKeyword() {
-		return runOnFailureKeyword;
-	}
-
-	public void setRunOnFailureKeyword(String runOnFailureKeyword) {
-		this.runOnFailureKeyword = runOnFailureKeyword;
-	}
-
-	public boolean isRunningOnFailureRoutine() {
-		return runningOnFailureRoutine;
-	}
-
-	public void setRunningOnFailureRoutine(boolean runningOnFailureRoutine) {
-		this.runningOnFailureRoutine = runningOnFailureRoutine;
-	}
-
-	public WebDriverCache getWebDriverCache() {
-		return webDriverCache;
-	}
-
-	// ##############################
-	// Boiler Plate
-	// ##############################
+public class Selenium2Library extends AnnotationLibrary {
 
 	/**
 	 * The list of keyword patterns for the AnnotationLibrary
@@ -111,8 +27,7 @@ public class Selenium2Library extends InjectingAnnotationLibrary {
 		 */
 		try {
 			ROBOT_LIBRARY_VERSION = ResourceBundle.getBundle(
-					Selenium2Library.class.getCanonicalName().replace(".",
-							File.separator)).getString("version");
+					Selenium2Library.class.getCanonicalName().replace(".", File.separator)).getString("version");
 		} catch (RuntimeException e) {
 			ROBOT_LIBRARY_VERSION = "unknown1";
 		}
@@ -163,9 +78,8 @@ public class Selenium2Library extends InjectingAnnotationLibrary {
 
 	private final String docIntro = "Selenium2Library is a web testing library for Robot Framework.\n\n"
 
-			+ "It uses the Selenium 2 (WebDriver) libraries internally to control a web browser. See "
-			+ "http://seleniumhq.org/docs/03_webdriver.html for more information on Selenium 2 and "
-			+ "WebDriver.\n\n"
+	+ "It uses the Selenium 2 (WebDriver) libraries internally to control a web browser. See "
+			+ "http://seleniumhq.org/docs/03_webdriver.html for more information on Selenium 2 and " + "WebDriver.\n\n"
 
 			+ "Selenium2Library runs tests in a real browser instance. It should work in most modern "
 			+ "browsers and can be used with both Python and Jython interpreters.\n\n"
@@ -190,8 +104,7 @@ public class Selenium2Library extends InjectingAnnotationLibrary {
 			+ "by specifying a lookup strategy with a locator prefix. Supported strategies are:\n\n"
 
 			+ "| Strategy | Example | Description |\n"
-			+ "| identifier | Click Element|identifier=my_element | Matches by @id or @name "
-			+ "attribute |\n"
+			+ "| identifier | Click Element|identifier=my_element | Matches by @id or @name " + "attribute |\n"
 			+ "| id | Click Element|id=my_element | Matches by @id attribute |\n"
 			+ "| name | Click Element|name=my_element | Matches by @name attribute |\n"
 			+ "| xpath | Click Element|xpath=//div[@id='my_element'] | Matches with arbitrary XPath "
@@ -209,10 +122,8 @@ public class Selenium2Library extends InjectingAnnotationLibrary {
 
 			+ "| Table Should Contain | my_table text |\n\n"
 
-			+ "More complex table lookup strategies are also supported:\n"
-			+ "| Strategy | Example | Description |\n"
-			+ "| css | Table Should Contain|css=table.my_class|text | Matches by @id or @name "
-			+ "attribute |\n"
+			+ "More complex table lookup strategies are also supported:\n" + "| Strategy | Example | Description |\n"
+			+ "| css | Table Should Contain|css=table.my_class|text | Matches by @id or @name " + "attribute |\n"
 			+ "| xpath | Table Should Contain|xpath=//table/[@name=\"my_table\"]|text | Matches "
 			+ "by @id or @name attribute |\n\n"
 
@@ -239,8 +150,7 @@ public class Selenium2Library extends InjectingAnnotationLibrary {
 
 			+ "_implicit_wait_ is the implicit timeout that Selenium waits when looking for elements. It "
 			+ "can be later set with `Set Selenium Implicit Wait`. See WebDriver: Advanced Usage__ section of "
-			+ "the SeleniumHQ documentation for more information about WebDriver's implicit wait "
-			+ "functionality.\n"
+			+ "the SeleniumHQ documentation for more information about WebDriver's implicit wait " + "functionality.\n"
 			+ "__ http://seleniumhq.org/docs/04_webdriver_advanced.html#explicit-and-implicit-waits \n\n"
 
 			+ "_run_on_failure_ specifies the name of a keyword (from any available libraries) to execute "
@@ -248,8 +158,7 @@ public class Selenium2Library extends InjectingAnnotationLibrary {
 			+ "a screenshot of the current page. Using the value \"Nothing\" will disable this feature altogether. "
 			+ "See `Register Keyword To Run On Failure` keyword for more information about this functionality.\n\n"
 
-			+ "Examples:\n"
-			+ "| Library | Selenium2Library|15|# Sets default timeout to 15 seconds |\n"
+			+ "Examples:\n" + "| Library | Selenium2Library|15|# Sets default timeout to 15 seconds |\n"
 			+ "| Library | Selenium2Library|0|5 | # Sets default timeout to 0 seconds and default "
 			+ "implicit_wait to 5 seconds |\n"
 			+ "| Library | Selenium2Library|5|run_on_failure=Log Source | # Sets default timeout to 5 "

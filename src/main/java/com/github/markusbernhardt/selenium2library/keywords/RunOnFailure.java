@@ -2,12 +2,29 @@ package com.github.markusbernhardt.selenium2library.keywords;
 
 import org.python.util.PythonInterpreter;
 import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 @RobotKeywords
-public abstract class RunOnFailure extends Logging {
+public  class RunOnFailure {
 
+	/**
+	 * The keyword to run an failure
+	 */
+	private String runOnFailureKeyword = "Capture Page Screenshot";
+
+	/**
+	 * Only run keyword on failure if true
+	 */
+	private boolean runningOnFailureRoutine;
+	
+	/**
+	 * Instantiated Logging keyword bean
+	 */
+	@Autowired
+	private Logging logging;
+	
 	// ##############################
 	// Keywords
 	// ##############################
@@ -45,7 +62,7 @@ public abstract class RunOnFailure extends Logging {
 		String newKeywordText = newKeyword != null ? newKeyword : "No keyword";
 
 		runOnFailureKeyword = newKeyword;
-		info(String.format("%s will be run on failure.", newKeywordText));
+		logging.info(String.format("%s will be run on failure.", newKeywordText));
 
 		return oldKeywordText;
 	}
@@ -81,7 +98,7 @@ public abstract class RunOnFailure extends Logging {
 							runOnFailureKeyword.replace("'", "\\'").replace(
 									"\n", "\\n")));
 		} catch (RuntimeException r) {
-			warn(String.format("Keyword '%s' could not be run on failure%s",
+			logging.warn(String.format("Keyword '%s' could not be run on failure%s",
 					runOnFailureKeyword,
 					r.getMessage() != null ? " '" + r.getMessage() + "'" : ""));
 		} finally {

@@ -6,44 +6,57 @@ import java.util.List;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.selenium2library.keywords.Waiting.WaitUntilFunction;
 import com.github.markusbernhardt.selenium2library.locators.ElementFinder;
 
 @RobotKeywords
-public class Selenium2LibraryEnhancement extends Waiting {
+public class Selenium2LibraryEnhancement {
 
-	public Selenium2LibraryEnhancement() {
-	}
+	/**
+	 * Instantiated BrowserManagement keyword bean
+	 */
+	@Autowired
+	private BrowserManagement browserManagement;
+
+	/**
+	 * Instantiated Element keyword bean
+	 */
+	@Autowired
+	private Element element;
+
+	/**
+	 * Instantiated Logging keyword bean
+	 */
+	@Autowired
+	private Logging logging;
 
 	// ##############################
 	// Keywords
 	// ##############################
 
 	public String getSystemInfo() {
-		return String
-				.format("      os.name: '%s'\n      os.arch: '%s'\n   os.version: '%s'\n java.version: '%s'",
-						System.getProperty("os.name"),
-						System.getProperty("os.arch"),
-						System.getProperty("os.version"),
-						System.getProperty("java.version"));
+		return String.format("      os.name: '%s'\n      os.arch: '%s'\n   os.version: '%s'\n java.version: '%s'",
+				System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("os.version"),
+				System.getProperty("java.version"));
 	}
 
 	@RobotKeyword
 	public String logSystemInfo() {
 		String actual = getSystemInfo();
-		info(actual);
+		logging.info(actual);
 		return actual;
 	}
 
 	@RobotKeyword
 	public String getRemoteCapabilities() {
-		if (webDriverCache.getCurrent() instanceof RemoteWebDriver) {
-			return ((RemoteWebDriver) webDriverCache.getCurrent())
-					.getCapabilities().toString();
+		if (browserManagement.getCurrentWebDriver() instanceof RemoteWebDriver) {
+			return ((RemoteWebDriver) browserManagement.getCurrentWebDriver()).getCapabilities().toString();
 		} else {
 			return "No remote session id";
 		}
@@ -52,15 +65,14 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	@RobotKeyword
 	public String logRemoteCapabilities() {
 		String actual = getRemoteCapabilities();
-		info(actual);
+		logging.info(actual);
 		return actual;
 	}
 
 	@RobotKeyword
 	public String getRemoteSessionId() {
-		if (webDriverCache.getCurrent() instanceof RemoteWebDriver) {
-			return ((RemoteWebDriver) webDriverCache.getCurrent())
-					.getSessionId().toString();
+		if (browserManagement.getCurrentWebDriver() instanceof RemoteWebDriver) {
+			return ((RemoteWebDriver) browserManagement.getCurrentWebDriver()).getSessionId().toString();
 		} else {
 			return "No remote session id";
 		}
@@ -69,31 +81,26 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	@RobotKeyword
 	public String logRemoteSessionId() {
 		String actual = getRemoteSessionId();
-		info(actual);
+		logging.info(actual);
 		return actual;
 	}
 
 	@RobotKeywordOverload
-	public void addLocationStrategy(String strategyName,
-			String functionDefinition) {
+	public void addLocationStrategy(String strategyName, String functionDefinition) {
 		addLocationStrategy(strategyName, functionDefinition, null);
 	}
 
 	@RobotKeyword
 	@ArgumentNames({ "strategyName", "functionDefinition", "delimiter=NONE" })
-	public void addLocationStrategy(String strategyName,
-			String functionDefinition, String delimiter) {
-		ElementFinder.addLocationStrategy(strategyName, functionDefinition,
-				delimiter);
+	public void addLocationStrategy(String strategyName, String functionDefinition, String delimiter) {
+		ElementFinder.addLocationStrategy(strategyName, functionDefinition, delimiter);
 	}
 
 	@RobotKeyword
 	@ArgumentNames({ "text", "timestr=", "error=NONE" })
-	public void waitUntilPageNotContains(final String text, String timestr,
-			String error) {
+	public void waitUntilPageNotContains(final String text, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Text '%s' did not disappear in <TIMEOUT>",
-					text);
+			error = String.format("Text '%s' did not disappear in <TIMEOUT>", text);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -116,11 +123,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilPageNotContainsElement(final String locator,
-			String timestr, String error) {
+	public void waitUntilPageNotContainsElement(final String locator, String timestr, String error) {
 		if (error == null) {
-			error = String.format(
-					"Element '%s' did not disappear in <TIMEOUT>", locator);
+			error = String.format("Element '%s' did not disappear in <TIMEOUT>", locator);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -143,11 +148,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsVisible(final String locator, String timestr,
-			String error) {
+	public void waitUntilElementIsVisible(final String locator, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Element '%s' not visible in <TIMEOUT>",
-					locator);
+			error = String.format("Element '%s' not visible in <TIMEOUT>", locator);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -170,11 +173,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsNotVisible(final String locator,
-			String timestr, String error) {
+	public void waitUntilElementIsNotVisible(final String locator, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Element '%s' still visible in <TIMEOUT>",
-					locator);
+			error = String.format("Element '%s' still visible in <TIMEOUT>", locator);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -197,11 +198,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "title", "timestr=", "error=NONE" })
-	public void waitUntilTitleContains(final String title, String timestr,
-			String error) {
+	public void waitUntilTitleContains(final String title, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Title '%s' did not appear in <TIMEOUT>",
-					title);
+			error = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -225,11 +224,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "title", "timestr=", "error=NONE" })
-	public void waitUntilTitleNotContains(final String title, String timestr,
-			String error) {
+	public void waitUntilTitleNotContains(final String title, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Title '%s' did not appear in <TIMEOUT>",
-					title);
+			error = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -253,11 +250,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "title", "timestr=", "error=NONE" })
-	public void waitUntilTitleIs(final String title, String timestr,
-			String error) {
+	public void waitUntilTitleIs(final String title, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Title '%s' did not appear in <TIMEOUT>",
-					title);
+			error = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -281,11 +276,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "title", "timestr=", "error=NONE" })
-	public void waitUntilTitleIsNot(final String title, String timestr,
-			String error) {
+	public void waitUntilTitleIsNot(final String title, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Title '%s' did not appear in <TIMEOUT>",
-					title);
+			error = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -315,14 +308,12 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void elementShouldBeSelected(String locator, String message) {
-		info(String.format("Verifying element '%s' is selected.", locator));
+		logging.info(String.format("Verifying element '%s' is selected.", locator));
 		boolean selected = isSelected(locator);
 
 		if (!selected) {
 			if (message == null || message.equals("")) {
-				message = String.format(
-						"Element '%s' should be selected, but it is not.",
-						locator);
+				message = String.format("Element '%s' should be selected, but it is not.", locator);
 			}
 			throw new Selenium2LibraryNonFatalException(message);
 		}
@@ -336,14 +327,12 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void elementShouldNotBeSelected(String locator, String message) {
-		info(String.format("Verifying element '%s' is not selected.", locator));
+		logging.info(String.format("Verifying element '%s' is not selected.", locator));
 		boolean selected = isSelected(locator);
 
 		if (selected) {
 			if (message == null || message.equals("")) {
-				message = String.format(
-						"Element '%s' should not be selected, but it is.",
-						locator);
+				message = String.format("Element '%s' should not be selected, but it is.", locator);
 			}
 			throw new Selenium2LibraryNonFatalException(message);
 		}
@@ -351,11 +340,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsSelected(final String locator,
-			String timestr, String error) {
+	public void waitUntilElementIsSelected(final String locator, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Element '%s' not selected in <TIMEOUT>",
-					locator);
+			error = String.format("Element '%s' not selected in <TIMEOUT>", locator);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -378,11 +365,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsNotSelected(final String locator,
-			String timestr, String error) {
+	public void waitUntilElementIsNotSelected(final String locator, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Element '%s' still selected in <TIMEOUT>",
-					locator);
+			error = String.format("Element '%s' still selected in <TIMEOUT>", locator);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -411,14 +396,12 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void elementShouldBeClickable(String locator, String message) {
-		info(String.format("Verifying element '%s' is clickable.", locator));
+		logging.info(String.format("Verifying element '%s' is clickable.", locator));
 		boolean clickable = isClickable(locator);
 
 		if (!clickable) {
 			if (message == null || message.equals("")) {
-				message = String.format(
-						"Element '%s' should be clickable, but it is not.",
-						locator);
+				message = String.format("Element '%s' should be clickable, but it is not.", locator);
 			}
 			throw new Selenium2LibraryNonFatalException(message);
 		}
@@ -432,14 +415,12 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE" })
 	public void elementShouldNotBeClickable(String locator, String message) {
-		info(String.format("Verifying element '%s' is not clickable.", locator));
+		logging.info(String.format("Verifying element '%s' is not clickable.", locator));
 		boolean clickable = isClickable(locator);
 
 		if (clickable) {
 			if (message == null || message.equals("")) {
-				message = String.format(
-						"Element '%s' should not be clickable, but it is.",
-						locator);
+				message = String.format("Element '%s' should not be clickable, but it is.", locator);
 			}
 			throw new Selenium2LibraryNonFatalException(message);
 		}
@@ -447,11 +428,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsClickable(final String locator,
-			String timestr, String error) {
+	public void waitUntilElementIsClickable(final String locator, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Element '%s' not clickable in <TIMEOUT>",
-					locator);
+			error = String.format("Element '%s' not clickable in <TIMEOUT>", locator);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -474,12 +453,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsSuccessfullyClicked(final String locator,
-			String timestr, String error) {
+	public void waitUntilElementIsSuccessfullyClicked(final String locator, String timestr, String error) {
 		if (error == null) {
-			error = String.format(
-					"Element '%s' not successfully clicked in <TIMEOUT>",
-					locator);
+			error = String.format("Element '%s' not successfully clicked in <TIMEOUT>", locator);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -492,8 +468,7 @@ public class Selenium2LibraryEnhancement extends Waiting {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsSuccessfullyClicked(String locator,
-			String timestr) {
+	public void waitUntilElementIsSuccessfullyClicked(String locator, String timestr) {
 		waitUntilElementIsSuccessfullyClicked(locator, timestr, null);
 	}
 
@@ -504,11 +479,9 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsNotClickable(final String locator,
-			String timestr, String error) {
+	public void waitUntilElementIsNotClickable(final String locator, String timestr, String error) {
 		if (error == null) {
-			error = String.format("Element '%s' still clickable in <TIMEOUT>",
-					locator);
+			error = String.format("Element '%s' still clickable in <TIMEOUT>", locator);
 		}
 		waitUntil(timestr, error, new WaitUntilFunction() {
 
@@ -536,20 +509,15 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "expected", "message=NONE" })
-	public void elementShouldNotContain(String locator, String expected,
-			String message) {
+	public void elementShouldNotContain(String locator, String expected, String message) {
 		String actual = fetchText(locator);
 
 		if (actual.toLowerCase().contains(expected.toLowerCase())) {
-			info(String.format("Element Should Not Contain: %s => FAILED",
-					expected));
-			throw new Selenium2LibraryNonFatalException(
-					String.format(
-							"Element should not have contained text '%s' but its text was %s.",
-							expected, actual));
+			logging.info(String.format("Element Should Not Contain: %s => FAILED", expected));
+			throw new Selenium2LibraryNonFatalException(String.format(
+					"Element should not have contained text '%s' but its text was %s.", expected, actual));
 		} else {
-			info(String
-					.format("Element Should Not Contain: %s => OK", expected));
+			logging.info(String.format("Element Should Not Contain: %s => OK", expected));
 		}
 	}
 
@@ -560,20 +528,16 @@ public class Selenium2LibraryEnhancement extends Waiting {
 
 	@RobotKeyword
 	@ArgumentNames({ "locator", "expected", "message=NONE" })
-	public void elementTextShouldNotBe(String locator, String expected,
-			String message) {
-		info(String.format(
-				"Verifying element '%s' contains exactly text '%s'.", locator,
-				expected));
+	public void elementTextShouldNotBe(String locator, String expected, String message) {
+		logging.info(String.format("Verifying element '%s' contains exactly text '%s'.", locator, expected));
 
 		List<WebElement> elements = elementFind(locator, true, true);
 		String actual = elements.get(0).getText();
 
 		if (expected.equals(actual)) {
 			if (message == null || message.equals("")) {
-				message = String
-						.format("The text of element '%s' should have been '%s', but it was '%s'.",
-								locator, expected, actual);
+				message = String.format("The text of element '%s' should have been '%s', but it was '%s'.", locator,
+						expected, actual);
 			}
 			throw new Selenium2LibraryNonFatalException(message);
 		}

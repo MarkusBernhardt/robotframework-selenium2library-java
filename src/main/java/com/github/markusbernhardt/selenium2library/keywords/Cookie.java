@@ -3,21 +3,28 @@ package com.github.markusbernhardt.selenium2library.keywords;
 import java.util.ArrayList;
 
 import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 
 @RobotKeywords
-public abstract class Cookie extends BrowserManagement {
+public class Cookie {
 
+	/**
+	 * Instantiated BrowserManagement keyword bean
+	 */
+	@Autowired
+	private BrowserManagement browserManagement;
+	
 	// ##############################
 	// Keywords
 	// ##############################
 
 	@RobotKeyword("Deletes all cookies.")
 	public void deleteAllCookies() {
-		webDriverCache.getCurrent().manage().deleteAllCookies();
+		browserManagement.getCurrentWebDriver().manage().deleteAllCookies();
 	}
 
 	@RobotKeyword("Deletes cookie matching _name_.\n\n"
@@ -25,7 +32,7 @@ public abstract class Cookie extends BrowserManagement {
 	+ "If the cookie is not found, nothing happens.\n")
 	@ArgumentNames({ "name" })
 	public void deleteCookie(String name) {
-		webDriverCache.getCurrent().manage().deleteCookieNamed(name);
+		browserManagement.getCurrentWebDriver().manage().deleteCookieNamed(name);
 	}
 
 	@RobotKeyword("Returns all cookies of the current page.\n")
@@ -33,7 +40,7 @@ public abstract class Cookie extends BrowserManagement {
 		StringBuffer ret = new StringBuffer();
 
 		ArrayList<org.openqa.selenium.Cookie> cookies = new ArrayList<org.openqa.selenium.Cookie>(
-				webDriverCache.getCurrent().manage().getCookies());
+				browserManagement.getCurrentWebDriver().manage().getCookies());
 		for (int i = 0; i < cookies.size(); i++) {
 			ret.append(cookies.get(i).getName() + "="
 					+ cookies.get(i).getValue());
@@ -50,7 +57,7 @@ public abstract class Cookie extends BrowserManagement {
 	+ "If no cookie is found with name, this keyword fails.\n")
 	@ArgumentNames({ "name" })
 	public String getCookieValue(String name) {
-		org.openqa.selenium.Cookie cookie = webDriverCache.getCurrent()
+		org.openqa.selenium.Cookie cookie = browserManagement.getCurrentWebDriver()
 				.manage().getCookieNamed(name);
 
 		if (cookie != null) {
@@ -68,6 +75,6 @@ public abstract class Cookie extends BrowserManagement {
 		// Parameter expiry not used by Python library
 		org.openqa.selenium.Cookie cookie = new org.openqa.selenium.Cookie(
 				name, value, domain, path, null, secure.equals("True"));
-		webDriverCache.getCurrent().manage().addCookie(cookie);
+		browserManagement.getCurrentWebDriver().manage().addCookie(cookie);
 	}
 }

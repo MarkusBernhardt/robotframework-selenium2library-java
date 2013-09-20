@@ -32,6 +32,7 @@ import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
@@ -45,7 +46,7 @@ import com.github.markusbernhardt.selenium2library.utils.WebDriverCache.SessionI
 import com.opera.core.systems.OperaDriver;
 
 @RobotKeywords
-public abstract class BrowserManagement {
+public class BrowserManagement {
 
 	public String remoteWebDriverProxyHost = "";
 	public String remoteWebDriverProxyPort = "";
@@ -54,6 +55,44 @@ public abstract class BrowserManagement {
 	public String remoteWebDriverProxyDomain = "";
 	public String remoteWebDriverProxyWorkstation = "";
 
+	/**
+	 * Cache for all open browsers.
+	 */
+	private WebDriverCache webDriverCache = new WebDriverCache();
+
+	/**
+	 * Timeout in milliseconds
+	 */
+	private double timeout = 5.0;
+
+	/**
+	 * Implicit wait in milliseconds
+	 */
+	private double implicitWait = 0;
+
+	/**
+	 * Instantiated Logging keyword bean
+	 */
+	@Autowired
+	private Logging logging;
+
+	/**
+	 * Instantiated Element keyword bean
+	 */
+	@Autowired
+	private Element element;
+
+	// ##############################
+	// Getter / Setter
+	// ##############################
+
+	public WebDriverCache getWebDriverCache() {
+		return webDriverCache;
+	}
+
+	public WebDriver getCurrentWebDriver() {
+		return webDriverCache.getCurrent();
+	}
 
 	// ##############################
 	// Keywords
@@ -62,8 +101,7 @@ public abstract class BrowserManagement {
 	@RobotKeyword("Closes the current browser.")
 	public void closeBrowser() {
 		if (webDriverCache.getCurrentSessionId() != null) {
-			debug(String.format("Closing browser with session id %s",
-					webDriverCache.getCurrentSessionId()));
+			logging.debug(String.format("Closing browser with session id %s", webDriverCache.getCurrentSessionId()));
 			webDriverCache.close();
 		}
 	}
@@ -79,22 +117,19 @@ public abstract class BrowserManagement {
 	}
 
 	@RobotKeywordOverload
-	public String openBrowser(String url, String browserName, String alias)
-			throws Throwable {
+	public String openBrowser(String url, String browserName, String alias) throws Throwable {
 		return openBrowser(url, browserName, alias, null);
 	}
 
 	@RobotKeywordOverload
-	public String openBrowser(String url, String browserName, String alias,
-			String remoteUrl) throws Throwable {
+	public String openBrowser(String url, String browserName, String alias, String remoteUrl) throws Throwable {
 		return openBrowser(url, browserName, alias, remoteUrl, null);
 	}
 
 	@RobotKeywordOverload
-	public String openBrowser(String url, String browserName, String alias,
-			String remoteUrl, String desiredCapabilities) throws Throwable {
-		return openBrowser(url, browserName, alias, remoteUrl,
-				desiredCapabilities, null);
+	public String openBrowser(String url, String browserName, String alias, String remoteUrl, String desiredCapabilities)
+			throws Throwable {
+		return openBrowser(url, browserName, alias, remoteUrl, desiredCapabilities, null);
 	}
 
 	@RobotKeyword("Opens a new browser instance to given URL.\n\n"
@@ -133,37 +168,31 @@ public abstract class BrowserManagement {
 			+ "specify browser and os if your using saucelabs.com.\n\n"
 
 			+ "Optional 'ff_profile_dir' is the path to the firefox profile dir if you wish to overwrite the default.\n")
-	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE",
-			"remoteUrl=NONE", "desiredCapabilities=NONE", "ffProfileDir=NONE" })
-	public String openBrowser(String url, String browserName, String alias,
-			String remoteUrl, String desiredCapabilities, String ffProfileDir)
-			throws Throwable {
+	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE",
+			"ffProfileDir=NONE" })
+	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
+			String desiredCapabilities, String ffProfileDir) throws Throwable {
 		try {
-			info("browserName: " + browserName);
+			logging.info("browserName: " + browserName);
 			if (remoteUrl != null) {
-				info(String
-						.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
-								browserName, url, remoteUrl));
+				logging.info(String.format("Opening browser '%s' to base url '%s' through remote server at '%s'",
+						browserName, url, remoteUrl));
 			} else {
-				info(String.format("Opening browser '%s' to base url '%s'",
-						browserName, url));
+				logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
 
-			WebDriver webDriver = createWebDriver(browserName,
-					desiredCapabilities, ffProfileDir, remoteUrl);
+			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, ffProfileDir, remoteUrl);
 			webDriver.get(url);
 			String sessionId = webDriverCache.register(webDriver, alias);
-			debug(String.format("Opened browser with session id %s", sessionId));
+			logging.debug(String.format("Opened browser with session id %s", sessionId));
 			return sessionId;
 		} catch (Throwable t) {
 			if (remoteUrl != null) {
-				warn(String
-						.format("Opening browser '%s' to base url '%s' through remote server at '%s' failed",
-								browserName, url, remoteUrl));
+				logging.warn(String.format(
+						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
+						remoteUrl));
 			} else {
-				warn(String.format(
-						"Opening browser '%s' to base url '%s' failed",
-						browserName, url));
+				logging.warn(String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
 			}
 			throw new Selenium2LibraryFatalException(t);
 		}
@@ -172,45 +201,36 @@ public abstract class BrowserManagement {
 	@RobotKeyword("Switches between active browsers using _index_ or _alias_.\n"
 			+ "Index is returned from `Open Browser` and alias can be given to it.\n\n"
 
-			+ "Example:\n"
-			+ "| Open Browser | http://google.com | ff |\n"
-			+ "| Location Should Be | http://google.com |\n"
-			+ "| Open Browser | http://yahoo.com | ie | 2nd conn |\n"
-			+ "| Location Should Be | http://yahoo.com |\n"
-			+ "| Switch Browser | 1 | #index |\n"
-			+ "| Page Should Contain | I'm feeling lucky |\n"
-			+ "| Switch Browser | 2nd conn | # alias |\n"
-			+ "| Page Should Contain | More Yahoo! |\n"
-			+ "| Close All Browsers |\n\n"
+			+ "Example:\n" + "| Open Browser | http://google.com | ff |\n"
+			+ "| Location Should Be | http://google.com |\n" + "| Open Browser | http://yahoo.com | ie | 2nd conn |\n"
+			+ "| Location Should Be | http://yahoo.com |\n" + "| Switch Browser | 1 | #index |\n"
+			+ "| Page Should Contain | I'm feeling lucky |\n" + "| Switch Browser | 2nd conn | # alias |\n"
+			+ "| Page Should Contain | More Yahoo! |\n" + "| Close All Browsers |\n\n"
 
 			+ "Above example expects that there was no other open browsers when "
 			+ "opening the first one because it used index '1' when switching to it "
-			+ "later. If you aren't sure about that you can store the index into a "
-			+ "variable as below.\n"
-			+ "| ${id} = | Open Browser | http://google.com | *firefox |\n"
-			+ "| # Do something ... |\n" + "| Switch Browser | ${id} |\n")
+			+ "later. If you aren't sure about that you can store the index into a " + "variable as below.\n"
+			+ "| ${id} = | Open Browser | http://google.com | *firefox |\n" + "| # Do something ... |\n"
+			+ "| Switch Browser | ${id} |\n")
 	@ArgumentNames({ "indexOrAlias" })
 	public void switchBrowser(String indexOrAlias) {
 		try {
 			webDriverCache.switchBrowser(indexOrAlias);
-			debug(String.format(
-					"Switched to browser with Selenium session id %s",
+			logging.debug(String.format("Switched to browser with Selenium session id %s",
 					webDriverCache.getCurrentSessionId()));
 		} catch (Throwable t) {
-			throw new Selenium2LibraryFatalException(String.format(
-					"No browser with index or alias '%s' found.", indexOrAlias));
+			throw new Selenium2LibraryFatalException(String.format("No browser with index or alias '%s' found.",
+					indexOrAlias));
 		}
 	}
 
 	@RobotKeyword("Closes all open browsers and resets the browser cache.\n\n"
 
-			+ "After this keyword new indexes returned from `Open Browser` keyword are reset "
-			+ "to 1.\n\n"
+	+ "After this keyword new indexes returned from `Open Browser` keyword are reset " + "to 1.\n\n"
 
-			+ "This keyword should be used in test or suite teardown to make sure all browsers "
-			+ "are closed.\n")
+	+ "This keyword should be used in test or suite teardown to make sure all browsers " + "are closed.\n")
 	public void closeAllBrowsers() {
-		debug("Closing all browsers");
+		logging.debug("Closing all browsers");
 		webDriverCache.closeAll();
 	}
 
@@ -221,25 +241,21 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Returns and logs id attributes of all windows known to the browser.\n")
 	public List<String> getWindowIdentifiers() {
-		return logList(WindowManager.getWindowIds(webDriverCache.getCurrent()),
-				"Window Id");
+		return logging.logList(WindowManager.getWindowIds(webDriverCache.getCurrent()), "Window Id");
 	}
 
 	@RobotKeyword("Returns and logs names of all windows known to the browser.\n")
 	public List<String> getWindowNames() {
-		List<String> windowNames = WindowManager.getWindowNames(webDriverCache
-				.getCurrent());
+		List<String> windowNames = WindowManager.getWindowNames(webDriverCache.getCurrent());
 		if (windowNames.size() != 0 && windowNames.get(0).equals("undefined")) {
 			windowNames.set(0, "selenium_main_app_window");
 		}
-		return logList(windowNames, "Window Name");
+		return logging.logList(windowNames, "Window Name");
 	}
 
 	@RobotKeyword("Returns and logs titles of all windows known to the browser.\n")
 	public List<String> getWindowTitles() {
-		return logList(
-				WindowManager.getWindowTitles(webDriverCache.getCurrent()),
-				"Window Title");
+		return logging.logList(WindowManager.getWindowTitles(webDriverCache.getCurrent()), "Window Title");
 	}
 
 	@RobotKeyword("Maximizes current browser window.\n")
@@ -249,12 +265,11 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Sets frame identified by _locator_ as current frame.\n\n"
 
-			+ "Key attributes for frames are id and name. See `Introduction` for details "
-			+ "about locating elements.\n")
+	+ "Key attributes for frames are id and name. See `Introduction` for details " + "about locating elements.\n")
 	@ArgumentNames({ "locator" })
 	public void selectFrame(String locator) {
-		info(String.format("Selecting frame '%s'.", locator));
-		List<WebElement> elements = elementFind(locator, true, true);
+		logging.info(String.format("Selecting frame '%s'.", locator));
+		List<WebElement> elements = element.elementFind(locator, true, true);
 		webDriverCache.getCurrent().switchTo().frame(elements.get(0));
 	}
 
@@ -265,7 +280,7 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Selects the window found with _locator_ as the context of actions.\n\n"
 
-			+ "If the window is found, all subsequent commands use that window, until this keyword "
+	+ "If the window is found, all subsequent commands use that window, until this keyword "
 			+ "is used again. If the window is not found, this keyword fails.\n\n"
 
 			+ "By default, when a locator value is provided, it is matched against the title of the "
@@ -281,11 +296,8 @@ public abstract class BrowserManagement {
 			+ "| name | Select Window name=${name} | Matches by window javascript name |\n"
 			+ "| url | Select Window url=http://google.com | Matches by window's current URL |\n\n"
 
-			+ "Example:\n"
-			+ "| Click Link | popup_link | #opens new window |\n"
-			+ "| Select Window | popupName | |\n"
-			+ "| Title Should Be | Popup Title | |\n"
-			+ "| Select Window | | #Chooses the main window again |\n")
+			+ "Example:\n" + "| Click Link | popup_link | #opens new window |\n" + "| Select Window | popupName | |\n"
+			+ "| Title Should Be | Popup Title | |\n" + "| Select Window | | #Chooses the main window again |\n")
 	@ArgumentNames({ "locator=NONE" })
 	public void selectWindow(String locator) {
 		WindowManager.select(webDriverCache.getCurrent(), locator);
@@ -316,10 +328,10 @@ public abstract class BrowserManagement {
 	public void locationShouldBe(String url) {
 		String actual = getLocation();
 		if (!actual.equals(url)) {
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Location should have been '%s' but was '%s'", url, actual));
+			throw new Selenium2LibraryNonFatalException(String.format("Location should have been '%s' but was '%s'",
+					url, actual));
 		}
-		info(String.format("Current location is '%s'.", url));
+		logging.info(String.format("Current location is '%s'.", url));
 	}
 
 	@RobotKeyword("Verifies that current URL contains _url_.\n")
@@ -327,16 +339,16 @@ public abstract class BrowserManagement {
 	public void locationShouldContain(String url) {
 		String actual = getLocation();
 		if (!actual.contains(url)) {
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Location should have been '%s' but was '%s'", url, actual));
+			throw new Selenium2LibraryNonFatalException(String.format("Location should have been '%s' but was '%s'",
+					url, actual));
 		}
-		info(String.format("Current location is '%s'.", url));
+		logging.info(String.format("Current location is '%s'.", url));
 	}
 
 	@RobotKeyword("Logs and returns the current location.\n")
 	public String logLocation() {
 		String actual = getLocation();
-		info(actual);
+		logging.info(actual);
 		return actual;
 	}
 
@@ -347,19 +359,19 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Logs and returns the entire html source of the current page or frame.\n\n"
 
-			+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
+	+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
 			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
 	@ArgumentNames({ "logLevel=INFO" })
 	public String logSource(String logLevel) {
 		String actual = getSource();
-		log(actual, logLevel);
+		logging.log(actual, logLevel);
 		return actual;
 	}
 
 	@RobotKeyword("Logs and returns the title of current page.\n")
 	public String logTitle() {
 		String actual = getTitle();
-		info(actual);
+		logging.info(actual);
 		return actual;
 	}
 
@@ -368,10 +380,10 @@ public abstract class BrowserManagement {
 	public void titleShouldBe(String title) {
 		String actual = getTitle();
 		if (!actual.equals(title)) {
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Title should have been '%s' but was '%s'", title, actual));
+			throw new Selenium2LibraryNonFatalException(String.format("Title should have been '%s' but was '%s'",
+					title, actual));
 		}
-		info(String.format("Page title is '%s'.", title));
+		logging.info(String.format("Page title is '%s'.", title));
 	}
 
 	@RobotKeyword("Simulates the user clicking the \"back\" button on their browser.\n")
@@ -382,7 +394,7 @@ public abstract class BrowserManagement {
 	@RobotKeyword("Navigates the active browser instance to the provided URL.\n")
 	@ArgumentNames({ "url" })
 	public void goTo(String url) {
-		info(String.format("Opening url '%s'", url));
+		logging.info(String.format("Opening url '%s'", url));
 		webDriverCache.getCurrent().get(url);
 	}
 
@@ -393,14 +405,14 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Gets the delay in seconds that is waited after each Selenium command.\n\n"
 
-			+ "See `Set Selenium Speed` for an explanation.\n")
+	+ "See `Set Selenium Speed` for an explanation.\n")
 	public String getSeleniumSpeed() {
 		return Robotframework.secsToTimestr(0);
 	}
 
 	@RobotKeyword("Gets the timeout in seconds that is used by various keywords.\n\n"
 
-			+ "See `Set Selenium Timeout` for an explanation.\n")
+	+ "See `Set Selenium Timeout` for an explanation.\n")
 	public String getSeleniumTimeout() {
 		return Robotframework.secsToTimestr(timeout);
 	}
@@ -412,8 +424,7 @@ public abstract class BrowserManagement {
 		return Robotframework.secsToTimestr(implicitWait);
 	}
 
-	@RobotKeyword("(NOT IMPLEMENTED)\n\nSets the delay in seconds that is waited after each "
-			+ "Selenium command.\n")
+	@RobotKeyword("(NOT IMPLEMENTED)\n\nSets the delay in seconds that is waited after each " + "Selenium command.\n")
 	@ArgumentNames({ "timestr" })
 	public String setSeleniumSpeed(String timestr) {
 		return "0s";
@@ -421,31 +432,24 @@ public abstract class BrowserManagement {
 
 	@RobotKeyword("Sets the timeout in seconds used by various keywords.\n\n"
 
-			+ "There are several Wait ... keywords that take timeout as an argument. All of "
+	+ "There are several Wait ... keywords that take timeout as an argument. All of "
 			+ "these timeout arguments are optional. The timeout used by all of them can be "
-			+ "set globally using this keyword. See `Introduction` for more information about "
-			+ "timeouts.\n\n"
+			+ "set globally using this keyword. See `Introduction` for more information about " + "timeouts.\n\n"
 
 			+ "The previous timeout value is returned by this keyword and can be used to set "
 			+ "the old value back later. The default timeout is 5 seconds, but it can be "
 			+ "altered in importing.\n\n"
 
-			+ "Example:\n"
-			+ "| ${orig timeout} = | Set Selenium Timeout | 15 seconds |\n"
-			+ "| Open page that loads slowly |\n"
-			+ "| Set Selenium Timeout | ${orig timeout} |\n")
+			+ "Example:\n" + "| ${orig timeout} = | Set Selenium Timeout | 15 seconds |\n"
+			+ "| Open page that loads slowly |\n" + "| Set Selenium Timeout | ${orig timeout} |\n")
 	@ArgumentNames({ "timestr" })
 	public String setSeleniumTimeout(String timestr) {
 		String oldWait = getSeleniumTimeout();
 		timeout = Robotframework.timestrToSecs(timestr);
 
-		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : webDriverCache
-				.getWebDrivers()) {
-			sessionIdAliasWebDriverTuple.webDriver
-					.manage()
-					.timeouts()
-					.setScriptTimeout((int) (timeout * 1000.0),
-							TimeUnit.MILLISECONDS);
+		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : webDriverCache.getWebDrivers()) {
+			sessionIdAliasWebDriverTuple.webDriver.manage().timeouts()
+					.setScriptTimeout((int) (timeout * 1000.0), TimeUnit.MILLISECONDS);
 		}
 		return oldWait;
 	}
@@ -457,29 +461,23 @@ public abstract class BrowserManagement {
 			+ "to be found, or a command to complete. This method only needs to be called one time "
 			+ "per session.'\n\n"
 
-			+ "	Example:\n"
-			+ "| ${orig wait} = | Set Selenium Implicit Wait | 10 seconds |\n"
-			+ "| Perform AJAX call that is slow |\n"
-			+ "| Set Selenium Implicit Wait | ${orig wait} |\n")
+			+ "	Example:\n" + "| ${orig wait} = | Set Selenium Implicit Wait | 10 seconds |\n"
+			+ "| Perform AJAX call that is slow |\n" + "| Set Selenium Implicit Wait | ${orig wait} |\n")
 	@ArgumentNames({ "timestr" })
 	public String setSeleniumImplicitWait(String timestr) {
 		String oldWait = getSeleniumTimeout();
 		implicitWait = Robotframework.timestrToSecs(timestr);
 
-		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : webDriverCache
-				.getWebDrivers()) {
-			sessionIdAliasWebDriverTuple.webDriver
-					.manage()
-					.timeouts()
-					.implicitlyWait((int) (implicitWait * 1000.0),
-							TimeUnit.MILLISECONDS);
+		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : webDriverCache.getWebDrivers()) {
+			sessionIdAliasWebDriverTuple.webDriver.manage().timeouts()
+					.implicitlyWait((int) (implicitWait * 1000.0), TimeUnit.MILLISECONDS);
 		}
 		return oldWait;
 	}
 
 	@RobotKeyword("Sets current browser's implicit wait in seconds.\n\n"
 
-			+ "From selenium 2 function 'Sets a sticky timeout to implicitly wait for an element to be found, "
+	+ "From selenium 2 function 'Sets a sticky timeout to implicitly wait for an element to be found, "
 			+ "or a command to complete. This method only needs to be called one time per session.'\n\n"
 
 			+ "Example:\n" + "| Set Browser Implicit Wait | 10 seconds |\n\n"
@@ -489,12 +487,8 @@ public abstract class BrowserManagement {
 	public String setBrowserImplicitWait(String timestr) {
 		String oldWait = getSeleniumTimeout();
 		implicitWait = Robotframework.timestrToSecs(timestr);
-		webDriverCache
-				.getCurrent()
-				.manage()
-				.timeouts()
-				.implicitlyWait((int) (implicitWait * 1000.0),
-						TimeUnit.MILLISECONDS);
+		webDriverCache.getCurrent().manage().timeouts()
+				.implicitlyWait((int) (implicitWait * 1000.0), TimeUnit.MILLISECONDS);
 		return oldWait;
 	}
 
@@ -506,16 +500,14 @@ public abstract class BrowserManagement {
 
 	@RobotKeywordOverload
 	@ArgumentNames({ "host", "port", "user=", "password=" })
-	public void setRemoteWebDriverProxy(String host, String port, String user,
-			String password) {
+	public void setRemoteWebDriverProxy(String host, String port, String user, String password) {
 		setRemoteWebDriverProxy(host, port, user, password, "", "");
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "host", "port", "user=", "password=", "domain=",
-			"workstation=" })
-	public void setRemoteWebDriverProxy(String host, String port, String user,
-			String password, String domain, String workstation) {
+	@ArgumentNames({ "host", "port", "user=", "password=", "domain=", "workstation=" })
+	public void setRemoteWebDriverProxy(String host, String port, String user, String password, String domain,
+			String workstation) {
 
 		if (host.length() == 0 || port.length() == 0) {
 			// No host and port given as proxy
@@ -568,8 +560,7 @@ public abstract class BrowserManagement {
 			// look for a password from environment
 			if (password.length() == 0) {
 				if (proxyUrl != null && proxyUrl.getHost().equals(host)
-						&& Integer.toString(proxyUrl.getPort()).equals(port)
-						&& getUserFromURL(proxyUrl).equals(user)) {
+						&& Integer.toString(proxyUrl.getPort()).equals(port) && getUserFromURL(proxyUrl).equals(user)) {
 					password = getPasswordFromURL(proxyUrl);
 				}
 			}
@@ -577,10 +568,9 @@ public abstract class BrowserManagement {
 
 		if (domain.length() != 0 && workstation.length() == 0) {
 			try {
-				workstation = InetAddress.getLocalHost().getHostName()
-						.split("\\.")[0];
+				workstation = InetAddress.getLocalHost().getHostName().split("\\.")[0];
 			} catch (UnknownHostException e) {
-				warn("No workstation name found");
+				logging.warn("No workstation name found");
 			}
 		}
 
@@ -614,45 +604,32 @@ public abstract class BrowserManagement {
 		return auth.substring(index + 1);
 	}
 
-	protected WebDriver createWebDriver(String browserName,
-			String desiredCapabilitiesString, String profileDirectory,
+	protected WebDriver createWebDriver(String browserName, String desiredCapabilitiesString, String profileDirectory,
 			String remoteUrlString) throws MalformedURLException {
 		browserName = browserName.toLowerCase().replace(" ", "");
-		DesiredCapabilities desiredCapabilities = createDesiredCapabilities(
-				browserName, desiredCapabilitiesString, profileDirectory);
+		DesiredCapabilities desiredCapabilities = createDesiredCapabilities(browserName, desiredCapabilitiesString,
+				profileDirectory);
 
 		WebDriver webDriver;
 		if (remoteUrlString != null && !"False".equals(remoteUrlString)) {
-			webDriver = createRemoteWebDriver(desiredCapabilities, new URL(
-					remoteUrlString));
+			webDriver = createRemoteWebDriver(desiredCapabilities, new URL(remoteUrlString));
 		} else {
 			webDriver = createLocalWebDriver(browserName, desiredCapabilities);
 		}
 
-		webDriver
-				.manage()
-				.timeouts()
-				.setScriptTimeout((int) (timeout * 1000.0),
-						TimeUnit.MILLISECONDS);
-		webDriver
-				.manage()
-				.timeouts()
-				.implicitlyWait((int) (implicitWait * 1000.0),
-						TimeUnit.MILLISECONDS);
+		webDriver.manage().timeouts().setScriptTimeout((int) (timeout * 1000.0), TimeUnit.MILLISECONDS);
+		webDriver.manage().timeouts().implicitlyWait((int) (implicitWait * 1000.0), TimeUnit.MILLISECONDS);
 
 		return webDriver;
 	}
 
-	protected WebDriver createLocalWebDriver(String browserName,
-			DesiredCapabilities desiredCapabilities) {
+	protected WebDriver createLocalWebDriver(String browserName, DesiredCapabilities desiredCapabilities) {
 		if ("ff".equals(browserName) || "firefox".equals(browserName)) {
 			return new FirefoxDriver(desiredCapabilities);
 
-		} else if ("ie".equals(browserName)
-				|| "internetexplorer".equals(browserName)) {
+		} else if ("ie".equals(browserName) || "internetexplorer".equals(browserName)) {
 			return new InternetExplorerDriver(desiredCapabilities);
-		} else if ("gc".equals(browserName) || "chrome".equals(browserName)
-				|| "googlechrome".equals(browserName)) {
+		} else if ("gc".equals(browserName) || "chrome".equals(browserName) || "googlechrome".equals(browserName)) {
 			return new ChromeDriver(desiredCapabilities);
 		} else if ("opera".equals(browserName)) {
 			return new OperaDriver(desiredCapabilities);
@@ -670,42 +647,33 @@ public abstract class BrowserManagement {
 			try {
 				return new IPhoneDriver(desiredCapabilities);
 			} catch (Exception e) {
-				throw new Selenium2LibraryFatalException("Creating "
-						+ browserName + " instance failed.", e);
+				throw new Selenium2LibraryFatalException("Creating " + browserName + " instance failed.", e);
 			}
 		} else if ("android".equals(browserName)) {
 			return new AndroidDriver(desiredCapabilities);
 		}
 
-		throw new Selenium2LibraryFatalException(browserName
-				+ " is not a supported browser.");
+		throw new Selenium2LibraryFatalException(browserName + " is not a supported browser.");
 	}
 
-	protected WebDriver createRemoteWebDriver(
-			DesiredCapabilities desiredCapabilities, URL remoteUrl) {
-		HttpCommandExecutor httpCommandExecutor = new HttpCommandExecutor(
-				remoteUrl);
+	protected WebDriver createRemoteWebDriver(DesiredCapabilities desiredCapabilities, URL remoteUrl) {
+		HttpCommandExecutor httpCommandExecutor = new HttpCommandExecutor(remoteUrl);
 		setRemoteWebDriverProxy(httpCommandExecutor);
-		return new Augmenter().augment(new RemoteWebDriver(httpCommandExecutor,
-				desiredCapabilities));
+		return new Augmenter().augment(new RemoteWebDriver(httpCommandExecutor, desiredCapabilities));
 	}
 
-	protected DesiredCapabilities createDesiredCapabilities(String browserName,
-			String desiredCapabilitiesString, String profileDirectory) {
+	protected DesiredCapabilities createDesiredCapabilities(String browserName, String desiredCapabilitiesString,
+			String profileDirectory) {
 		DesiredCapabilities desiredCapabilities;
 		if ("ff".equals(browserName) || "firefox".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.firefox();
 			if (profileDirectory != null) {
-				FirefoxProfile profile = new FirefoxProfile(new File(
-						profileDirectory));
-				desiredCapabilities.setCapability(FirefoxDriver.PROFILE,
-						profile);
+				FirefoxProfile profile = new FirefoxProfile(new File(profileDirectory));
+				desiredCapabilities.setCapability(FirefoxDriver.PROFILE, profile);
 			}
-		} else if ("ie".equals(browserName)
-				|| "internetexplorer".equals(browserName)) {
+		} else if ("ie".equals(browserName) || "internetexplorer".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.internetExplorer();
-		} else if ("gc".equals(browserName) || "chrome".equals(browserName)
-				|| "googlechrome".equals(browserName)) {
+		} else if ("gc".equals(browserName) || "chrome".equals(browserName) || "googlechrome".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.chrome();
 		} else if ("opera".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.opera();
@@ -719,16 +687,13 @@ public abstract class BrowserManagement {
 			desiredCapabilities = DesiredCapabilities.iphone();
 		} else if ("android".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.android();
-		} else if ("htmlunit".equals(browserName)
-				|| "htmlunitwithjs".equals(browserName)) {
+		} else if ("htmlunit".equals(browserName) || "htmlunitwithjs".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.htmlUnit();
 		} else {
-			throw new Selenium2LibraryFatalException(browserName
-					+ " is not a supported browser.");
+			throw new Selenium2LibraryFatalException(browserName + " is not a supported browser.");
 		}
 
-		if (desiredCapabilitiesString != null
-				&& !"None".equals(desiredCapabilitiesString)) {
+		if (desiredCapabilitiesString != null && !"None".equals(desiredCapabilitiesString)) {
 			for (String capability : desiredCapabilitiesString.split(",")) {
 				String[] keyValue = capability.split(":");
 				desiredCapabilities.setCapability(keyValue[0], keyValue[1]);
@@ -737,8 +702,7 @@ public abstract class BrowserManagement {
 		return desiredCapabilities;
 	}
 
-	protected void setRemoteWebDriverProxy(
-			HttpCommandExecutor httpCommandExecutor) {
+	protected void setRemoteWebDriverProxy(HttpCommandExecutor httpCommandExecutor) {
 		if (remoteWebDriverProxyHost.length() == 0) {
 			return;
 		}
@@ -751,86 +715,44 @@ public abstract class BrowserManagement {
 			className = "DefaultHttpClient";
 			Field field = HttpCommandExecutor.class.getDeclaredField(fieldName);
 			field.setAccessible(true);
-			DefaultHttpClient client = (DefaultHttpClient) field
-					.get(httpCommandExecutor);
+			DefaultHttpClient client = (DefaultHttpClient) field.get(httpCommandExecutor);
 
 			// set the credentials for the proxy
-			AuthScope authScope = new AuthScope(remoteWebDriverProxyHost,
-					Integer.parseInt(remoteWebDriverProxyPort));
+			AuthScope authScope = new AuthScope(remoteWebDriverProxyHost, Integer.parseInt(remoteWebDriverProxyPort));
 			if (remoteWebDriverProxyDomain.length() == 0) {
 				// BASIC Authentication
-				client.getCredentialsProvider().setCredentials(
-						authScope,
-						new UsernamePasswordCredentials(
-								remoteWebDriverProxyUser,
-								remoteWebDriverProxyPassword));
+				client.getCredentialsProvider().setCredentials(authScope,
+						new UsernamePasswordCredentials(remoteWebDriverProxyUser, remoteWebDriverProxyPassword));
 			} else {
 				// NTLM Authentication
 				client.getCredentialsProvider().setCredentials(
 						authScope,
-						new NTCredentials(remoteWebDriverProxyUser,
-								remoteWebDriverProxyPassword,
-								remoteWebDriverProxyWorkstation,
-								remoteWebDriverProxyDomain));
+						new NTCredentials(remoteWebDriverProxyUser, remoteWebDriverProxyPassword,
+								remoteWebDriverProxyWorkstation, remoteWebDriverProxyDomain));
 			}
 
 			// Set the RoutePlanner back to something that handles
 			// proxies correctly.
-			client.setRoutePlanner(new DefaultHttpRoutePlanner(client
-					.getConnectionManager().getSchemeRegistry()));
-			HttpHost proxy = new HttpHost(remoteWebDriverProxyHost,
-					Integer.parseInt(remoteWebDriverProxyPort));
-			client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
-					proxy);
+			client.setRoutePlanner(new DefaultHttpRoutePlanner(client.getConnectionManager().getSchemeRegistry()));
+			HttpHost proxy = new HttpHost(remoteWebDriverProxyHost, Integer.parseInt(remoteWebDriverProxyPort));
+			client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 		} catch (SecurityException e) {
-			throw new Selenium2LibraryFatalException(
-					String.format(
-							"The SecurityManager does not allow us to lookup to the %s field.",
-							fieldName));
-		} catch (NoSuchFieldException e) {
-			throw new Selenium2LibraryFatalException(
-					String.format(
-							"The RemoteWebDriver dose not declare the %s field any more.",
-							fieldName));
-		} catch (IllegalArgumentException e) {
 			throw new Selenium2LibraryFatalException(String.format(
-					"The field %s does not belong to the given object.",
+					"The SecurityManager does not allow us to lookup to the %s field.", fieldName));
+		} catch (NoSuchFieldException e) {
+			throw new Selenium2LibraryFatalException(String.format(
+					"The RemoteWebDriver dose not declare the %s field any more.", fieldName));
+		} catch (IllegalArgumentException e) {
+			throw new Selenium2LibraryFatalException(String.format("The field %s does not belong to the given object.",
 					fieldName));
 		} catch (IllegalAccessException e) {
-			throw new Selenium2LibraryFatalException(
-					String.format(
-							"The SecurityManager does not allow us to access to the %s field.",
-							fieldName));
+			throw new Selenium2LibraryFatalException(String.format(
+					"The SecurityManager does not allow us to access to the %s field.", fieldName));
 		} catch (ClassCastException e) {
-			throw new Selenium2LibraryFatalException(
-					String.format("The %s field does not contain a %s.",
-							fieldName, className));
+			throw new Selenium2LibraryFatalException(String.format("The %s field does not contain a %s.", fieldName,
+					className));
 		}
 
 	}
 
-	// ##############################
-	// Forward Declarations
-	// ##############################
-
-	protected abstract List<WebElement> elementFind(String locator,
-			boolean firstOnly, boolean required);
-
-	protected abstract void log(String msg, String logLevel);
-
-	protected abstract void trace(String msg);
-
-	protected abstract void debug(String msg);
-
-	protected abstract void info(String msg);
-
-	protected abstract void html(String msg);
-
-	protected abstract void warn(String msg);
-
-	protected abstract List<String> logList(List<String> items);
-
-	protected abstract List<String> logList(List<String> items, String what);
-
-	protected abstract File getLogDir();
 }
