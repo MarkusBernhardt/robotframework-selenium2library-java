@@ -19,11 +19,8 @@ public class WindowManager {
 		DEFAULT {
 
 			@Override
-			public void select(WebDriver webDriver,
-					SelectCoordinates selectCoordinates) {
-				if (selectCoordinates.criteria == null
-						|| selectCoordinates.criteria.toLowerCase().equals(
-								"null")) {
+			public void select(WebDriver webDriver, SelectCoordinates selectCoordinates) {
+				if (selectCoordinates.criteria == null || selectCoordinates.criteria.toLowerCase().equals("null")) {
 					webDriver.switchTo().window("");
 					return;
 				}
@@ -39,80 +36,59 @@ public class WindowManager {
 					return;
 				} catch (Throwable t) {
 				}
-				throw new Selenium2LibraryNonFatalException(
-						"Unable to locate window with name or title '"
-								+ selectCoordinates.criteria + "'");
+				throw new Selenium2LibraryNonFatalException("Unable to locate window with name or title '"
+						+ selectCoordinates.criteria + "'");
 			}
 		},
 		TITLE {
 
 			@Override
-			public void select(WebDriver webDriver,
-					final SelectCoordinates selectCoordinates) {
+			public void select(WebDriver webDriver, final SelectCoordinates selectCoordinates) {
 				selectMatching(webDriver, new Matcher() {
 
 					@Override
 					public boolean match(List<String> currentWindowInfo) {
-						return currentWindowInfo
-								.get(WINDOW_INFO_INDEX_DOCUMENT_TITLE)
-								.trim()
-								.toLowerCase()
-								.equals(selectCoordinates.criteria
-										.toLowerCase());
+						return currentWindowInfo.get(WINDOW_INFO_INDEX_DOCUMENT_TITLE).trim().toLowerCase()
+								.equals(selectCoordinates.criteria.toLowerCase());
 					}
 
-				}, "Unable to locate window with title '"
-						+ selectCoordinates.criteria + "'");
+				}, "Unable to locate window with title '" + selectCoordinates.criteria + "'");
 			}
 		},
 		NAME {
 
 			@Override
-			public void select(WebDriver webDriver,
-					final SelectCoordinates selectCoordinates) {
+			public void select(WebDriver webDriver, final SelectCoordinates selectCoordinates) {
 				selectMatching(webDriver, new Matcher() {
 
 					@Override
 					public boolean match(List<String> currentWindowInfo) {
-						return currentWindowInfo
-								.get(WINDOW_INFO_INDEX_WINDOW_NAME)
-								.trim()
-								.toLowerCase()
-								.equals(selectCoordinates.criteria
-										.toLowerCase());
+						return currentWindowInfo.get(WINDOW_INFO_INDEX_WINDOW_NAME).trim().toLowerCase()
+								.equals(selectCoordinates.criteria.toLowerCase());
 					}
 
-				}, "Unable to locate window with name '"
-						+ selectCoordinates.criteria + "'");
+				}, "Unable to locate window with name '" + selectCoordinates.criteria + "'");
 			}
 		},
 		URL {
 
 			@Override
-			public void select(WebDriver webDriver,
-					final SelectCoordinates selectCoordinates) {
+			public void select(WebDriver webDriver, final SelectCoordinates selectCoordinates) {
 				selectMatching(webDriver, new Matcher() {
 
 					@Override
 					public boolean match(List<String> currentWindowInfo) {
-						return currentWindowInfo
-								.get(WINDOW_INFO_INDEX_DOCUMENT_URL)
-								.trim()
-								.toLowerCase()
-								.equals(selectCoordinates.criteria
-										.toLowerCase());
+						return currentWindowInfo.get(WINDOW_INFO_INDEX_DOCUMENT_URL).trim().toLowerCase()
+								.equals(selectCoordinates.criteria.toLowerCase());
 					}
 
-				}, "Unable to locate window with URL '"
-						+ selectCoordinates.criteria + "'");
+				}, "Unable to locate window with URL '" + selectCoordinates.criteria + "'");
 			}
 		};
 
-		abstract public void select(WebDriver webDriver,
-				SelectCoordinates selectCoordinates);
+		abstract public void select(WebDriver webDriver, SelectCoordinates selectCoordinates);
 
-		protected static void selectMatching(WebDriver webDriver,
-				Matcher matcher, String error) {
+		protected static void selectMatching(WebDriver webDriver, Matcher matcher, String error) {
 			String startingHandle = webDriver.getWindowHandle();
 			for (String handle : webDriver.getWindowHandles()) {
 				webDriver.switchTo().window(handle);
@@ -165,18 +141,15 @@ public class WindowManager {
 
 	public static void select(WebDriver webDriver, String locator) {
 		if (webDriver == null) {
-			throw new Selenium2LibraryNonFatalException(
-					"WindowManager.select: webDriver is null.");
+			throw new Selenium2LibraryNonFatalException("WindowManager.select: webDriver is null.");
 		}
 
 		SelectCoordinates selectCoordinates = new SelectCoordinates();
-		WindowManagerStrategy strategy = parseLocator(selectCoordinates,
-				locator);
+		WindowManagerStrategy strategy = parseLocator(selectCoordinates, locator);
 		strategy.select(webDriver, selectCoordinates);
 	}
 
-	protected static WindowManagerStrategy parseLocator(
-			SelectCoordinates selectCoordinates, String locator) {
+	protected static WindowManagerStrategy parseLocator(SelectCoordinates selectCoordinates, String locator) {
 		String prefix = null;
 		String criteria = locator;
 		if (locator != null && locator.length() > 0) {

@@ -11,9 +11,10 @@ import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 
+import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
 import com.github.markusbernhardt.selenium2library.utils.Robotframework;
 
-public abstract class Screenshot extends RunOnFailure {
+public abstract class Screenshot extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Instantiated BrowserManagement keyword bean

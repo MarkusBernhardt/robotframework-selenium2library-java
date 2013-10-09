@@ -14,8 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.python.util.PythonInterpreter;
 
-import com.github.markusbernhardt.selenium2library.Selenium2Library;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.selenium2library.keywords.Element;
 import com.github.markusbernhardt.selenium2library.utils.Python;
 
 public class ElementFinder {
@@ -23,8 +23,7 @@ public class ElementFinder {
 	private final static Hashtable<String, CustomStrategy> registeredLocationStrategies = new Hashtable<String, CustomStrategy>();
 
 	private enum KeyAttrs {
-		DEFAULT("@id,@name"), A(
-				"@id,@name,@href,normalize-space(descendant-or-self::text())"), IMG(
+		DEFAULT("@id,@name"), A("@id,@name,@href,normalize-space(descendant-or-self::text())"), IMG(
 				"@id,@name,@src,@alt"), INPUT("@id,@name,@value,@src"), BUTTON(
 				"@id,@name,@value,normalize-space(descendant-or-self::text())");
 
@@ -40,8 +39,7 @@ public class ElementFinder {
 	}
 
 	private interface Strategy {
-		List<WebElement> findBy(WebDriver webDriver,
-				FindByCoordinates findByCoordinates);
+		List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates);
 
 	};
 
@@ -49,8 +47,7 @@ public class ElementFinder {
 		DEFAULT {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
 				if (findByCoordinates.criteria.startsWith("//")) {
 					return XPATH.findBy(webDriver, findByCoordinates);
 				}
@@ -60,88 +57,69 @@ public class ElementFinder {
 		IDENTIFIER {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
-				List<WebElement> elements = webDriver.findElements(By
-						.id(findByCoordinates.criteria));
-				elements.addAll(webDriver.findElements(By
-						.name(findByCoordinates.criteria)));
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+				List<WebElement> elements = webDriver.findElements(By.id(findByCoordinates.criteria));
+				elements.addAll(webDriver.findElements(By.name(findByCoordinates.criteria)));
 				return filterElements(elements, findByCoordinates);
 			}
 		},
 		ID {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
-				return filterElements(webDriver.findElements(By
-						.id(findByCoordinates.criteria)), findByCoordinates);
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+				return filterElements(webDriver.findElements(By.id(findByCoordinates.criteria)), findByCoordinates);
 			}
 		},
 		NAME {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
-				return filterElements(webDriver.findElements(By
-						.name(findByCoordinates.criteria)), findByCoordinates);
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+				return filterElements(webDriver.findElements(By.name(findByCoordinates.criteria)), findByCoordinates);
 			}
 		},
 		XPATH {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
-				return filterElements(webDriver.findElements(By
-						.xpath(findByCoordinates.criteria)), findByCoordinates);
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+				return filterElements(webDriver.findElements(By.xpath(findByCoordinates.criteria)), findByCoordinates);
 			}
 		},
 		DOM {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
-				Object result = ((JavascriptExecutor) webDriver)
-						.executeScript(String.format("return %s;",
-								findByCoordinates.criteria));
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+				Object result = ((JavascriptExecutor) webDriver).executeScript(String.format("return %s;",
+						findByCoordinates.criteria));
 				return filterElements(toList(result), findByCoordinates);
 			}
 		},
 		LINK {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
-				return filterElements(webDriver.findElements(By
-						.linkText(findByCoordinates.criteria)),
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+				return filterElements(webDriver.findElements(By.linkText(findByCoordinates.criteria)),
 						findByCoordinates);
 			}
 		},
 		CSS {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
-				return filterElements(webDriver.findElements(By
-						.cssSelector(findByCoordinates.criteria)),
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+				return filterElements(webDriver.findElements(By.cssSelector(findByCoordinates.criteria)),
 						findByCoordinates);
 			}
 		},
 		TAG {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
-				return filterElements(webDriver.findElements(By
-						.tagName(findByCoordinates.criteria)),
-						findByCoordinates);
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+				return filterElements(webDriver.findElements(By.tagName(findByCoordinates.criteria)), findByCoordinates);
 			}
 		},
 		JQUERY {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
 
 				return findByJQuerySizzle(webDriver, findByCoordinates);
 			}
@@ -150,8 +128,7 @@ public class ElementFinder {
 		SIZZLE {
 
 			@Override
-			public List<WebElement> findBy(WebDriver webDriver,
-					FindByCoordinates findByCoordinates) {
+			public List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates) {
 
 				return findByJQuerySizzle(webDriver, findByCoordinates);
 			}
@@ -160,18 +137,15 @@ public class ElementFinder {
 
 	}
 
-	private static List<WebElement> findByJQuerySizzle(WebDriver webDriver,
-			FindByCoordinates findByCoordinates) {
-		String js = String.format("return jQuery('%s').get();",
-				findByCoordinates.criteria.replace("'", "\\'"));
+	private static List<WebElement> findByJQuerySizzle(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+		String js = String.format("return jQuery('%s').get();", findByCoordinates.criteria.replace("'", "\\'"));
 
 		Object o = ((JavascriptExecutor) webDriver).executeScript(js);
 		List<WebElement> list = toList(o);
 		return filterElements(list, findByCoordinates);
 	}
 
-	private static List<WebElement> filterElements(List<WebElement> elements,
-			FindByCoordinates findByCoordinates) {
+	private static List<WebElement> filterElements(List<WebElement> elements, FindByCoordinates findByCoordinates) {
 		if (findByCoordinates.tag == null) {
 			return elements;
 		}
@@ -185,16 +159,14 @@ public class ElementFinder {
 		return result;
 	}
 
-	private static boolean elementMatches(WebElement element,
-			FindByCoordinates findByCoordinates) {
+	private static boolean elementMatches(WebElement element, FindByCoordinates findByCoordinates) {
 		if (!element.getTagName().toLowerCase().equals(findByCoordinates.tag)) {
 			return false;
 		}
 
 		if (findByCoordinates.constraints != null) {
 			for (String name : findByCoordinates.constraints.keySet()) {
-				if (!element.getAttribute(name).equals(
-						findByCoordinates.constraints.get(name))) {
+				if (!element.getAttribute(name).equals(findByCoordinates.constraints.get(name))) {
 					return false;
 				}
 			}
@@ -203,49 +175,38 @@ public class ElementFinder {
 		return true;
 	}
 
-	private static List<WebElement> findByKeyAttrs(WebDriver webDriver,
-			FindByCoordinates findByCoordinates) {
+	private static List<WebElement> findByKeyAttrs(WebDriver webDriver, FindByCoordinates findByCoordinates) {
 		KeyAttrs keyAttrs = KeyAttrs.DEFAULT;
 		if (findByCoordinates.tag != null) {
 			try {
-				keyAttrs = KeyAttrs.valueOf(findByCoordinates.tag.trim()
-						.toUpperCase());
+				keyAttrs = KeyAttrs.valueOf(findByCoordinates.tag.trim().toUpperCase());
 			} catch (IllegalArgumentException e) {
 				// No special keyAttrs available for this tag
 			}
 		}
-		String xpathCriteria = Selenium2Library
-				.escapeXpathValue(findByCoordinates.criteria);
+		String xpathCriteria = Element.escapeXpathValue(findByCoordinates.criteria);
 		String xpathTag = findByCoordinates.tag;
 		if (findByCoordinates.tag == null) {
 			xpathTag = "*";
 		}
 		List<String> xpathConstraints = new ArrayList<String>();
 		if (findByCoordinates.constraints != null) {
-			for (Entry<String, String> entry : findByCoordinates.constraints
-					.entrySet()) {
-				xpathConstraints.add(String.format("@%s='%s'", entry.getKey(),
-						entry.getValue()));
+			for (Entry<String, String> entry : findByCoordinates.constraints.entrySet()) {
+				xpathConstraints.add(String.format("@%s='%s'", entry.getKey(), entry.getValue()));
 			}
 		}
 		List<String> xpathSearchers = new ArrayList<String>();
 		for (String attr : keyAttrs.getKeyAttrs()) {
 			xpathSearchers.add(String.format("%s=%s", attr, xpathCriteria));
 		}
-		xpathSearchers.addAll(getAttrsWithUrl(webDriver, keyAttrs,
-				findByCoordinates.criteria));
-		String xpath = String.format(
-				"//%s[%s(%s)]",
-				xpathTag,
-				Python.join(" and ", xpathConstraints)
-						+ (xpathConstraints.size() > 0 ? " and " : ""),
-				Python.join(" or ", xpathSearchers));
+		xpathSearchers.addAll(getAttrsWithUrl(webDriver, keyAttrs, findByCoordinates.criteria));
+		String xpath = String.format("//%s[%s(%s)]", xpathTag, Python.join(" and ", xpathConstraints)
+				+ (xpathConstraints.size() > 0 ? " and " : ""), Python.join(" or ", xpathSearchers));
 
 		return webDriver.findElements(By.xpath(xpath));
 	}
 
-	private static List<String> getAttrsWithUrl(WebDriver webDriver,
-			KeyAttrs keyAttrs, String criteria) {
+	private static List<String> getAttrsWithUrl(WebDriver webDriver, KeyAttrs keyAttrs, String criteria) {
 		List<String> attrs = new ArrayList<String>();
 		String url = null;
 		String xpathUrl = null;
@@ -255,7 +216,7 @@ public class ElementFinder {
 				if (attr.equals(keyAttr)) {
 					if (url == null || xpathUrl == null) {
 						url = getBaseUrl(webDriver) + "/" + criteria;
-						xpathUrl = Selenium2Library.escapeXpathValue(url);
+						xpathUrl = Element.escapeXpathValue(url);
 					}
 					attrs.add(String.format("%s=%s", attr, xpathUrl));
 				}
@@ -273,25 +234,20 @@ public class ElementFinder {
 		return url;
 	}
 
-	public static void addLocationStrategy(String strategyName,
-			String functionDefinition, String delimiter) {
-		registeredLocationStrategies.put(strategyName.toUpperCase(),
-				new CustomStrategy(functionDefinition, delimiter));
+	public static void addLocationStrategy(String strategyName, String functionDefinition, String delimiter) {
+		registeredLocationStrategies.put(strategyName.toUpperCase(), new CustomStrategy(functionDefinition, delimiter));
 	}
 
 	public static List<WebElement> find(WebDriver webDriver, String locator) {
 		return find(webDriver, locator, null);
 	}
 
-	public static List<WebElement> find(WebDriver webDriver, String locator,
-			String tag) {
+	public static List<WebElement> find(WebDriver webDriver, String locator, String tag) {
 		if (webDriver == null) {
-			throw new Selenium2LibraryNonFatalException(
-					"ElementFinder.find: webDriver is null.");
+			throw new Selenium2LibraryNonFatalException("ElementFinder.find: webDriver is null.");
 		}
 		if (locator == null) {
-			throw new Selenium2LibraryNonFatalException(
-					"ElementFinder.find: locator is null.");
+			throw new Selenium2LibraryNonFatalException("ElementFinder.find: locator is null.");
 		}
 
 		FindByCoordinates findByCoordinates = new FindByCoordinates();
@@ -305,20 +261,17 @@ public class ElementFinder {
 		@Override
 		protected PythonInterpreter initialValue() {
 			PythonInterpreter pythonInterpreter = new PythonInterpreter();
-			pythonInterpreter
-					.exec("from robot.variables import GLOBAL_VARIABLES; from robot.api import logger;");
+			pythonInterpreter.exec("from robot.variables import GLOBAL_VARIABLES; from robot.api import logger;");
 			return pythonInterpreter;
 		}
 	};
 
 	protected static void warn(String msg) {
 		loggingPythonInterpreter.get().exec(
-				String.format("logger.warn('%s');", msg.replace("'", "\\'")
-						.replace("\n", "\\n")));
+				String.format("logger.warn('%s');", msg.replace("'", "\\'").replace("\n", "\\n")));
 	}
 
-	private static Strategy parseLocator(FindByCoordinates findByCoordinates,
-			String locator) {
+	private static Strategy parseLocator(FindByCoordinates findByCoordinates, String locator) {
 		String prefix = null;
 		String criteria = locator;
 		if (!locator.startsWith("//")) {
@@ -335,8 +288,7 @@ public class ElementFinder {
 				strategy = StrategyEnum.valueOf(prefix);
 			} catch (IllegalArgumentException e) {
 				// No standard locator type. Look for custom strategy
-				CustomStrategy customStrategy = registeredLocationStrategies
-						.get(prefix);
+				CustomStrategy customStrategy = registeredLocationStrategies.get(prefix);
 				if (customStrategy != null) {
 					strategy = customStrategy;
 				}
@@ -346,8 +298,7 @@ public class ElementFinder {
 		return strategy;
 	}
 
-	private static void parseTag(FindByCoordinates findByCoordinates,
-			Strategy strategy, String tag) {
+	private static void parseTag(FindByCoordinates findByCoordinates, Strategy strategy, String tag) {
 		if (tag == null) {
 			return;
 		}
@@ -408,8 +359,7 @@ public class ElementFinder {
 		}
 
 		@Override
-		public List<WebElement> findBy(final WebDriver webDriver,
-				final FindByCoordinates findByCoordinates) {
+		public List<WebElement> findBy(final WebDriver webDriver, final FindByCoordinates findByCoordinates) {
 			return filterElements(webDriver.findElements(new By() {
 
 				@Override
@@ -419,15 +369,13 @@ public class ElementFinder {
 						arguments = new Object[1];
 						arguments[0] = findByCoordinates.criteria;
 					} else {
-						String[] splittedCriteria = findByCoordinates.criteria
-								.split(delimiter);
+						String[] splittedCriteria = findByCoordinates.criteria.split(delimiter);
 						arguments = new Object[splittedCriteria.length];
 						for (int i = 0; i < splittedCriteria.length; i++) {
 							arguments[i] = splittedCriteria[i];
 						}
 					}
-					Object o = ((JavascriptExecutor) webDriver).executeScript(
-							functionDefinition, arguments);
+					Object o = ((JavascriptExecutor) webDriver).executeScript(functionDefinition, arguments);
 					return toList(o);
 				}
 

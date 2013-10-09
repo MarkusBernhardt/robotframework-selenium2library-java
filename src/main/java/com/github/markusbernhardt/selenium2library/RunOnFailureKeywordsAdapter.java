@@ -1,11 +1,13 @@
 package com.github.markusbernhardt.selenium2library;
 
-import com.github.markusbernhardt.selenium2library.keywords.Selenium2LibraryEnhancement;
+import org.robotframework.javalib.annotation.Autowired;
 
-/**
- * Robotframework Library. All public methods are keywords.
- */
-public class Selenium2Library extends Selenium2LibraryEnhancement {
+import com.github.markusbernhardt.selenium2library.keywords.RunOnFailure;
+
+public abstract class RunOnFailureKeywordsAdapter implements RunOnFailureKeywords {
+
+	@Autowired
+	private RunOnFailure runOnFailure;
 
 	/**
 	 * This method is called by the
@@ -13,8 +15,9 @@ public class Selenium2Library extends Selenium2LibraryEnhancement {
 	 * case a exception is thrown in one of the public methods of a keyword
 	 * class.
 	 */
+	@Override
 	public void runOnFailureByAspectJ() {
-		runOnFailure();
+		runOnFailure.runOnFailure();
 	}
 
 }

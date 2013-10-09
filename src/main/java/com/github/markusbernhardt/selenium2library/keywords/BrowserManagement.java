@@ -37,8 +37,10 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
+import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryFatalException;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.selenium2library.locators.ElementFinder;
 import com.github.markusbernhardt.selenium2library.locators.WindowManager;
 import com.github.markusbernhardt.selenium2library.utils.Robotframework;
 import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
@@ -46,7 +48,7 @@ import com.github.markusbernhardt.selenium2library.utils.WebDriverCache.SessionI
 import com.opera.core.systems.OperaDriver;
 
 @RobotKeywords
-public class BrowserManagement {
+public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 
 	public String remoteWebDriverProxyHost = "";
 	public String remoteWebDriverProxyPort = "";
@@ -94,9 +96,24 @@ public class BrowserManagement {
 		return webDriverCache.getCurrent();
 	}
 
+	public double getTimeout() {
+		return timeout;
+	}
+
 	// ##############################
 	// Keywords
 	// ##############################
+
+	@RobotKeywordOverload
+	public void addLocationStrategy(String strategyName, String functionDefinition) {
+		addLocationStrategy(strategyName, functionDefinition, null);
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "strategyName", "functionDefinition", "delimiter=NONE" })
+	public void addLocationStrategy(String strategyName, String functionDefinition, String delimiter) {
+		ElementFinder.addLocationStrategy(strategyName, functionDefinition, delimiter);
+	}
 
 	@RobotKeyword("Closes the current browser.")
 	public void closeBrowser() {
@@ -152,8 +169,12 @@ public class BrowserManagement {
 			+ "| chrome | Google Chrome |\n"
 			+ "| opera | Opera |\n"
 			+ "| phantomjs | PhantomJS |\n"
-			+ "| htmlunit | HTMLUnit |\n"
-			+ "| htmlunitwithjs | HTMLUnit with Javascipt support |\n\n"
+			+ "| htmlunitwithjs | HTMLUnit with Javascipt support |\n"
+			+ "| safari | Safari |\n"
+			+ "| ipad | iPad |\n"
+			+ "| iphone | iPhone |\n"
+			+ "| android | Android |\n"
+			+ "| htmlunit | HTMLUnit |\n\n"
 
 			+ "Note, that you will encounter strange behavior, if you open multiple Internet "
 			+ "Explorer browser instances. That is also why `Switch Browser` only works with "
@@ -323,6 +344,31 @@ public class BrowserManagement {
 		return webDriverCache.getCurrent().getTitle();
 	}
 
+	@RobotKeyword
+	public String getRemoteCapabilities() {
+		if (getCurrentWebDriver() instanceof RemoteWebDriver) {
+			return ((RemoteWebDriver) getCurrentWebDriver()).getCapabilities().toString();
+		} else {
+			return "No remote session id";
+		}
+	}
+
+	@RobotKeyword
+	public String getRemoteSessionId() {
+		if (getCurrentWebDriver() instanceof RemoteWebDriver) {
+			return ((RemoteWebDriver) getCurrentWebDriver()).getSessionId().toString();
+		} else {
+			return "No remote session id";
+		}
+	}
+
+	@RobotKeyword
+	public String getSystemInfo() {
+		return String.format("      os.name: '%s'\n      os.arch: '%s'\n   os.version: '%s'\n java.version: '%s'",
+				System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("os.version"),
+				System.getProperty("java.version"));
+	}
+
 	@RobotKeyword("Verifies that current URL is exactly _url_.\n")
 	@ArgumentNames({ "url" })
 	public void locationShouldBe(String url) {
@@ -343,36 +389,6 @@ public class BrowserManagement {
 					url, actual));
 		}
 		logging.info(String.format("Current location is '%s'.", url));
-	}
-
-	@RobotKeyword("Logs and returns the current location.\n")
-	public String logLocation() {
-		String actual = getLocation();
-		logging.info(actual);
-		return actual;
-	}
-
-	@RobotKeywordOverload
-	public String logSource() {
-		return logSource("INFO");
-	}
-
-	@RobotKeyword("Logs and returns the entire html source of the current page or frame.\n\n"
-
-	+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
-			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
-	@ArgumentNames({ "logLevel=INFO" })
-	public String logSource(String logLevel) {
-		String actual = getSource();
-		logging.log(actual, logLevel);
-		return actual;
-	}
-
-	@RobotKeyword("Logs and returns the title of current page.\n")
-	public String logTitle() {
-		String actual = getTitle();
-		logging.info(actual);
-		return actual;
 	}
 
 	@RobotKeyword("Verifies that current page title equals _title_.\n")
@@ -493,20 +509,41 @@ public class BrowserManagement {
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({ "host", "port" })
 	public void setRemoteWebDriverProxy(String host, String port) {
-		setRemoteWebDriverProxy(host, port, "", "", "", "");
+		setRemoteWebDriverProxy(host, port, "");
 	}
 
 	@RobotKeywordOverload
-	@ArgumentNames({ "host", "port", "user=", "password=" })
-	public void setRemoteWebDriverProxy(String host, String port, String user, String password) {
-		setRemoteWebDriverProxy(host, port, user, password, "", "");
+	public void setRemoteWebDriverProxy(String host, String port, String user) {
+		setRemoteWebDriverProxy(host, port, user, "");
 	}
 
-	@RobotKeyword
-	@ArgumentNames({ "host", "port", "user=", "password=", "domain=", "workstation=" })
-	public void setRemoteWebDriverProxy(String host, String port, String user, String password, String domain,
+	@RobotKeywordOverload
+	public void setRemoteWebDriverProxy(String host, String port, String user, String password) {
+		setRemoteWebDriverProxy(host, port, user, password, "");
+	}
+
+	@RobotKeywordOverload
+	public void setRemoteWebDriverProxy(String host, String port, String user, String password, String domain) {
+		setRemoteWebDriverProxy(host, port, user, password, domain, "");
+	}
+
+	@RobotKeyword("Configures proxy handling for RemoteWebDriver instances.\n\n"
+
+			+ "This is needed, if you want to connect to an external Selenium grid through a "
+			+ "local HTTP proxy. This implementation handles BASIC, DIGEST and NTLM "
+			+ "based authentication schemes correctly.\n\n"
+
+			+ "If you set a proxy, it will be used for all subsequent calls of Open Browser.\n"
+			+ "You can remove the proxy by calling: Set Remote Web Driver Proxy    ${EMPTY}    ${EMPTY}\n\n"
+
+			+ "Some additional info:\n"
+			+ "|If no _username_ is provided, it looks for a username at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If a username is found, it is only used, if the host and port also match.|\n"
+			+ "|If no _password_ is provided, it looks for a password at the Java property http.proxyUser and the environment variables HTTP_PROXY and http_proxy. If a password is found, it is only used, if the host, port and username also match.|\n"
+			+ "|If a _domain_, NTLM based authentication is used|\n"
+			+ "|If no _workstation_ is provided and NTLM based authentication is used, the hostname is used as workstation name.|\n")
+	@ArgumentNames({ "host", "port", "username=NONE", "password=NONE", "domain=NONE", "workstation=NONE" })
+	public void setRemoteWebDriverProxy(String host, String port, String username, String password, String domain,
 			String workstation) {
 
 		if (host.length() == 0 || port.length() == 0) {
@@ -535,17 +572,17 @@ public class BrowserManagement {
 			throw new Selenium2LibraryNonFatalException(e.getMessage());
 		}
 
-		if (user.length() == 0) {
+		if (username.length() == 0) {
 			// look for a username from properties
 			if (System.getProperty("http.proxyHost", "").equals(host)
 					&& System.getProperty("http.proxyPort", "").equals(port)) {
-				user = System.getProperty("http.proxyUser", "");
+				username = System.getProperty("http.proxyUser", "");
 			}
 			// look for a username from environment
-			if (user.length() == 0) {
+			if (username.length() == 0) {
 				if (proxyUrl != null && proxyUrl.getHost().equals(host)
 						&& Integer.toString(proxyUrl.getPort()).equals(port)) {
-					user = getUserFromURL(proxyUrl);
+					username = getUserFromURL(proxyUrl);
 				}
 			}
 		}
@@ -554,13 +591,14 @@ public class BrowserManagement {
 			// look for a password from properties
 			if (System.getProperty("http.proxyHost", "").equals(host)
 					&& System.getProperty("http.proxyPort", "").equals(port)
-					&& System.getProperty("http.proxyUser", "").equals(user)) {
+					&& System.getProperty("http.proxyUser", "").equals(username)) {
 				password = System.getProperty("http.proxyPassword", "");
 			}
 			// look for a password from environment
 			if (password.length() == 0) {
 				if (proxyUrl != null && proxyUrl.getHost().equals(host)
-						&& Integer.toString(proxyUrl.getPort()).equals(port) && getUserFromURL(proxyUrl).equals(user)) {
+						&& Integer.toString(proxyUrl.getPort()).equals(port)
+						&& getUserFromURL(proxyUrl).equals(username)) {
 					password = getPasswordFromURL(proxyUrl);
 				}
 			}
@@ -576,7 +614,7 @@ public class BrowserManagement {
 
 		remoteWebDriverProxyHost = host;
 		remoteWebDriverProxyPort = port;
-		remoteWebDriverProxyUser = user;
+		remoteWebDriverProxyUser = username;
 		remoteWebDriverProxyPassword = password;
 		remoteWebDriverProxyDomain = domain;
 		remoteWebDriverProxyWorkstation = workstation;

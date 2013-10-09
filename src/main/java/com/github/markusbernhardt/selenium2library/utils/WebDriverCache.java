@@ -49,8 +49,7 @@ public class WebDriverCache {
 		if (closedSessionIds.size() == 0) {
 			// no closed id
 			maxAssignedSessionId++;
-			currentSessionIdAliasWebDriverTuple.id = Integer
-					.toString(maxAssignedSessionId);
+			currentSessionIdAliasWebDriverTuple.id = Integer.toString(maxAssignedSessionId);
 		} else {
 			// reuse closed id
 			currentSessionIdAliasWebDriverTuple.id = closedSessionIds.pop();
@@ -58,11 +57,9 @@ public class WebDriverCache {
 
 		// store the new tuple
 		openSessionIds.push(currentSessionIdAliasWebDriverTuple.id);
-		tupleBySessionId.put(currentSessionIdAliasWebDriverTuple.id,
-				currentSessionIdAliasWebDriverTuple);
+		tupleBySessionId.put(currentSessionIdAliasWebDriverTuple.id, currentSessionIdAliasWebDriverTuple);
 		if (alias != null) {
-			tupleByAlias.put(currentSessionIdAliasWebDriverTuple.alias,
-					currentSessionIdAliasWebDriverTuple);
+			tupleByAlias.put(currentSessionIdAliasWebDriverTuple.alias, currentSessionIdAliasWebDriverTuple);
 		}
 		return currentSessionIdAliasWebDriverTuple.id;
 	}
@@ -94,8 +91,7 @@ public class WebDriverCache {
 
 			// Set the last opened webdriver as current webdriver
 			if (openSessionIds.size() != 0) {
-				currentSessionIdAliasWebDriverTuple = tupleBySessionId
-						.get(openSessionIds.pop());
+				currentSessionIdAliasWebDriverTuple = tupleBySessionId.get(openSessionIds.pop());
 			} else {
 				currentSessionIdAliasWebDriverTuple = null;
 			}
@@ -103,8 +99,7 @@ public class WebDriverCache {
 	}
 
 	public void closeAll() {
-		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : tupleBySessionId
-				.values()) {
+		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : tupleBySessionId.values()) {
 			sessionIdAliasWebDriverTuple.webDriver.quit();
 		}
 		maxAssignedSessionId = 0;
@@ -116,8 +111,7 @@ public class WebDriverCache {
 	}
 
 	public void switchBrowser(String sessionIdOrAlias) {
-		SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple = tupleByAlias
-				.get(sessionIdOrAlias);
+		SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple = tupleByAlias.get(sessionIdOrAlias);
 		if (sessionIdAliasWebDriverTuple != null) {
 			currentSessionIdAliasWebDriverTuple = sessionIdAliasWebDriverTuple;
 			openSessionIds.remove(currentSessionIdAliasWebDriverTuple.id);
@@ -132,8 +126,7 @@ public class WebDriverCache {
 			openSessionIds.push(currentSessionIdAliasWebDriverTuple.id);
 			return;
 		}
-		throw new Selenium2LibraryFatalException(String.format(
-				"Non-existing index or alias '%s'", sessionIdOrAlias));
+		throw new Selenium2LibraryFatalException(String.format("Non-existing index or alias '%s'", sessionIdOrAlias));
 	}
 
 	public Collection<SessionIdAliasWebDriverTuple> getWebDrivers() {

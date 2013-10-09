@@ -10,11 +10,16 @@ import java.util.Map;
 
 import org.python.core.PyString;
 import org.python.util.PythonInterpreter;
+import org.robotframework.javalib.annotation.ArgumentNames;
+import org.robotframework.javalib.annotation.Autowired;
+import org.robotframework.javalib.annotation.RobotKeyword;
+import org.robotframework.javalib.annotation.RobotKeywordOverload;
 
+import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 import com.github.markusbernhardt.selenium2library.utils.Python;
 
-public class Logging {
+public class Logging extends RunOnFailureKeywordsAdapter {
 
 	private final static Map<String, String[]> VALID_LOG_LEVELS;
 	private static String logDir = null;
@@ -26,6 +31,116 @@ public class Logging {
 		VALID_LOG_LEVELS.put("info", new String[] { "info", "" });
 		VALID_LOG_LEVELS.put("trace", new String[] { "trace", "" });
 		VALID_LOG_LEVELS.put("warn", new String[] { "warn", "" });
+	}
+
+	/**
+	 * Instantiated BrowserManagement keyword bean
+	 */
+	@Autowired
+	private BrowserManagement browserManagement;
+
+	// ##############################
+	// Keywords
+	// ##############################
+
+	@RobotKeywordOverload
+	public String logLocation() {
+		return logLocation("INFO");
+	}
+
+	@RobotKeyword("Logs and returns the current location.\n\n"
+
+	+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
+			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
+	@ArgumentNames({ "logLevel=INFO" })
+	public String logLocation(String logLevel) {
+		String actual = browserManagement.getLocation();
+		log(actual, logLevel);
+		return actual;
+	}
+
+	@RobotKeywordOverload
+	public String logSource() {
+		return logSource("INFO");
+	}
+
+	@RobotKeyword("Logs and returns the entire html source of the current page or frame.\n\n"
+
+	+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
+			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
+	@ArgumentNames({ "logLevel=INFO" })
+	public String logSource(String logLevel) {
+		String actual = browserManagement.getSource();
+		log(actual, logLevel);
+		return actual;
+	}
+
+	@RobotKeywordOverload
+	public String logTitle() {
+		return logTitle("INFO");
+	}
+
+	@RobotKeyword("Logs and returns the title of current page.\n\n"
+
+	+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
+			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
+	@ArgumentNames({ "logLevel=INFO" })
+	public String logTitle(String logLevel) {
+		String actual = browserManagement.getTitle();
+		log(actual, logLevel);
+		return actual;
+	}
+
+	@RobotKeywordOverload
+	public String logSystemInfo() {
+		return logSystemInfo("INFO");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "logLevel=INFO" })
+	public String logSystemInfo(String logLevel) {
+		String actual = browserManagement.getSystemInfo();
+		log(actual, logLevel);
+		return actual;
+	}
+
+	@RobotKeywordOverload
+	public String logRemoteCapabilities() {
+		return logRemoteCapabilities("INFO");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "logLevel=INFO" })
+	public String logRemoteCapabilities(String logLevel) {
+		String actual = browserManagement.getRemoteCapabilities();
+		log(actual, logLevel);
+		return actual;
+	}
+
+	@RobotKeywordOverload
+	public String logRemoteSessionId() {
+		return logRemoteSessionId("INFO");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "logLevel=INFO" })
+	public String logRemoteSessionId(String logLevel) {
+		String actual = browserManagement.getRemoteSessionId();
+		log(actual, logLevel);
+		return actual;
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "logDirectory" })
+	public void setLogDirectory(String logDirectory) throws Exception {
+		File file = new File(logDirectory);
+
+		if (file.exists() && file.isDirectory() && file.canWrite()) {
+			Logging.setLogDir(file.getAbsolutePath());
+		} else {
+			throw new Exception("Location given as parameter: " + logDirectory
+					+ " must exist and must be a writeable directory!");
+		}
 	}
 
 	// ##############################

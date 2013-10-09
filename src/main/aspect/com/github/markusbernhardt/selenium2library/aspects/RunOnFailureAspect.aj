@@ -3,7 +3,7 @@ package com.github.markusbernhardt.selenium2library.aspects;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 
-import com.github.markusbernhardt.selenium2library.Selenium2Library;
+import com.github.markusbernhardt.selenium2library.RunOnFailureKeywords;
 
 public aspect RunOnFailureAspect {
 
@@ -18,7 +18,7 @@ public aspect RunOnFailureAspect {
 			return;
 		}
 
-		((Selenium2Library) thisJoinPoint.getTarget()).runOnFailureByAspectJ();
+		((RunOnFailureKeywords) thisJoinPoint.getTarget()).runOnFailureByAspectJ();
 		lastThrowable.set(t);
 	}
 }

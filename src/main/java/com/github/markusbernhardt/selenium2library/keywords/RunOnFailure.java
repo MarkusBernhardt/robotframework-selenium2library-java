@@ -6,8 +6,10 @@ import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
+import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
+
 @RobotKeywords
-public  class RunOnFailure {
+public class RunOnFailure extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * The keyword to run an failure
@@ -18,23 +20,22 @@ public  class RunOnFailure {
 	 * Only run keyword on failure if true
 	 */
 	private boolean runningOnFailureRoutine;
-	
+
 	/**
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
 	private Logging logging;
-	
+
 	// ##############################
 	// Keywords
 	// ##############################
 
 	@RobotKeyword("Sets the keyword to execute when a Selenium2Library keyword fails.\n\n"
 
-			+ "_keywordname_ is the name of a keyword (from any available libraries) that will be "
+	+ "_keywordname_ is the name of a keyword (from any available libraries) that will be "
 			+ "executed if a Selenium2Library keyword fails. It is not possible to use a keyword "
-			+ "that requires arguments. Using the value _Nothing_ will disable this feature "
-			+ "altogether.\n\n"
+			+ "that requires arguments. Using the value _Nothing_ will disable this feature " + "altogether.\n\n"
 
 			+ "The initial keyword to use is set in importing, and the keyword that is used by "
 			+ "default is `Capture Page Screenshot`. Taking a screenshot when something failed is "
@@ -43,12 +44,10 @@ public  class RunOnFailure {
 			+ "This keyword returns the name of the previously registered failure keyword. It can "
 			+ "be used to restore the original value later.\n\n"
 
-			+ "Example:\n"
-			+ "| Register Keyword To Run On Failure | Log Source | # Run Log Source on failure. |\n"
+			+ "Example:\n" + "| Register Keyword To Run On Failure | Log Source | # Run Log Source on failure. |\n"
 			+ "| ${previous kw}= | Register Keyword To Run On Failure | Nothing | # Disables "
 			+ "run-on-failure functionality and stores the previous kw name in a variable. |\n"
-			+ "| Register Keyword To Run On Failure | ${previous kw} | # Restore to the previous "
-			+ "keyword. |\n\n"
+			+ "| Register Keyword To Run On Failure | ${previous kw} | # Restore to the previous " + "keyword. |\n\n"
 
 			+ "This run-on-failure functionality only works when running tests on Python/Jython 2.4 "
 			+ "or newer and it does not work on IronPython at all.")
@@ -57,8 +56,7 @@ public  class RunOnFailure {
 		String oldKeyword = runOnFailureKeyword;
 		String oldKeywordText = oldKeyword != null ? oldKeyword : "No keyword";
 
-		String newKeyword = !keyword.trim().toLowerCase().equals("nothing") ? keyword
-				: null;
+		String newKeyword = !keyword.trim().toLowerCase().equals("nothing") ? keyword : null;
 		String newKeywordText = newKeyword != null ? newKeyword : "No keyword";
 
 		runOnFailureKeyword = newKeyword;
@@ -71,19 +69,17 @@ public  class RunOnFailure {
 	// Internal Methods
 	// ##############################
 
-
 	protected static ThreadLocal<PythonInterpreter> runOnFailurePythonInterpreter = new ThreadLocal<PythonInterpreter>() {
 
 		@Override
 		protected PythonInterpreter initialValue() {
 			PythonInterpreter pythonInterpreter = new PythonInterpreter();
-			pythonInterpreter
-					.exec("from robot.libraries import BuiltIn; BUILTIN = BuiltIn.BuiltIn();");
+			pythonInterpreter.exec("from robot.libraries import BuiltIn; BUILTIN = BuiltIn.BuiltIn();");
 			return pythonInterpreter;
 		}
 	};
 
-	protected void runOnFailure() {
+	public void runOnFailure() {
 		if (runOnFailureKeyword == null) {
 			return;
 		}
@@ -93,13 +89,10 @@ public  class RunOnFailure {
 		runningOnFailureRoutine = true;
 		try {
 			runOnFailurePythonInterpreter.get().exec(
-					String.format(
-							"BUILTIN.run_keyword('%s')",
-							runOnFailureKeyword.replace("'", "\\'").replace(
-									"\n", "\\n")));
+					String.format("BUILTIN.run_keyword('%s')",
+							runOnFailureKeyword.replace("'", "\\'").replace("\n", "\\n")));
 		} catch (RuntimeException r) {
-			logging.warn(String.format("Keyword '%s' could not be run on failure%s",
-					runOnFailureKeyword,
+			logging.warn(String.format("Keyword '%s' could not be run on failure%s", runOnFailureKeyword,
 					r.getMessage() != null ? " '" + r.getMessage() + "'" : ""));
 		} finally {
 			runningOnFailureRoutine = false;

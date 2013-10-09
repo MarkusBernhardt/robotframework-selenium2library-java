@@ -17,12 +17,13 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
+import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 import com.github.markusbernhardt.selenium2library.locators.ElementFinder;
 import com.github.markusbernhardt.selenium2library.utils.Python;
 
 @RobotKeywords
-public class Element {
+public class Element extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Instantiated BrowserManagement keyword bean
@@ -108,6 +109,25 @@ public class Element {
 					"Element should have contained text '%s' but its text was %s.", expected, actual));
 		} else {
 			logging.info(String.format("Element Should Contain: %s => OK", expected));
+		}
+	}
+
+	@RobotKeywordOverload
+	public void elementShouldNotContain(String locator, String expected) {
+		this.elementShouldNotContain(locator, expected, "");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "locator", "expected", "message=NONE" })
+	public void elementShouldNotContain(String locator, String expected, String message) {
+		String actual = fetchText(locator);
+
+		if (actual.toLowerCase().contains(expected.toLowerCase())) {
+			logging.info(String.format("Element Should Not Contain: %s => FAILED", expected));
+			throw new Selenium2LibraryNonFatalException(String.format(
+					"Element should not have contained text '%s' but its text was %s.", expected, actual));
+		} else {
+			logging.info(String.format("Element Should Not Contain: %s => OK", expected));
 		}
 	}
 
@@ -270,6 +290,44 @@ public class Element {
 	}
 
 	@RobotKeywordOverload
+	public void elementShouldBeSelected(String locator) {
+		this.elementShouldBeSelected(locator, "");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "locator", "message=NONE" })
+	public void elementShouldBeSelected(String locator, String message) {
+		logging.info(String.format("Verifying element '%s' is selected.", locator));
+		boolean selected = isSelected(locator);
+
+		if (!selected) {
+			if (message == null || message.equals("")) {
+				message = String.format("Element '%s' should be selected, but it is not.", locator);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+	}
+
+	@RobotKeywordOverload
+	public void elementShouldNotBeSelected(String locator) {
+		this.elementShouldNotBeSelected(locator, "");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "locator", "message=NONE" })
+	public void elementShouldNotBeSelected(String locator, String message) {
+		logging.info(String.format("Verifying element '%s' is not selected.", locator));
+		boolean selected = isSelected(locator);
+
+		if (selected) {
+			if (message == null || message.equals("")) {
+				message = String.format("Element '%s' should not be selected, but it is.", locator);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+	}
+
+	@RobotKeywordOverload
 	public void elementShouldBeVisible(String locator) {
 		this.elementShouldBeVisible(locator, "");
 	}
@@ -324,6 +382,44 @@ public class Element {
 	}
 
 	@RobotKeywordOverload
+	public void elementShouldBeClickable(String locator) {
+		this.elementShouldBeClickable(locator, "");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "locator", "message=NONE" })
+	public void elementShouldBeClickable(String locator, String message) {
+		logging.info(String.format("Verifying element '%s' is clickable.", locator));
+		boolean clickable = isClickable(locator);
+
+		if (!clickable) {
+			if (message == null || message.equals("")) {
+				message = String.format("Element '%s' should be clickable, but it is not.", locator);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+	}
+
+	@RobotKeywordOverload
+	public void elementShouldNotBeClickable(String locator) {
+		this.elementShouldNotBeClickable(locator, "");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "locator", "message=NONE" })
+	public void elementShouldNotBeClickable(String locator, String message) {
+		logging.info(String.format("Verifying element '%s' is not clickable.", locator));
+		boolean clickable = isClickable(locator);
+
+		if (clickable) {
+			if (message == null || message.equals("")) {
+				message = String.format("Element '%s' should not be clickable, but it is.", locator);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+	}
+
+	@RobotKeywordOverload
 	public void elementTextShouldBe(String locator, String expected) {
 		this.elementTextShouldBe(locator, expected, "");
 	}
@@ -345,6 +441,28 @@ public class Element {
 		String actual = elements.get(0).getText();
 
 		if (!expected.equals(actual)) {
+			if (message == null || message.equals("")) {
+				message = String.format("The text of element '%s' should have been '%s', but it was '%s'.", locator,
+						expected, actual);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+	}
+
+	@RobotKeywordOverload
+	public void elementTextShouldNotBe(String locator, String expected) {
+		this.elementTextShouldNotBe(locator, expected, "");
+	}
+
+	@RobotKeyword
+	@ArgumentNames({ "locator", "expected", "message=NONE" })
+	public void elementTextShouldNotBe(String locator, String expected, String message) {
+		logging.info(String.format("Verifying element '%s' contains exactly text '%s'.", locator, expected));
+
+		List<WebElement> elements = elementFind(locator, true, true);
+		String actual = elements.get(0).getText();
+
+		if (expected.equals(actual)) {
 			if (message == null || message.equals("")) {
 				message = String.format("The text of element '%s' should have been '%s', but it was '%s'.", locator,
 						expected, actual);
@@ -947,6 +1065,24 @@ public class Element {
 		}
 		WebElement element = elements.get(0);
 		return element.isDisplayed();
+	}
+
+	protected boolean isClickable(String locator) {
+		List<WebElement> webElements = elementFind(locator, true, false);
+		if (webElements.size() == 0) {
+			return false;
+		}
+		WebElement element = webElements.get(0);
+		return element.isDisplayed() && element.isEnabled();
+	}
+
+	protected boolean isSelected(String locator) {
+		List<WebElement> webElements = elementFind(locator, true, false);
+		if (webElements.size() == 0) {
+			return false;
+		}
+		WebElement element = webElements.get(0);
+		return element.isSelected();
 	}
 
 	protected String[] parseAttributeLocator(String attributeLocator) {

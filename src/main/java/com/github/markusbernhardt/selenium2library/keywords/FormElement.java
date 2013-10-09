@@ -10,10 +10,11 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
+import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 
 @RobotKeywords
-public class FormElement {
+public class FormElement extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Instantiated Element keyword bean
