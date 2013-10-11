@@ -52,30 +52,6 @@ Because I had very few time the last 2 months to take care of the project here m
 Differences
 -----------
 
-* Robotframework does not support providing arguments to Java libraries
-
-  With Python it is possible to provide arguments to libraries
-  
-        *** Settings ***
-        Library    Selenium2Library    15    30    run_on_failure=Log Source
-  
-  This is not possible with a Java Library. But it can be done in a way
-  that works with Java and Python
-  
-        *** Settings ***
-        Library    Selenium2Library
-        
-        *** Keywords ***
-        Open
-            Open Browser    <url>    <browser>
-            Set Selenium Timeout    15
-            Set Selenium Implicit Wait    30
-            Register Keyword To Run On Failure    Log Source
-
-* Robotframework does not support named arguments with Java libraries
-
-  It is not possible to use named arguments. See User Guide 2.2.2
-  
 * Selenium Speed not implemented
 
   Setting the Selenium Speed is deprecated several years and not

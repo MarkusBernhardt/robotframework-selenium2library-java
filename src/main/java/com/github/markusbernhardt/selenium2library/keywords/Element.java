@@ -29,19 +29,19 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Instantiated BrowserManagement keyword bean
 	 */
 	@Autowired
-	private BrowserManagement browserManagement;
+	protected BrowserManagement browserManagement;
 
 	/**
 	 * Instantiated FormElement keyword bean
 	 */
 	@Autowired
-	private FormElement formElement;
+	protected FormElement formElement;
 
 	/**
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private Logging logging;
+	protected Logging logging;
 
 	// ##############################
 	// Keywords - Element Lookups

@@ -21,13 +21,13 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 * Instantiated BrowserManagement keyword bean
 	 */
 	@Autowired
-	private BrowserManagement browserManagement;
+	protected BrowserManagement browserManagement;
 
 	/**
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private Logging logging;
+	protected Logging logging;
 
 	// ##############################
 	// Keywords

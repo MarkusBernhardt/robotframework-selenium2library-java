@@ -10,23 +10,25 @@ import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
+import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
 import com.github.markusbernhardt.selenium2library.utils.Robotframework;
 
-public abstract class Screenshot extends RunOnFailureKeywordsAdapter {
+@RobotKeywords
+public class Screenshot extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Instantiated BrowserManagement keyword bean
 	 */
 	@Autowired
-	private BrowserManagement browserManagement;
+	protected BrowserManagement browserManagement;
 
 	/**
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private Logging logging;
+	protected Logging logging;
 
 	// ##############################
 	// Keywords
@@ -69,9 +71,9 @@ public abstract class Screenshot extends RunOnFailureKeywordsAdapter {
 	// Internal Methods
 	// ##############################
 
-	private int screenshotIndex = 0;
+	protected int screenshotIndex = 0;
 
-	private void writeScreenshot(File path, byte[] png) {
+	protected void writeScreenshot(File path, byte[] png) {
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(path);
@@ -90,7 +92,7 @@ public abstract class Screenshot extends RunOnFailureKeywordsAdapter {
 		}
 	}
 
-	private String normalizeFilename(String filename) {
+	protected String normalizeFilename(String filename) {
 		if (filename == null) {
 			screenshotIndex++;
 			filename = String.format("selenium-screenshot-%d.png", screenshotIndex);

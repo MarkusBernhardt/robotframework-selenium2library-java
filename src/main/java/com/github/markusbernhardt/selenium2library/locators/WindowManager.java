@@ -15,7 +15,7 @@ public class WindowManager {
 	public static int WINDOW_INFO_INDEX_DOCUMENT_TITLE = 2;
 	public static int WINDOW_INFO_INDEX_DOCUMENT_URL = 3;
 
-	private enum WindowManagerStrategy {
+	protected enum WindowManagerStrategy {
 		DEFAULT {
 
 			@Override

@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 
 public class TableElementFinder {
 
-	private final static TreeMap<String, List<String>> locatorSuffixesMap;
+	protected final static TreeMap<String, List<String>> locatorSuffixesMap;
 
 	static {
 		locatorSuffixesMap = new TreeMap<String, List<String>>();
@@ -74,7 +74,7 @@ public class TableElementFinder {
 		return searchInLocators(webDriver, formattedLocators, content);
 	}
 
-	private static void addLocatorSuffix(Map<String, List<String>> locatorSuffixesMap, String key, String... values) {
+	protected static void addLocatorSuffix(Map<String, List<String>> locatorSuffixesMap, String key, String... values) {
 		List<String> list = new ArrayList<String>();
 		for (String value : values) {
 			list.add(value);
@@ -82,7 +82,7 @@ public class TableElementFinder {
 		locatorSuffixesMap.put(key, list);
 	}
 
-	private static List<String> parseTableLocator(String tableLocator, String locationMethod) {
+	protected static List<String> parseTableLocator(String tableLocator, String locationMethod) {
 		String tableLocatorType = null;
 
 		if (tableLocator.startsWith("xpath=")) {
@@ -105,7 +105,7 @@ public class TableElementFinder {
 		return parsedTabeLocators;
 	}
 
-	private static WebElement searchInLocators(WebDriver webDriver, List<String> locators, String content) {
+	protected static WebElement searchInLocators(WebDriver webDriver, List<String> locators, String content) {
 		for (String locator : locators) {
 			List<WebElement> elements = ElementFinder.find(webDriver, locator);
 			for (WebElement element : elements) {

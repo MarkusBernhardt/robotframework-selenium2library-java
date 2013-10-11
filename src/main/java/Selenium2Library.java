@@ -1,15 +1,31 @@
 import java.io.File;
-import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.library.AnnotationLibrary;
+
+import com.github.markusbernhardt.selenium2library.keywords.BrowserManagement;
+import com.github.markusbernhardt.selenium2library.keywords.Cookie;
+import com.github.markusbernhardt.selenium2library.keywords.Element;
+import com.github.markusbernhardt.selenium2library.keywords.FormElement;
+import com.github.markusbernhardt.selenium2library.keywords.JavaScript;
+import com.github.markusbernhardt.selenium2library.keywords.Logging;
+import com.github.markusbernhardt.selenium2library.keywords.RunOnFailure;
+import com.github.markusbernhardt.selenium2library.keywords.Screenshot;
+import com.github.markusbernhardt.selenium2library.keywords.SelectElement;
+import com.github.markusbernhardt.selenium2library.keywords.TableElement;
+import com.github.markusbernhardt.selenium2library.keywords.Waiting;
 
 public class Selenium2Library extends AnnotationLibrary {
 
 	/**
 	 * The list of keyword patterns for the AnnotationLibrary
 	 */
-	private static String KEYWORD_PATTERN = "com/github/markusbernhardt/selenium2library/keywords/**/*.class";
+	public static final String KEYWORD_PATTERN = "com/github/markusbernhardt/selenium2library/keywords/**/*.class";
 
 	/**
 	 * The scope of this library is global.
@@ -34,19 +50,147 @@ public class Selenium2Library extends AnnotationLibrary {
 	}
 
 	public Selenium2Library() {
+		this("5.0");
+	}
+
+	public Selenium2Library(String timeout) {
+		this(timeout, "0.0");
+	}
+
+	public Selenium2Library(String timeout, String implicitWait) {
+		this(timeout, implicitWait, "Capture Page Screenshot");
+	}
+
+	public Selenium2Library(String timeout, String implicitWait, String runOnFailureKeyword) {
 		super();
 		addKeywordPattern(KEYWORD_PATTERN);
+		createKeywordFactory(); // => init annotations
+		browserManagement.setSeleniumTimeout(timeout);
+		browserManagement.setSeleniumImplicitWait(implicitWait);
+		runOnFailure.registerKeywordToRunOnFailure(runOnFailureKeyword);
 	}
 
-	public Selenium2Library(List<String> keywordPatterns) {
-		super(keywordPatterns);
-		addKeywordPattern(KEYWORD_PATTERN);
+	// ##############################
+	// Autowired References
+	// ##############################
+
+	/**
+	 * Instantiated BrowserManagement keyword bean
+	 */
+	@Autowired
+	protected BrowserManagement browserManagement;
+
+	/**
+	 * Instantiated Cookie keyword bean
+	 */
+	@Autowired
+	protected Cookie cookie;
+
+	/**
+	 * Instantiated Element keyword bean
+	 */
+	@Autowired
+	protected Element element;
+
+	/**
+	 * Instantiated FormElement keyword bean
+	 */
+	@Autowired
+	protected FormElement formElement;
+
+	/**
+	 * Instantiated JavaScript keyword bean
+	 */
+	@Autowired
+	protected JavaScript javaScript;
+
+	/**
+	 * Instantiated Logging keyword bean
+	 */
+	@Autowired
+	protected Logging logging;
+
+	/**
+	 * Instantiated RunOnFailure keyword bean
+	 */
+	@Autowired
+	protected RunOnFailure runOnFailure;
+
+	/**
+	 * Instantiated Screenshot keyword bean
+	 */
+	@Autowired
+	protected Screenshot screenshot;
+
+	/**
+	 * Instantiated SelectElement keyword bean
+	 */
+	@Autowired
+	protected SelectElement selectElement;
+
+	/**
+	 * Instantiated TableElement keyword bean
+	 */
+	@Autowired
+	protected TableElement tableElement;
+
+	/**
+	 * Instantiated Waiting keyword bean
+	 */
+	@Autowired
+	protected Waiting waiting;
+
+	// ##############################
+	// Getter / Setter
+	// ##############################
+
+	public BrowserManagement getBrowserManagement() {
+		return browserManagement;
 	}
 
-	public Selenium2Library(String keywordPattern) {
-		super(keywordPattern);
-		addKeywordPattern(KEYWORD_PATTERN);
+	public Cookie getCookie() {
+		return cookie;
 	}
+
+	public Element getElement() {
+		return element;
+	}
+
+	public FormElement getFormElement() {
+		return formElement;
+	}
+
+	public JavaScript getJavaScript() {
+		return javaScript;
+	}
+
+	public Logging getLogging() {
+		return logging;
+	}
+
+	public RunOnFailure getRunOnFailure() {
+		return runOnFailure;
+	}
+
+	public Screenshot getScreenshot() {
+		return screenshot;
+	}
+
+	public SelectElement getSelectElement() {
+		return selectElement;
+	}
+
+	public TableElement getTableElement() {
+		return tableElement;
+	}
+
+	public Waiting getWaiting() {
+		return waiting;
+	}
+
+	// ##############################
+	// Public Methods
+	// ##############################
 
 	@Override
 	public Object runKeyword(String keywordName, Object[] args) {
@@ -57,14 +201,33 @@ public class Selenium2Library extends AnnotationLibrary {
 	public String getKeywordDocumentation(String keywordName) {
 		if (keywordName.equals("__intro__")) {
 			return this.docIntro;
+		} else if (keywordName.equals("__init__")) {
+			return this.docInit;
 		}
-		return super.getKeywordDocumentation(keywordName);
+		try {
+			return super.getKeywordDocumentation(keywordName);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
+
+	public static Selenium2Library getLibraryInstance() throws ScriptException {
+		ScriptEngine engine = new ScriptEngineManager().getEngineByName("python");
+		engine.put("library", "Selenium2Library");
+		engine.eval("from robot.libraries.BuiltIn import BuiltIn");
+		engine.eval("instance = BuiltIn().get_library_instance(library)");
+		return (Selenium2Library) engine.get("instance");
+	}
+
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	/**
 	 * Convert all arguments in the object array to string
 	 */
-	private Object[] toStrings(Object[] args) {
+	protected Object[] toStrings(Object[] args) {
 		Object[] newArgs = new Object[args.length];
 		for (int i = 0; i < newArgs.length; i++) {
 			if (args[i].getClass().isArray()) {
@@ -76,7 +239,7 @@ public class Selenium2Library extends AnnotationLibrary {
 		return newArgs;
 	}
 
-	private final String docIntro = "Selenium2Library is a web testing library for Robot Framework.\n\n"
+	protected final String docIntro = "Selenium2Library is a web testing library for Robot Framework.\n\n"
 
 	+ "It uses the Selenium 2 (WebDriver) libraries internally to control a web browser. See "
 			+ "http://seleniumhq.org/docs/03_webdriver.html for more information on Selenium 2 and " + "WebDriver.\n\n"
@@ -137,34 +300,32 @@ public class Selenium2Library extends AnnotationLibrary {
 			+ "Framework's time syntax (e.g. '1.5 seconds' or '1 min 30 s'). For more information about the "
 			+ "time syntax see:\n"
 			+ "http://robotframework.googlecode.com/svn/trunk/doc/userguide/RobotFrameworkUserGuide.html"
-			+ "#time-format.\n\n"
+			+ "#time-format.\n\n";
 
-			+ "*Importing*\n\n"
+	protected final String docInit = "Selenium2Library can be imported with optional arguments.\n\n"
 
-			+ "| Arguments | Documentation |\n"
-			+ "| timeout=5.0, implicit_wait=0.0, run_on_failure=Capture Page Screenshot  | Selenium2Library "
-			+ "can be imported with optional arguments. | \n\n"
+			+ "`timeout` is the default timeout used to wait for all waiting actions. "
+			+ "It can be later set with `Set Selenium Timeout`.\n\n"
 
-			+ "_timeout_ is the default timeout used to wait for all waiting actions. It can be later set "
-			+ "with `Set Selenium Timeout`.\n\n"
+			+ "'implicit_wait' is the implicit timeout that Selenium waits when "
+			+ "looking for elements. "
+			+ "It can be later set with `Set Selenium Implicit Wait`. "
+			+ "See `WebDriver: Advanced Usage`__ section of the SeleniumHQ documentation "
+			+ "for more information about WebDriver's implicit wait functionality.\n\n"
 
-			+ "_implicit_wait_ is the implicit timeout that Selenium waits when looking for elements. It "
-			+ "can be later set with `Set Selenium Implicit Wait`. See WebDriver: Advanced Usage__ section of "
-			+ "the SeleniumHQ documentation for more information about WebDriver's implicit wait " + "functionality.\n"
-			+ "__ http://seleniumhq.org/docs/04_webdriver_advanced.html#explicit-and-implicit-waits \n\n"
+			+ "__ http://seleniumhq.org/docs/04_webdriver_advanced.html#explicit-and-implicit-waits\n\n"
 
-			+ "_run_on_failure_ specifies the name of a keyword (from any available libraries) to execute "
-			+ "when a Selenium2Library keyword fails. By default `Capture Page Screenshot` will be used to take "
-			+ "a screenshot of the current page. Using the value \"Nothing\" will disable this feature altogether. "
-			+ "See `Register Keyword To Run On Failure` keyword for more information about this functionality.\n\n"
+			+ "`run_on_failure` specifies the name of a keyword (from any available "
+			+ "libraries) to execute when a Selenium2Library keyword fails. By default "
+			+ "`Capture Page Screenshot` will be used to take a screenshot of the current page. "
+			+ "Using the value \"Nothing\" will disable this feature altogether. See "
+			+ "`Register Keyword To Run On Failure` keyword for more information about this "
+			+ "functionality.\n\n"
 
-			+ "Examples:\n" + "| Library | Selenium2Library|15|# Sets default timeout to 15 seconds |\n"
-			+ "| Library | Selenium2Library|0|5 | # Sets default timeout to 0 seconds and default "
-			+ "implicit_wait to 5 seconds |\n"
-			+ "| Library | Selenium2Library|5|run_on_failure=Log Source | # Sets default timeout to 5 "
-			+ "seconds and runs Log Source on failure |\n"
-			+ "| Library | Selenium2Library|implicit_wait=5|run_on_failure=Log Source| # Sets default "
-			+ "implicit_wait to 5 seconds and runs Log Source on failure |\n"
-			+ "| Library | Selenium2Library|timeout=10|run_on_failure=Nothing | # Sets default timeout "
-			+ "to 10 seconds and does nothing on failure |\n |\n";
+			+ "Examples:\n"
+			+ "| Library `|` Selenium2Library `|` 15                                    | # Sets default timeout to 15 seconds                                       |\n"
+			+ "| Library `|` Selenium2Library `|` 0 `|` 5                               | # Sets default timeout to 0 seconds and default implicit_wait to 5 seconds |\n"
+			+ "| Library `|` Selenium2Library `|` 0 `|` 5 `|` run_on_failure=Log Source | # Sets default timeout to 0 seconds, default implicit_wait to 5 seconds and runs `Log Source` on failure|\n"
+			+ "| Library `|` Selenium2Library `|` 0 `|` 5 `|` run_on_failure=Nothing    | # Sets default timeout to 0 seconds, default implicit_wait to 5 seconds and does nothing on failure|\n";
+
 }

@@ -5,14 +5,14 @@ import java.util.List;
 
 public class TimestrHelper {
 
-	private boolean compact;
-	private List<String> ret = new ArrayList<String>();
-	private String sign;
-	private int millis;
-	private int secs;
-	private int mins;
-	private int hours;
-	private int days;
+	protected boolean compact;
+	protected List<String> ret = new ArrayList<String>();
+	protected String sign;
+	protected int millis;
+	protected int secs;
+	protected int mins;
+	protected int hours;
+	protected int days;
 
 	public TimestrHelper(double double_secs) {
 		this(double_secs, false);

@@ -23,13 +23,13 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Element keyword bean
 	 */
 	@Autowired
-	private Element element;
+	protected Element element;
 
 	/**
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private Logging logging;
+	protected Logging logging;
 
 	// ##############################
 	// Keywords
@@ -426,7 +426,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	// Internal Methods
 	// ##############################
 
-	private List<String> getLabelsForOptions(List<WebElement> options) {
+	protected List<String> getLabelsForOptions(List<WebElement> options) {
 		List<String> labels = new ArrayList<String>();
 
 		for (WebElement option : options) {
@@ -436,29 +436,29 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		return labels;
 	}
 
-	private Select getSelectList(String locator) {
+	protected Select getSelectList(String locator) {
 		List<WebElement> webElements = element.elementFind(locator, true, true, "select");
 
 		return new Select(webElements.get(0));
 	}
 
-	private List<WebElement> getSelectListOptions(Select select) {
+	protected List<WebElement> getSelectListOptions(Select select) {
 		return new ArrayList<WebElement>(select.getOptions());
 	}
 
-	private List<WebElement> getSelectListOptions(String locator) {
+	protected List<WebElement> getSelectListOptions(String locator) {
 		Select select = getSelectList(locator);
 
 		return getSelectListOptions(select);
 	}
 
-	private List<WebElement> getSelectListOptionsSelected(String locator) {
+	protected List<WebElement> getSelectListOptionsSelected(String locator) {
 		Select select = getSelectList(locator);
 
 		return new ArrayList<WebElement>(select.getAllSelectedOptions());
 	}
 
-	private List<String> getValuesForOptions(List<WebElement> options) {
+	protected List<String> getValuesForOptions(List<WebElement> options) {
 		ArrayList<String> labels = new ArrayList<String>();
 
 		for (WebElement option : options) {
@@ -468,7 +468,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		return labels;
 	}
 
-	private boolean isMultiselectList(Select select) {
+	protected boolean isMultiselectList(Select select) {
 		return select.isMultiple();
 	}
 

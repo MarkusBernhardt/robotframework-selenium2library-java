@@ -17,7 +17,7 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 	 * Instantiated BrowserManagement keyword bean
 	 */
 	@Autowired
-	private BrowserManagement browserManagement;
+	protected BrowserManagement browserManagement;
 
 	// ##############################
 	// Keywords

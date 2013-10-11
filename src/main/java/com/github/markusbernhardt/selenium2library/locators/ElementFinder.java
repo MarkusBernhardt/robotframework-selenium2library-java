@@ -20,14 +20,14 @@ import com.github.markusbernhardt.selenium2library.utils.Python;
 
 public class ElementFinder {
 
-	private final static Hashtable<String, CustomStrategy> registeredLocationStrategies = new Hashtable<String, CustomStrategy>();
+	protected final static Hashtable<String, CustomStrategy> registeredLocationStrategies = new Hashtable<String, CustomStrategy>();
 
-	private enum KeyAttrs {
+	protected enum KeyAttrs {
 		DEFAULT("@id,@name"), A("@id,@name,@href,normalize-space(descendant-or-self::text())"), IMG(
 				"@id,@name,@src,@alt"), INPUT("@id,@name,@value,@src"), BUTTON(
 				"@id,@name,@value,normalize-space(descendant-or-self::text())");
 
-		private String[] keyAttrs;
+		protected String[] keyAttrs;
 
 		KeyAttrs(String keyAttrs) {
 			this.keyAttrs = keyAttrs.split(",");
@@ -38,12 +38,12 @@ public class ElementFinder {
 		}
 	}
 
-	private interface Strategy {
+	protected interface Strategy {
 		List<WebElement> findBy(WebDriver webDriver, FindByCoordinates findByCoordinates);
 
 	};
 
-	private enum StrategyEnum implements Strategy {
+	protected enum StrategyEnum implements Strategy {
 		DEFAULT {
 
 			@Override
@@ -137,7 +137,7 @@ public class ElementFinder {
 
 	}
 
-	private static List<WebElement> findByJQuerySizzle(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+	protected static List<WebElement> findByJQuerySizzle(WebDriver webDriver, FindByCoordinates findByCoordinates) {
 		String js = String.format("return jQuery('%s').get();", findByCoordinates.criteria.replace("'", "\\'"));
 
 		Object o = ((JavascriptExecutor) webDriver).executeScript(js);
@@ -145,7 +145,7 @@ public class ElementFinder {
 		return filterElements(list, findByCoordinates);
 	}
 
-	private static List<WebElement> filterElements(List<WebElement> elements, FindByCoordinates findByCoordinates) {
+	protected static List<WebElement> filterElements(List<WebElement> elements, FindByCoordinates findByCoordinates) {
 		if (findByCoordinates.tag == null) {
 			return elements;
 		}
@@ -159,7 +159,7 @@ public class ElementFinder {
 		return result;
 	}
 
-	private static boolean elementMatches(WebElement element, FindByCoordinates findByCoordinates) {
+	protected static boolean elementMatches(WebElement element, FindByCoordinates findByCoordinates) {
 		if (!element.getTagName().toLowerCase().equals(findByCoordinates.tag)) {
 			return false;
 		}
@@ -175,7 +175,7 @@ public class ElementFinder {
 		return true;
 	}
 
-	private static List<WebElement> findByKeyAttrs(WebDriver webDriver, FindByCoordinates findByCoordinates) {
+	protected static List<WebElement> findByKeyAttrs(WebDriver webDriver, FindByCoordinates findByCoordinates) {
 		KeyAttrs keyAttrs = KeyAttrs.DEFAULT;
 		if (findByCoordinates.tag != null) {
 			try {
@@ -206,7 +206,7 @@ public class ElementFinder {
 		return webDriver.findElements(By.xpath(xpath));
 	}
 
-	private static List<String> getAttrsWithUrl(WebDriver webDriver, KeyAttrs keyAttrs, String criteria) {
+	protected static List<String> getAttrsWithUrl(WebDriver webDriver, KeyAttrs keyAttrs, String criteria) {
 		List<String> attrs = new ArrayList<String>();
 		String url = null;
 		String xpathUrl = null;
@@ -225,7 +225,7 @@ public class ElementFinder {
 		return attrs;
 	}
 
-	private static String getBaseUrl(WebDriver webDriver) {
+	protected static String getBaseUrl(WebDriver webDriver) {
 		String url = webDriver.getCurrentUrl();
 		int lastIndex = url.lastIndexOf('/');
 		if (lastIndex != -1) {
@@ -271,7 +271,7 @@ public class ElementFinder {
 				String.format("logger.warn('%s');", msg.replace("'", "\\'").replace("\n", "\\n")));
 	}
 
-	private static Strategy parseLocator(FindByCoordinates findByCoordinates, String locator) {
+	protected static Strategy parseLocator(FindByCoordinates findByCoordinates, String locator) {
 		String prefix = null;
 		String criteria = locator;
 		if (!locator.startsWith("//")) {
@@ -298,7 +298,7 @@ public class ElementFinder {
 		return strategy;
 	}
 
-	private static void parseTag(FindByCoordinates findByCoordinates, Strategy strategy, String tag) {
+	protected static void parseTag(FindByCoordinates findByCoordinates, Strategy strategy, String tag) {
 		if (tag == null) {
 			return;
 		}
@@ -328,7 +328,7 @@ public class ElementFinder {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static List<WebElement> toList(Object o) {
+	protected static List<WebElement> toList(Object o) {
 		if (o instanceof List<?>) {
 			return (List<WebElement>) o;
 		}
@@ -340,18 +340,18 @@ public class ElementFinder {
 		return list;
 	}
 
-	private static class FindByCoordinates {
+	protected static class FindByCoordinates {
 
 		String criteria;
 		String tag;
 		Map<String, String> constraints;
 	}
 
-	private static class CustomStrategy implements Strategy {
+	protected static class CustomStrategy implements Strategy {
 
-		private String functionDefinition;
+		protected String functionDefinition;
 
-		private String delimiter;
+		protected String delimiter;
 
 		public CustomStrategy(String functionDefinition, String delimiter) {
 			this.functionDefinition = functionDefinition;

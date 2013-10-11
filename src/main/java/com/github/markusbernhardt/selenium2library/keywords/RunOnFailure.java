@@ -14,18 +14,18 @@ public class RunOnFailure extends RunOnFailureKeywordsAdapter {
 	/**
 	 * The keyword to run an failure
 	 */
-	private String runOnFailureKeyword = "Capture Page Screenshot";
+	protected String runOnFailureKeyword = "Capture Page Screenshot";
 
 	/**
 	 * Only run keyword on failure if true
 	 */
-	private boolean runningOnFailureRoutine;
+	protected boolean runningOnFailureRoutine;
 
 	/**
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private Logging logging;
+	protected Logging logging;
 
 	// ##############################
 	// Keywords

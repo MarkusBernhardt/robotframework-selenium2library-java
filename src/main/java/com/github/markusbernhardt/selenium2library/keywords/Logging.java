@@ -14,15 +14,17 @@ import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
+import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 import com.github.markusbernhardt.selenium2library.utils.Python;
 
+@RobotKeywords
 public class Logging extends RunOnFailureKeywordsAdapter {
 
-	private final static Map<String, String[]> VALID_LOG_LEVELS;
-	private static String logDir = null;
+	protected final static Map<String, String[]> VALID_LOG_LEVELS;
+	protected static String logDir = null;
 
 	static {
 		VALID_LOG_LEVELS = new HashMap<String, String[]>();
@@ -37,7 +39,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	 * Instantiated BrowserManagement keyword bean
 	 */
 	@Autowired
-	private BrowserManagement browserManagement;
+	protected BrowserManagement browserManagement;
 
 	// ##############################
 	// Keywords

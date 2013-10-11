@@ -20,13 +20,13 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 * Instantiated Element keyword bean
 	 */
 	@Autowired
-	private Element element;
+	protected Element element;
 
 	/**
 	 * Instantiated Logging keyword bean
 	 */
 	@Autowired
-	private Logging logging;
+	protected Logging logging;
 
 	// ##############################
 	// Keywords

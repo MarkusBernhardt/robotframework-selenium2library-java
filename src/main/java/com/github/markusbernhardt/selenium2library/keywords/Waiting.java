@@ -18,13 +18,13 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	 * Instantiated BrowserManagement keyword bean
 	 */
 	@Autowired
-	private BrowserManagement browserManagement;
+	protected BrowserManagement browserManagement;
 
 	/**
 	 * Instantiated Element keyword bean
 	 */
 	@Autowired
-	private Element element;
+	protected Element element;
 
 	// ##############################
 	// Keywords
