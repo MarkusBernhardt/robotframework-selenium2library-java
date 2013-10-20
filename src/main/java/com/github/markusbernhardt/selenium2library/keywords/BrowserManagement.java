@@ -109,6 +109,56 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		addLocationStrategy(strategyName, functionDefinition, null);
 	}
 
+	/**
+	 * Registers a JavaScript function as locator with the specified strategy
+	 * name. The registered function has to return a WebElement, a List of
+	 * WebElements or null.
+	 * <p>
+	 * 
+	 * Optionally a delimiter can be given to split the value of the locator in
+	 * multiple arguments when executing the JavaScript function.
+	 * <p>
+	 * 
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Add Location Strategy</td>
+	 * <td>byId</td>
+	 * <td>return window.document.getElementById(arguments[0]);</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Input Text</td>
+	 * <td>byId=firstName</td>
+	 * <td>Max</td>
+	 * </tr>
+	 * </table>
+	 * <p>
+	 * 
+	 * Example with delimiter:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Add Location Strategy</td>
+	 * <td>byClassname</td>
+	 * <td>return
+	 * window.document.getElementsByClassName(arguments[0])[arguments[1]];</td>
+	 * <td>,</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Input Text</td>
+	 * <td>byClassname=input,3</td>
+	 * <td>Max</td>
+	 * <td></td>
+	 * </tr>
+	 * </table>
+	 * <p>
+	 * 
+	 * @param strategyName
+	 *            Name of the location strategy.
+	 * @param functionDefinition
+	 *            The JavaScript function to register.
+	 * @param delimiter
+	 *            The delimiter to split the given locator value
+	 */
 	@RobotKeyword
 	@ArgumentNames({ "strategyName", "functionDefinition", "delimiter=NONE" })
 	public void addLocationStrategy(String strategyName, String functionDefinition, String delimiter) {

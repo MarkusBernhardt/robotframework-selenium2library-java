@@ -57,17 +57,17 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-server</artifactId>
-			<version>2.33.0</version>
+			<version>2.34.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.opera</groupId>
 			<artifactId>operadriver</artifactId>
-			<version>1.1</version>
+			<version>1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.detro.ghostdriver</groupId>
 			<artifactId>phantomjsdriver</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.robotframework</groupId>
@@ -129,6 +129,7 @@
 				</dependencies>
 			</plugin>
 			<plugin>
+				<!-- Integration-Test, build documentation -->
 				<groupId>org.robotframework</groupId>
 				<artifactId>robotframework-maven-plugin</artifactId>
 				<version>1.2</version>
@@ -182,7 +183,7 @@
 				</dependencies>
 			</plugin>
 			<plugin>
-				<!-- Set 1.6 as target -->
+				<!-- Set 1.7 as target, use project source encoding -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
@@ -196,6 +197,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<!-- Build the fat jar with all dependencies -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>
@@ -211,6 +213,33 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- extract documentation for libdoc -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>xml-doclet</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>javadoc</goal>
+						</goals>
+						<configuration>
+							<doclet>com.github.markusbernhardt.xmldoclet.XmlDoclet</doclet>
+							<additionalparam>-d ${project.build.directory} -filename
+								${project.artifactId}-${project.version}-javadoc.xml</additionalparam>
+							<useStandardDocletOptions>false</useStandardDocletOptions>
+							<docletArtifacts>
+								<docletArtifact>
+									<groupId>com.github.markusbernhardt</groupId>
+									<artifactId>xml-doclet</artifactId>
+									<version>1.0.1</version>
+								</docletArtifact>
+							</docletArtifacts>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -259,10 +288,11 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
 					<configuration>
 						<use>false</use>
 						<links>
-							<link>http://java.sun.com/javase/6/docs/api/</link>
+							<link>http://java.sun.com/javase/7/docs/api/</link>
 						</links>
 					</configuration>
 				</plugin>
