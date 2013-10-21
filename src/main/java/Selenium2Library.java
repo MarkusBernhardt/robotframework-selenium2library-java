@@ -1,9 +1,14 @@
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.library.AnnotationLibrary;
@@ -19,6 +24,14 @@ import com.github.markusbernhardt.selenium2library.keywords.Screenshot;
 import com.github.markusbernhardt.selenium2library.keywords.SelectElement;
 import com.github.markusbernhardt.selenium2library.keywords.TableElement;
 import com.github.markusbernhardt.selenium2library.keywords.Waiting;
+import com.github.markusbernhardt.xmldoclet.xjc.AnnotationInstance;
+import com.github.markusbernhardt.xmldoclet.xjc.Class;
+import com.github.markusbernhardt.xmldoclet.xjc.Method;
+import com.github.markusbernhardt.xmldoclet.xjc.MethodParameter;
+import com.github.markusbernhardt.xmldoclet.xjc.ObjectFactory;
+import com.github.markusbernhardt.xmldoclet.xjc.Package;
+import com.github.markusbernhardt.xmldoclet.xjc.Root;
+import com.github.markusbernhardt.xmldoclet.xjc.TagInfo;
 
 public class Selenium2Library extends AnnotationLibrary {
 
@@ -28,6 +41,16 @@ public class Selenium2Library extends AnnotationLibrary {
 	public static final String KEYWORD_PATTERN = "com/github/markusbernhardt/selenium2library/keywords/**/*.class";
 
 	/**
+	 * The root node of the parsed javadoc
+	 */
+	public static final Map<String, String> KEYWORD_DOCUMENTATION_MAP = loadKeywordDocumentationMap();
+
+	/**
+	 * The library documentation is written in HTML
+	 */
+	public static final String ROBOT_LIBRARY_DOC_FORMAT = "HTML";
+
+	/**
 	 * The scope of this library is global.
 	 */
 	public static final String ROBOT_LIBRARY_SCOPE = "GLOBAL";
@@ -35,18 +58,76 @@ public class Selenium2Library extends AnnotationLibrary {
 	/**
 	 * The actual version of this library. Loaded from maven project.
 	 */
-	public static String ROBOT_LIBRARY_VERSION;
+	public static final String ROBOT_LIBRARY_VERSION = loadRobotLibraryVersion();
 
-	static {
-		/**
-		 * Load the version from file
-		 */
+	private static String loadRobotLibraryVersion() {
 		try {
-			ROBOT_LIBRARY_VERSION = ResourceBundle.getBundle(
-					Selenium2Library.class.getCanonicalName().replace(".", File.separator)).getString("version");
+			return ResourceBundle.getBundle(Selenium2Library.class.getCanonicalName().replace(".", File.separator))
+					.getString("version");
 		} catch (RuntimeException e) {
-			ROBOT_LIBRARY_VERSION = "unknown1";
+			return "unknown";
 		}
+	}
+
+	private static Map<String, String> loadKeywordDocumentationMap() {
+		Map<String, String> keywordDocumentation = new HashMap<String, String>();
+		Root root = loadJavadocRoot();
+		for (Package packageNode : root.getPackage()) {
+			for (Class classNode : packageNode.getClazz()) {
+				for (Method methodNode : classNode.getMethod()) {
+					for (AnnotationInstance annotationInstanceNode : methodNode.getAnnotation()) {
+						if (annotationInstanceNode.getName().equals("RobotKeyword")) {
+							keywordDocumentation.put(methodNode.getName(), formatComment(methodNode));
+							break;
+						}
+					}
+				}
+			}
+		}
+		return keywordDocumentation;
+	}
+
+	private static Root loadJavadocRoot() {
+		try {
+			JAXBContext context = JAXBContext.newInstance(Root.class);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			return (Root) unmarshaller.unmarshal(Thread.currentThread().getContextClassLoader()
+					.getResourceAsStream(Selenium2Library.class.getName().replace(".", File.separator) + ".javadoc"));
+		} catch (JAXBException e) {
+			return new ObjectFactory().createRoot();
+		}
+	}
+
+	private static String formatComment(Method methodNode) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		if (methodNode.getComment() != null) {
+			stringBuilder.append(methodNode.getComment());
+		}
+
+		if (methodNode.getParameter().size() != 0) {
+			stringBuilder.append("<p>");
+			stringBuilder.append("<b>Parameters:</b>");
+			stringBuilder.append("<blockquote>");
+			for (MethodParameter methodParameter : methodNode.getParameter()) {
+				stringBuilder.append("<b>" + methodParameter.getName() + "</b>");
+				String paramTextStart = methodParameter.getName() + "\n";
+				for(TagInfo tagInfo : methodNode.getTag()){
+					if(!tagInfo.getName().equals("@param")) {
+						continue;
+					}
+					if(!tagInfo.getText().startsWith(paramTextStart)) {
+						continue;
+					}		
+					stringBuilder.append("  ");
+					stringBuilder.append(tagInfo.getText().substring(paramTextStart.length()).trim());
+				}
+				stringBuilder.append("<br>");
+			}
+			stringBuilder.append("</blockquote>");
+		}
+
+		return stringBuilder.toString();
 	}
 
 	public Selenium2Library() {
@@ -199,17 +280,21 @@ public class Selenium2Library extends AnnotationLibrary {
 
 	@Override
 	public String getKeywordDocumentation(String keywordName) {
-		if (keywordName.equals("__intro__")) {
-			return this.docIntro;
-		} else if (keywordName.equals("__init__")) {
-			return this.docInit;
+		String keywordDocumentation = KEYWORD_DOCUMENTATION_MAP.get(keywordName);
+		if (keywordDocumentation == null) {
+			keywordDocumentation = "";
 		}
-		try {
-			return super.getKeywordDocumentation(keywordName);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		return "";
+		return keywordDocumentation;
+		/*
+		 * if (keywordName.equals("__intro__")) { return this.docIntro; } else
+		 * if (keywordName.equals("__init__")) { return this.docInit; } try {
+		 * String keywordDocumentation =
+		 * super.getKeywordDocumentation(keywordName); if
+		 * (keywordDocumentation.length() == 0) {
+		 * System.out.println(KEYWORD_DOCUMENTATION_MAP.get(keywordName)); }
+		 * return keywordDocumentation; } catch (NullPointerException e) {
+		 * e.printStackTrace(); } return "";
+		 */
 	}
 
 	public static Selenium2Library getLibraryInstance() throws ScriptException {

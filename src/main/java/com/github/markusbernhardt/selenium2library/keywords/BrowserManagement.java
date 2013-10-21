@@ -47,6 +47,7 @@ import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
 import com.github.markusbernhardt.selenium2library.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
 import com.opera.core.systems.OperaDriver;
 
+@SuppressWarnings("deprecation")
 @RobotKeywords
 public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 
@@ -112,13 +113,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Registers a JavaScript function as locator with the specified strategy
 	 * name. The registered function has to return a WebElement, a List of
-	 * WebElements or null.
+	 * WebElements or null. Optionally a delimiter can be given to split the
+	 * value of the locator in multiple arguments when executing the JavaScript
+	 * function.
 	 * <p>
-	 * 
-	 * Optionally a delimiter can be given to split the value of the locator in
-	 * multiple arguments when executing the JavaScript function.
-	 * <p>
-	 * 
 	 * Example:
 	 * <table border="1" cellspacing="0">
 	 * <tr>
@@ -133,7 +131,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </tr>
 	 * </table>
 	 * <p>
-	 * 
 	 * Example with delimiter:
 	 * <table border="1" cellspacing="0">
 	 * <tr>
@@ -157,7 +154,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * @param functionDefinition
 	 *            The JavaScript function to register.
 	 * @param delimiter
-	 *            The delimiter to split the given locator value
+	 *            Default=NONE. The delimiter to split the given locator value
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "strategyName", "functionDefinition", "delimiter=NONE" })
@@ -165,7 +162,14 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		ElementFinder.addLocationStrategy(strategyName, functionDefinition, delimiter);
 	}
 
-	@RobotKeyword("Closes the current browser.")
+	/**
+	 * Closes the current browser.
+	 * 
+	 * @see BrowserManagement#closeAllBrowsers()
+	 * @see BrowserManagement#openBrowser()
+	 * @see BrowserManagement#switchBrowser()
+	 */
+	@RobotKeyword
 	public void closeBrowser() {
 		if (webDriverCache.getCurrentSessionId() != null) {
 			logging.debug(String.format("Closing browser with session id %s", webDriverCache.getCurrentSessionId()));
@@ -199,46 +203,113 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return openBrowser(url, browserName, alias, remoteUrl, desiredCapabilities, null);
 	}
 
-	@RobotKeyword("Opens a new browser instance to given URL.\n\n"
-
-			+ "Returns the index of this browser instance which can be used later to switch "
-			+ "back to it. Index starts from 1 and is reset back to it when `Close All "
-			+ "Browsers` keyword is used. See `Switch Browser` for example.\n\n"
-
-			+ "Optional alias is an alias for the browser instance and it can be used for "
-			+ "switching between browsers (just as index can be used). See `Switch Browser` "
-			+ "for more details.\n\n"
-
-			+ "Possible values for browser are as follows:\n"
-			+ "| firefox | FireFox |\n"
-			+ "| ff | FireFox |\n"
-			+ "| internetexplorer | Internet Explorer |\n"
-			+ "| ie | Internet Explorer |\n"
-			+ "| googlechrome | Google Chrome |\n"
-			+ "| gc | Google Chrome |\n"
-			+ "| chrome | Google Chrome |\n"
-			+ "| opera | Opera |\n"
-			+ "| phantomjs | PhantomJS |\n"
-			+ "| htmlunitwithjs | HTMLUnit with Javascipt support |\n"
-			+ "| safari | Safari |\n"
-			+ "| ipad | iPad |\n"
-			+ "| iphone | iPhone |\n"
-			+ "| android | Android |\n"
-			+ "| htmlunit | HTMLUnit |\n\n"
-
-			+ "Note, that you will encounter strange behavior, if you open multiple Internet "
-			+ "Explorer browser instances. That is also why `Switch Browser` only works with "
-			+ "one IE browser at most. For more information see:\n"
-			+ "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine\n\n"
-
-			+ "Optional 'remote_url' is the url for a remote selenium server for example "
-			+ "http://127.0.0.1/wd/hub. If you specify a value for remote you can also specify "
-			+ "'desired_capabilities' which is a string in the form key1:val1,key2:val2 that "
-			+ "will be used to specify desired_capabilities to the remote server. This is "
-			+ "useful for doing things like specify a proxy server for internet explorer or for "
-			+ "specify browser and os if your using saucelabs.com.\n\n"
-
-			+ "Optional 'ff_profile_dir' is the path to the firefox profile dir if you wish to overwrite the default.\n")
+	/**
+	 * Opens a new browser instance to given URL.
+	 * <p>
+	 * Possible values for browser are as follows:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>firefox</td>
+	 * <td>FireFox</td>
+	 * </tr>
+	 * <tr>
+	 * <td>ff</td>
+	 * <td>FireFox</td>
+	 * </tr>
+	 * <tr>
+	 * <td>internetexplorer</td>
+	 * <td>Internet Explorer</td>
+	 * </tr>
+	 * <tr>
+	 * <td>ie</td>
+	 * <td>Internet Explorer</td>
+	 * </tr>
+	 * <tr>
+	 * <td>googlechrome</td>
+	 * <td>Google Chrome</td>
+	 * </tr>
+	 * <tr>
+	 * <td>gc</td>
+	 * <td>Google Chrome</td>
+	 * </tr>
+	 * <tr>
+	 * <td>chrome</td>
+	 * <td>Google Chrome</td>
+	 * </tr>
+	 * <tr>
+	 * <td>opera</td>
+	 * <td>Opera</td>
+	 * </tr>
+	 * <tr>
+	 * <td>phantomjs</td>
+	 * <td>PhantomJS</td>
+	 * </tr>
+	 * <tr>
+	 * <td>htmlunitwithjs</td>
+	 * <td>HTMLUnit with Javascipt support</td>
+	 * </tr>
+	 * <tr>
+	 * <td>safari</td>
+	 * <td>Safari</td>
+	 * </tr>
+	 * <tr>
+	 * <td>ipad</td>
+	 * <td>iPad</td>
+	 * </tr>
+	 * <tr>
+	 * <td>iphone</td>
+	 * <td>iPhone</td>
+	 * </tr>
+	 * <tr>
+	 * <td>android</td>
+	 * <td>Android</td>
+	 * </tr>
+	 * <tr>
+	 * <td>htmlunit</td>
+	 * <td>HTMLUnit</td>
+	 * </tr>
+	 * </table>
+	 * <p>
+	 * Note, that you will encounter strange behavior, if you open multiple
+	 * Internet Explorer browser instances. That is also why `Switch Browser`
+	 * only works with one IE browser at most. For more information see: <a
+	 * href=
+	 * "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine"
+	 * >Strange errors with multiple IE instances</a>
+	 * <p>
+	 * Returns the index of the newly created browser instance which can be used
+	 * later to switch back to it. Index starts from 1 and is reset back to it
+	 * when the `Close All Browsers` keyword is used.
+	 * 
+	 * @param url
+	 *            The URL to open in the newly created browser instance.
+	 * @param browserName
+	 *            Default=firefox. Optional name of the browser to start.
+	 * @param alias
+	 *            Default=NONE. Optional alias for the newly created browser
+	 *            instance. The alias can be used later for switching between
+	 *            browsers instances, just as returned index.
+	 * @param remoteUrl
+	 *            Default=NONE. Optional remote grid URL. When specified no
+	 *            local WebDriver instance is created, but a network connection
+	 *            to a Selenium 2 WebDriver Grid Hub at the given URL is opened.
+	 * @param desiredCapabilities
+	 *            Default=NONE. Optional desired capabilities of the newly
+	 *            created remote browser instances. Used to communicate to the
+	 *            remote grid, which kind of browser, etc. should be used. For
+	 *            more information see: <a href=
+	 *            "http://code.google.com/p/selenium/wiki/DesiredCapabilities"
+	 *            >DesiredCapabilities</a>
+	 * @param ffProfileDir
+	 *            Default=NONE. Optional path to a custom Firefox profile
+	 *            directory. Overwrites the default profile.
+	 * @return the index of the newly created browser instance.
+	 * 
+	 * @see BrowserManagement#closeBrowser()
+	 * @see BrowserManagement#closeAllBrowsers()
+	 * @see BrowserManagement#switchBrowser()
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE",
 			"ffProfileDir=NONE" })
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
