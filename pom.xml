@@ -228,17 +228,19 @@
 							<goal>javadoc</goal>
 						</goals>
 						<configuration>
+							<sourceFileIncludes>
+								<sourceFileInclude>*.java</sourceFileInclude>
+								<sourceFileInclude>com/github/markusbernhardt/selenium2library/keywords/*.java</sourceFileInclude>
+							</sourceFileIncludes>
 							<doclet>com.github.markusbernhardt.xmldoclet.XmlDoclet</doclet>
-							<additionalparam>-d ${project.build.directory} -filename
-								${project.artifactId}-${project.version}-javadoc.xml</additionalparam>
+							<additionalparam>-d ${project.build.directory}/classes -filename
+								Selenium2Library.javadoc</additionalparam>
 							<useStandardDocletOptions>false</useStandardDocletOptions>
-							<docletArtifacts>
-								<docletArtifact>
-									<groupId>com.github.markusbernhardt</groupId>
-									<artifactId>xml-doclet</artifactId>
-									<version>1.0.1</version>
-								</docletArtifact>
-							</docletArtifacts>
+							<docletArtifact>
+								<groupId>com.github.markusbernhardt</groupId>
+								<artifactId>xml-doclet</artifactId>
+								<version>1.0.1</version>
+							</docletArtifact>
 						</configuration>
 					</execution>
 				</executions>
