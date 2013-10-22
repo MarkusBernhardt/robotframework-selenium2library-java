@@ -24,14 +24,13 @@ import com.github.markusbernhardt.selenium2library.keywords.Screenshot;
 import com.github.markusbernhardt.selenium2library.keywords.SelectElement;
 import com.github.markusbernhardt.selenium2library.keywords.TableElement;
 import com.github.markusbernhardt.selenium2library.keywords.Waiting;
+import com.github.markusbernhardt.selenium2library.utils.Javadoc2LibdocFormatter;
 import com.github.markusbernhardt.xmldoclet.xjc.AnnotationInstance;
 import com.github.markusbernhardt.xmldoclet.xjc.Class;
 import com.github.markusbernhardt.xmldoclet.xjc.Method;
-import com.github.markusbernhardt.xmldoclet.xjc.MethodParameter;
 import com.github.markusbernhardt.xmldoclet.xjc.ObjectFactory;
 import com.github.markusbernhardt.xmldoclet.xjc.Package;
 import com.github.markusbernhardt.xmldoclet.xjc.Root;
-import com.github.markusbernhardt.xmldoclet.xjc.TagInfo;
 
 public class Selenium2Library extends AnnotationLibrary {
 
@@ -69,7 +68,7 @@ public class Selenium2Library extends AnnotationLibrary {
 		}
 	}
 
-	private static Map<String, String> loadKeywordDocumentationMap() {
+	public static Map<String, String> loadKeywordDocumentationMap() {
 		Map<String, String> keywordDocumentation = new HashMap<String, String>();
 		Root root = loadJavadocRoot();
 		for (Package packageNode : root.getPackage()) {
@@ -77,7 +76,8 @@ public class Selenium2Library extends AnnotationLibrary {
 				for (Method methodNode : classNode.getMethod()) {
 					for (AnnotationInstance annotationInstanceNode : methodNode.getAnnotation()) {
 						if (annotationInstanceNode.getName().equals("RobotKeyword")) {
-							keywordDocumentation.put(methodNode.getName(), formatComment(methodNode));
+							keywordDocumentation.put(methodNode.getName(),
+									Javadoc2LibdocFormatter.formatComment(methodNode));
 							break;
 						}
 					}
@@ -96,38 +96,6 @@ public class Selenium2Library extends AnnotationLibrary {
 		} catch (JAXBException e) {
 			return new ObjectFactory().createRoot();
 		}
-	}
-
-	private static String formatComment(Method methodNode) {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		if (methodNode.getComment() != null) {
-			stringBuilder.append(methodNode.getComment());
-		}
-
-		if (methodNode.getParameter().size() != 0) {
-			stringBuilder.append("<p>");
-			stringBuilder.append("<b>Parameters:</b>");
-			stringBuilder.append("<blockquote>");
-			for (MethodParameter methodParameter : methodNode.getParameter()) {
-				stringBuilder.append("<b>" + methodParameter.getName() + "</b>");
-				String paramTextStart = methodParameter.getName() + "\n";
-				for(TagInfo tagInfo : methodNode.getTag()){
-					if(!tagInfo.getName().equals("@param")) {
-						continue;
-					}
-					if(!tagInfo.getText().startsWith(paramTextStart)) {
-						continue;
-					}		
-					stringBuilder.append("  ");
-					stringBuilder.append(tagInfo.getText().substring(paramTextStart.length()).trim());
-				}
-				stringBuilder.append("<br>");
-			}
-			stringBuilder.append("</blockquote>");
-		}
-
-		return stringBuilder.toString();
 	}
 
 	public Selenium2Library() {

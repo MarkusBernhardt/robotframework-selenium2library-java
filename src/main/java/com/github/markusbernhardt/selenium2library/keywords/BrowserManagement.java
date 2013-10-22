@@ -112,11 +112,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Registers a JavaScript function as locator with the specified strategy
-	 * name. The registered function has to return a WebElement, a List of
-	 * WebElements or null. Optionally a delimiter can be given to split the
-	 * value of the locator in multiple arguments when executing the JavaScript
-	 * function.
-	 * <p>
+	 * name.<br>
+	 * <br>
+	 * The registered function has to return a WebElement, a List of WebElements
+	 * or null. Optionally a delimiter can be given to split the value of the
+	 * locator in multiple arguments when executing the JavaScript function. <br>
+	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0">
 	 * <tr>
@@ -130,7 +131,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * <td>Max</td>
 	 * </tr>
 	 * </table>
-	 * <p>
+	 * <br>
 	 * Example with delimiter:
 	 * <table border="1" cellspacing="0">
 	 * <tr>
@@ -147,7 +148,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * <td></td>
 	 * </tr>
 	 * </table>
-	 * <p>
 	 * 
 	 * @param strategyName
 	 *            Name of the location strategy.
@@ -163,11 +163,11 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Closes the current browser.
+	 * Closes the current browser.<br>
 	 * 
-	 * @see BrowserManagement#closeAllBrowsers()
-	 * @see BrowserManagement#openBrowser()
-	 * @see BrowserManagement#switchBrowser()
+	 * @see BrowserManagement#closeAllBrowsers
+	 * @see BrowserManagement#openBrowser
+	 * @see BrowserManagement#switchBrowser
 	 */
 	@RobotKeyword
 	public void closeBrowser() {
@@ -204,8 +204,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Opens a new browser instance to given URL.
-	 * <p>
+	 * Opens a new browser instance to given URL.<br>
+	 * <br>
 	 * Possible values for browser are as follows:
 	 * <table border="1" cellspacing="0">
 	 * <tr>
@@ -269,17 +269,17 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * <td>HTMLUnit</td>
 	 * </tr>
 	 * </table>
-	 * <p>
+	 * <br>
 	 * Note, that you will encounter strange behavior, if you open multiple
 	 * Internet Explorer browser instances. That is also why `Switch Browser`
 	 * only works with one IE browser at most. For more information see: <a
 	 * href=
 	 * "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine"
-	 * >Strange errors with multiple IE instances</a>
-	 * <p>
+	 * >Strange errors with multiple IE instances</a><br>
+	 * <br>
 	 * Returns the index of the newly created browser instance which can be used
 	 * later to switch back to it. Index starts from 1 and is reset back to it
-	 * when the `Close All Browsers` keyword is used.
+	 * when the `Close All Browsers` keyword is used.<br>
 	 * 
 	 * @param url
 	 *            The URL to open in the newly created browser instance.
@@ -303,11 +303,11 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * @param ffProfileDir
 	 *            Default=NONE. Optional path to a custom Firefox profile
 	 *            directory. Overwrites the default profile.
-	 * @return the index of the newly created browser instance.
+	 * @return The index of the newly created browser instance.
 	 * 
-	 * @see BrowserManagement#closeBrowser()
-	 * @see BrowserManagement#closeAllBrowsers()
-	 * @see BrowserManagement#switchBrowser()
+	 * @see BrowserManagement#closeBrowser
+	 * @see BrowserManagement#closeAllBrowsers
+	 * @see BrowserManagement#switchBrowser
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE",
