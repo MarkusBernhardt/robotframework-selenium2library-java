@@ -719,7 +719,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the current page URL is exactly <b>url</b>.<br>
+	 * Verify the current page URL is exactly <b>url</b>.<br>
 	 * 
 	 * @param url
 	 *            The URL to verify.
@@ -738,7 +738,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the current page URL contains <b>url</b>.<br>
+	 * Verify the current page URL contains <b>url</b>.<br>
 	 * 
 	 * @param url
 	 *            The URL to verify.
@@ -757,12 +757,14 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the current page title is exactly <b>title</b>.<br>
+	 * Verify the current page title is exactly <b>title</b>.<br>
 	 * 
 	 * @param title
 	 *            The title to verify.
 	 * 
+	 * @see BrowserManagement#titleShouldNotBe
 	 * @see BrowserManagement#titleShouldContain
+	 * @see BrowserManagement#titleShouldNotContain
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "title" })
@@ -776,12 +778,35 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the current page title contains <b>title</b>.<br>
+	 * Verify the current page title is not exactly <b>title</b>.<br>
 	 * 
 	 * @param title
 	 *            The title to verify.
 	 * 
 	 * @see BrowserManagement#titleShouldBe
+	 * @see BrowserManagement#titleShouldContain
+	 * @see BrowserManagement#titleShouldNotContain
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "title" })
+	public void titleShouldNotBe(String title) {
+		String actual = getTitle();
+		if (actual.equals(title)) {
+			throw new Selenium2LibraryNonFatalException(String.format("Title should not have been '%s', but was '%s'",
+					title, actual));
+		}
+		logging.info(String.format("Page title is '%s'.", title));
+	}
+
+	/**
+	 * Verify the current page title contains <b>title</b>.<br>
+	 * 
+	 * @param title
+	 *            The title to verify.
+	 * 
+	 * @see BrowserManagement#titleShouldBe
+	 * @see BrowserManagement#titleShouldNotBe
+	 * @see BrowserManagement#titleShouldNotContain
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "title" })
@@ -789,6 +814,27 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		String actual = getTitle();
 		if (!actual.contains(title)) {
 			throw new Selenium2LibraryNonFatalException(String.format("Title should have contained '%s', but was '%s'",
+					title, actual));
+		}
+		logging.info(String.format("Page title is '%s'.", title));
+	}
+
+	/**
+	 * Verify the current page title does not contain <b>title</b>.<br>
+	 * 
+	 * @param title
+	 *            The title to verify.
+	 * 
+	 * @see BrowserManagement#titleShouldBe
+	 * @see BrowserManagement#titleShouldNotBe
+	 * @see BrowserManagement#titleShouldContain
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "title" })
+	public void titleShouldNotContain(String title) {
+		String actual = getTitle();
+		if (actual.contains(title)) {
+			throw new Selenium2LibraryNonFatalException(String.format("Title should not have contained '%s', but was '%s'",
 					title, actual));
 		}
 		logging.info(String.format("Page title is '%s'.", title));

@@ -54,7 +54,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the current frame contains <b>text</b>.<br>
+	 * Verify the current frame contains <b>text</b>.<br>
 	 * <br>
 	 * See `Introduction` for details about log levels.<br>
 	 * 
@@ -81,7 +81,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the current frame does not contain <b>text</b>.<br>
+	 * Verify the current frame does not contain <b>text</b>.<br>
 	 * <br>
 	 * See `Introduction` for details about log levels.<br>
 	 * 
@@ -108,7 +108,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> contains <b>text</b>.<br>
+	 * Verify the element identified by <b>locator</b> contains <b>text</b>.<br>
 	 * <br>
 	 * See `Introduction` for details about locators.
 	 * 
@@ -139,7 +139,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> does not contain
+	 * Verify the element identified by <b>locator</b> does not contain
 	 * <b>text</b>.<br>
 	 * <br>
 	 * See `Introduction` for details about locators.
@@ -171,7 +171,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the frame identified by <b>locator</b> contains <b>text</b>.<br>
+	 * Verify the frame identified by <b>locator</b> contains <b>text</b>.<br>
 	 * <br>
 	 * See `Introduction` for details about locators.
 	 * 
@@ -195,7 +195,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the frame identified by <b>locator</b> does not contain
+	 * Verify the frame identified by <b>locator</b> does not contain
 	 * <b>text</b>.<br>
 	 * <br>
 	 * See `Introduction` for details about locators.
@@ -225,7 +225,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the current page contains <b>text</b>.<br>
+	 * Verify the current page contains <b>text</b>.<br>
 	 * <br>
 	 * See `Introduction` for details about log levels.<br>
 	 * 
@@ -252,7 +252,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the current page does not contain <b>text</b>.<br>
+	 * Verify the current page does not contain <b>text</b>.<br>
 	 * <br>
 	 * See `Introduction` for details about log levels.<br>
 	 * 
@@ -284,7 +284,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is found on the current
+	 * Verify the element identified by <b>locator</b> is found on the current
 	 * page.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
@@ -327,7 +327,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is not found on the
+	 * Verify the element identified by <b>locator</b> is not found on the
 	 * current page.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
@@ -400,10 +400,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is enabled.<br>
+	 * Verify the element identified by <b>locator</b> is enabled.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -417,10 +417,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is disabled.<br>
+	 * Verify the element identified by <b>locator</b> is disabled.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -439,10 +439,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is selected.<br>
+	 * Verify the element identified by <b>locator</b> is selected.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -469,10 +469,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is not selected.<br>
+	 * Verify the element identified by <b>locator</b> is not selected.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -499,7 +499,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is visible.<br>
+	 * Verify the element identified by <b>locator</b> is visible.<br>
 	 * <br>
 	 * Herein, visible means that the element is logically visible, not
 	 * optically visible in the current browser viewport. For example, an
@@ -507,7 +507,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * keyword on that element would fail.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -534,7 +534,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is not visible.<br>
+	 * Verify the element identified by <b>locator</b> is not visible.<br>
 	 * <br>
 	 * Herein, visible means that the element is logically visible, not
 	 * optically visible in the current browser viewport. For example, an
@@ -542,7 +542,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * keyword on that element would fail.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -569,10 +569,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is clickable.<br>
+	 * Verify the element identified by <b>locator</b> is clickable.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -599,10 +599,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the element identified by <b>locator</b> is not clickable.<br>
+	 * Verify the element identified by <b>locator</b> is not clickable.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -629,14 +629,14 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the text of the element identified by <b>locator</b> is exactly
+	 * Verify the text of the element identified by <b>locator</b> is exactly
 	 * <b>text</b>.<br>
 	 * <br>
 	 * In contrast to `Element Should Contain`, this keyword does not try a
 	 * substring match but an exact match on the element identified by locator.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -666,14 +666,14 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the text of the element identified by <b>locator</b> is not
+	 * Verify the text of the element identified by <b>locator</b> is not
 	 * exactly <b>text</b>.<br>
 	 * <br>
 	 * In contrast to `Element Should Not Contain`, this keyword does not try a
 	 * substring match but an exact match on the element identified by locator.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -705,7 +705,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Example: element_id@class<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param attributeLocator
 	 *            The attribute locator.
@@ -738,7 +738,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Clients relying on keypresses should implement their own methods.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -758,7 +758,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * integer. Fails if the matching element is not found.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -781,7 +781,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Returns the value attribute of the element identified by <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -807,7 +807,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Returns the text of the element identified by <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -832,7 +832,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * integer. Fails if the matching element is not found.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -859,7 +859,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Click on the element identified by <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -877,7 +877,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Double-Click on the element identified by <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -897,7 +897,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Set the focus to the element identified by <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -915,7 +915,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * top of the element identified by the locator <b>target</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0">
@@ -951,7 +951,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * number.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0">
@@ -989,7 +989,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * The element is pressed without releasing the mouse button.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1015,7 +1015,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1043,7 +1043,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Simulates moving the mouse over the element identified by <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1068,7 +1068,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1092,7 +1092,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Opens the context menu on the element identified by <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1114,7 +1114,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * handler that needs to be explicitly invoked.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1141,7 +1141,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * lead by '\\'.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
-	 * for details about log levels and locators.<br>
+	 * for details about locators.<br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0">
@@ -1181,8 +1181,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Click on the link identified by <b>locator</b>.<br>
 	 * <br>
-	 * Key attributes for arbitrary links are id, name, href and link text. See
-	 * `Introduction` for details about log levels and locators.<br>
+	 * Key attributes for links are id, name, href and link text. See
+	 * `Introduction` for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the link.
@@ -1221,8 +1221,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * <br>
 	 * The element is pressed without releasing the mouse button.<br>
 	 * <br>
-	 * Key attributes for arbitrary links are id, name, href and link text. See
-	 * `Introduction` for details about log levels and locators.<br>
+	 * Key attributes for links are id, name, href and link text. See
+	 * `Introduction` for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1251,10 +1251,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the link identified by <b>locator</b> is found on the current
+	 * Verify the link identified by <b>locator</b> is found on the current
 	 * page.<br>
 	 * <br>
-	 * Key attributes for arbitrary links are id, name, href and link text. See
+	 * Key attributes for links are id, name, href and link text. See
 	 * `Introduction` for details about log levels and locators.<br>
 	 * 
 	 * @param locator
@@ -1281,10 +1281,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the link identified by <b>locator</b> is not found on the
+	 * Verify the link identified by <b>locator</b> is not found on the
 	 * current page.<br>
 	 * <br>
-	 * Key attributes for arbitrary links are id, name, href and link text. See
+	 * Key attributes for links are id, name, href and link text. See
 	 * `Introduction` for details about log levels and locators.<br>
 	 * 
 	 * @param locator
@@ -1307,8 +1307,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Click on the image identified by <b>locator</b>.<br>
 	 * <br>
-	 * Key attributes for arbitrary images are id, src and alt. See
-	 * `Introduction` for details about log levels and locators.<br>
+	 * Key attributes for images are id, src and alt. See
+	 * `Introduction` for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1333,8 +1333,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * <br>
 	 * The element is pressed without releasing the mouse button.<br>
 	 * <br>
-	 * Key attributes for arbitrary images are id, src and alt. See
-	 * `Introduction` for details about log levels and locators.<br>
+	 * Key attributes for images are id, src and alt. See
+	 * `Introduction` for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1363,10 +1363,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the image identified by <b>locator</b> is found on the current
+	 * Verify the image identified by <b>locator</b> is found on the current
 	 * page.<br>
 	 * <br>
-	 * Key attributes for arbitrary images are id, src and alt. See
+	 * Key attributes for images are id, src and alt. See
 	 * `Introduction` for details about log levels and locators.<br>
 	 * 
 	 * @param locator
@@ -1395,10 +1395,10 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies the image identified by <b>locator</b> is not found on the
+	 * Verify the image identified by <b>locator</b> is not found on the
 	 * current page.<br>
 	 * <br>
-	 * Key attributes for arbitrary images are id, src and alt. See
+	 * Key attributes for images are id, src and alt. See
 	 * `Introduction` for details about log levels and locators.<br>
 	 * 
 	 * @param locator
@@ -1452,7 +1452,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies that the page contains the <b>expectedXpathCount</b> of elements
+	 * Verify that the page contains the <b>expectedXpathCount</b> of elements
 	 * located by the given <b>xpath</b>.<br>
 	 * 
 	 * @param xpath
