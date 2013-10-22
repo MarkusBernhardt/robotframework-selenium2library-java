@@ -366,11 +366,18 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		}
 	}
 
-	@RobotKeyword("Closes all open browsers and resets the browser cache.\n\n"
-
-	+ "After this keyword new indexes returned from `Open Browser` keyword are reset " + "to 1.\n\n"
-
-	+ "This keyword should be used in test or suite teardown to make sure all browsers " + "are closed.\n")
+	/**
+	 * Closes all open browsers and resets the browser cache.<br>
+	 * <br>
+	 * After this keyword new indexes returned from `Open Browser` keyword are
+	 * reset to 1. This keyword should be used in test or suite teardown to make
+	 * sure all browsers are closed.<br>
+	 * 
+	 * @see BrowserManagement#closeBrowser
+	 * @see BrowserManagement#openBrowser
+	 * @see BrowserManagement#switchBrowser
+	 */
+	@RobotKeyword
 	public void closeAllBrowsers() {
 		logging.debug("Closing all browsers");
 		webDriverCache.closeAll();
