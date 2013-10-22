@@ -826,7 +826,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Returns vertical position of element identified by <b>locator</b><br>
+	 * Returns vertical position of element identified by <b>locator</b>.<br>
 	 * <br>
 	 * The position is returned in pixels off the top of the page, as an
 	 * integer. Fails if the matching element is not found.<br>
@@ -855,10 +855,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	// Keywords - Mouse Input/Events
 	// ##############################
 
-	@RobotKeyword("Click element identified by _locator_.\n\n"
-
-	+ "Key attributes for arbitrary elements are id and name. See `Introduction` for details "
-			+ "about locating elements.\n")
+	/**
+	 * Click on the element identified by <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void clickElement(String locator) {
 		logging.info(String.format("Clicking element '%s'.", locator));
@@ -867,10 +873,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		elements.get(0).click();
 	}
 
-	@RobotKeyword("Double-Click element identified by _locator_.\n\n"
-
-	+ "Key attributes for arbitrary elements are id and name. See `Introduction` for details "
-			+ "about locating elements.\n")
+	/**
+	 * Double-Click on the element identified by <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void doubleClickElement(String locator) {
 		logging.info(String.format("Double clicking element '%s'.", locator));
@@ -881,7 +893,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		action.doubleClick(elements.get(0)).perform();
 	}
 
-	@RobotKeyword("Sets focus to element identified by _locator_.\n")
+	/**
+	 * Set the focus to the element identified by <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void focus(String locator) {
 		List<WebElement> elements = elementFind(locator, true, true);
@@ -889,13 +910,30 @@ public class Element extends RunOnFailureKeywordsAdapter {
 				elements.get(0));
 	}
 
-	@RobotKeyword("Drags element identified with _source_ which is a locator.\n\n"
-
-	+ "Element can be moved on top of another element with _target_ argument.\n\n"
-
-	+ "_target_ is a locator of the element where the dragged object is dropped.\n\n"
-
-	+ "Examples:\n" + "| Drag And Drop | elem1 | elem2 | # Move elem1 over elem2. |\n")
+	/**
+	 * Drag the element identified by the locator <b>source</b> and move it on
+	 * top of the element identified by the locator <b>target</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Drag And Drop</td>
+	 * <td>elem1</td>
+	 * <td>elem2</td>
+	 * <td># Move elem1 over elem2</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param source
+	 *            The locator to locate the element to drag.
+	 * @param target
+	 *            The locator to locate the element where to drop the dragged
+	 *            element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "source", "target" })
 	public void dragAndDrop(String source, String target) {
 		List<WebElement> sourceElements = elementFind(source, true, true);
@@ -905,12 +943,37 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		action.dragAndDrop(sourceElements.get(0), targetElements.get(0)).perform();
 	}
 
-	@RobotKeyword("Drags element identified with _source_ which is a locator.\n\n"
-
-	+ "Element will be moved by xoffset and yoffset. each of which is a negative or positive "
-			+ "number specify the offset.\n\n"
-
-			+ "Examples:\n" + "| Drag And Drop | myElem | 50 | 35 | # Move myElem 50px right and 35px down. |\n")
+	/**
+	 * Drag the element identified by the locator <b>source</b> and move it by
+	 * <b>xOffset</b> and <b>yOffset</b>.<br>
+	 * <br>
+	 * Both offsets are specified as negative (left/up) or positive (right/down)
+	 * number.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Drag And Drop By Offset</td>
+	 * <td>elem1</td>
+	 * <td>50</td>
+	 * <td>35</td>
+	 * <td># Move elem1 50px right and 35px down.</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param source
+	 *            The locator to locate the element to drag.
+	 * @param xOffset
+	 *            The horizontal offset in pixel. Negative means left, positive
+	 *            right.
+	 * @param yOffset
+	 *            The vertical offset in pixel. Negative means up, positive
+	 *            down.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "source", "xOffset", "yOffset" })
 	public void dragAndDropByOffset(String source, int xOffset, int yOffset) {
 		List<WebElement> elements = elementFind(source, true, true);
@@ -919,14 +982,21 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		action.dragAndDropBy(elements.get(0), xOffset, yOffset).perform();
 	}
 
-	@RobotKeyword("Simulates pressing the left mouse button on the element specified by _locator_.\n\n"
-
-	+ "The element is pressed without releasing the mouse button.\n\n"
-
-	+ "Key attributes for arbitrary elements are id and name. See `Introduction` for details about "
-			+ "locating elements.\n\n"
-
-			+ "See also the more specific keywords `Mouse Down On Image` and `Mouse Down On Link`.\n")
+	/**
+	 * Simulates pressing the left mouse button on the element identified by
+	 * <b>locator</b>.<br>
+	 * <br>
+	 * The element is pressed without releasing the mouse button.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @see Element#mouseDownOnImage
+	 * @see Element#mouseDownOnLink
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void mouseDown(String locator) {
 		logging.info(String.format("Simulating Mouse Down on element '%s'.", locator));
@@ -940,10 +1010,17 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		action.clickAndHold(elements.get(0)).perform();
 	}
 
-	@RobotKeyword("Simulates moving mouse away from the element specified by _locator_.\n\n"
-
-	+ "Key attributes for arbitrary elements are id and name. See `Introduction` for details about "
-			+ "locating elements.\n")
+	/**
+	 * Simulates moving the mouse away from the element identified by
+	 * <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void mouseOut(String locator) {
 		logging.info(String.format("Simulating Mouse Out on element '%s'.", locator));
@@ -962,10 +1039,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		action.moveToElement(element).moveByOffset(offsetX, offsetY).perform();
 	}
 
-	@RobotKeyword("Simulates moving mouse away from the element specified by _locator_.\n\n"
-
-	+ "Key attributes for arbitrary elements are id and name. See `Introduction` for details about "
-			+ "locating elements.\n")
+	/**
+	 * Simulates moving the mouse over the element identified by <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void mouseOver(String locator) {
 		logging.info(String.format("Simulating Mouse Over on element '%s'.", locator));
@@ -980,10 +1063,17 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		action.moveToElement(element).perform();
 	}
 
-	@RobotKeyword("Simulates releasing the left mouse button on the element specified by _locator_.\n\n"
-
-	+ "Key attributes for arbitrary elements are id and name. See `Introduction` for details about "
-			+ "locating elements.\n")
+	/**
+	 * Simulates releasing the left mouse button on the element identified by
+	 * <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void mouseUp(String locator) {
 		logging.info(String.format("Simulating Mouse Up on element '%s'.", locator));
@@ -998,7 +1088,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		action.clickAndHold(element).release(element).perform();
 	}
 
-	@RobotKeyword("Opens context menu on element identified by _locator_.\n")
+	/**
+	 * Opens the context menu on the element identified by <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void openContextMenu(String locator) {
 		List<WebElement> elements = elementFind(locator, true, true);
@@ -1007,11 +1106,22 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		action.contextClick(elements.get(0)).perform();
 	}
 
-	@RobotKeyword("Simulates _event_ on element identified by _locator._\n\n"
-
-	+ "This keyword is useful if element has OnEvent handler that needs to be explicitly " + "invoked.\n\n"
-
-	+ "See `Introduction` for details about locating elements.\n")
+	/**
+	 * Simulates the given <b>event</b> on the element identified by
+	 * <b>locator</b>.<br>
+	 * <br>
+	 * This keyword is especially useful, when the element has an OnEvent
+	 * handler that needs to be explicitly invoked.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param event
+	 *            The event to invoke.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator", "event" })
 	public void simulate(String locator, String event) {
 		List<WebElement> elements = elementFind(locator, true, true);
@@ -1023,12 +1133,38 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		((JavascriptExecutor) browserManagement.getCurrentWebDriver()).executeScript(script, elements.get(0), event);
 	}
 
-	@RobotKeyword("Simulates user pressing _key_ on element identified by _locator._\n\n"
-
-	+ "_key_ is either a single character, or a numerical ASCII code of the key lead by " + "'\\'.\n\n"
-
-	+ "Examples:\n" + "| Press Key | text_field | q |\n"
-			+ "| Press Key | login_button | \\13 | # ASCII code for enter key |\n")
+	/**
+	 * Simulates pressing <b>key</b> on the element identified by
+	 * <b>locator</b>.<br>
+	 * <br>
+	 * Key is either a single character, or a numerical ASCII code of the key
+	 * lead by '\\'.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about log levels and locators.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Press Key</td>
+	 * <td>text_field</td>
+	 * <td>q</td>
+	 * <td># Press 'q'</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Press Key</td>
+	 * <td>login_button</td>
+	 * <td>\\13</td>
+	 * <td># ASCII code for enter key</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param key
+	 *            The key to press.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator", "key" })
 	public void pressKey(String locator, String key) {
 		if (key.startsWith("\\") && key.length() > 1) {
@@ -1042,10 +1178,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	// Keywords - Links
 	// ##############################
 
-	@RobotKeyword("Clicks a link identified by _locator_.\n\n"
-
-	+ "Key attributes for links are id, name, href and link text. See `Introduction` for details "
-			+ "about locating elements.\n")
+	/**
+	 * Click on the link identified by <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary links are id, name, href and link text. See
+	 * `Introduction` for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the link.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void clickLink(String locator) {
 		logging.info(String.format("Clicking link '%s'.", locator));
@@ -1054,9 +1196,14 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		elements.get(0).click();
 	}
 
-	@RobotKeyword("Returns a list containing ids of all links found in current page.\n\n"
-
-	+ "If a link has no id, an empty string will be in the list instead.\n")
+	/**
+	 * Returns a list containing ids of all links found in current page.<br>
+	 * <br>
+	 * If a link has no id, an empty string will be in the list instead.<br>
+	 * 
+	 * @return The list of link ids.
+	 */
+	@RobotKeyword
 	public ArrayList<String> getAllLinks() {
 		ArrayList<String> ret = new ArrayList<String>();
 
@@ -1068,10 +1215,21 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		return ret;
 	}
 
-	@RobotKeyword("Simulates a mouse down event on a link identified by _locator_.\n\n"
-
-	+ "Key attributes for links are id, name, href and link text. See `Introduction` for details "
-			+ "about locating elements.\n")
+	/**
+	 * Simulates pressing the left mouse button on the link identified by
+	 * <b>locator</b>.<br>
+	 * <br>
+	 * The element is pressed without releasing the mouse button.<br>
+	 * <br>
+	 * Key attributes for arbitrary links are id, name, href and link text. See
+	 * `Introduction` for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @see Element#mouseDown
+	 * @see Element#mouseDownOnImage
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void mouseDownOnLink(String locator) {
 		List<WebElement> elements = elementFind(locator, true, true, "link");
@@ -1092,14 +1250,21 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		pageShouldContainLink(locator, message, "INFO");
 	}
 
-	@RobotKeyword("Verifies element identified by _locator_ is found on the current page.\n\n"
-
-	+ "_message_ can be used to override default error message.\n\n"
-
-	+ "See `Page Should Contain` for explanation about _loglevel_ argument.\n\n"
-
-	+ "Key attributes for links are id, name, href and link text. See `Introduction` for details "
-			+ "about locating elements.\n")
+	/**
+	 * Verifies the link identified by <b>locator</b> is found on the current
+	 * page.<br>
+	 * <br>
+	 * Key attributes for arbitrary links are id, name, href and link text. See
+	 * `Introduction` for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the link.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldContainLink(String locator, String message, String logLevel) {
 		pageShouldContainElement(locator, "link", message, logLevel);
@@ -1115,14 +1280,21 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		pageShouldNotContainLink(locator, message, "INFO");
 	}
 
-	@RobotKeyword("Verifies element identified by _locator_ is not found on the current page.\n\n"
-
-	+ "_message_ can be used to override default error message.\n\n"
-
-	+ "See `Page Should Contain` for explanation about _loglevel_ argument.\n\n"
-
-	+ "Key attributes for links are id, name, href and link text. See `Introduction` for details "
-			+ "about locating elements.\n")
+	/**
+	 * Verifies the link identified by <b>locator</b> is not found on the
+	 * current page.<br>
+	 * <br>
+	 * Key attributes for arbitrary links are id, name, href and link text. See
+	 * `Introduction` for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the link.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldNotContainLink(String locator, String message, String logLevel) {
 		pageShouldNotContainElement(locator, "link", message, logLevel);
@@ -1132,9 +1304,16 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	// Keywords - Images
 	// ##############################
 
-	@RobotKeyword("Clicks an image found by _locator_.\n\n"
-
-	+ "Key attributes for images are id, src and alt. See `Introduction` for details " + "about locating elements.\n")
+	/**
+	 * Click on the image identified by <b>locator</b>.<br>
+	 * <br>
+	 * Key attributes for arbitrary images are id, src and alt. See
+	 * `Introduction` for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void clickImage(String locator) {
 		logging.info(String.format("Clicking image '%s'.", locator));
@@ -1148,9 +1327,21 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		element.click();
 	}
 
-	@RobotKeyword("Simulates a mouse down event on an image found by _locator_.\n\n"
-
-	+ "Key attributes for images are id, src and alt. See `Introduction` for details " + "about locating elements.\n")
+	/**
+	 * Simulates pressing the left mouse button on the image identified by
+	 * <b>locator</b>.<br>
+	 * <br>
+	 * The element is pressed without releasing the mouse button.<br>
+	 * <br>
+	 * Key attributes for arbitrary images are id, src and alt. See
+	 * `Introduction` for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @see Element#mouseDown
+	 * @see Element#mouseDownOnLink
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void mouseDownOnImage(String locator) {
 		List<WebElement> elements = elementFind(locator, true, true, "image");
@@ -1171,13 +1362,21 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		pageShouldContainImage(locator, message, "INFO");
 	}
 
-	@RobotKeyword("Verifies image identified by _locator_ is found on the current page.\n\n"
-
-	+ "_message_ can be used to override default error message.\n\n"
-
-	+ "See `Page Should Contain` for explanation about _loglevel_ argument.\n\n"
-
-	+ "Key attributes for images are id, src and alt. See `Introduction` for details " + "about locating elements.\n")
+	/**
+	 * Verifies the image identified by <b>locator</b> is found on the current
+	 * page.<br>
+	 * <br>
+	 * Key attributes for arbitrary images are id, src and alt. See
+	 * `Introduction` for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the link.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldContainImage(String locator, String message, String logLevel) {
 		pageShouldContainElement(locator, "image", message, logLevel);
@@ -1195,13 +1394,21 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		pageShouldNotContainImage(locator, message, "INFO");
 	}
 
-	@RobotKeyword("Verifies image identified by _locator_ is not found on the current page.\n\n"
-
-	+ "_message_ can be used to override default error message.\n\n"
-
-	+ "See `Page Should Contain` for explanation about _loglevel_ argument.\n\n"
-
-	+ "Key attributes for images are id, src and alt. See `Introduction` for details " + "about locating elements.\n")
+	/**
+	 * Verifies the image identified by <b>locator</b> is not found on the
+	 * current page.<br>
+	 * <br>
+	 * Key attributes for arbitrary images are id, src and alt. See
+	 * `Introduction` for details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the link.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldNotContainImage(String locator, String message, String logLevel) {
 		pageShouldNotContainElement(locator, "image", message, logLevel);
@@ -1211,9 +1418,17 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	// Keywords - Xpath
 	// ##############################
 
-	@RobotKeyword("Returns number of elements matching xpath.\n\n"
-
-	+ "If you wish to assert the number of matching elements, use `Xpath Should Match X Times`.\n")
+	/**
+	 * Returns the number of elements located the given <b>xpath</b>.<br>
+	 * <br>
+	 * If you wish to assert the number of located elements, use `Xpath Should
+	 * Match X Times`.<br>
+	 * 
+	 * @param xpath
+	 *            The XPath to match page elements
+	 * @return The number of located elements
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "xpath" })
 	public int getMatchingXpathCount(String xpath) {
 		if (!xpath.startsWith("xpath=")) {
@@ -1236,11 +1451,20 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		xpathShouldMatchXTimes(xpath, expectedXpathCount, message, "INFO");
 	}
 
-	@RobotKeyword("Verifies that the page contains the given number of elements located by the given xpath.\n\n"
-
-	+ "_message_ can be used to override default error message.\n\n"
-
-	+ "See `Page Should Contain Element` for explanation about _message_ and _loglevel_ arguments.\n")
+	/**
+	 * Verifies that the page contains the <b>expectedXpathCount</b> of elements
+	 * located by the given <b>xpath</b>.<br>
+	 * 
+	 * @param xpath
+	 *            The XPath to match page elements
+	 * @param expectedXpathCount
+	 *            The expected number of located elements
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "xpath", "expectedXpathCount", "message=NONE", "logLevel=INFO" })
 	public void xpathShouldMatchXTimes(String xpath, int expectedXpathCount, String message, String logLevel) {
 		if (!xpath.startsWith("xpath=")) {
