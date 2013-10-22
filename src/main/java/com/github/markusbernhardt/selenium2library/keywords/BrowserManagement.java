@@ -719,7 +719,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies that the current page URL is exactly <b>url</b>.<br>
+	 * Verifies the current page URL is exactly <b>url</b>.<br>
 	 * 
 	 * @param url
 	 *            The URL to verify.
@@ -738,7 +738,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies that the current page URL contains <b>url</b>.<br>
+	 * Verifies the current page URL contains <b>url</b>.<br>
 	 * 
 	 * @param url
 	 *            The URL to verify.
@@ -757,7 +757,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies that the current page title is exactly <b>title</b>.<br>
+	 * Verifies the current page title is exactly <b>title</b>.<br>
 	 * 
 	 * @param title
 	 *            The title to verify.
@@ -776,7 +776,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verifies that the current page title contains <b>title</b>.<br>
+	 * Verifies the current page title contains <b>title</b>.<br>
 	 * 
 	 * @param title
 	 *            The title to verify.
@@ -1038,7 +1038,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * "Configures proxy handling for remote WebDriver instances.<br>
+	 * Configures proxy handling for remote WebDriver instances.<br>
 	 * <br>
 	 * This is needed to connect to an external Selenium 2 WebDriver rid through
 	 * a local HTTP proxy. This implementation handles BASIC, DIGEST and NTLM

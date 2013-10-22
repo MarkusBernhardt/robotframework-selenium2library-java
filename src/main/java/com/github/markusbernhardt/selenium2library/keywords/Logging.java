@@ -76,6 +76,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Logs and returns the names of all windows known to the current browser
 	 * instance.<br>
+	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
 	 * @param logLevel
 	 *            Default=INFO. Optional log level.
@@ -101,6 +102,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Logs and returns the titles of all windows known to the current browser
 	 * instance.<br>
+	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
 	 * @param logLevel
 	 *            Default=INFO. Optional log level.
@@ -174,7 +176,10 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Logs and returns basic system information about the execution
 	 * environment.<br>
+	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
 	 * @return System information.
 	 * 
 	 * @see BrowserManagement#getSystemInfo
@@ -205,6 +210,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	 * the session actually supports. For more information see: <a href=
 	 * "http://code.google.com/p/selenium/wiki/DesiredCapabilities"
 	 * >DesiredCapabilities</a><br>
+	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
 	 * @param logLevel
 	 *            Default=INFO. Optional log level.
@@ -226,8 +232,11 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * logs and returns the session id of the remote browser instance.<br>
+	 * Logs and returns the session id of the remote browser instance.<br>
+	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
 	 * @return The remote session id.
 	 * 
 	 * @see BrowserManagement#getRemoteSessionId
