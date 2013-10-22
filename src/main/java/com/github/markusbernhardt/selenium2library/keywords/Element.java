@@ -298,7 +298,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "text", "message=NONE", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldContainElement(String locator, String message, String logLevel) {
 		pageShouldContainElement(locator, null, message, "INFO");
 	}
@@ -341,7 +341,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "text", "message=NONE", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
 	public void pageShouldNotContainElement(String locator, String message, String logLevel) {
 		pageShouldNotContainElement(locator, null, message, "INFO");
 	}
