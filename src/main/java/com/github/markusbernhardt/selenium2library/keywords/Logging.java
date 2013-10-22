@@ -171,6 +171,14 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		return logSystemInfo("INFO");
 	}
 
+	/**
+	 * Logs and returns basic system information about the execution
+	 * environment.<br>
+	 * 
+	 * @return System information.
+	 * 
+	 * @see BrowserManagement#getSystemInfo
+	 */
 	@RobotKeyword
 	@ArgumentNames({ "logLevel=INFO" })
 	public String logSystemInfo(String logLevel) {
@@ -184,6 +192,26 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		return logRemoteCapabilities("INFO");
 	}
 
+	/**
+	 * Logs and returns the actually supported capabilities of the remote
+	 * browser instance.<br>
+	 * <br>
+	 * Not all server implementations will support every WebDriver feature.
+	 * Therefore, the client and server should use JSON objects with the
+	 * properties listed below when describing which features a user requests
+	 * that a session support. <b>If a session cannot support a capability that
+	 * is requested in the desired capabilities, no error is thrown;</b> a
+	 * read-only capabilities object is returned that indicates the capabilities
+	 * the session actually supports. For more information see: <a href=
+	 * "http://code.google.com/p/selenium/wiki/DesiredCapabilities"
+	 * >DesiredCapabilities</a><br>
+	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 * @return The capabilities of the remote node.
+	 * 
+	 * @see BrowserManagement#getRemoteCapabilities
+	 */
 	@RobotKeyword
 	@ArgumentNames({ "logLevel=INFO" })
 	public String logRemoteCapabilities(String logLevel) {
@@ -197,6 +225,13 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		return logRemoteSessionId("INFO");
 	}
 
+	/**
+	 * logs and returns the session id of the remote browser instance.<br>
+	 * 
+	 * @return The remote session id.
+	 * 
+	 * @see BrowserManagement#getRemoteSessionId
+	 */
 	@RobotKeyword
 	@ArgumentNames({ "logLevel=INFO" })
 	public String logRemoteSessionId(String logLevel) {
