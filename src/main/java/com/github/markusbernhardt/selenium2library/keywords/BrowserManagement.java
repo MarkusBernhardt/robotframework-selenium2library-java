@@ -163,7 +163,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Closes the current browser.<br>
+	 * Closes the current browser instance.<br>
 	 * 
 	 * @see BrowserManagement#closeAllBrowsers
 	 * @see BrowserManagement#openBrowser
@@ -305,8 +305,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 *            directory. Overwrites the default profile.
 	 * @return The index of the newly created browser instance.
 	 * 
-	 * @see BrowserManagement#closeBrowser
 	 * @see BrowserManagement#closeAllBrowsers
+	 * @see BrowserManagement#closeBrowser
 	 * @see BrowserManagement#switchBrowser
 	 */
 	@RobotKeyword
@@ -340,20 +340,101 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		}
 	}
 
-	@RobotKeyword("Switches between active browsers using _index_ or _alias_.\n"
-			+ "Index is returned from `Open Browser` and alias can be given to it.\n\n"
-
-			+ "Example:\n" + "| Open Browser | http://google.com | ff |\n"
-			+ "| Location Should Be | http://google.com |\n" + "| Open Browser | http://yahoo.com | ie | 2nd conn |\n"
-			+ "| Location Should Be | http://yahoo.com |\n" + "| Switch Browser | 1 | #index |\n"
-			+ "| Page Should Contain | I'm feeling lucky |\n" + "| Switch Browser | 2nd conn | # alias |\n"
-			+ "| Page Should Contain | More Yahoo! |\n" + "| Close All Browsers |\n\n"
-
-			+ "Above example expects that there was no other open browsers when "
-			+ "opening the first one because it used index '1' when switching to it "
-			+ "later. If you aren't sure about that you can store the index into a " + "variable as below.\n"
-			+ "| ${id} = | Open Browser | http://google.com | *firefox |\n" + "| # Do something ... |\n"
-			+ "| Switch Browser | ${id} |\n")
+	/**
+	 * "Switches between active browser instances using an <b>index</b> or an
+	 * <b>alias</b>.<br>
+	 * <br>
+	 * The index is returned from `Open Browser` and an alias can be given to
+	 * it.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Open Browser</td>
+	 * <td>http://google.com</td>
+	 * <td>ff</td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Location Should Be</td>
+	 * <td>http://google.com</td>
+	 * <td></td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Open Browser</td>
+	 * <td>http://yahoo.com</td>
+	 * <td>ie</td>
+	 * <td>2nd conn</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Location Should Be</td>
+	 * <td>http://yahoo.com</td>
+	 * <td></td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Switch Browser</td>
+	 * <td>1</td>
+	 * <td># index</td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Page Should Contain</td>
+	 * <td>I'm feeling lucky</td>
+	 * <td></td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Switch Browser</td>
+	 * <td>2nd conn</td>
+	 * <td># alias</td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Page Should Contain</td>
+	 * <td>More Yahoo!</td>
+	 * <td></td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Close All Browsers</td>
+	 * <td></td>
+	 * <td></td>
+	 * <td></td>
+	 * </tr>
+	 * </table>
+	 * <br>
+	 * The above example expects that there was no other open browsers when
+	 * opening the first one because it used index '1' when switching to it
+	 * later. If you aren't sure about that you can store the index into a
+	 * variable as below.
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>${id} =</td>
+	 * <td>Open Browser</td>
+	 * <td>http://google.com</td>
+	 * </tr>
+	 * <tr>
+	 * <td># Do something ...</td>
+	 * <td></td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Switch Browser</td>
+	 * <td>${id}</td>
+	 * <td></td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param indexOrAlias
+	 *            the index or alias of the browser instance to switch to
+	 * 
+	 * @see BrowserManagement#closeAllBrowsers
+	 * @see BrowserManagement#closeBrowser
+	 * @see BrowserManagement#openBrowser
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "indexOrAlias" })
 	public void switchBrowser(String indexOrAlias) {
 		try {
@@ -367,7 +448,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Closes all open browsers and resets the browser cache.<br>
+	 * Closes all open browser instances and resets the browser cache.<br>
 	 * <br>
 	 * After this keyword new indexes returned from `Open Browser` keyword are
 	 * reset to 1. This keyword should be used in test or suite teardown to make
@@ -383,7 +464,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		webDriverCache.closeAll();
 	}
 
-	@RobotKeyword("Closes currently opened pop-up window.\n")
+	/**
+	 * Closes the currently opened pop-up window.
+	 */
+	@RobotKeyword
 	public void closeWindow() {
 		webDriverCache.getCurrent().close();
 	}
