@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -465,40 +466,72 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Closes the currently opened pop-up window.
+	 * Closes the currently open pop-up window.
 	 */
 	@RobotKeyword
 	public void closeWindow() {
 		webDriverCache.getCurrent().close();
 	}
 
-	@RobotKeyword("Returns and logs id attributes of all windows known to the browser.\n")
+	/**
+	 * Returns the id attributes of all windows known to the current browser
+	 * instance.<br>
+	 * 
+	 * @return List of window id attributes
+	 * 
+	 * @see Logging#logWindowIdentifiers
+	 */
+	@RobotKeyword
 	public List<String> getWindowIdentifiers() {
-		return logging.logList(WindowManager.getWindowIds(webDriverCache.getCurrent()), "Window Id");
+		return toList(WindowManager.getWindowIds(webDriverCache.getCurrent()), "Window Id");
 	}
 
-	@RobotKeyword("Returns and logs names of all windows known to the browser.\n")
+	/**
+	 * Returns the names of all windows known to the current browser instance.<br>
+	 * 
+	 * @return List of window names
+	 * 
+	 * @see Logging#logWindowNames
+	 */
+	@RobotKeyword
 	public List<String> getWindowNames() {
 		List<String> windowNames = WindowManager.getWindowNames(webDriverCache.getCurrent());
 		if (windowNames.size() != 0 && windowNames.get(0).equals("undefined")) {
 			windowNames.set(0, "selenium_main_app_window");
 		}
-		return logging.logList(windowNames, "Window Name");
+		return toList(windowNames, "Window Name");
 	}
 
-	@RobotKeyword("Returns and logs titles of all windows known to the browser.\n")
+	/**
+	 * Returns the titles of all windows known to the current browser instance.<br>
+	 * 
+	 * @return List of window titles
+	 * 
+	 * @see Logging#logWindowTitles
+	 */
+	@RobotKeyword
 	public List<String> getWindowTitles() {
-		return logging.logList(WindowManager.getWindowTitles(webDriverCache.getCurrent()), "Window Title");
+		return toList(WindowManager.getWindowTitles(webDriverCache.getCurrent()), "Window Title");
 	}
 
-	@RobotKeyword("Maximizes current browser window.\n")
+	/**
+	 * Maximizes current browser window.<br>
+	 */
+	@RobotKeyword
 	public void maximizeBrowserWindow() {
 		webDriverCache.getCurrent().manage().window().maximize();
 	}
 
-	@RobotKeyword("Sets frame identified by _locator_ as current frame.\n\n"
-
-	+ "Key attributes for frames are id and name. See `Introduction` for details " + "about locating elements.\n")
+	/**
+	 * Selects the frame identified by <b>locator</b> as current frame.<br>
+	 * <br>
+	 * Key attributes for frames are <b>id</b> and <b>name</b>. See
+	 * `Introduction` for details about locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the frame
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator" })
 	public void selectFrame(String locator) {
 		logging.info(String.format("Selecting frame '%s'.", locator));
@@ -511,47 +544,119 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		selectWindow(null);
 	}
 
-	@RobotKeyword("Selects the window found with _locator_ as the context of actions.\n\n"
-
-	+ "If the window is found, all subsequent commands use that window, until this keyword "
-			+ "is used again. If the window is not found, this keyword fails.\n\n"
-
-			+ "By default, when a locator value is provided, it is matched against the title of the "
-			+ "window and the javascript name of the window. If multiple windows with same identifier"
-			+ " are found, the first one is selected.\n\n"
-
-			+ "Special locator main (default) can be used to select the main window.\n"
-			+ "It is also possible to specify the approach Selenium2Library should take to find a window"
-			+ " by specifying a locator strategy:\n\n"
-
-			+ "| Strategy | Example | Description |\n"
-			+ "| title | Select Window title=My Document | Matches by window title |\n"
-			+ "| name | Select Window name=${name} | Matches by window javascript name |\n"
-			+ "| url | Select Window url=http://google.com | Matches by window's current URL |\n\n"
-
-			+ "Example:\n" + "| Click Link | popup_link | #opens new window |\n" + "| Select Window | popupName | |\n"
-			+ "| Title Should Be | Popup Title | |\n" + "| Select Window | | #Chooses the main window again |\n")
+	/**
+	 * Selects the window identified by <b>locator</b> as the context of
+	 * actions.<br>
+	 * <br>
+	 * If the window is found, all subsequent commands use that window, until
+	 * this keyword is used again. If the window is not found, this keyword
+	 * fails.<br>
+	 * <br>
+	 * By default, when a locator value is provided, it is matched against the
+	 * title of the window and the javascript name of the window. If multiple
+	 * windows with same identifier are found, the first one is selected.<br>
+	 * <br>
+	 * The special locator main (default) can be used to select the main window.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Click Link</td>
+	 * <td>popup_link</td>
+	 * <td># opens new window</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Select Window</td>
+	 * <td>popupName</td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Title Should Be</td>
+	 * <td>Popup Title</td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Select Window</td>
+	 * <td></td>
+	 * <td># Chooses the main window again</td>
+	 * </tr>
+	 * </table>
+	 * <br>
+	 * It is also possible to specify the approach Selenium2Library should take
+	 * to find a window by specifying a locator strategy. See `Introduction` for
+	 * details about locators:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td><b>Strategy</b></td>
+	 * <td><b>Example</b></td>
+	 * <td><b>Description</b></td>
+	 * </tr>
+	 * <tr>
+	 * <td>title</td>
+	 * <td>Select Window | title=My Document</td>
+	 * <td>Matches by window title</td>
+	 * </tr>
+	 * <tr>
+	 * <td>name</td>
+	 * <td>Select Window | name=${name}</td>
+	 * <td>Matches by window javascript name</td>
+	 * </tr>
+	 * <tr>
+	 * <td>url</td>
+	 * <td>Select Window | url=http://google.com</td>
+	 * <td>Matches by window's current URL</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param locator
+	 *            The locator to locate the window
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "locator=NONE" })
 	public void selectWindow(String locator) {
 		WindowManager.select(webDriverCache.getCurrent(), locator);
 	}
 
-	@RobotKeyword("Sets the top frame as the current frame.\n")
+	/**
+	 * Selects the top frame as the current frame.
+	 */
+	@RobotKeyword
 	public void unselectFrame() {
 		webDriverCache.getCurrent().switchTo().defaultContent();
 	}
 
-	@RobotKeyword("Returns the current location.\n")
+	/**
+	 * Returns the current location.
+	 * 
+	 * @return The current location.
+	 * 
+	 * @see Logging#logLocation
+	 */
+	@RobotKeyword
 	public String getLocation() {
 		return webDriverCache.getCurrent().getCurrentUrl();
 	}
 
-	@RobotKeyword("Returns the entire html source of the current page or frame.\n")
+	/**
+	 * Returns the entire HTML source of the current page or frame.
+	 * 
+	 * @return The HTML source.
+	 * 
+	 * @see Logging#logSource
+	 */
+	@RobotKeyword
 	public String getSource() {
 		return webDriverCache.getCurrent().getPageSource();
 	}
 
-	@RobotKeyword("Returns title of current page.\n")
+	/**
+	 * Returns the title of current page.
+	 * 
+	 * @return The title.
+	 * 
+	 * @see Logging#logTitle
+	 */
+	@RobotKeyword
 	public String getTitle() {
 		return webDriverCache.getCurrent().getTitle();
 	}
@@ -1002,7 +1107,18 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryFatalException(String.format("The %s field does not contain a %s.", fieldName,
 					className));
 		}
-
 	}
 
+	protected List<String> toList(List<String> items) {
+		return toList(items, "item");
+	}
+
+	protected List<String> toList(List<String> items, String what) {
+		List<String> msg = new ArrayList<String>();
+		msg.add(String.format("Altogether %d %s%s.\n", items.size(), what, items.size() == 1 ? "" : "s"));
+		for (int index = 0; index < items.size(); index++) {
+			msg.add(String.format("%d: %s", index + 1, items.get(index)));
+		}
+		return items;
+	}
 }

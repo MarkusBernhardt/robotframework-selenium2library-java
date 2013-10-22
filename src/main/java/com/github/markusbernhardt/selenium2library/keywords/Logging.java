@@ -3,7 +3,6 @@ package com.github.markusbernhardt.selenium2library.keywords;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
-import com.github.markusbernhardt.selenium2library.utils.Python;
 
 @RobotKeywords
 public class Logging extends RunOnFailureKeywordsAdapter {
@@ -44,6 +42,81 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	// ##############################
 	// Keywords
 	// ##############################
+
+	@RobotKeywordOverload
+	public List<String> logWindowIdentifiers() {
+		return logWindowIdentifiers("INFO");
+	}
+
+	/**
+	 * Logs and returns the id attributes of all windows known to the current
+	 * browser instance.<br>
+	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 * @return List of window id attributes.
+	 * 
+	 * @see BrowserManagement#getWindowIdentifiers
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "logLevel=INFO" })
+	public List<String> logWindowIdentifiers(String logLevel) {
+		List<String> windowIdentifiers = browserManagement.getWindowIdentifiers();
+		for (String windowIdentifier : windowIdentifiers) {
+			log(windowIdentifier, logLevel);
+		}
+		return windowIdentifiers;
+	}
+
+	@RobotKeywordOverload
+	public List<String> logWindowNames() {
+		return logWindowNames("INFO");
+	}
+
+	/**
+	 * Logs and returns the names of all windows known to the current browser
+	 * instance.<br>
+	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 * @return List of windows names.
+	 * 
+	 * @see BrowserManagement#getWindowNames
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "logLevel=INFO" })
+	public List<String> logWindowNames(String logLevel) {
+		List<String> windowIdentifiers = browserManagement.getWindowNames();
+		for (String windowIdentifier : windowIdentifiers) {
+			log(windowIdentifier, logLevel);
+		}
+		return windowIdentifiers;
+	}
+
+	@RobotKeywordOverload
+	public List<String> logWindowTitles() {
+		return logWindowTitles("INFO");
+	}
+
+	/**
+	 * Logs and returns the titles of all windows known to the current browser
+	 * instance.<br>
+	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 * @return List of window titles.
+	 * 
+	 * @see BrowserManagement#getWindowTitles
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "logLevel=INFO" })
+	public List<String> logWindowTitles(String logLevel) {
+		List<String> windowIdentifiers = browserManagement.getWindowTitles();
+		for (String windowIdentifier : windowIdentifiers) {
+			log(windowIdentifier, logLevel);
+		}
+		return windowIdentifiers;
+	}
 
 	@RobotKeywordOverload
 	public String logLocation() {
@@ -206,20 +279,6 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 					String.format("logger.%s('%s'%s)", methodName, msg.replace("'", "\\'").replace("\n", "\\n"),
 							methodArguments));
 		}
-	}
-
-	protected List<String> logList(List<String> items) {
-		return logList(items, "item");
-	}
-
-	protected List<String> logList(List<String> items, String what) {
-		List<String> msg = new ArrayList<String>();
-		msg.add(String.format("Altogether %d %s%s.\n", items.size(), what, items.size() == 1 ? "" : "s"));
-		for (int index = 0; index < items.size(); index++) {
-			msg.add(String.format("%d: %s", index + 1, items.get(index)));
-		}
-		info(Python.join("\n", msg));
-		return items;
 	}
 
 	protected File getLogDir() {
