@@ -76,6 +76,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Logs and returns the names of all windows known to the current browser
 	 * instance.<br>
+	 * <br>
 	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
 	 * @param logLevel
@@ -102,6 +103,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Logs and returns the titles of all windows known to the current browser
 	 * instance.<br>
+	 * <br>
 	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
 	 * @param logLevel
@@ -125,10 +127,18 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		return logLocation("INFO");
 	}
 
-	@RobotKeyword("Logs and returns the current location.\n\n"
-
-	+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
-			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
+	/**
+	 * Logs and returns the location of the current browser instance.<br>
+	 * <br>
+	 * See `Introduction` for details about the <b>loglevel</b>.<br>
+	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 * @return The current location.
+	 * 
+	 * @see BrowserManagement#getLocation
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "logLevel=INFO" })
 	public String logLocation(String logLevel) {
 		String actual = browserManagement.getLocation();
@@ -141,10 +151,18 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		return logSource("INFO");
 	}
 
-	@RobotKeyword("Logs and returns the entire html source of the current page or frame.\n\n"
-
-	+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
-			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
+	/**
+	 * Logs and returns the entire html source of the current page or frame.<br>
+	 * <br>
+	 * See `Introduction` for details about the <b>loglevel</b>.<br>
+	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 * @return The entire html source.
+	 * 
+	 * @see BrowserManagement#getSource
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "logLevel=INFO" })
 	public String logSource(String logLevel) {
 		String actual = browserManagement.getSource();
@@ -157,10 +175,18 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		return logTitle("INFO");
 	}
 
-	@RobotKeyword("Logs and returns the title of current page.\n\n"
-
-	+ "The _loglevel_ argument defines the used log level. Valid log levels are WARN, "
-			+ "INFO (default), DEBUG, TRACE and NONE (no logging).\n")
+	/**
+	 * Logs and returns the title of current page.<br>
+	 * <br>
+	 * See `Introduction` for details about the <b>loglevel</b>.<br>
+	 * 
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
+	 * @return The page title.
+	 * 
+	 * @see BrowserManagement#getSource
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "logLevel=INFO" })
 	public String logTitle(String logLevel) {
 		String actual = browserManagement.getTitle();
@@ -176,6 +202,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Logs and returns basic system information about the execution
 	 * environment.<br>
+	 * <br>
 	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
 	 * @param logLevel
@@ -210,6 +237,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	 * the session actually supports. For more information see: <a href=
 	 * "http://code.google.com/p/selenium/wiki/DesiredCapabilities"
 	 * >DesiredCapabilities</a><br>
+	 * <br>
 	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
 	 * @param logLevel
@@ -233,6 +261,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Logs and returns the session id of the remote browser instance.<br>
+	 * <br>
 	 * See `Introduction` for details about the <b>loglevel</b>.<br>
 	 * 
 	 * @param logLevel
