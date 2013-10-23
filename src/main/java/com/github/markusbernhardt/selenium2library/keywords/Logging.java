@@ -278,6 +278,16 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		return actual;
 	}
 
+	/**
+	 * Set the <b>logDirectory</b>, where captured screenshots are stored, to
+	 * some custom path.<br>
+	 * <br>
+	 * Fails, if either the given path does not exist, is no directory or is not
+	 * writable.<br>
+	 * 
+	 * @param logDirectory
+	 *            The directory to log to.
+	 */
 	@RobotKeyword
 	@ArgumentNames({ "logDirectory" })
 	public void setLogDirectory(String logDirectory) throws Exception {

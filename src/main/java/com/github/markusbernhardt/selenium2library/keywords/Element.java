@@ -701,8 +701,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Returns the value of an element attribute.<br>
 	 * <br>
 	 * The <b>attribute_locator</b> consists of element locator followed by an @
-	 * sign and attribute name.<br>
-	 * Example: element_id@class<br>
+	 * sign and attribute name. Example: element_id@class<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
 	 * for details about locators.<br>
@@ -1281,8 +1280,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verify the link identified by <b>locator</b> is not found on the
-	 * current page.<br>
+	 * Verify the link identified by <b>locator</b> is not found on the current
+	 * page.<br>
 	 * <br>
 	 * Key attributes for links are id, name, href and link text. See
 	 * `Introduction` for details about log levels and locators.<br>
@@ -1307,8 +1306,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Click on the image identified by <b>locator</b>.<br>
 	 * <br>
-	 * Key attributes for images are id, src and alt. See
-	 * `Introduction` for details about locators.<br>
+	 * Key attributes for images are id, src and alt. See `Introduction` for
+	 * details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1333,8 +1332,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * <br>
 	 * The element is pressed without releasing the mouse button.<br>
 	 * <br>
-	 * Key attributes for images are id, src and alt. See
-	 * `Introduction` for details about locators.<br>
+	 * Key attributes for images are id, src and alt. See `Introduction` for
+	 * details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the element.
@@ -1366,8 +1365,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * Verify the image identified by <b>locator</b> is found on the current
 	 * page.<br>
 	 * <br>
-	 * Key attributes for images are id, src and alt. See
-	 * `Introduction` for details about log levels and locators.<br>
+	 * Key attributes for images are id, src and alt. See `Introduction` for
+	 * details about log levels and locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the link.
@@ -1395,11 +1394,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verify the image identified by <b>locator</b> is not found on the
-	 * current page.<br>
+	 * Verify the image identified by <b>locator</b> is not found on the current
+	 * page.<br>
 	 * <br>
-	 * Key attributes for images are id, src and alt. See
-	 * `Introduction` for details about log levels and locators.<br>
+	 * Key attributes for images are id, src and alt. See `Introduction` for
+	 * details about log levels and locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the link.

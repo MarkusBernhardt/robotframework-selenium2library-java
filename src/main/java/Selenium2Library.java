@@ -252,6 +252,10 @@ public class Selenium2Library extends AnnotationLibrary {
 		if (keywordDocumentation == null) {
 			keywordDocumentation = "";
 		}
+		
+		if(keywordDocumentation.length() == 0) {
+			System.out.println("Keyword Documentation missing: " + keywordName);
+		}
 		return keywordDocumentation;
 		/*
 		 * if (keywordName.equals("__intro__")) { return this.docIntro; } else
