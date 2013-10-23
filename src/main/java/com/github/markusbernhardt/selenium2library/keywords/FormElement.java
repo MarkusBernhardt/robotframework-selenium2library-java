@@ -475,11 +475,6 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void textfieldShouldContain(String locator, String text) {
-		textfieldShouldContain(locator, text, "");
-	}
-
-	@RobotKeywordOverload
 	public void textfieldValueShouldBe(String locator, String text) {
 		textfieldValueShouldBe(locator, text, "");
 	}
@@ -498,9 +493,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 * @param message
 	 *            Default=NONE. Optional custom error message.
 	 * 
-	 * @see BrowserManagement#textfieldShouldNotBe
-	 * @see BrowserManagement#textfieldShouldContain
-	 * @see BrowserManagement#textfieldShouldNotContain
+	 * @see FormElement#textfieldShouldContain
+	 * @see FormElement#textfieldShouldNotContain
+	 * @see FormElement#textfieldValueShouldNotBe
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
@@ -514,6 +509,11 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 			throw new Selenium2LibraryNonFatalException(message);
 		}
 		logging.info(String.format("Content of text field '%s' is '%s'.", locator, text));
+	}
+
+	@RobotKeywordOverload
+	public void textfieldValueShouldNotBe(String locator, String text) {
+		textfieldValueShouldNotBe(locator, text, "");
 	}
 
 	/**
@@ -530,9 +530,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 * @param message
 	 *            Default=NONE. Optional custom error message.
 	 * 
-	 * @see BrowserManagement#textfieldShouldBe
-	 * @see BrowserManagement#textfieldShouldContain
-	 * @see BrowserManagement#textfieldShouldNotContain
+	 * @see FormElement#textfieldShouldContain
+	 * @see FormElement#textfieldShouldNotContain
+	 * @see FormElement#textfieldValueShouldBe
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
@@ -540,12 +540,17 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 		String actual = element.getValue(locator, "text field");
 		if (actual.contains(text)) {
 			if (message == null) {
-				message = String.format("Value of text field '%s' should not have been '%s' but was '%s'", locator, text,
-						actual);
+				message = String.format("Value of text field '%s' should not have been '%s' but was '%s'", locator,
+						text, actual);
 			}
 			throw new Selenium2LibraryNonFatalException(message);
 		}
 		logging.info(String.format("Content of text field '%s' is '%s'.", locator, text));
+	}
+
+	@RobotKeywordOverload
+	public void textfieldShouldContain(String locator, String text) {
+		textfieldShouldContain(locator, text, "");
 	}
 
 	/**
@@ -561,9 +566,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 * @param message
 	 *            Default=NONE. Optional custom error message.
 	 * 
-	 * @see FormElement#textfieldShouldBe
-	 * @see FormElement#textfieldShouldNotBe
 	 * @see FormElement#textfieldShouldNotContain
+	 * @see FormElement#textfieldValueShouldBe
+	 * @see FormElement#textfieldValueShouldNotBe
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
@@ -598,9 +603,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 * @param message
 	 *            Default=NONE. Optional custom error message.
 	 * 
-	 * @see FormElement#textfieldShouldBe
-	 * @see FormElement#textfieldShouldNotBe
 	 * @see FormElement#textfieldShouldContain
+	 * @see FormElement#textfieldValueShouldBe
+	 * @see FormElement#textfieldValueShouldNotBe
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "locator", "text", "message=NONE" })
@@ -619,8 +624,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Click on the button identified by <b>locator</b>.<br>
 	 * <br>
-	 * Key attributes for buttons are id, name and value. See
-	 * `Introduction` for details about locators.<br>
+	 * Key attributes for buttons are id, name and value. See `Introduction` for
+	 * details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the link.
@@ -681,8 +686,8 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Verify the button identified by <b>locator</b> is not found on the current
-	 * page.<br>
+	 * Verify the button identified by <b>locator</b> is not found on the
+	 * current page.<br>
 	 * <br>
 	 * Key attributes for buttons are id, name and value. See `Introduction` for
 	 * details about log levels and locators.<br>

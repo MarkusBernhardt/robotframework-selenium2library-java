@@ -45,13 +45,20 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 		alertShouldBePresent("");
 	}
 
-	@RobotKeyword("Verifies an alert is present and dismisses it.\n\n"
-
-	+ "If _text_ is a non-empty string, then it is also verified that the message "
-			+ "of the alert equals to _text_.\n\n"
-
-			+ "Will fail if no alert is present. Note that following keywords will fail "
-			+ "unless the alert is dismissed by this keyword or another like `Get Alert Message`.\n")
+	/**
+	 * Verify an alert is present and dismiss it.<br>
+	 * <br>
+	 * If <b>text</b> is a non-empty string, then it is also verified that the
+	 * message of the alert equals to text.<br>
+	 * <br>
+	 * Will fail if no alert is present. Note that following keywords will fail
+	 * unless the alert is dismissed by this keyword or another like `Get Alert
+	 * Message`.<br>
+	 * 
+	 * @param text
+	 *            Default=NONE. The alert message to verify.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "text=NONE" })
 	public void alertShouldBePresent(String text) {
 		String alertText = getAlertMessage();
@@ -61,58 +68,128 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 		}
 	}
 
-	@RobotKeyword("Cancel will be selected the next time _Confirm Action_ is used.\n")
+	/**
+	 * Cancel will be selected the next time a confirmation dialog appears.<br>
+	 */
+	@RobotKeyword
 	public void chooseCancelOnNextConfirmation() {
 		cancelOnNextConfirmation = true;
 	}
 
-	@RobotKeyword("Undo the effect of using keywords _Choose Cancel On Next Confirmation_. Note that "
-			+ "Selenium's overridden _window.confirm()_ function will normally automatically return "
-			+ "true, as if the user had manually clicked OK, so you shouldn't need to use this "
-			+ "command unless for some reason you need to change your mind prior to the next " + "confirmation\n\n. "
-
-			+ "After any confirmation, Selenium will resume using the default behavior for future "
-			+ "confirmations, automatically returning true (OK) unless/until you explicitly use "
-			+ "`Choose Cancel On Next Confirmation` for each confirmation.\n\n"
-
-			+ "Note that every time a confirmation comes up, you must consume it by using a keywords "
-			+ "such as `Get Alert Message`, or else the following selenium operations will fail.")
+	/**
+	 * Undo the effect of using keywords `Choose Cancel On Next Confirmation`.<br>
+	 * <br>
+	 * Note that Selenium's overridden <i>window.confirm()</i> function will
+	 * normally automatically return true, as if the user had manually clicked
+	 * OK, so you shouldn't need to use this command unless for some reason you
+	 * need to change your mind prior to the next confirmation.<br>
+	 * <br>
+	 * After any confirmation, Selenium will resume using the default behavior
+	 * for future confirmations, automatically returning true (OK) unless/until
+	 * you explicitly use `Choose Cancel On Next Confirmation` for each
+	 * confirmation.<br>
+	 * <br>
+	 * Note that every time a confirmation comes up, you must consume it by
+	 * using a keywords such as `Get Alert Message`, or else the following
+	 * Selenium operations will fail.<br>
+	 */
+	@RobotKeyword
 	public void chooseOkOnNextConfirmation() {
 		cancelOnNextConfirmation = false;
 	}
 
-	@RobotKeyword("Dismisses currently shown confirmation dialog and returns its message.\n\n"
-
-	+ "By default, this keyword chooses 'OK' option from the dialog. If 'Cancel' needs to be "
-			+ "chosen, keyword `Choose Cancel On Next Confirmation` must be called before the action "
-			+ "that causes the confirmation dialog to be shown.\n\n"
-
-			+ "Examples:\n" + "| Click Button | Send | # Shows a confirmation dialog |\n"
-			+ "| ${message}= | Confirm Action | # Chooses Ok |\n"
-			+ "| Should Be Equal | ${message} | Are your sure? |\n" + "| Choose Cancel On Next Confirmation |\n"
-			+ "| Click Button | Send | # Shows a confirmation dialog |\n" + "| Confirm Action | # Chooses Cancel |\n")
+	/**
+	 * Dismisses currently shown confirmation dialog and returns its message.<br>
+	 * <br>
+	 * By default, this keyword chooses 'OK' option from the dialog. If 'Cancel'
+	 * needs to be chosen, keyword `Choose Cancel On Next Confirmation` must be
+	 * called before the action that causes the confirmation dialog to be shown.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Click Button</td>
+	 * <td>Send</td>
+	 * <td></td>
+	 * <td># Shows a confirmation dialog</td>
+	 * </tr>
+	 * <tr>
+	 * <td>${message}=</td>
+	 * <td>Confirm Action</td>
+	 * <td></td>
+	 * <td># Chooses Ok</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Should Be Equal</td>
+	 * <td>${message}</td>
+	 * <td>Are your sure?</td>
+	 * <td># Check dialog message</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Choose Cancel On Next Confirmation</td>
+	 * <td></td>
+	 * <td></td>
+	 * <td># Choose cancel on next `Confirm Action`</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Click Button</td>
+	 * <td>Send</td>
+	 * <td></td>
+	 * <td># Shows a confirmation dialog</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Confirm Action</td>
+	 * <td></td>
+	 * <td></td>
+	 * <td># Chooses Cancel</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @return The dialog message.
+	 */
+	@RobotKeyword
 	public String confirmAction() {
 		String text = closeAlert(!cancelOnNextConfirmation);
 		cancelOnNextConfirmation = false;
 		return text;
 	}
 
-	@RobotKeyword("Executes the given JavaScript code.\n\n"
-
-	+ "_code_ may contain multiple lines of code but must contain a return statement (with the "
-			+ "value to be returned) at the end.\n\n"
-
-			+ "_code_ may be divided into multiple cells in the test data. In that case, the parts are "
-			+ "catenated together without adding spaces.\n"
-			+ "If _code_ is an absolute path to an existing file, the JavaScript to execute will be read "
-			+ "from that file. Forward slashes work as a path separator on all operating systems.\n\n"
-
-			+ "Note that, by default, the code will be executed in the context of the Selenium object "
-			+ "itself, so this will refer to the Selenium object. Use _window_ to refer to the window of "
-			+ "your application, e.g. _window.document.getElementById('foo')_.\n\n"
-
-			+ "Example:\n" + "| Execute JavaScript | window.my_js_function('arg1', 'arg2') |\n"
-			+ "| Execute JavaScript | ${CURDIR}/js_to_execute.js |\n")
+	/**
+	 * Execute the given JavaScript <b>code</b>.<br>
+	 * <br>
+	 * The given code may contain multiple lines of code, but must contain a
+	 * return statement (with the value to be returned) at the end.<br>
+	 * <br>
+	 * The given code may be divided into multiple cells in the test data. In
+	 * that case, the parts are concatenated together without adding spaces. If
+	 * the given code is an absolute path to an existing file, the JavaScript to
+	 * execute will be read from that file. Forward slashes work as a path
+	 * separator on all operating systems.<br>
+	 * <br>
+	 * Note that by default the code will be executed in the context of the
+	 * Selenium object itself, so <b>this</b> will refer to the Selenium object.
+	 * Use <b>window</b> to refer to the window of your application, e.g.
+	 * <i>window.document.getElementById('foo')</i>.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Execute JavaScript</td>
+	 * <td>return window.my_js_function('arg1', 'arg2');</td>
+	 * <td># Directly execute the JavaScript</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Execute JavaScript</td>
+	 * <td>${CURDIR}/js_to_execute.js</td>
+	 * <td># Load the JavaScript to execute from file</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param code
+	 *            The JavaScript code or a file name.
+	 * @return The return value of the executed code.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "*code" })
 	public Object executeJavascript(String... code) {
 		String js = getJavascriptToExecute(Python.join("", Arrays.asList(code)));
@@ -120,22 +197,42 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 		return ((JavascriptExecutor) browserManagement.getCurrentWebDriver()).executeScript(js);
 	}
 
-	@RobotKeyword("Executes asynchronous JavaScript code.\n\n"
-
-	+ "_code_ may contain multiple lines of code but must contain a return statement (with the "
-			+ "value to be returned) at the end.\n\n"
-
-			+ "_code_ may be divided into multiple cells in the test data. In that case, the parts are "
-			+ "catenated together without adding spaces.\n"
-			+ "If _code_ is an absolute path to an existing file, the JavaScript to execute will be read "
-			+ "from that file. Forward slashes work as a path separator on all operating systems.\n\n"
-
-			+ "Note that, by default, the code will be executed in the context of the Selenium object "
-			+ "itself, so this will refer to the Selenium object. Use _window_ to refer to the window of "
-			+ "your application, e.g. _window.document.getElementById('foo')_.\n\n"
-
-			+ "Example:\n" + "| Execute Async JavaScript | window.my_js_function('arg1', 'arg2') |\n"
-			+ "| Execute Async JavaScript | ${CURDIR}/js_to_execute.js |\n")
+	/**
+	 * Execute the given JavaScript <b>code</b> asynchronously.<br>
+	 * <br>
+	 * The given code may contain multiple lines of code, but must contain a
+	 * return statement (with the value to be returned) at the end.<br>
+	 * <br>
+	 * The given code may be divided into multiple cells in the test data. In
+	 * that case, the parts are concatenated together without adding spaces. If
+	 * the given code is an absolute path to an existing file, the JavaScript to
+	 * execute will be read from that file. Forward slashes work as a path
+	 * separator on all operating systems.<br>
+	 * <br>
+	 * Note that by default the code will be executed in the context of the
+	 * Selenium object itself, so <b>this</b> will refer to the Selenium object.
+	 * Use <b>window</b> to refer to the window of your application, e.g.
+	 * <i>window.document.getElementById('foo')</i>.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Execute Async JavaScript</td>
+	 * <td>return window.my_js_function('arg1', 'arg2');</td>
+	 * <td># Directly execute the JavaScript</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Execute Async JavaScript</td>
+	 * <td>${CURDIR}/js_to_execute.js</td>
+	 * <td># Load the JavaScript to execute from file</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param code
+	 *            The JavaScript code or a file name.
+	 * @return The return value of the executed code.
+	 */
+	@RobotKeyword
 	@ArgumentNames({ "*code" })
 	public Object executeAsyncJavascript(String... code) {
 		String js = getJavascriptToExecute(Python.join("", Arrays.asList(code)));
@@ -143,10 +240,16 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 		return ((JavascriptExecutor) browserManagement.getCurrentWebDriver()).executeAsyncScript(js);
 	}
 
-	@RobotKeyword("Returns the text of current JavaScript alert.\n\n"
-
-	+ "This keyword will fail if no alert is present. Note that following keywords will fail "
-			+ "unless the alert is dismissed by this keyword or another like `Get Alert Message`.\n")
+	/**
+	 * Returns the text of current JavaScript alert.<br>
+	 * <br>
+	 * This keyword will fail if no alert is present. Note that following
+	 * keywords will fail unless the alert is dismissed by this keyword or
+	 * another like `Get Alert Message`.
+	 * 
+	 * @return The alert message.
+	 */
+	@RobotKeyword
 	public String getAlertMessage() {
 		return closeAlert();
 	}
