@@ -39,6 +39,34 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitForCondition(condition, timestr, null);
 	}
 
+	/**
+	 * Waits until the given _condition_ is true or _timeout_ expires.\n\n"
+	 * 
+	 * +
+	 * "_code_ may contain multiple lines of code but must contain a return statement (with "
+	 * + "the value to be returned) at the end.\n\n"
+	 * 
+	 * +
+	 * "The _condition_ can be arbitrary JavaScript expression but must contain a return "
+	 * +
+	 * "statement (with the value to be returned) at the end. See `Execute JavaScript` for "
+	 * +
+	 * "information about accessing the actual contents of the window through JavaScript.\n\n"
+	 * 
+	 * + "_message_ can be used to override the default message message.\n\n"
+	 * 
+	 * +
+	 * "See `Introduction` for more information about _timeout_ and its default value.\n\n"
+	 * 
+	 * +
+	 * "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
+	 * + "keyword _Wait Until Keyword Succeeds_.\n"
+	 * 
+	 * @param condition
+	 * @param timestr
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword("Waits until the given _condition_ is true or _timeout_ expires.\n\n"
 
 	+ "_code_ may contain multiple lines of code but must contain a return statement (with "
@@ -48,18 +76,18 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 			+ "statement (with the value to be returned) at the end. See `Execute JavaScript` for "
 			+ "information about accessing the actual contents of the window through JavaScript.\n\n"
 
-			+ "_error_ can be used to override the default error message.\n\n"
+			+ "_message_ can be used to override the default message message.\n\n"
 
 			+ "See `Introduction` for more information about _timeout_ and its default value.\n\n"
 
 			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
 			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({ "condition", "timestr=NONE", "error=NONE" })
-	public void waitForCondition(final String condition, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Condition '%s' did not become true in <TIMEOUT>", condition);
+	@ArgumentNames({ "condition", "timestr=NONE", "message=NONE" })
+	public void waitForCondition(final String condition, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Condition '%s' did not become true in <TIMEOUT>", condition);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -84,16 +112,16 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	+ "Fails if _timeout_ expires before the _text_ appears. See `Introduction` for more information "
 			+ "about _timeout_ and its default value.\n\n"
 
-			+ "_error_ can be used to override the default error message.\n\n"
+			+ "_message_ can be used to override the default message message.\n\n"
 
 			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
 			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({ "condition", "timestr=NONE", "error=NONE" })
-	public void waitUntilPageContains(final String text, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Text '%s' did not appear in <TIMEOUT>", text);
+	@ArgumentNames({ "condition", "timestr=NONE", "message=NONE" })
+	public void waitUntilPageContains(final String text, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Text '%s' did not appear in <TIMEOUT>", text);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -116,16 +144,16 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 			+ "Fails if _timeout_ expires before the _text_ appears. See `Introduction` for more information "
 			+ "about _timeout_ and its default value.\n\n"
 
-			+ "_error_ can be used to override the default error message.\n\n"
+			+ "_message_ can be used to override the default message message.\n\n"
 
 			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
 			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({ "condition", "timestr=NONE", "error=NONE" })
-	public void waitUntilPageContainsElement(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' did not appear in <TIMEOUT>", locator);
+	@ArgumentNames({ "condition", "timestr=NONE", "message=NONE" })
+	public void waitUntilPageContainsElement(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' did not appear in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -145,12 +173,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsVisible(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' not visible in <TIMEOUT>", locator);
+	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
+	public void waitUntilElementIsVisible(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' not visible in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -170,12 +198,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsNotVisible(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' still visible in <TIMEOUT>", locator);
+	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
+	public void waitUntilElementIsNotVisible(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' still visible in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -183,7 +211,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 			}
 		});
 	}
-	
+
 	@RobotKeywordOverload
 	public void waitUntilElementIsClickable(String locator) {
 		waitUntilElementIsClickable(locator, null, null);
@@ -195,12 +223,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsClickable(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' not clickable in <TIMEOUT>", locator);
+	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
+	public void waitUntilElementIsClickable(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' not clickable in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -220,12 +248,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsNotClickable(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' still clickable in <TIMEOUT>", locator);
+	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
+	public void waitUntilElementIsNotClickable(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' still clickable in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -245,12 +273,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsSuccessfullyClicked(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' not successfully clicked in <TIMEOUT>", locator);
+	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
+	public void waitUntilElementIsSuccessfullyClicked(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' not successfully clicked in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -271,12 +299,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsSelected(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' not selected in <TIMEOUT>", locator);
+	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
+	public void waitUntilElementIsSelected(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' not selected in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -296,12 +324,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilElementIsNotSelected(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' still selected in <TIMEOUT>", locator);
+	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
+	public void waitUntilElementIsNotSelected(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' still selected in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -321,12 +349,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "text", "timestr=", "error=NONE" })
-	public void waitUntilPageNotContains(final String text, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Text '%s' did not disappear in <TIMEOUT>", text);
+	@ArgumentNames({ "text", "timestr=", "message=NONE" })
+	public void waitUntilPageNotContains(final String text, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Text '%s' did not disappear in <TIMEOUT>", text);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -346,12 +374,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "error=NONE" })
-	public void waitUntilPageNotContainsElement(final String locator, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Element '%s' did not disappear in <TIMEOUT>", locator);
+	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
+	public void waitUntilPageNotContainsElement(final String locator, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' did not disappear in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -371,12 +399,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "title", "timestr=", "error=NONE" })
-	public void waitUntilTitleContains(final String title, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Title '%s' did not appear in <TIMEOUT>", title);
+	@ArgumentNames({ "title", "timestr=", "message=NONE" })
+	public void waitUntilTitleContains(final String title, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -397,12 +425,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "title", "timestr=", "error=NONE" })
-	public void waitUntilTitleNotContains(final String title, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Title '%s' did not appear in <TIMEOUT>", title);
+	@ArgumentNames({ "title", "timestr=", "message=NONE" })
+	public void waitUntilTitleNotContains(final String title, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -423,12 +451,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "title", "timestr=", "error=NONE" })
-	public void waitUntilTitleIs(final String title, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Title '%s' did not appear in <TIMEOUT>", title);
+	@ArgumentNames({ "title", "timestr=", "message=NONE" })
+	public void waitUntilTitleIs(final String title, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -449,12 +477,12 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeyword
-	@ArgumentNames({ "title", "timestr=", "error=NONE" })
-	public void waitUntilTitleIsNot(final String title, String timestr, String error) {
-		if (error == null) {
-			error = String.format("Title '%s' did not appear in <TIMEOUT>", title);
+	@ArgumentNames({ "title", "timestr=", "message=NONE" })
+	public void waitUntilTitleIsNot(final String title, String timestr, String message) {
+		if (message == null) {
+			message = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
-		waitUntil(timestr, error, new WaitUntilFunction() {
+		waitUntil(timestr, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -468,9 +496,9 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	// Internal Methods
 	// ##############################
 
-	protected void waitUntil(String timestr, String error, WaitUntilFunction function) {
+	protected void waitUntil(String timestr, String message, WaitUntilFunction function) {
 		double timeout = timestr != null ? Robotframework.timestrToSecs(timestr) : browserManagement.getTimeout();
-		error = error.replace("<TIMEOUT>", Robotframework.secsToTimestr(timeout));
+		message = message.replace("<TIMEOUT>", Robotframework.secsToTimestr(timeout));
 		long maxtime = System.currentTimeMillis() + (long) (timeout * 1000);
 		for (;;) {
 			try {
@@ -480,7 +508,7 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 			} catch (Throwable t) {
 			}
 			if (System.currentTimeMillis() > maxtime) {
-				throw new Selenium2LibraryNonFatalException(error);
+				throw new Selenium2LibraryNonFatalException(message);
 			}
 			try {
 				Thread.sleep(200);
