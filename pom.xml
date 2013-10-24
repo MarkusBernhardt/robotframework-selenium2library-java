@@ -146,40 +146,12 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
-					</execution>
-					<execution>
-						<id>html</id>
-						<phase>package</phase>
-						<goals>
-							<goal>libdoc</goal>
-						</goals>
 						<configuration>
-							<libdoc>
-								<outputDirectory>${project.build.directory}</outputDirectory>
-								<outputFile>${keywords.class}.html</outputFile>
-								<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
-							</libdoc>
-						</configuration>
-					</execution>
-					<execution>
-						<id>xml</id>
-						<phase>package</phase>
-						<goals>
-							<goal>libdoc</goal>
-						</goals>
-						<configuration>
-							<libdoc>
-								<outputDirectory>${project.build.directory}</outputDirectory>
-								<outputFile>${keywords.class}.xml</outputFile>
-								<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
-							</libdoc>
+							<logLevel>debug</logLevel>
+							<testCasesDirectory>${project.basedir}/src/test/robotframework/testsuites</testCasesDirectory>
 						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<logLevel>debug</logLevel>
-					<testCasesDirectory>${project.basedir}/src/test/robotframework/testsuites</testCasesDirectory>
-				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.robotframework</groupId>
@@ -308,5 +280,79 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>sonatype-oss-release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<!-- Integration-Test, build documentation -->
+						<groupId>org.robotframework</groupId>
+						<artifactId>robotframework-maven-plugin</artifactId>
+						<version>1.2</version>
+						<executions>
+							<execution>
+								<id>html</id>
+								<phase>package</phase>
+								<goals>
+									<goal>libdoc</goal>
+								</goals>
+								<configuration>
+									<libdoc>
+										<outputDirectory>${project.build.directory}</outputDirectory>
+										<outputFile>${keywords.class}.html</outputFile>
+										<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
+									</libdoc>
+								</configuration>
+							</execution>
+							<execution>
+								<id>xml</id>
+								<phase>package</phase>
+								<goals>
+									<goal>libdoc</goal>
+								</goals>
+								<configuration>
+									<libdoc>
+										<outputDirectory>${project.build.directory}</outputDirectory>
+										<outputFile>${keywords.class}.xml</outputFile>
+										<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
+									</libdoc>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<id>attach-artifacts</id>
+								<phase>package</phase>
+								<goals>
+									<goal>attach-artifact</goal>
+								</goals>
+								<configuration>
+									<artifacts>
+										<artifact>
+											<file>${project.build.directory}/${keywords.class}.html</file>
+											<type>html</type>
+											<classifier>libdoc</classifier>
+										</artifact>
+										<artifact>
+											<file>${project.build.directory}/${keywords.class}.xml</file>
+											<type>xml</type>
+											<classifier>libdoc</classifier>
+										</artifact>
+									</artifacts>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
