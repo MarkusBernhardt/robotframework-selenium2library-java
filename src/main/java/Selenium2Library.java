@@ -508,11 +508,6 @@ public class Selenium2Library extends AnnotationLibrary {
 		return keywordDocumentation;
 	}
 
-	@Override
-	public String[] getKeywordArguments(String keywordName) {
-		return super.getKeywordArguments(keywordName);
-	}
-
 	public static Selenium2Library getLibraryInstance() throws ScriptException {
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("python");
 		engine.put("library", "Selenium2Library");
