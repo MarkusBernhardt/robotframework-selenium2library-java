@@ -7,17 +7,14 @@ Introduction
 Selenium2Library is a web testing library for Robot Framework that leverages
 the [Selenium 2 (WebDriver)](http://docs.seleniumhq.org/docs/03_webdriver.jsp)
 libraries from the [Selenium](http://docs.seleniumhq.org) project.
-
 It is modeled after (and forked from) the Robot Framework
 [SeleniumLibrary](http://code.google.com/p/robotframework-seleniumlibrary/)
 library, but re-implemented to use Selenium 2 and WebDriver technologies.
-
-More information about this library can be found in the
-[Keyword Documentation](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.14/robotframework-selenium2library-java-1.2.0.14-libdoc.html).
-
-For keyword completion in RIDE you can download this
-[Library Specs](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.14/robotframework-selenium2library-java-1.2.0.14-libdoc.xml)
-and place it in your PYTHONPATH.
+* More information about this library can be found in the
+  [Keyword Documentation](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.14/robotframework-selenium2library-java-1.2.0.14-libdoc.html).
+* For keyword completion in RIDE you can download this
+  [Library Specs](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.2.0.14/robotframework-selenium2library-java-1.2.0.14-libdoc.xml)
+  and place it in your PYTHONPATH.
 
 This Java port of the existing Selenium2Library was created to enable
 the usage of a Selenium 2 library with Jython.
