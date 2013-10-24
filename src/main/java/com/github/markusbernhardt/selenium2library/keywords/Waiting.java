@@ -29,65 +29,47 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	// ##############################
 	// Keywords
 	// ##############################
+
 	@RobotKeywordOverload
 	public void waitForCondition(String condition) {
 		waitForCondition(condition, null);
 	}
 
 	@RobotKeywordOverload
-	public void waitForCondition(String condition, String timestr) {
-		waitForCondition(condition, timestr, null);
+	public void waitForCondition(String condition, String timeout) {
+		waitForCondition(condition, timeout, null);
 	}
 
 	/**
-	 * Waits until the given _condition_ is true or _timeout_ expires.\n\n"
-	 * 
-	 * +
-	 * "_code_ may contain multiple lines of code but must contain a return statement (with "
-	 * + "the value to be returned) at the end.\n\n"
-	 * 
-	 * +
-	 * "The _condition_ can be arbitrary JavaScript expression but must contain a return "
-	 * +
-	 * "statement (with the value to be returned) at the end. See `Execute JavaScript` for "
-	 * +
-	 * "information about accessing the actual contents of the window through JavaScript.\n\n"
-	 * 
-	 * + "_message_ can be used to override the default message message.\n\n"
-	 * 
-	 * +
-	 * "See `Introduction` for more information about _timeout_ and its default value.\n\n"
-	 * 
-	 * +
-	 * "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
-	 * + "keyword _Wait Until Keyword Succeeds_.\n"
+	 * Waits until the given JavaScript <b>condition</b> is true.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the condition gets true. <br>
+	 * <br>
+	 * The condition may contain multiple JavaScript statements, but the last
+	 * statement must return a boolean. Otherwise this keyword will always hit
+	 * the timeout.<br>
+	 * <br>
+	 * Note that by default the code will be executed in the context of the
+	 * Selenium object itself, so <b>this</b> will refer to the Selenium object.
+	 * Use <b>window</b> to refer to the window of your application, e.g.
+	 * <i>window.document.getElementById('foo')</i>.<br>
+	 * <br>
+	 * See `Introduction` for details about timeouts.<br>
 	 * 
 	 * @param condition
-	 * @param timestr
+	 *            The JavaScript condition returning a boolean.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
 	 * @param message
 	 *            Default=NONE. Optional custom error message.
 	 */
-	@RobotKeyword("Waits until the given _condition_ is true or _timeout_ expires.\n\n"
-
-	+ "_code_ may contain multiple lines of code but must contain a return statement (with "
-			+ "the value to be returned) at the end.\n\n"
-
-			+ "The _condition_ can be arbitrary JavaScript expression but must contain a return "
-			+ "statement (with the value to be returned) at the end. See `Execute JavaScript` for "
-			+ "information about accessing the actual contents of the window through JavaScript.\n\n"
-
-			+ "_message_ can be used to override the default message message.\n\n"
-
-			+ "See `Introduction` for more information about _timeout_ and its default value.\n\n"
-
-			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
-			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({ "condition", "timestr=NONE", "message=NONE" })
-	public void waitForCondition(final String condition, String timestr, String message) {
+	@RobotKeyword
+	@ArgumentNames({ "condition", "timeout=NONE", "message=NONE" })
+	public void waitForCondition(final String condition, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Condition '%s' did not become true in <TIMEOUT>", condition);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -103,29 +85,74 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageContains(String condition, String timestr) {
-		waitUntilPageContains(condition, timestr, null);
+	public void waitUntilPageContains(String condition, String timeout) {
+		waitUntilPageContains(condition, timeout, null);
 	}
 
-	@RobotKeyword("Waits until _text_ appears on current page.\n\n"
-
-	+ "Fails if _timeout_ expires before the _text_ appears. See `Introduction` for more information "
-			+ "about _timeout_ and its default value.\n\n"
-
-			+ "_message_ can be used to override the default message message.\n\n"
-
-			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
-			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({ "condition", "timestr=NONE", "message=NONE" })
-	public void waitUntilPageContains(final String text, String timestr, String message) {
+	/**
+	 * Waits until the current page contains <b>text</b>.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the text appears. <br>
+	 * <br>
+	 * See `Introduction` for details about timeouts.<br>
+	 * 
+	 * @param text
+	 *            The text to verify.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "condition", "timeout=NONE", "message=NONE" })
+	public void waitUntilPageContains(final String text, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Text '%s' did not appear in <TIMEOUT>", text);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
 				return element.isTextPresent(text);
+			}
+		});
+	}
+
+	@RobotKeywordOverload
+	public void waitUntilPageNotContains(String condition, String timeout) {
+		waitUntilPageNotContains(condition, timeout, null);
+	}
+
+	@RobotKeywordOverload
+	public void waitUntilPageNotContains(String condition) {
+		waitUntilPageNotContains(condition, null);
+	}
+
+	/**
+	 * Waits until the current page does not contain <b>text</b>.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the text disappears. <br>
+	 * <br>
+	 * See `Introduction` for details about timeouts.<br>
+	 * 
+	 * @param text
+	 *            The text to verify.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "text", "timeout=NONE", "message=NONE" })
+	public void waitUntilPageNotContains(final String text, String timeout, String message) {
+		if (message == null) {
+			message = String.format("Text '%s' did not disappear in <TIMEOUT>", text);
+		}
+		waitUntil(timeout, message, new WaitUntilFunction() {
+
+			@Override
+			public boolean isFinished() {
+				return !element.isTextPresent(text);
 			}
 		});
 	}
@@ -136,24 +163,32 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageContainsElement(String condition, String timestr) {
-		waitUntilPageContainsElement(condition, timestr, null);
+	public void waitUntilPageContainsElement(String condition, String timeout) {
+		waitUntilPageContainsElement(condition, timeout, null);
 	}
 
-	@RobotKeyword("Waits until element specified with _locator_ appears on current page.\n\n"
-			+ "Fails if _timeout_ expires before the _text_ appears. See `Introduction` for more information "
-			+ "about _timeout_ and its default value.\n\n"
-
-			+ "_message_ can be used to override the default message message.\n\n"
-
-			+ "See also `Wait Until Page Contains`, `Wait Until Page Contains Element` and BuiltIn "
-			+ "keyword _Wait Until Keyword Succeeds_.\n")
-	@ArgumentNames({ "condition", "timestr=NONE", "message=NONE" })
-	public void waitUntilPageContainsElement(final String locator, String timestr, String message) {
+	/**
+	 * Waits until the element identified by <b>locator</b> is found on the
+	 * current page.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element appears. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilPageContainsElement(final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' did not appear in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -163,8 +198,48 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsVisible(String locator, String timestr) {
-		waitUntilElementIsVisible(locator, timestr, null);
+	public void waitUntilPageNotContainsElement(String locator) {
+		waitUntilPageNotContainsElement(locator, null);
+	}
+
+	@RobotKeywordOverload
+	public void waitUntilPageNotContainsElement(String locator, String timeout) {
+		waitUntilPageNotContainsElement(locator, timeout, null);
+	}
+
+	/**
+	 * Waits until the element identified by <b>locator</b> is not found on the
+	 * current page.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element disappears. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilPageNotContainsElement(final String locator, String timeout, String message) {
+		if (message == null) {
+			message = String.format("Element '%s' did not disappear in <TIMEOUT>", locator);
+		}
+		waitUntil(timeout, message, new WaitUntilFunction() {
+
+			@Override
+			public boolean isFinished() {
+				return !element.isElementPresent(locator);
+			}
+		});
+	}
+
+	@RobotKeywordOverload
+	public void waitUntilElementIsVisible(String locator, String timeout) {
+		waitUntilElementIsVisible(locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -172,13 +247,27 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilElementIsVisible(locator, null);
 	}
 
+	/**
+	 * Waits until the element identified by <b>locator</b> is visible.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element gets visible. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
-	public void waitUntilElementIsVisible(final String locator, String timestr, String message) {
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilElementIsVisible(final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' not visible in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -188,8 +277,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotVisible(String locator, String timestr) {
-		waitUntilElementIsNotVisible(locator, timestr, null);
+	public void waitUntilElementIsNotVisible(String locator, String timeout) {
+		waitUntilElementIsNotVisible(locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -197,13 +286,27 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilElementIsNotVisible(locator, null);
 	}
 
+	/**
+	 * Waits until the element identified by <b>locator</b> is not visible.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element gets invisible. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
-	public void waitUntilElementIsNotVisible(final String locator, String timestr, String message) {
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilElementIsNotVisible(final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' still visible in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -218,17 +321,31 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsClickable(String locator, String timestr) {
-		waitUntilElementIsClickable(locator, timestr, null);
+	public void waitUntilElementIsClickable(String locator, String timeout) {
+		waitUntilElementIsClickable(locator, timeout, null);
 	}
 
+	/**
+	 * Waits until the element identified by <b>locator</b> is clickable.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element gets clickable. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
-	public void waitUntilElementIsClickable(final String locator, String timestr, String message) {
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilElementIsClickable(final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' not clickable in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -238,8 +355,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotClickable(String locator, String timestr) {
-		waitUntilElementIsNotClickable(locator, timestr, null);
+	public void waitUntilElementIsNotClickable(String locator, String timeout) {
+		waitUntilElementIsNotClickable(locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -247,13 +364,27 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilElementIsNotClickable(locator, null);
 	}
 
+	/**
+	 * Waits until the element identified by <b>locator</b> is not clickable.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element gets unclickable. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
-	public void waitUntilElementIsNotClickable(final String locator, String timestr, String message) {
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilElementIsNotClickable(final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' still clickable in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -263,8 +394,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsSuccessfullyClicked(String locator, String timestr) {
-		waitUntilElementIsSuccessfullyClicked(locator, timestr, null);
+	public void waitUntilElementIsSuccessfullyClicked(String locator, String timeout) {
+		waitUntilElementIsSuccessfullyClicked(locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -272,13 +403,28 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilElementIsSuccessfullyClicked(locator, null);
 	}
 
+	/**
+	 * Waits until the element identified by <b>locator</b> is sucessfully
+	 * clicked on.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element gets clicked on. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
-	public void waitUntilElementIsSuccessfullyClicked(final String locator, String timestr, String message) {
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilElementIsSuccessfullyClicked(final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' not successfully clicked in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -289,8 +435,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsSelected(String locator, String timestr) {
-		waitUntilElementIsSelected(locator, timestr, null);
+	public void waitUntilElementIsSelected(String locator, String timeout) {
+		waitUntilElementIsSelected(locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -298,13 +444,27 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilElementIsSelected(locator, null);
 	}
 
+	/**
+	 * Waits until the element identified by <b>locator</b> is selected.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element gets selected. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
-	public void waitUntilElementIsSelected(final String locator, String timestr, String message) {
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilElementIsSelected(final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' not selected in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -314,8 +474,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilElementIsNotSelected(String locator, String timestr) {
-		waitUntilElementIsNotSelected(locator, timestr, null);
+	public void waitUntilElementIsNotSelected(String locator, String timeout) {
+		waitUntilElementIsNotSelected(locator, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -323,13 +483,27 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilElementIsNotSelected(locator, null);
 	}
 
+	/**
+	 * Waits until the element identified by <b>locator</b> is not selected.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element gets unselected. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
-	public void waitUntilElementIsNotSelected(final String locator, String timestr, String message) {
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilElementIsNotSelected(final String locator, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Element '%s' still selected in <TIMEOUT>", locator);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -339,58 +513,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilPageNotContains(String condition, String timestr) {
-		waitUntilPageNotContains(condition, timestr, null);
-	}
-
-	@RobotKeywordOverload
-	public void waitUntilPageNotContains(String condition) {
-		waitUntilPageNotContains(condition, null);
-	}
-
-	@RobotKeyword
-	@ArgumentNames({ "text", "timestr=", "message=NONE" })
-	public void waitUntilPageNotContains(final String text, String timestr, String message) {
-		if (message == null) {
-			message = String.format("Text '%s' did not disappear in <TIMEOUT>", text);
-		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
-
-			@Override
-			public boolean isFinished() {
-				return !element.isTextPresent(text);
-			}
-		});
-	}
-
-	@RobotKeywordOverload
-	public void waitUntilPageNotContainsElement(String locator, String timestr) {
-		waitUntilPageNotContainsElement(locator, timestr, null);
-	}
-
-	@RobotKeywordOverload
-	public void waitUntilPageNotContainsElement(String locator) {
-		waitUntilPageNotContainsElement(locator, null);
-	}
-
-	@RobotKeyword
-	@ArgumentNames({ "locator", "timestr=", "message=NONE" })
-	public void waitUntilPageNotContainsElement(final String locator, String timestr, String message) {
-		if (message == null) {
-			message = String.format("Element '%s' did not disappear in <TIMEOUT>", locator);
-		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
-
-			@Override
-			public boolean isFinished() {
-				return !element.isElementPresent(locator);
-			}
-		});
-	}
-
-	@RobotKeywordOverload
-	public void waitUntilTitleContains(String title, String timestr) {
-		waitUntilTitleContains(title, timestr, null);
+	public void waitUntilTitleContains(String title, String timeout) {
+		waitUntilTitleContains(title, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -398,13 +522,26 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilTitleContains(title, null, null);
 	}
 
+	/**
+	 * Waits until the current page title contains <b>title</b>.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the page title contains the given
+	 * title.<br>
+	 * 
+	 * @param title
+	 *            The title to verify.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "title", "timestr=", "message=NONE" })
-	public void waitUntilTitleContains(final String title, String timestr, String message) {
+	@ArgumentNames({ "title", "timeout=NONE", "message=NONE" })
+	public void waitUntilTitleContains(final String title, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -415,8 +552,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilTitleNotContains(String title, String timestr) {
-		waitUntilTitleNotContains(title, timestr, null);
+	public void waitUntilTitleNotContains(String title, String timeout) {
+		waitUntilTitleNotContains(title, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -424,13 +561,26 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilTitleNotContains(title, null, null);
 	}
 
+	/**
+	 * Waits until the current page title does not contain <b>title</b>.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the page title does not contain the
+	 * given title.<br>
+	 * 
+	 * @param title
+	 *            The title to verify.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "title", "timestr=", "message=NONE" })
-	public void waitUntilTitleNotContains(final String title, String timestr, String message) {
+	@ArgumentNames({ "title", "timeout=NONE", "message=NONE" })
+	public void waitUntilTitleNotContains(final String title, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -441,8 +591,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilTitleIs(String title, String timestr) {
-		waitUntilTitleIs(title, timestr, null);
+	public void waitUntilTitleIs(String title, String timeout) {
+		waitUntilTitleIs(title, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -450,13 +600,26 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilTitleIs(title, null);
 	}
 
+	/**
+	 * Waits until the current page title is exactly <b>title</b>.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the page title matches the given
+	 * title.<br>
+	 * 
+	 * @param title
+	 *            The title to verify.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "title", "timestr=", "message=NONE" })
-	public void waitUntilTitleIs(final String title, String timestr, String message) {
+	@ArgumentNames({ "title", "timeout=NONE", "message=NONE" })
+	public void waitUntilTitleIs(final String title, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {
@@ -467,8 +630,8 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
-	public void waitUntilTitleIsNot(String title, String timestr) {
-		waitUntilTitleIsNot(title, timestr, null);
+	public void waitUntilTitleIsNot(String title, String timeout) {
+		waitUntilTitleIsNot(title, timeout, null);
 	}
 
 	@RobotKeywordOverload
@@ -476,13 +639,26 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 		waitUntilTitleIsNot(title, null, null);
 	}
 
+	/**
+	 * Waits until the current page title is not exactly <b>title</b>.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the page title does not match the
+	 * given title.<br>
+	 * 
+	 * @param title
+	 *            The title to verify.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
 	@RobotKeyword
-	@ArgumentNames({ "title", "timestr=", "message=NONE" })
-	public void waitUntilTitleIsNot(final String title, String timestr, String message) {
+	@ArgumentNames({ "title", "timeout=NONE", "message=NONE" })
+	public void waitUntilTitleIsNot(final String title, String timeout, String message) {
 		if (message == null) {
 			message = String.format("Title '%s' did not appear in <TIMEOUT>", title);
 		}
-		waitUntil(timestr, message, new WaitUntilFunction() {
+		waitUntil(timeout, message, new WaitUntilFunction() {
 
 			@Override
 			public boolean isFinished() {

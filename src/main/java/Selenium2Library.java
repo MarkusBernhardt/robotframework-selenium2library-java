@@ -1,14 +1,9 @@
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.library.AnnotationLibrary;
@@ -24,14 +19,224 @@ import com.github.markusbernhardt.selenium2library.keywords.Screenshot;
 import com.github.markusbernhardt.selenium2library.keywords.SelectElement;
 import com.github.markusbernhardt.selenium2library.keywords.TableElement;
 import com.github.markusbernhardt.selenium2library.keywords.Waiting;
-import com.github.markusbernhardt.selenium2library.utils.Javadoc2LibdocFormatter;
-import com.github.markusbernhardt.xmldoclet.xjc.AnnotationInstance;
-import com.github.markusbernhardt.xmldoclet.xjc.Class;
-import com.github.markusbernhardt.xmldoclet.xjc.Method;
-import com.github.markusbernhardt.xmldoclet.xjc.ObjectFactory;
-import com.github.markusbernhardt.xmldoclet.xjc.Package;
-import com.github.markusbernhardt.xmldoclet.xjc.Root;
+import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
 
+/**
+ * Selenium2Library is a web testing library for the Robot Framework and was
+ * originally written in Python. This is the Java port of the Selenium 2
+ * (WebDriver) Python library for Robot Framework. It uses the Selenium 2
+ * (WebDriver) libraries internally to control a web browser. See <a
+ * href="http://seleniumhq.org/docs/03_webdriver.html">WebDriver</a> for more
+ * information on Selenium 2 and WebDriver. It runs tests in a real browser
+ * instance and should work with most modern browsers and can be used with the
+ * Jython interpreter or any other Java application.<br>
+ * <br>
+ * <font size="+1"><b>Before running tests</b></font><br>
+ * Prior to running test cases using Selenium2Library, the library must be
+ * imported into your Robot Framework test suite (see importing section), and
+ * the `Open Browser` keyword must be used to open a browser to the desired
+ * location.<br>
+ * <br>
+ * <font size="+1"><b>Locating elements</b></font><br>
+ * All keywords in Selenium2Library that need to find an element on the page
+ * take an locator argument.<br>
+ * <br>
+ * <b>Key attributes</b><br>
+ * By default, when a locator value is provided, it is matched against the key
+ * attributes of the particular element type. The attributes <i>id</i> and
+ * <i>name</i> are key attributes to all elements.<br>
+ * <br>
+ * List of key attributes:
+ * <table border="1" cellspacing="0">
+ * <tr>
+ * <td><b>Element Type</b></td>
+ * <td><b>Key Attributes</b></td>
+ * </tr>
+ * <tr>
+ * <td>A</td>
+ * <td>@id,@name,@href,text</td>
+ * </tr>
+ * <tr>
+ * <td>IMG</td>
+ * <td>@id,@name,@src,@alt</td>
+ * </tr>
+ * <tr>
+ * <td>INPUT</td>
+ * <td>@id,@name,@value,@src</td>
+ * </tr>
+ * <tr>
+ * <td>BUTTON</td>
+ * <td>@id,@name,@value,text</td>
+ * </tr>
+ * <tr>
+ * <td>*</td>
+ * <td>@id,@name</td>
+ * </tr>
+ * </table>
+ * <br>
+ * Example:
+ * <table border="1" cellspacing="0">
+ * <tr>
+ * <td>Click Element</td>
+ * <td>my_element</td>
+ * </tr>
+ * </table>
+ * <br>
+ * <b>Locator strategies</b><br>
+ * It is also possible to specify the approach Selenium2Library should take to
+ * find an element by specifying a locator strategy with a locator prefix.<br>
+ * <br>
+ * Supported strategies are:
+ * <table border="1" cellspacing="0">
+ * <tr>
+ * <td><b>Strategy</b></td>
+ * <td><b>Example</b></td>
+ * <td><b>Description</b></td>
+ * </tr>
+ * <tr>
+ * <td>identifier</td>
+ * <td>Click Element | identifier=my_element</td>
+ * <td>Matches by @id or @name attribute</td>
+ * </tr>
+ * <tr>
+ * <td>id</td>
+ * <td>Click Element | id=my_element</td>
+ * <td>Matches by @id attribute</td>
+ * </tr>
+ * <tr>
+ * <td>name</td>
+ * <td>Click Element | name=my_element</td>
+ * <td>Matches by @name attribute</td>
+ * </tr>
+ * <tr>
+ * <td>xpath</td>
+ * <td>Click Element | xpath=//div[@id='my_element']</td>
+ * <td>Matches by arbitrary XPath expression</td>
+ * </tr>
+ * <tr>
+ * <td>dom</td>
+ * <td>Click Element | dom=document.images[56]</td>
+ * <td>Matches by arbitrary DOM expression</td>
+ * </tr>
+ * <tr>
+ * <td>link</td>
+ * <td>Click Element | link=My Link</td>
+ * <td>Matches by the link text</td>
+ * </tr>
+ * <tr>
+ * <td>css</td>
+ * <td>Click Element | css=div.my_class</td>
+ * <td>Matches by CSS selector</td>
+ * </tr>
+ * <tr>
+ * <td>jquery</td>
+ * <td>Click Element | jquery=div.my_class</td>
+ * <td>Matches by jQuery/sizzle selector</td>
+ * </tr>
+ * <tr>
+ * <td>sizzle</td>
+ * <td>Click Element | sizzle=div.my_class</td>
+ * <td>Matches by jQuery/sizzle selector</td>
+ * </tr>
+ * <tr>
+ * <td>tag</td>
+ * <td>Click Element | tag=div</td>
+ * <td>Matches by HTML tag name</td>
+ * </tr>
+ * </table>
+ * <br>
+ * <b>Locating tables</b><br>
+ * Table related keywords, such as `Table Should Contain`, work differently. By
+ * default, when a table locator value is provided, it will search for a table
+ * with the specified id attribute.<br>
+ * <br>
+ * Example:<br>
+ * <table border="1" cellspacing="0">
+ * <tr>
+ * <td>Table Should Contain</td>
+ * <td>my_table</td>
+ * <td>text</td>
+ * </tr>
+ * </table>
+ * <br>
+ * More complex table locator strategies:
+ * <table border="1" cellspacing="0">
+ * <tr>
+ * <td><b>Strategy</b></td>
+ * <td><b>Example</b></td>
+ * <td><b>Description</b></td>
+ * </tr>
+ * <td>xpath</td>
+ * <td>Table Should Contain | xpath=//table/[@name="my_table"] | text</td>
+ * <td>Matches by arbitrary XPath expression</td>
+ * </tr>
+ * <td>css</td>
+ * <td>Table Should Contain | css=table.my_class | text</td>
+ * <td>Matches by CSS selector</td>
+ * </tr>
+ * </table>
+ * <br>
+ * <b>Custom location strategies</b><br>
+ * It is also possible to register custom location strategies. See `Add Location
+ * Strategy` for details about custom location strategies.<br>
+ * <br>
+ * Example:
+ * <table border="1" cellspacing="0">
+ * <tr>
+ * <td>Add Location Strategy</td>
+ * <td>custom</td>
+ * <td>return window.document.getElementById(arguments[0]);</td>
+ * </tr>
+ * <tr>
+ * <td>Input Text</td>
+ * <td>custom=firstName</td>
+ * <td>Max</td>
+ * </tr>
+ * </table>
+ * <br>
+ * <font size="+1"><b>Timeouts</b></font><br>
+ * There are several Wait ... keywords that take <b>timeout</b> as an argument.
+ * All of these timeout arguments are optional. The timeout used by all of them
+ * can be set globally using the `Set Selenium Timeout keyword`.<br>
+ * <br>
+ * All timeouts can be given as numbers considered seconds (e.g. 0.5 or 42) or
+ * in Robot Framework's time syntax (e.g. '1.5 seconds' or '1 min 30 s'). See <a
+ * href=
+ * "http://robotframework.googlecode.com/svn/trunk/doc/userguide/RobotFrameworkUserGuide.html#time-format"
+ * >Time Format</a> for details about the time syntax.<br>
+ * <br>
+ * <font size="+1"><b>Log Level</b></font><br>
+ * There are several keywords that take <b>timeout</b> as an argument. All of
+ * these timeout arguments are optional. The default is usually INFO.<br>
+ * <br>
+ * List of log levels:
+ * <table border="1" cellspacing="0">
+ * <tr>
+ * <td><b>Log Level</b></td>
+ * <td><b>Description</b></td>
+ * </tr>
+ * <tr>
+ * <td>DEBUG</td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td>INFO</td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td>HTML</td>
+ * <td>Same as INFO, but message is in HTML format</td>
+ * </tr>
+ * <tr>
+ * <td>TRACE</td>
+ * <td></td>
+ * </tr>
+ * <tr>
+ * <td>WARN</td>
+ * <td></td>
+ * </tr>
+ * </table>
+ */
 public class Selenium2Library extends AnnotationLibrary {
 
 	/**
@@ -40,9 +245,9 @@ public class Selenium2Library extends AnnotationLibrary {
 	public static final String KEYWORD_PATTERN = "com/github/markusbernhardt/selenium2library/keywords/**/*.class";
 
 	/**
-	 * The root node of the parsed javadoc
+	 * The javadoc to libdoc converter
 	 */
-	public static final Map<String, String> KEYWORD_DOCUMENTATION_MAP = loadKeywordDocumentationMap();
+	public static final Javadoc2Libdoc JAVADOC_2_LIBDOC = new Javadoc2Libdoc(Selenium2Library.class);
 
 	/**
 	 * The library documentation is written in HTML
@@ -68,36 +273,6 @@ public class Selenium2Library extends AnnotationLibrary {
 		}
 	}
 
-	public static Map<String, String> loadKeywordDocumentationMap() {
-		Map<String, String> keywordDocumentation = new HashMap<String, String>();
-		Root root = loadJavadocRoot();
-		for (Package packageNode : root.getPackage()) {
-			for (Class classNode : packageNode.getClazz()) {
-				for (Method methodNode : classNode.getMethod()) {
-					for (AnnotationInstance annotationInstanceNode : methodNode.getAnnotation()) {
-						if (annotationInstanceNode.getName().equals("RobotKeyword")) {
-							keywordDocumentation.put(methodNode.getName(),
-									Javadoc2LibdocFormatter.formatComment(methodNode));
-							break;
-						}
-					}
-				}
-			}
-		}
-		return keywordDocumentation;
-	}
-
-	private static Root loadJavadocRoot() {
-		try {
-			JAXBContext context = JAXBContext.newInstance(Root.class);
-			Unmarshaller unmarshaller = context.createUnmarshaller();
-			return (Root) unmarshaller.unmarshal(Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream(Selenium2Library.class.getName().replace(".", File.separator) + ".javadoc"));
-		} catch (JAXBException e) {
-			return new ObjectFactory().createRoot();
-		}
-	}
-
 	public Selenium2Library() {
 		this("5.0");
 	}
@@ -110,13 +285,87 @@ public class Selenium2Library extends AnnotationLibrary {
 		this(timeout, implicitWait, "Capture Page Screenshot");
 	}
 
-	public Selenium2Library(String timeout, String implicitWait, String runOnFailureKeyword) {
+	/**
+	 * Selenium2Library can be imported with optional arguments.<br>
+	 * <br>
+	 * <b>timeout</b> is the default timeout used to wait for all waiting
+	 * actions. It can be changed later with `Set Selenium Timeout`.<br>
+	 * <br>
+	 * <b>implicitWait</b> is the implicit timeout that Selenium waits, when
+	 * looking for elements. It can be changed later with `Set Selenium Implicit
+	 * Wait`. See <a
+	 * href="http://docs.seleniumhq.org/docs/04_webdriver_advanced.jsp"
+	 * >WebDriver: Advanced Usage</a> of the SeleniumHQ documentation for
+	 * details about WebDriver's implicit wait functionality.<br>
+	 * <br>
+	 * <b>runOnFailure</b> specifies the name of a keyword (from any available
+	 * libraries) to execute when a Selenium2Library keyword fails. By default
+	 * `Capture Page Screenshot` will be used to take a screenshot of the
+	 * current page. Using the value \"Nothing\" will disable this feature
+	 * altogether. See `Register Keyword To Run On Failure` keyword for details
+	 * about this functionality.<br>
+	 * <br>
+	 * Examples:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Library</td>
+	 * <td>Selenium2Library</td>
+	 * <td></td>
+	 * <td></td>
+	 * <td></td>
+	 * <td></td>
+	 * </tr>
+	 * <tr>
+	 * <td>Library</td>
+	 * <td>Selenium2Library</td>
+	 * <td>15</td>
+	 * <td></td>
+	 * <td></td>
+	 * <td># Sets timeout to 15 seconds</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Library</td>
+	 * <td>Selenium2Library</td>
+	 * <td>0</td>
+	 * <td>5</td>
+	 * <td></td>
+	 * <td># Sets timeout to 0 seconds and implicitWait to 5 seconds</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Library</td>
+	 * <td>Selenium2Library</td>
+	 * <td>0</td>
+	 * <td>5</td>
+	 * <td>Log Source</td>
+	 * <td># Sets timeout to 0 seconds, implicitWait to 5 seconds and runs `Log
+	 * Source` on failure</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Library</td>
+	 * <td>Selenium2Library</td>
+	 * <td>0</td>
+	 * <td>5</td>
+	 * <td>Nothing</td>
+	 * <td># Sets timeout to 0 seconds, implicitWait to 5 seconds and does
+	 * nothing on failure</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param timeout
+	 *            Default=5.0. Optional custom timeout.
+	 * @param implicitWait
+	 *            Default=0.0. Optional custom implicit wait time.
+	 * @param runOnFailure
+	 *            Default=Capture Page Screenshot. Optional custom keyword to
+	 *            run on failure.
+	 */
+	public Selenium2Library(String timeout, String implicitWait, String runOnFailure) {
 		super();
 		addKeywordPattern(KEYWORD_PATTERN);
 		createKeywordFactory(); // => init annotations
 		browserManagement.setSeleniumTimeout(timeout);
 		browserManagement.setSeleniumImplicitWait(implicitWait);
-		runOnFailure.registerKeywordToRunOnFailure(runOnFailureKeyword);
+		this.runOnFailure.registerKeywordToRunOnFailure(runOnFailure);
 	}
 
 	// ##############################
@@ -248,25 +497,20 @@ public class Selenium2Library extends AnnotationLibrary {
 
 	@Override
 	public String getKeywordDocumentation(String keywordName) {
-		String keywordDocumentation = KEYWORD_DOCUMENTATION_MAP.get(keywordName);
+		String keywordDocumentation = JAVADOC_2_LIBDOC.getKeywordDocumentation(keywordName);
 		if (keywordDocumentation == null) {
-			keywordDocumentation = "";
-		}
-		
-		if(keywordDocumentation.length() == 0) {
-			System.out.println("Keyword Documentation missing: " + keywordName);
+			try {
+				return super.getKeywordDocumentation(keywordName);
+			} catch (NullPointerException e) {
+				return "";
+			}
 		}
 		return keywordDocumentation;
-		/*
-		 * if (keywordName.equals("__intro__")) { return this.docIntro; } else
-		 * if (keywordName.equals("__init__")) { return this.docInit; } try {
-		 * String keywordDocumentation =
-		 * super.getKeywordDocumentation(keywordName); if
-		 * (keywordDocumentation.length() == 0) {
-		 * System.out.println(KEYWORD_DOCUMENTATION_MAP.get(keywordName)); }
-		 * return keywordDocumentation; } catch (NullPointerException e) {
-		 * e.printStackTrace(); } return "";
-		 */
+	}
+
+	@Override
+	public String[] getKeywordArguments(String keywordName) {
+		return super.getKeywordArguments(keywordName);
 	}
 
 	public static Selenium2Library getLibraryInstance() throws ScriptException {
@@ -295,94 +539,4 @@ public class Selenium2Library extends AnnotationLibrary {
 		}
 		return newArgs;
 	}
-
-	protected final String docIntro = "Selenium2Library is a web testing library for Robot Framework.\n\n"
-
-	+ "It uses the Selenium 2 (WebDriver) libraries internally to control a web browser. See "
-			+ "http://seleniumhq.org/docs/03_webdriver.html for more information on Selenium 2 and " + "WebDriver.\n\n"
-
-			+ "Selenium2Library runs tests in a real browser instance. It should work in most modern "
-			+ "browsers and can be used with both Python and Jython interpreters.\n\n"
-
-			+ "*Before running tests*\n\n"
-
-			+ "Prior to running test cases using Selenium2Library, Selenium2Library must be imported "
-			+ "into your Robot test suite (see importing section), and the `Open Browser` keyword must "
-			+ "be used to open a browser to the desired location.\n\n"
-
-			+ "*Locating elements*\n\n"
-
-			+ "All keywords in Selenium2Library that need to find an element on the page take an "
-			+ "argument, locator. By default, when a locator value is provided, it is matched against "
-			+ "the key attributes of the particular element type. For example, id and name are key "
-			+ "attributes to all elements, and locating elements is easy using just the id as a locator. "
-			+ "For example::\n\n"
-
-			+ "| Click Element | my_element |\n\n"
-
-			+ "It is also possible to specify the approach Selenium2Library should take to find an element "
-			+ "by specifying a lookup strategy with a locator prefix. Supported strategies are:\n\n"
-
-			+ "| Strategy | Example | Description |\n"
-			+ "| identifier | Click Element|identifier=my_element | Matches by @id or @name " + "attribute |\n"
-			+ "| id | Click Element|id=my_element | Matches by @id attribute |\n"
-			+ "| name | Click Element|name=my_element | Matches by @name attribute |\n"
-			+ "| xpath | Click Element|xpath=//div[@id='my_element'] | Matches with arbitrary XPath "
-			+ "expression |\n"
-			+ "| dom | Click Element|dom=document.images[56] | Matches with arbitrary DOM express |\n"
-			+ "| link | Click Element|link=My Link | Matches anchor elements by their link text |\n"
-			+ "| css | Click Element|css=div.my_class | Matches by CSS selector |\n"
-			+ "| jquery | Click Element|jquery=div.my_class | Matches by jQuery/sizzle selector |\n"
-			+ "| sizzle | Click Element|sizzle=div.my_class | Matches by jQuery/sizzle selector |\n"
-			+ "| tag | Click Element|tag=div | Matches by HTML tag name |\n\n"
-
-			+ "Table related keywords, such as `Table Should Contain`, work differently. By default, "
-			+ "when a table locator value is provided, it will search for a table with the specified "
-			+ "id attribute. For example:\n\n"
-
-			+ "| Table Should Contain | my_table text |\n\n"
-
-			+ "More complex table lookup strategies are also supported:\n" + "| Strategy | Example | Description |\n"
-			+ "| css | Table Should Contain|css=table.my_class|text | Matches by @id or @name " + "attribute |\n"
-			+ "| xpath | Table Should Contain|xpath=//table/[@name=\"my_table\"]|text | Matches "
-			+ "by @id or @name attribute |\n\n"
-
-			+ "*Timeouts*\n\n"
-
-			+ "There are several Wait ... keywords that take timeout as an argument. All of these timeout "
-			+ "arguments are optional. The timeout used by all of them can be set globally using the `Set "
-			+ "Selenium Timeout keyword`.\n\n"
-
-			+ "All timeouts can be given as numbers considered seconds (e.g. 0.5 or 42) or in Robot "
-			+ "Framework's time syntax (e.g. '1.5 seconds' or '1 min 30 s'). For more information about the "
-			+ "time syntax see:\n"
-			+ "http://robotframework.googlecode.com/svn/trunk/doc/userguide/RobotFrameworkUserGuide.html"
-			+ "#time-format.\n\n";
-
-	protected final String docInit = "Selenium2Library can be imported with optional arguments.\n\n"
-
-			+ "`timeout` is the default timeout used to wait for all waiting actions. "
-			+ "It can be later set with `Set Selenium Timeout`.\n\n"
-
-			+ "'implicit_wait' is the implicit timeout that Selenium waits when "
-			+ "looking for elements. "
-			+ "It can be later set with `Set Selenium Implicit Wait`. "
-			+ "See `WebDriver: Advanced Usage`__ section of the SeleniumHQ documentation "
-			+ "for more information about WebDriver's implicit wait functionality.\n\n"
-
-			+ "__ http://seleniumhq.org/docs/04_webdriver_advanced.html#explicit-and-implicit-waits\n\n"
-
-			+ "`run_on_failure` specifies the name of a keyword (from any available "
-			+ "libraries) to execute when a Selenium2Library keyword fails. By default "
-			+ "`Capture Page Screenshot` will be used to take a screenshot of the current page. "
-			+ "Using the value \"Nothing\" will disable this feature altogether. See "
-			+ "`Register Keyword To Run On Failure` keyword for more information about this "
-			+ "functionality.\n\n"
-
-			+ "Examples:\n"
-			+ "| Library `|` Selenium2Library `|` 15                                    | # Sets default timeout to 15 seconds                                       |\n"
-			+ "| Library `|` Selenium2Library `|` 0 `|` 5                               | # Sets default timeout to 0 seconds and default implicit_wait to 5 seconds |\n"
-			+ "| Library `|` Selenium2Library `|` 0 `|` 5 `|` run_on_failure=Log Source | # Sets default timeout to 0 seconds, default implicit_wait to 5 seconds and runs `Log Source` on failure|\n"
-			+ "| Library `|` Selenium2Library `|` 0 `|` 5 `|` run_on_failure=Nothing    | # Sets default timeout to 0 seconds, default implicit_wait to 5 seconds and does nothing on failure|\n";
-
 }
