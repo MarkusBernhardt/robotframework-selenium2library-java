@@ -198,6 +198,7 @@
 				<!-- extract documentation for libdoc -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
 				<executions>
 					<execution>
 						<id>xml-doclet</id>
@@ -266,17 +267,6 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9.1</version>
-					<configuration>
-						<use>false</use>
-						<links>
-							<link>http://java.sun.com/javase/7/docs/api/</link>
-						</links>
-					</configuration>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -286,6 +276,25 @@
 			<id>sonatype-oss-release</id>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+								<configuration>
+									<use>false</use>
+									<links>
+										<link>http://java.sun.com/javase/7/docs/api/</link>
+									</links>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<!-- Integration-Test, build documentation -->
 						<groupId>org.robotframework</groupId>

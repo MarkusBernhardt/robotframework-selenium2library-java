@@ -60,8 +60,8 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 * @return The table cell content.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "tableLocator", "row", "column", "loglevel=INFO" })
-	public String getTableCell(String tableLocator, int row, int column, String loglevel) {
+	@ArgumentNames({ "tableLocator", "row", "column", "logLevel=INFO" })
+	public String getTableCell(String tableLocator, int row, int column, String logLevel) {
 		int rowIndex = row - 1;
 		int columnIndex = column - 1;
 		WebElement table = TableElementFinder.find(browserManagement.getCurrentWebDriver(), tableLocator);
@@ -83,7 +83,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 				}
 			}
 		}
-		logging.logSource(loglevel);
+		logging.logSource(logLevel);
 		throw new Selenium2LibraryNonFatalException(String.format(
 				"Cell in table %s in row #%d and column #%d could not be found.", tableLocator, row, column));
 	}
@@ -117,14 +117,14 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "tableLocator", "row", "column", "text", "loglevel=INFO" })
-	public void tableCellShouldContain(String tableLocator, int row, int column, String text, String loglevel) {
+	@ArgumentNames({ "tableLocator", "row", "column", "text", "logLevel=INFO" })
+	public void tableCellShouldContain(String tableLocator, int row, int column, String text, String logLevel) {
 		String message = String.format("Cell in table '%s' in row #%d and column #%d should have contained text '%s'.",
 				tableLocator, row, column, text);
 
 		String content = "";
 		try {
-			content = getTableCell(tableLocator, row, column, loglevel);
+			content = getTableCell(tableLocator, row, column, logLevel);
 		} catch (AssertionError err) {
 			logging.info(err.getMessage());
 			throw new Selenium2LibraryNonFatalException(message);
@@ -132,7 +132,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 
 		logging.info(String.format("Cell contains %s.", content));
 		if (!content.contains(text)) {
-			logging.logSource(loglevel);
+			logging.logSource(logLevel);
 			throw new Selenium2LibraryNonFatalException(message);
 		}
 	}
@@ -172,7 +172,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 * 
 	 * @param tableLocator
 	 *            The locator to locate the table.
-	 * @param column
+	 * @param col
 	 *            The table column.
 	 * @param text
 	 *            The text to verify.
@@ -180,12 +180,12 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "tableLocator", "col", "text", "loglevel=INFO" })
-	public void tableColumnShouldContain(String tableLocator, int col, String text, String loglevel) {
+	@ArgumentNames({ "tableLocator", "col", "text", "logLevel=INFO" })
+	public void tableColumnShouldContain(String tableLocator, int col, String text, String logLevel) {
 		WebElement element = TableElementFinder.findByCol(browserManagement.getCurrentWebDriver(), tableLocator, col,
 				text);
 		if (element == null) {
-			logging.logSource(loglevel);
+			logging.logSource(logLevel);
 			throw new Selenium2LibraryNonFatalException(String.format(
 					"Column #%d in table identified by '%s' should have contained text '%s'.", col, tableLocator, text));
 		}
@@ -211,12 +211,12 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "tableLocator", "text", "loglevel=INFO" })
-	public void tableFooterShouldContain(String tableLocator, String text, String loglevel) {
+	@ArgumentNames({ "tableLocator", "text", "logLevel=INFO" })
+	public void tableFooterShouldContain(String tableLocator, String text, String logLevel) {
 		WebElement element = TableElementFinder.findByFooter(browserManagement.getCurrentWebDriver(), tableLocator,
 				text);
 		if (element == null) {
-			logging.logSource(loglevel);
+			logging.logSource(logLevel);
 			throw new Selenium2LibraryNonFatalException(String.format(
 					"Footer in table identified by '%s' should have contained text '%s'.", tableLocator, text));
 		}
@@ -242,12 +242,12 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "tableLocator", "text", "loglevel=INFO" })
-	public void tableHeaderShouldContain(String tableLocator, String text, String loglevel) {
+	@ArgumentNames({ "tableLocator", "text", "logLevel=INFO" })
+	public void tableHeaderShouldContain(String tableLocator, String text, String logLevel) {
 		WebElement element = TableElementFinder.findByHeader(browserManagement.getCurrentWebDriver(), tableLocator,
 				text);
 		if (element == null) {
-			logging.logSource(loglevel);
+			logging.logSource(logLevel);
 			throw new Selenium2LibraryNonFatalException(String.format(
 					"Header in table identified by '%s' should have contained text '%s'.", tableLocator, text));
 		}
@@ -283,12 +283,12 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "tableLocator", "row", "text", "loglevel=INFO" })
-	public void tableRowShouldContain(String tableLocator, int row, String text, String loglevel) {
+	@ArgumentNames({ "tableLocator", "row", "text", "logLevel=INFO" })
+	public void tableRowShouldContain(String tableLocator, int row, String text, String logLevel) {
 		WebElement element = TableElementFinder.findByRow(browserManagement.getCurrentWebDriver(), tableLocator, row,
 				text);
 		if (element == null) {
-			logging.logSource(loglevel);
+			logging.logSource(logLevel);
 			throw new Selenium2LibraryNonFatalException(String.format(
 					"Row #%d in table identified by '%s' should have contained text '%s'.", row, tableLocator, text));
 		}
@@ -314,12 +314,12 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "tableLocator", "text", "loglevel=INFO" })
-	public void tableShouldContain(String tableLocator, String text, String loglevel) {
+	@ArgumentNames({ "tableLocator", "text", "logLevel=INFO" })
+	public void tableShouldContain(String tableLocator, String text, String logLevel) {
 		WebElement element = TableElementFinder.findByContent(browserManagement.getCurrentWebDriver(), tableLocator,
 				text);
 		if (element == null) {
-			logging.logSource(loglevel);
+			logging.logSource(logLevel);
 			throw new Selenium2LibraryNonFatalException(String.format(
 					"Table identified by '%s' should have contained text '%s'.", tableLocator, text));
 		}

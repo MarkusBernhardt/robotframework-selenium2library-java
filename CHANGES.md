@@ -8,6 +8,9 @@ unreleased
 * Added the possibility to set logging directory. See #28.
 * Refactoring of the library to a JavaLibCore AnnotationLibrary. See #28.
 * Added keyword documentation from library for e.g. Ride. See #16, #28.
+* Added keyword missing documentation for new keywords. See #32.
+* Added access to the current WebDriver instance from custom libraries. #30
+* Generating libdoc from javadoc.
  
 
 1.2.0.13

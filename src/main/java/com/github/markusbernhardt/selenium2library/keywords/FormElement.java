@@ -124,9 +124,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
-	public void pageShouldContainCheckbox(String locator, String message, String loglevel) {
-		element.pageShouldContainElement(locator, "checkbox", message, loglevel);
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
+	public void pageShouldContainCheckbox(String locator, String message, String logLevel) {
+		element.pageShouldContainElement(locator, "checkbox", message, logLevel);
 	}
 
 	@RobotKeywordOverload
@@ -154,9 +154,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
-	public void pageShouldNotContainCheckbox(String locator, String message, String loglevel) {
-		element.pageShouldNotContainElement(locator, "checkbox", message, loglevel);
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
+	public void pageShouldNotContainCheckbox(String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(locator, "checkbox", message, logLevel);
 	}
 
 	/**
@@ -226,9 +226,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
-	public void pageShouldContainRadioButton(String locator, String message, String loglevel) {
-		element.pageShouldContainElement(locator, "radio button", message, loglevel);
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
+	public void pageShouldContainRadioButton(String locator, String message, String logLevel) {
+		element.pageShouldContainElement(locator, "radio button", message, logLevel);
 	}
 
 	@RobotKeywordOverload
@@ -256,9 +256,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
-	public void pageShouldNotContainRadioButton(String locator, String message, String loglevel) {
-		element.pageShouldNotContainElement(locator, "radio button", message, loglevel);
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
+	public void pageShouldNotContainRadioButton(String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(locator, "radio button", message, logLevel);
 	}
 
 	/**
@@ -439,9 +439,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
-	public void pageShouldContainTextfield(String locator, String message, String loglevel) {
-		element.pageShouldContainElement(locator, "text field", message, loglevel);
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
+	public void pageShouldContainTextfield(String locator, String message, String logLevel) {
+		element.pageShouldContainElement(locator, "text field", message, logLevel);
 	}
 
 	@RobotKeywordOverload
@@ -469,9 +469,9 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
-	public void pageShouldNotContainTextfield(String locator, String message, String loglevel) {
-		element.pageShouldNotContainElement(locator, "text field", message, loglevel);
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
+	public void pageShouldNotContainTextfield(String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(locator, "text field", message, logLevel);
 	}
 
 	@RobotKeywordOverload
@@ -666,12 +666,12 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
-	public void pageShouldContainButton(String locator, String message, String loglevel) {
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
+	public void pageShouldContainButton(String locator, String message, String logLevel) {
 		try {
-			element.pageShouldContainElement(locator, "input", message, loglevel);
+			element.pageShouldContainElement(locator, "input", message, logLevel);
 		} catch (AssertionError ae) {
-			element.pageShouldContainElement(locator, "button", message, loglevel);
+			element.pageShouldContainElement(locator, "button", message, logLevel);
 		}
 	}
 
@@ -700,10 +700,10 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
-	public void pageShouldNotContainButton(String locator, String message, String loglevel) {
-		element.pageShouldNotContainElement(locator, "input", message, loglevel);
-		element.pageShouldNotContainElement(locator, "button", message, loglevel);
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
+	public void pageShouldNotContainButton(String locator, String message, String logLevel) {
+		element.pageShouldNotContainElement(locator, "input", message, logLevel);
+		element.pageShouldNotContainElement(locator, "button", message, logLevel);
 	}
 
 	// ##############################

@@ -64,7 +64,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "text", "loglevel=INFO" })
+	@ArgumentNames({ "text", "logLevel=INFO" })
 	public void currentFrameContains(String text, String logLevel) {
 		if (!isTextPresent(text)) {
 			logging.log(String.format("Current Frame Contains: %s => FAILED", text), logLevel);
@@ -91,7 +91,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "text", "loglevel=INFO" })
+	@ArgumentNames({ "text", "logLevel=INFO" })
 	public void currentFrameShouldNotContain(String text, String logLevel) {
 		if (isTextPresent(text)) {
 			logging.log(String.format("Current Frame Should Not Contain: %s => FAILED", text), logLevel);
@@ -179,11 +179,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            The locator to locate the frame.
 	 * @param text
 	 *            The text to verify.
-	 * @param message
-	 *            Default=NONE. Optional custom error message.
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "text", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "text", "logLevel=INFO" })
 	public void frameShouldContain(String locator, String text, String logLevel) {
 		if (!frameContains(locator, text)) {
 			logging.log(String.format("Frame Should Contain: %s => FAILED", text), logLevel);
@@ -204,11 +204,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            The locator to locate the frame.
 	 * @param text
 	 *            The text to verify.
-	 * @param message
-	 *            Default=NONE. Optional custom error message.
+	 * @param logLevel
+	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "text", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "text", "logLevel=INFO" })
 	public void frameShouldNotContain(String locator, String text, String logLevel) {
 		if (frameContains(locator, text)) {
 			logging.log(String.format("Frame Should Not Contain: %s => FAILED", text), logLevel);
@@ -235,7 +235,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "text", "loglevel=INFO" })
+	@ArgumentNames({ "text", "logLevel=INFO" })
 	public void pageShouldContain(String text, String logLevel) {
 		if (!pageContains(text)) {
 			logging.log(String.format("Page Should Contain: %s => FAILED", text), logLevel);
@@ -262,7 +262,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "text", "loglevel=INFO" })
+	@ArgumentNames({ "text", "logLevel=INFO" })
 	public void pageShouldNotContain(String text, String logLevel) {
 		if (pageContains(text)) {
 			logging.log(String.format("Page Should Not Contain: %s => FAILED", text), logLevel);
@@ -298,7 +298,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
 	public void pageShouldContainElement(String locator, String message, String logLevel) {
 		pageShouldContainElement(locator, null, message, "INFO");
 	}
@@ -341,7 +341,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
 	public void pageShouldNotContainElement(String locator, String message, String logLevel) {
 		pageShouldNotContainElement(locator, null, message, "INFO");
 	}
@@ -1264,7 +1264,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
 	public void pageShouldContainLink(String locator, String message, String logLevel) {
 		pageShouldContainElement(locator, "link", message, logLevel);
 	}
@@ -1294,7 +1294,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
 	public void pageShouldNotContainLink(String locator, String message, String logLevel) {
 		pageShouldNotContainElement(locator, "link", message, logLevel);
 	}
@@ -1376,7 +1376,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
 	public void pageShouldContainImage(String locator, String message, String logLevel) {
 		pageShouldContainElement(locator, "image", message, logLevel);
 	}
@@ -1408,7 +1408,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 *            Default=INFO. Optional log level.
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "locator", "message=NONE", "loglevel=INFO" })
+	@ArgumentNames({ "locator", "message=NONE", "logLevel=INFO" })
 	public void pageShouldNotContainImage(String locator, String message, String logLevel) {
 		pageShouldNotContainElement(locator, "image", message, logLevel);
 	}
