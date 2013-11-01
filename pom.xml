@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -150,6 +151,34 @@
 							<testCasesDirectory>${project.basedir}/src/test/robotframework/testsuites</testCasesDirectory>
 						</configuration>
 					</execution>
+					<execution>
+						<id>html</id>
+						<phase>package</phase>
+						<goals>
+							<goal>libdoc</goal>
+						</goals>
+						<configuration>
+							<libdoc>
+								<outputDirectory>${project.build.directory}</outputDirectory>
+								<outputFile>${keywords.class}.html</outputFile>
+								<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
+							</libdoc>
+						</configuration>
+					</execution>
+					<execution>
+						<id>xml</id>
+						<phase>package</phase>
+						<goals>
+							<goal>libdoc</goal>
+						</goals>
+						<configuration>
+							<libdoc>
+								<outputDirectory>${project.build.directory}</outputDirectory>
+								<outputFile>${keywords.class}.xml</outputFile>
+								<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
+							</libdoc>
+						</configuration>
+					</execution>
 				</executions>
 				<dependencies>
 					<dependency>
@@ -290,42 +319,6 @@
 									<links>
 										<link>http://java.sun.com/javase/7/docs/api/</link>
 									</links>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<!-- Integration-Test, build documentation -->
-						<groupId>org.robotframework</groupId>
-						<artifactId>robotframework-maven-plugin</artifactId>
-						<version>1.2</version>
-						<executions>
-							<execution>
-								<id>html</id>
-								<phase>package</phase>
-								<goals>
-									<goal>libdoc</goal>
-								</goals>
-								<configuration>
-									<libdoc>
-										<outputDirectory>${project.build.directory}</outputDirectory>
-										<outputFile>${keywords.class}.html</outputFile>
-										<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
-									</libdoc>
-								</configuration>
-							</execution>
-							<execution>
-								<id>xml</id>
-								<phase>package</phase>
-								<goals>
-									<goal>libdoc</goal>
-								</goals>
-								<configuration>
-									<libdoc>
-										<outputDirectory>${project.build.directory}</outputDirectory>
-										<outputFile>${keywords.class}.xml</outputFile>
-										<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
-									</libdoc>
 								</configuration>
 							</execution>
 						</executions>

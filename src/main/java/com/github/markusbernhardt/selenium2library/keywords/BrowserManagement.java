@@ -17,6 +17,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.DefaultHttpRoutePlanner;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.android.AndroidDriver;
@@ -523,6 +524,65 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
+	 * Returns current window size as <b>width</b> then <b>height</b>.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>${width}</td>
+	 * <td>${height}=</td>
+	 * <td>Get Window Size</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @return The window <b>width</b> and <b>height</b> in px.
+	 */
+	public Object[] getWindowSize() {
+		Dimension size = getCurrentWebDriver().manage().window().getSize();
+		return new Object[] { Integer.toString(size.width), Integer.toString(size.height) };
+	}
+
+	/**
+	 * Sets the <b>width</b> and <b>height</b> of the current window to the
+	 * specified values.<br>
+	 * <br>
+	 * Example:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>Set Window Size</td>
+	 * <td>800</td>
+	 * <td>600</td>
+	 * </tr>
+	 * <tr>
+	 * <td>${width}</td>
+	 * <td>${height}=</td>
+	 * <td>Get Window Size</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Should Be Equal</td>
+	 * <td>${width}</td>
+	 * <td>800</td>
+	 * </tr>
+	 * <tr>
+	 * <td>Should Be Equal</td>
+	 * <td>${height}</td>
+	 * <td>600</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param width
+	 *            The window width to set in px.
+	 * @param height
+	 *            The window height to set in px.
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "width", "height" })
+	public void setWindowSize(String width, String height) {
+		getCurrentWebDriver().manage().window()
+				.setSize(new Dimension(Integer.parseInt(width), Integer.parseInt(height)));
+	}
+
+	/**
 	 * Selects the frame identified by <b>locator</b> as current frame.<br>
 	 * <br>
 	 * Key attributes for frames are <b>id</b> and <b>name</b>. See
@@ -834,8 +894,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public void titleShouldNotContain(String title) {
 		String actual = getTitle();
 		if (actual.contains(title)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Title should not have contained '%s', but was '%s'",
-					title, actual));
+			throw new Selenium2LibraryNonFatalException(String.format(
+					"Title should not have contained '%s', but was '%s'", title, actual));
 		}
 		logging.info(String.format("Page title is '%s'.", title));
 	}

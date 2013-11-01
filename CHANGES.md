@@ -3,6 +3,19 @@ CHANGES
 
 unreleased
 ----------
+* Porting recent changes in the master branch of the Python Selenium2Library
+  from id b4a3e500 until ... to this Java port. This contains roughly:
+  * Added 'Get Window Size' and 'Set Window Size' keywords matching the Selenium functionality.
+  * Added new keyword 'Click Element At Coordinates'.
+  * Added keywords for verifying text entered into textarea elements.
+    * 'Textarea Should Contain'
+    * 'Textarea Should Not Contain'
+    * 'Textarea Value Should Be'
+    * 'Textarea Value Should Not Be'
+  * 'Mouse Up' doesn't click any more on the element.
+  * Raise exception in selecting non-existing item in list. Error handling varies
+    between single-select and multi-select lists. See keyword documentation for
+    more information.  
 
 1.2.0.14
 --------
@@ -14,7 +27,6 @@ unreleased
 * Added keyword missing documentation for new keywords. See #32.
 * Added access to the current WebDriver instance from custom libraries. #30
 * Generating libdoc from javadoc.
- 
 
 1.2.0.13
 --------

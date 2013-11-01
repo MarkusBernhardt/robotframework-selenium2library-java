@@ -873,6 +873,38 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
+	 * Click on the element identified by <b>locator</b> at the coordinates
+	 * <b>xOffset</b> and <b>yOffset</b>.<br>
+	 * <br>
+	 * The cursor is moved at the center of the element and the to the given x/y
+	 * offset from that point. Both offsets are specified as negative (left/up)
+	 * or positive (right/down) number.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about locators.<br>
+	 * <br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param xOffset
+	 *            The horizontal offset in pixel. Negative means left, positive
+	 *            right.
+	 * @param yOffset
+	 *            The vertical offset in pixel. Negative means up, positive
+	 *            down.
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "xOffset", "yOffset" })
+	public void clickElementAtCoordinates(String locator, String xOffset, String yOffset) {
+		logging.info(String.format("Clicking element '%s'in coordinates '%s', '%s'.", locator, xOffset, yOffset));
+		List<WebElement> elements = elementFind(locator, true, true);
+
+		WebElement element = elements.get(0);
+		Actions action = new Actions(browserManagement.getCurrentWebDriver());
+		action.moveToElement(element).moveByOffset(Integer.parseInt(xOffset), Integer.parseInt(yOffset)).perform();
+	}
+
+	/**
 	 * Double-Click on the element identified by <b>locator</b>.<br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
@@ -1084,7 +1116,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 
 		WebElement element = elements.get(0);
 		Actions action = new Actions(browserManagement.getCurrentWebDriver());
-		action.clickAndHold(element).release(element).perform();
+		action.release(element).perform();
 	}
 
 	/**

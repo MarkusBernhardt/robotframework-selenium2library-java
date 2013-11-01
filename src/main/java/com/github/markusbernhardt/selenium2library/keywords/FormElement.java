@@ -621,6 +621,152 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 		logging.info(String.format("Text field '%s' contains text '%s'.", locator, text));
 	}
 
+	@RobotKeywordOverload
+	public void textareaShouldContain(String locator, String text) {
+		textareaShouldContain(locator, text, "");
+	}
+
+	/**
+	 * Verify the text area identified by <b>locator</b> contains <b>text</b>.<br>
+	 * <br>
+	 * Key attributes for text areas are id and name. See `Introduction` for
+	 * details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the text area.
+	 * @param text
+	 *            The text to verify.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * 
+	 * @see FormElement#textareaShouldNotContain
+	 * @see FormElement#textareaValueShouldBe
+	 * @see FormElement#textareaValueShouldNotBe
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "text", "message=NONE" })
+	public void textareaShouldContain(String locator, String text, String message) {
+		String actual = element.getValue(locator, "text area");
+		if (!actual.contains(text)) {
+			if (message == null) {
+				message = String.format("Text area '%s' should have contained text '%s', but was '%s'", locator, text,
+						actual);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+		logging.info(String.format("Text field '%s' contains text '%s'.", locator, text));
+	}
+
+	@RobotKeywordOverload
+	public void textareaShouldNotContain(String locator, String text) {
+		textareaShouldNotContain(locator, text, "");
+	}
+
+	/**
+	 * Verify the text area identified by <b>locator</b> does not contain <b>text</b>.<br>
+	 * <br>
+	 * Key attributes for text areas are id and name. See `Introduction` for
+	 * details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the text area.
+	 * @param text
+	 *            The text to verify.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * 
+	 * @see FormElement#textareaShouldContain
+	 * @see FormElement#textareaValueShouldBe
+	 * @see FormElement#textareaValueShouldNotBe
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "text", "message=NONE" })
+	public void textareaShouldNotContain(String locator, String text, String message) {
+		String actual = element.getValue(locator, "text area");
+		if (!actual.contains(text)) {
+			if (message == null) {
+				message = String.format("Text area '%s' should not have contained text '%s', but was '%s'", locator, text,
+						actual);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+		logging.info(String.format("Text field '%s' contains text '%s'.", locator, text));
+	}
+
+	@RobotKeywordOverload
+	public void textareaValueShouldBe(String locator, String text) {
+		textareaValueShouldBe(locator, text, "");
+	}
+
+	/**
+	 * Verify the text area identified by <b>locator</b> is exactly
+	 * <b>text</b>.<br>
+	 * <br>
+	 * Key attributes for text area are id and name. See `Introduction` for
+	 * details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the text area.
+	 * @param text
+	 *            The text to verify.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * 
+	 * @see FormElement#textareaShouldContain
+	 * @see FormElement#textareaShouldNotContain
+	 * @see FormElement#textareaValueShouldNotBe
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "text", "message=NONE" })
+	public void textareaValueShouldBe(String locator, String text, String message) {
+		String actual = element.getValue(locator, "text area");
+		if (!actual.contains(text)) {
+			if (message == null) {
+				message = String.format("Value of text area '%s' should have been '%s' but was '%s'", locator, text,
+						actual);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+		logging.info(String.format("Content of text area '%s' is '%s'.", locator, text));
+	}
+
+	@RobotKeywordOverload
+	public void textareaValueShouldNotBe(String locator, String text) {
+		textareaValueShouldNotBe(locator, text, "");
+	}
+
+	/**
+	 * Verify the text area identified by <b>locator</b> is not exactly
+	 * <b>text</b>.<br>
+	 * <br>
+	 * Key attributes for text area are id and name. See `Introduction` for
+	 * details about log levels and locators.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the text area.
+	 * @param text
+	 *            The text to verify.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 * 
+	 * @see FormElement#textareaShouldContain
+	 * @see FormElement#textareaShouldNotContain
+	 * @see FormElement#textareaValueShouldBe
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "text", "message=NONE" })
+	public void textareaValueShouldNotBe(String locator, String text, String message) {
+		String actual = element.getValue(locator, "text area");
+		if (actual.contains(text)) {
+			if (message == null) {
+				message = String.format("Value of text area '%s' should not have been '%s' but was '%s'", locator,
+						text, actual);
+			}
+			throw new Selenium2LibraryNonFatalException(message);
+		}
+		logging.info(String.format("Content of text area '%s' is '%s'.", locator, text));
+	}
+
 	/**
 	 * Click on the button identified by <b>locator</b>.<br>
 	 * <br>

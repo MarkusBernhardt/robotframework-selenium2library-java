@@ -310,6 +310,8 @@ public class ElementFinder {
 			tag = "img";
 		} else if (tag.equals("list")) {
 			tag = "select";
+		} else if (tag.equals("text area")) {
+			tag = "textarea";
 		} else if (tag.equals("radio button")) {
 			tag = "input";
 			constraints.put("type", "radio");

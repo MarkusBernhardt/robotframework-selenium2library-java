@@ -309,6 +309,11 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	 * Select the given <b>*items</b> of the multi-select list identified by
 	 * <b>locator</b>.<br>
 	 * <br>
+	 * An exception is raised for a single-selection list if the last value does
+	 * not exist in the list and a warning for all other non-existing items. For
+	 * a multi-selection list, an exception is raised for any and all
+	 * non-existing values.<br>
+	 * <br>
 	 * Select list keywords work on both lists and combo boxes. Key attributes
 	 * for select lists are id and name. See `Introduction` for details about
 	 * locators.<br>
@@ -333,17 +338,41 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 			for (int i = 0; i < select.getOptions().size(); i++) {
 				select.selectByIndex(i);
 			}
+			return;
 		}
 
+		boolean lastItemFound = false;
+		List<String> nonExistingItems = new ArrayList<>();
 		for (String item : items) {
+			lastItemFound = true;
 			try {
 				select.selectByValue(item);
 			} catch (NoSuchElementException e1) {
 				try {
 					select.selectByVisibleText(item);
 				} catch (NoSuchElementException e2) {
+					nonExistingItems.add(item);
+					lastItemFound = false;
 					continue;
 				}
+			}
+		}
+
+		if (nonExistingItems.size() != 0) {
+			// multi-selection list => throw immediately
+			if (select.isMultiple()) {
+				throw new Selenium2LibraryNonFatalException(String.format("Options '%s' not in list '%s'.",
+						Python.join(", ", nonExistingItems), locator));
+			}
+
+			// single-selection list => log warning with not found items
+			logging.warn(String.format("Option%s '%s' not found within list '%s'.", nonExistingItems.size() == 0 ? ""
+					: "s", Python.join(", ", nonExistingItems), locator));
+
+			// single-selection list => throw if last item was not found
+			if (!lastItemFound) {
+				throw new Selenium2LibraryNonFatalException(String.format("Option '%s' not in list '%s'.",
+						nonExistingItems.get(nonExistingItems.size() - 1), locator));
 			}
 		}
 	}
