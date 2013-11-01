@@ -9,6 +9,11 @@ Resource          ../../imports/Google.txt
 Open And Close Google Site
     Capture Page Screenshot
     
+Store Web Element In JavaScript
+    Execute Javascript    window.document.my_element = window.document.getElementsByClassName('gbqfba')[0];
+    ${className}=    Execute Javascript    return window.document.my_element.className;
+    Should Be Equal    ${className}    gbqfba
+
 Search Robotframework Selenium2Library
     Google.Search.Search String    Robotframework Selenium2Library
     
