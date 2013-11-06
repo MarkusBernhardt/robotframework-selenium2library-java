@@ -9,7 +9,7 @@
 
 	<groupId>com.github.markusbernhardt</groupId>
 	<artifactId>robotframework-selenium2library-java</artifactId>
-	<version>1.4.0.0</version>
+	<version>1.4.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Robot Framework :: Selenium2Library</name>
