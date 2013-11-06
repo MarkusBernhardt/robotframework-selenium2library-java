@@ -15,7 +15,9 @@ unreleased
   * 'Mouse Up' doesn't click any more on the element.
   * Raise exception in selecting non-existing item in list. Error handling varies
     between single-select and multi-select lists. See keyword documentation for
-    more information.  
+    more information.
+* Back-port recent changes from version 1.3 and 1.4 of Python library. See #35
+* Jump Version number to 1.4.0.0 to reflect the new version of the Python library.
 
 1.2.0.14
 --------
