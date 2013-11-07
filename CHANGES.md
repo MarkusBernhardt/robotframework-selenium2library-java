@@ -3,6 +3,10 @@ CHANGES
 
 unreleased
 ----------
+
+1.4.0.0
+-------
+
 * Porting recent changes in the master branch of the Python Selenium2Library
   from id b4a3e500 until cf971d91 to this Java port. This contains roughly:
   * Added 'Get Window Size' and 'Set Window Size' keywords matching the Selenium functionality.
