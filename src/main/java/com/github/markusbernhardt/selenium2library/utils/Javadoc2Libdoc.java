@@ -1,6 +1,5 @@
 package com.github.markusbernhardt.selenium2library.utils;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +22,7 @@ public class Javadoc2Libdoc {
 
 	public Javadoc2Libdoc(java.lang.Class<?> clazz) {
 		InputStream inputStream = Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream(clazz.getName().replace(".", File.separator) + ".javadoc");
+				.getResourceAsStream(clazz.getName().replace('.', '/') + ".javadoc");
 		Root root = loadJavadocRoot(inputStream);
 		keywordDocumentationMap = loadKeywordDocumentationMap(root, clazz.getName());
 	}
