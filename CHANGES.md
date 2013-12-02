@@ -3,6 +3,7 @@ CHANGES
 
 unreleased
 ----------
+* Fixed wrong separator in Javadoc2Libdoc. See #40
 
 1.4.0.0
 -------
