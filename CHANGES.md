@@ -4,6 +4,7 @@ CHANGES
 unreleased
 ----------
 * Fixed wrong separator in Javadoc2Libdoc. See #40
+* Fixed Page Should Contain Button fails to find buttons with the button tag. See #43
 
 1.4.0.0
 -------
