@@ -816,7 +816,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	public void pageShouldContainButton(String locator, String message, String logLevel) {
 		try {
 			element.pageShouldContainElement(locator, "input", message, logLevel);
-		} catch (AssertionError ae) {
+		} catch (Selenium2LibraryNonFatalException e) {
 			element.pageShouldContainElement(locator, "button", message, logLevel);
 		}
 	}

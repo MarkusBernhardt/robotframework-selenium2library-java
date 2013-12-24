@@ -125,8 +125,8 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 		String content = "";
 		try {
 			content = getTableCell(tableLocator, row, column, logLevel);
-		} catch (AssertionError err) {
-			logging.info(err.getMessage());
+		} catch (Selenium2LibraryNonFatalException e) {
+			logging.info(e.getMessage());
 			throw new Selenium2LibraryNonFatalException(message);
 		}
 
