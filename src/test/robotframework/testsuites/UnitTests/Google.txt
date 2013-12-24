@@ -21,7 +21,7 @@ Search With JavaScript Locator
     Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
     Input Text    elementById=gbqfq    Robotframework Selenium2Library
     Press Key    elementById=gbqfq    \\13
-    Wait Until Element Is Visible    xpath=//cite[contains(., 'https://github.com/rtomac/')]
+    Wait Until Element Is Visible    xpath=//a[contains(@href, 'https://github.com/rtomac/')]
     Capture Page Screenshot
     
 Search With JavaScript Locator And Delimiter
@@ -36,7 +36,7 @@ Search With JavaScript Locator Text
 Search Without Locator Type
     Input Text    gbqfq    Robotframework Selenium2Library
     Press Key    gbqfq    \\13
-    Wait Until Element Is Visible    //cite[contains(., 'https://github.com/rtomac/')]
+    Wait Until Element Is Visible    xpath=//a[contains(@href, 'https://github.com/rtomac/')]
     
 Get Id Of Active Element With JavaScript
     Input Text    gbqfq    Robotframework Selenium2Library
