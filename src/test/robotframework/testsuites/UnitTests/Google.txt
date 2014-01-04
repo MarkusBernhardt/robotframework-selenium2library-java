@@ -15,7 +15,7 @@ Store Web Element In JavaScript
     Should Be Equal    ${className}    gbqfba
 
 Search Robotframework Selenium2Library
-    Google.Search.Search String    Robotframework Selenium2Library
+    Google.Search.Search String    Robotframework Selenium2Library Java
     
 Search With JavaScript Locator
     Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
