@@ -7,6 +7,7 @@ unreleased
 * Update phantomjsdriver to 1.1.0
 * DesiredCapabilities can be specified as complex JSON strings now
 * Removed the ffProfileDir argument from Open Browser
+* Added browserOptions argument to Open Browser
 
 1.4.0.1
 -------
