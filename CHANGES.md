@@ -3,6 +3,9 @@ CHANGES
 
 unreleased
 ----------
+* Update selenium to 2.39.0
+* Update phantomjsdriver to 1.1.0
+* DesiredCapabilities can be specified as complex JSON strings now
 
 1.4.0.1
 -------

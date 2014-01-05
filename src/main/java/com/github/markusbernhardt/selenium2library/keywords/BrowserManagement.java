@@ -7,7 +7,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpHost;
@@ -17,6 +19,8 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.DefaultHttpRoutePlanner;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -1373,10 +1377,22 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		}
 
 		if (desiredCapabilitiesString != null && !"None".equals(desiredCapabilitiesString)) {
-			for (String capability : desiredCapabilitiesString.split(",")) {
-				String[] keyValue = capability.split(":");
-				desiredCapabilities.setCapability(keyValue[0], keyValue[1]);
+			JSONObject jsonObject = (JSONObject) JSONValue.parse(desiredCapabilitiesString);
+			if (jsonObject != null) {
+				// Valid JSON
+				Iterator<?> iterator = jsonObject.entrySet().iterator();
+				while (iterator.hasNext()) {
+					Entry<?, ?> entry = (Entry<?, ?>) iterator.next();
+					desiredCapabilities.setCapability(entry.getKey().toString(), entry.getValue());
+				}
+			} else {
+				// Invalid JSON. Old style key-value pairs
+				for (String capability : desiredCapabilitiesString.split(",")) {
+					String[] keyValue = capability.split(":");
+					desiredCapabilities.setCapability(keyValue[0], keyValue[1]);
+				}
 			}
+			logging.info(desiredCapabilities.toString());
 		}
 		return desiredCapabilities;
 	}
