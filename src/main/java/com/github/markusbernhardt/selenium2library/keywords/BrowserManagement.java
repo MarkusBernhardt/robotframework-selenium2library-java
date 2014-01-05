@@ -1,6 +1,5 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -27,7 +26,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.android.AndroidDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.iphone.IPhoneDriver;
@@ -203,12 +201,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return openBrowser(url, browserName, alias, remoteUrl, null);
 	}
 
-	@RobotKeywordOverload
-	public String openBrowser(String url, String browserName, String alias, String remoteUrl, String desiredCapabilities)
-			throws Throwable {
-		return openBrowser(url, browserName, alias, remoteUrl, desiredCapabilities, null);
-	}
-
 	/**
 	 * Opens a new browser instance to given URL.<br>
 	 * <br>
@@ -276,6 +268,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </tr>
 	 * </table>
 	 * <br>
+	 * Example of desiredCapabilities as simple string:<br>
+	 * <b>platform:Windows 8,browserName:firefox,version:25</b><br>
+	 * <br>
+	 * Example of desiredCapabilities as JSON object:<br>
+	 * <b>{"platform":"Windows 8","browserName":"firefox","version":"25","proxy":{"proxyType":"manual","httpProxy":"localhost:8118","sslProxy":"localhost:8118"}}</b><br>
+	 * <br>
 	 * Note, that you will encounter strange behavior, if you open multiple
 	 * Internet Explorer browser instances. That is also why `Switch Browser`
 	 * only works with one IE browser at most. For more information see: <a
@@ -301,14 +299,13 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 *            to a Selenium 2 WebDriver Grid Hub at the given URL is opened.
 	 * @param desiredCapabilities
 	 *            Default=NONE. Optional desired capabilities of the newly
-	 *            created remote browser instances. Used to communicate to the
-	 *            remote grid, which kind of browser, etc. should be used. For
-	 *            more information see: <a href=
+	 *            created remote browser instances can be specified in a simple
+	 *            key1:val1,key2:val2 format or as a JSON object (see examples
+	 *            above). Used to communicate to the remote grid, which kind of
+	 *            browser, etc. should be used. For more information see: <a
+	 *            href=
 	 *            "http://code.google.com/p/selenium/wiki/DesiredCapabilities"
 	 *            >DesiredCapabilities</a>
-	 * @param ffProfileDir
-	 *            Default=NONE. Optional path to a custom Firefox profile
-	 *            directory. Overwrites the default profile.
 	 * @return The index of the newly created browser instance.
 	 * 
 	 * @see BrowserManagement#closeAllBrowsers
@@ -316,10 +313,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * @see BrowserManagement#switchBrowser
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE",
-			"ffProfileDir=NONE" })
+	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE" })
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
-			String desiredCapabilities, String ffProfileDir) throws Throwable {
+			String desiredCapabilities) throws Throwable {
 		try {
 			logging.info("browserName: " + browserName);
 			if (remoteUrl != null) {
@@ -329,7 +325,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 				logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
 
-			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, ffProfileDir, remoteUrl);
+			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl);
 			webDriver.get(url);
 			String sessionId = webDriverCache.register(webDriver, alias);
 			logging.debug(String.format("Opened browser with session id %s", sessionId));
@@ -1287,11 +1283,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return auth.substring(index + 1);
 	}
 
-	protected WebDriver createWebDriver(String browserName, String desiredCapabilitiesString, String profileDirectory,
+	protected WebDriver createWebDriver(String browserName, String desiredCapabilitiesString, 
 			String remoteUrlString) throws MalformedURLException {
 		browserName = browserName.toLowerCase().replace(" ", "");
-		DesiredCapabilities desiredCapabilities = createDesiredCapabilities(browserName, desiredCapabilitiesString,
-				profileDirectory);
+		DesiredCapabilities desiredCapabilities = createDesiredCapabilities(browserName, desiredCapabilitiesString);
 
 		WebDriver webDriver;
 		if (remoteUrlString != null && !"False".equals(remoteUrlString)) {
@@ -1309,7 +1304,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	protected WebDriver createLocalWebDriver(String browserName, DesiredCapabilities desiredCapabilities) {
 		if ("ff".equals(browserName) || "firefox".equals(browserName)) {
 			return new FirefoxDriver(desiredCapabilities);
-
 		} else if ("ie".equals(browserName) || "internetexplorer".equals(browserName)) {
 			return new InternetExplorerDriver(desiredCapabilities);
 		} else if ("gc".equals(browserName) || "chrome".equals(browserName) || "googlechrome".equals(browserName)) {
@@ -1345,15 +1339,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return new Augmenter().augment(new RemoteWebDriver(httpCommandExecutor, desiredCapabilities));
 	}
 
-	protected DesiredCapabilities createDesiredCapabilities(String browserName, String desiredCapabilitiesString,
-			String profileDirectory) {
+	protected DesiredCapabilities createDesiredCapabilities(String browserName, String desiredCapabilitiesString) {
 		DesiredCapabilities desiredCapabilities;
 		if ("ff".equals(browserName) || "firefox".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.firefox();
-			if (profileDirectory != null) {
-				FirefoxProfile profile = new FirefoxProfile(new File(profileDirectory));
-				desiredCapabilities.setCapability(FirefoxDriver.PROFILE, profile);
-			}
 		} else if ("ie".equals(browserName) || "internetexplorer".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.internetExplorer();
 		} else if ("gc".equals(browserName) || "chrome".equals(browserName) || "googlechrome".equals(browserName)) {
@@ -1389,7 +1378,11 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 				// Invalid JSON. Old style key-value pairs
 				for (String capability : desiredCapabilitiesString.split(",")) {
 					String[] keyValue = capability.split(":");
-					desiredCapabilities.setCapability(keyValue[0], keyValue[1]);
+					if (keyValue.length == 2) {
+						desiredCapabilities.setCapability(keyValue[0], keyValue[1]);
+					} else {
+						logging.warn("Invalid desiredCapabilities: " + desiredCapabilitiesString);
+					}
 				}
 			}
 			logging.info(desiredCapabilities.toString());
