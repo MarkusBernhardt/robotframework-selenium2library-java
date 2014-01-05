@@ -1406,53 +1406,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		DesiredCapabilities desiredCapabilities;
 		if ("ff".equals(browserName) || "firefox".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.firefox();
-			if (browserOptions != null && !"NONE".equals(browserOptions)) {
-				JSONObject jsonObject = (JSONObject) JSONValue.parse(browserOptions);
-				if (jsonObject != null) {
-					FirefoxProfile firefoxProfile = new FirefoxProfile();
-					Iterator<?> iterator = jsonObject.entrySet().iterator();
-					while (iterator.hasNext()) {
-						Entry<?, ?> entry = (Entry<?, ?>) iterator.next();
-						String key = entry.getKey().toString();
-						if (key.equals("preferences")) {
-							// Preferences
-							JSONObject preferences = (JSONObject) entry.getValue();
-							Iterator<?> iteratorPreferences = preferences.entrySet().iterator();
-							while (iteratorPreferences.hasNext()) {
-								Entry<?, ?> entryPreferences = (Entry<?, ?>) iteratorPreferences.next();
-								Object valuePreferences = entryPreferences.getValue();
-								if (valuePreferences instanceof Number) {
-									firefoxProfile.setPreference(entryPreferences.getKey().toString(),
-											((Number) valuePreferences).intValue());
-								} else if (valuePreferences instanceof Boolean) {
-									firefoxProfile.setPreference(entryPreferences.getKey().toString(),
-											((Boolean) valuePreferences).booleanValue());
-								} else {
-									firefoxProfile.setPreference(entryPreferences.getKey().toString(),
-											valuePreferences.toString());
-								}
-							}
-						} else if (key.equals("extensions")) {
-							// Extensions
-							JSONArray extensions = (JSONArray) entry.getValue();
-							Iterator<?> iteratorExtensions = extensions.iterator();
-							while (iteratorExtensions.hasNext()) {
-								String fileName = iteratorExtensions.next().toString();
-								try {
-									firefoxProfile.addExtension(new File(fileName));
-								} catch (IOException e) {
-									logging.warn("Could not load extension: " + fileName);
-								}
-							}
-						} else {
-							logging.warn("Unknown browserOption: " + key + ":" + entry.getValue());
-						}
-					}
-					desiredCapabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
-				} else {
-					logging.warn("Invalid browserOptions: " + browserOptions);
-				}
-			}
+			parseBrowserOptionsFirefox(browserOptions, desiredCapabilities);
 		} else if ("ie".equals(browserName) || "internetexplorer".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.internetExplorer();
 		} else if ("gc".equals(browserName) || "chrome".equals(browserName) || "googlechrome".equals(browserName)) {
@@ -1498,6 +1452,57 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			logging.info(desiredCapabilities.toString());
 		}
 		return desiredCapabilities;
+	}
+
+	protected void parseBrowserOptionsFirefox(String browserOptions, DesiredCapabilities desiredCapabilities) {
+		if (browserOptions != null && !"NONE".equals(browserOptions)) {
+			JSONObject jsonObject = (JSONObject) JSONValue.parse(browserOptions);
+			if (jsonObject != null) {
+				FirefoxProfile firefoxProfile = new FirefoxProfile();
+				Iterator<?> iterator = jsonObject.entrySet().iterator();
+				while (iterator.hasNext()) {
+					Entry<?, ?> entry = (Entry<?, ?>) iterator.next();
+					String key = entry.getKey().toString();
+					if (key.equals("preferences")) {
+						// Preferences
+						JSONObject preferences = (JSONObject) entry.getValue();
+						Iterator<?> iteratorPreferences = preferences.entrySet().iterator();
+						while (iteratorPreferences.hasNext()) {
+							Entry<?, ?> entryPreferences = (Entry<?, ?>) iteratorPreferences.next();
+							Object valuePreferences = entryPreferences.getValue();
+							if (valuePreferences instanceof Number) {
+								firefoxProfile.setPreference(entryPreferences.getKey().toString(),
+										((Number) valuePreferences).intValue());
+							} else if (valuePreferences instanceof Boolean) {
+								firefoxProfile.setPreference(entryPreferences.getKey().toString(),
+										((Boolean) valuePreferences).booleanValue());
+							} else {
+								firefoxProfile.setPreference(entryPreferences.getKey().toString(),
+										valuePreferences.toString());
+							}
+						}
+					} else if (key.equals("extensions")) {
+						// Extensions
+						JSONArray extensions = (JSONArray) entry.getValue();
+						Iterator<?> iteratorExtensions = extensions.iterator();
+						while (iteratorExtensions.hasNext()) {
+							File file = new File(iteratorExtensions.next().toString().replace('/', File.separatorChar));
+							logging.info("Load extension: " + file.getAbsolutePath());
+							try {
+								firefoxProfile.addExtension(file);
+							} catch (IOException e) {
+								logging.warn("Could not load extension: " + file.getAbsolutePath());
+							}
+						}
+					} else {
+						logging.warn("Unknown browserOption: " + key + ":" + entry.getValue());
+					}
+				}
+				desiredCapabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
+			} else {
+				logging.warn("Invalid browserOptions: " + browserOptions);
+			}
+		}
 	}
 
 	protected void setRemoteWebDriverProxy(HttpCommandExecutor httpCommandExecutor) {
