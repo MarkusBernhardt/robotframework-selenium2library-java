@@ -6,7 +6,7 @@ unreleased
 * Update selenium to 2.39.0
 * Update phantomjsdriver to 1.1.0
 * DesiredCapabilities can be specified as complex JSON strings now
-* Removed the ffProfileDir arguments from Open Browser
+* Removed the ffProfileDir argument from Open Browser
 
 1.4.0.1
 -------
