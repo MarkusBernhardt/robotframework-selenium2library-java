@@ -1449,7 +1449,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 					}
 				}
 			}
-			logging.info(desiredCapabilities.toString());
 		}
 		return desiredCapabilities;
 	}
@@ -1487,7 +1486,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 						Iterator<?> iteratorExtensions = extensions.iterator();
 						while (iteratorExtensions.hasNext()) {
 							File file = new File(iteratorExtensions.next().toString().replace('/', File.separatorChar));
-							logging.info("Load extension: " + file.getAbsolutePath());
 							try {
 								firefoxProfile.addExtension(file);
 							} catch (IOException e) {
