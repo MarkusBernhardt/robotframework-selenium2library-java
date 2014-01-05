@@ -1,5 +1,7 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -18,6 +20,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.DefaultHttpRoutePlanner;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.openqa.selenium.Dimension;
@@ -26,6 +29,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.android.AndroidDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.iphone.IPhoneDriver;
@@ -201,6 +205,11 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return openBrowser(url, browserName, alias, remoteUrl, null);
 	}
 
+	public String openBrowser(String url, String browserName, String alias, String remoteUrl, String desiredCapabilities)
+			throws Throwable {
+		return openBrowser(url, browserName, alias, remoteUrl, desiredCapabilities, null);
+	}
+
 	/**
 	 * Opens a new browser instance to given URL.<br>
 	 * <br>
@@ -268,22 +277,73 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </tr>
 	 * </table>
 	 * <br>
+	 * Returns the index of the newly created browser instance which can be used
+	 * later to switch back to it. Index starts from 1 and is reset back to it
+	 * when the `Close All Browsers` keyword is used.<br>
+	 * <br>
+	 * <b>DesiredCapabilities</b><br>
+	 * The DesiredCapabilities can be specified in a simple key:value format or
+	 * as a JSON object. With the JSON format more complex parameters, like the
+	 * proxy, can be configured.<br>
+	 * <br>
 	 * Example of desiredCapabilities as simple string:<br>
-	 * <b>platform:Windows 8,browserName:firefox,version:25</b><br>
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>platform:Windows 8,browserName:firefox,version:25</td>
+	 * </tr>
+	 * </table>
 	 * <br>
 	 * Example of desiredCapabilities as JSON object:<br>
-	 * <b>{"platform":"Windows 8","browserName":"firefox","version":"25","proxy":{"proxyType":"manual","httpProxy":"localhost:8118","sslProxy":"localhost:8118"}}</b><br>
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>
+	 * {<br>
+	 * &emsp;"platform":"Windows 8",<br>
+	 * &emsp;"browserName":"firefox",<br>
+	 * &emsp;"version":"25",<br>
+	 * &emsp;"proxy":<br>
+	 * &emsp;{<br>
+	 * &emsp;&emsp;"proxyType":"manual",<br>
+	 * &emsp;&emsp;"httpProxy":"localhost:8118"<br>
+	 * &emsp;}<br>
+	 * }<br>
+	 * </td>
+	 * </tr>
+	 * </table>
 	 * <br>
+	 * <b>BrowserOptions</b><br>
+	 * The BrowserOptions can be specified as JSON object to set more complex
+	 * browser specific parameters. At the moment only the following browsers
+	 * with the listed options are implemented.<br>
+	 * <br>
+	 * Firefox:
+	 * <table border="1" cellspacing="0">
+	 * <tr>
+	 * <td>
+	 * {<br>
+	 * &emsp;"preferences":<br>
+	 * &emsp;{<br>
+	 * &emsp;&emsp;"extensions.firebug.currentVersion":"1.8.1",<br>
+	 * &emsp;&emsp;"extensions.firebug.addonBarOpened":true,<br>
+	 * &emsp;&emsp;"extensions.firebug.enableSites":true<br>
+	 * &emsp;}<br>
+	 * &emsp;"extensions":<br>
+	 * &emsp;[<br>
+	 * &emsp;&emsp;"firebug-1.8.1.xpi",<br>
+	 * &emsp;&emsp;"modify_headers-0.7.1.1-fx.xpi"<br>
+	 * &emsp;]<br>
+	 * }<br>
+	 * </td>
+	 * </tr>
+	 * </table>
+	 * <br>
+	 * <b>Internet Explorer</b><br>
 	 * Note, that you will encounter strange behavior, if you open multiple
 	 * Internet Explorer browser instances. That is also why `Switch Browser`
 	 * only works with one IE browser at most. For more information see: <a
 	 * href=
 	 * "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine"
 	 * >Strange errors with multiple IE instances</a><br>
-	 * <br>
-	 * Returns the index of the newly created browser instance which can be used
-	 * later to switch back to it. Index starts from 1 and is reset back to it
-	 * when the `Close All Browsers` keyword is used.<br>
 	 * 
 	 * @param url
 	 *            The URL to open in the newly created browser instance.
@@ -313,9 +373,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * @see BrowserManagement#switchBrowser
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE" })
+	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE",
+			"browserOptions=NONE" })
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
-			String desiredCapabilities) throws Throwable {
+			String desiredCapabilities, String browserOptions) throws Throwable {
 		try {
 			logging.info("browserName: " + browserName);
 			if (remoteUrl != null) {
@@ -325,7 +386,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 				logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
 
-			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl);
+			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
 			webDriver.get(url);
 			String sessionId = webDriverCache.register(webDriver, alias);
 			logging.debug(String.format("Opened browser with session id %s", sessionId));
@@ -1283,10 +1344,11 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return auth.substring(index + 1);
 	}
 
-	protected WebDriver createWebDriver(String browserName, String desiredCapabilitiesString, 
-			String remoteUrlString) throws MalformedURLException {
+	protected WebDriver createWebDriver(String browserName, String desiredCapabilitiesString, String remoteUrlString,
+			String browserOptions) throws MalformedURLException {
 		browserName = browserName.toLowerCase().replace(" ", "");
-		DesiredCapabilities desiredCapabilities = createDesiredCapabilities(browserName, desiredCapabilitiesString);
+		DesiredCapabilities desiredCapabilities = createDesiredCapabilities(browserName, desiredCapabilitiesString,
+				browserOptions);
 
 		WebDriver webDriver;
 		if (remoteUrlString != null && !"False".equals(remoteUrlString)) {
@@ -1339,10 +1401,58 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return new Augmenter().augment(new RemoteWebDriver(httpCommandExecutor, desiredCapabilities));
 	}
 
-	protected DesiredCapabilities createDesiredCapabilities(String browserName, String desiredCapabilitiesString) {
+	protected DesiredCapabilities createDesiredCapabilities(String browserName, String desiredCapabilitiesString,
+			String browserOptions) {
 		DesiredCapabilities desiredCapabilities;
 		if ("ff".equals(browserName) || "firefox".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.firefox();
+			if (browserOptions != null && !"NONE".equals(browserOptions)) {
+				JSONObject jsonObject = (JSONObject) JSONValue.parse(browserOptions);
+				if (jsonObject != null) {
+					FirefoxProfile firefoxProfile = new FirefoxProfile();
+					Iterator<?> iterator = jsonObject.entrySet().iterator();
+					while (iterator.hasNext()) {
+						Entry<?, ?> entry = (Entry<?, ?>) iterator.next();
+						String key = entry.getKey().toString();
+						if (key.equals("preferences")) {
+							// Preferences
+							JSONObject preferences = (JSONObject) entry.getValue();
+							Iterator<?> iteratorPreferences = preferences.entrySet().iterator();
+							while (iteratorPreferences.hasNext()) {
+								Entry<?, ?> entryPreferences = (Entry<?, ?>) iteratorPreferences.next();
+								Object valuePreferences = entryPreferences.getValue();
+								if (valuePreferences instanceof Number) {
+									firefoxProfile.setPreference(entryPreferences.getKey().toString(),
+											((Number) valuePreferences).intValue());
+								} else if (valuePreferences instanceof Boolean) {
+									firefoxProfile.setPreference(entryPreferences.getKey().toString(),
+											((Boolean) valuePreferences).booleanValue());
+								} else {
+									firefoxProfile.setPreference(entryPreferences.getKey().toString(),
+											valuePreferences.toString());
+								}
+							}
+						} else if (key.equals("extensions")) {
+							// Extensions
+							JSONArray extensions = (JSONArray) entry.getValue();
+							Iterator<?> iteratorExtensions = extensions.iterator();
+							while (iteratorExtensions.hasNext()) {
+								String fileName = iteratorExtensions.next().toString();
+								try {
+									firefoxProfile.addExtension(new File(fileName));
+								} catch (IOException e) {
+									logging.warn("Could not load extension: " + fileName);
+								}
+							}
+						} else {
+							logging.warn("Unknown browserOption: " + key + ":" + entry.getValue());
+						}
+					}
+					desiredCapabilities.setCapability(FirefoxDriver.PROFILE, firefoxProfile);
+				} else {
+					logging.warn("Invalid browserOptions: " + browserOptions);
+				}
+			}
 		} else if ("ie".equals(browserName) || "internetexplorer".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.internetExplorer();
 		} else if ("gc".equals(browserName) || "chrome".equals(browserName) || "googlechrome".equals(browserName)) {
