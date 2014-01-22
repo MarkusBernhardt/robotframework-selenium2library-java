@@ -3,6 +3,9 @@ CHANGES
 
 unreleased
 ----------
+
+1.4.0.3
+-------
 * Update robotframework to 2.8.3
 * Fixed a UnicodeDecodeError at logging strings containing backslashes.
 
