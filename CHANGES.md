@@ -3,6 +3,9 @@ CHANGES
 
 unreleased
 ----------
+
+1.4.0.4
+-------
 * Update xml-doclet to 1.0.4
 * Make selenium2library-java 1.6 compliant. See #44
 

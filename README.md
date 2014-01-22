@@ -11,9 +11,9 @@ It is modeled after (and forked from) the Robot Framework
 [SeleniumLibrary](http://code.google.com/p/robotframework-seleniumlibrary/)
 library, but re-implemented to use Selenium 2 and WebDriver technologies.
 * More information about this library can be found in the
-  [Keyword Documentation](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.3/robotframework-selenium2library-java-1.4.0.3-libdoc.html).
+  [Keyword Documentation](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.4/robotframework-selenium2library-java-1.4.0.4-libdoc.html).
 * For keyword completion in RIDE you can download this
-  [Library Specs](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.3/robotframework-selenium2library-java-1.4.0.3-libdoc.xml)
+  [Library Specs](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.4/robotframework-selenium2library-java-1.4.0.4-libdoc.xml)
   and place it in your PYTHONPATH.
 
 This Java port of the existing Selenium2Library was created to enable
@@ -37,16 +37,16 @@ your pom.xml:
     <dependency>
         <groupId>com.github.markusbernhardt</groupId>
         <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.4.0.3</version>
+        <version>1.4.0.4</version>
         <scope>test</scope>
     </dependency>
 
 If you cannot use the robotframework-maven-plugin you can use the
-[jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.3/robotframework-selenium2library-java-1.4.0.3-jar-with-dependencies.jar),
+[jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.4/robotframework-selenium2library-java-1.4.0.4-jar-with-dependencies.jar),
 which contains all required libraries.
 
 If you want more control and feel adventurous you could you use this
-[jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.3/robotframework-selenium2library-java-1.4.0.3.jar)
+[jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.4/robotframework-selenium2library-java-1.4.0.4.jar)
 and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
 
 Differences
