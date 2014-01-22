@@ -342,7 +342,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		}
 
 		boolean lastItemFound = false;
-		List<String> nonExistingItems = new ArrayList<>();
+		List<String> nonExistingItems = new ArrayList<String>();
 		for (String item : items) {
 			lastItemFound = true;
 			try {
