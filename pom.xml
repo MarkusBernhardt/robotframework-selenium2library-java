@@ -22,8 +22,8 @@
 		<downloadJavadocs>true</downloadJavadocs>
 		<aspectj.version>1.7.3</aspectj.version>
 		<java.version>1.6</java.version>
-		<xml.doclet.version>1.0.1</xml.doclet.version>
-		<robotframework.version>2.8.1</robotframework.version>
+		<xml.doclet.version>1.0.4</xml.doclet.version>
+		<robotframework.version>2.8.3</robotframework.version>
 		<keywords.class>Selenium2Library</keywords.class>
 	</properties>
 
