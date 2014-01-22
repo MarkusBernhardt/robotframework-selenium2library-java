@@ -359,8 +359,8 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		} else {
 			// Message is small enough to get parsed by Jython
 			loggingPythonInterpreter.get().exec(
-					String.format("logger.%s('%s'%s)", methodName, msg.replace("'", "\\'").replace("\n", "\\n"),
-							methodArguments));
+					String.format("logger.%s('%s'%s)", methodName, msg.replace("\\", "\\\\").replace("'", "\\'")
+							.replace("\n", "\\n"), methodArguments));
 		}
 	}
 
