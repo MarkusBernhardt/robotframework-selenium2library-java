@@ -24,6 +24,9 @@ import com.github.markusbernhardt.selenium2library.utils.Python;
 @RobotKeywords
 public class JavaScript extends RunOnFailureKeywordsAdapter {
 
+	protected boolean acceptOnNextConfirmationDefault = true;
+	protected boolean acceptOnNextConfirmation = true;
+
 	/**
 	 * Instantiated BrowserManagement keyword bean
 	 */
@@ -52,8 +55,8 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	 * message of the alert equals to text.<br>
 	 * <br>
 	 * Will fail if no alert is present. Note that following keywords will fail
-	 * unless the alert is dismissed by this keyword or another like `Get Alert
-	 * Message`.<br>
+	 * unless the alert is confirmed by this keyword or another like `Confirm
+	 * Action`.<br>
 	 * 
 	 * @param text
 	 *            Default=NONE. The alert message to verify.
@@ -61,7 +64,7 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "text=NONE" })
 	public void alertShouldBePresent(String text) {
-		String alertText = getAlertMessage();
+		String alertText = confirmAction();
 		if (text != null && !alertText.equals(text)) {
 			throw new Selenium2LibraryNonFatalException(String.format("Alert text should have been '%s' but was '%s'",
 					text, alertText));
@@ -70,32 +73,54 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Cancel will be selected the next time a confirmation dialog appears.<br>
+	 * <br>
+	 * Note that every time a confirmation comes up, it must be confirmed by the
+	 * keywords 'Alert Should Be Present' or `Confirm Action`. Otherwise all
+	 * following operations will fail.<br>
 	 */
 	@RobotKeyword
 	public void chooseCancelOnNextConfirmation() {
-		cancelOnNextConfirmation = true;
+		acceptOnNextConfirmation = false;
 	}
 
 	/**
-	 * Undo the effect of using keywords `Choose Cancel On Next Confirmation`.<br>
+	 * Ok will be selected the next time a confirmation dialog appears.<br>
 	 * <br>
-	 * Note that Selenium's overridden <i>window.confirm()</i> function will
-	 * normally automatically return true, as if the user had manually clicked
-	 * OK, so you shouldn't need to use this command unless for some reason you
-	 * need to change your mind prior to the next confirmation.<br>
-	 * <br>
-	 * After any confirmation, Selenium will resume using the default behavior
-	 * for future confirmations, automatically returning true (OK) unless/until
-	 * you explicitly use `Choose Cancel On Next Confirmation` for each
-	 * confirmation.<br>
-	 * <br>
-	 * Note that every time a confirmation comes up, you must consume it by
-	 * using a keywords such as `Get Alert Message`, or else the following
-	 * Selenium operations will fail.<br>
+	 * Note that every time a confirmation comes up, it must be confirmed by the
+	 * keywords 'Alert Should Be Present' or `Confirm Action`. Otherwise all
+	 * following operations will fail.<br>
 	 */
 	@RobotKeyword
 	public void chooseOkOnNextConfirmation() {
-		cancelOnNextConfirmation = false;
+		acceptOnNextConfirmation = true;
+	}
+
+	/**
+	 * Cancel will as default be selected from now on every time a confirmation
+	 * dialog appears.<br>
+	 * <br>
+	 * Note that every time a confirmation comes up, it must be confirmed by the
+	 * keywords 'Alert Should Be Present' or `Confirm Action`. Otherwise all
+	 * following operations will fail.<br>
+	 */
+	@RobotKeyword
+	public void chooseCancelOnConfirmation() {
+		acceptOnNextConfirmationDefault = false;
+		acceptOnNextConfirmation = false;
+	}
+
+	/**
+	 * Ok will as default be selected from now on every time a confirmation
+	 * dialog appears.<br>
+	 * <br>
+	 * Note that every time a confirmation comes up, it must be confirmed by the
+	 * keywords 'Alert Should Be Present' or `Confirm Action`. Otherwise all
+	 * following operations will fail.<br>
+	 */
+	@RobotKeyword
+	public void chooseOkOnConfirmation() {
+		acceptOnNextConfirmationDefault = true;
+		acceptOnNextConfirmation = true;
 	}
 
 	/**
@@ -149,9 +174,19 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	public String confirmAction() {
-		String text = closeAlert(!cancelOnNextConfirmation);
-		cancelOnNextConfirmation = false;
-		return text;
+		try {
+			Alert alert = browserManagement.getCurrentWebDriver().switchTo().alert();
+			String text = alert.getText().replace("\n", "");
+			if (acceptOnNextConfirmation) {
+				alert.accept();
+			} else {
+				alert.dismiss();
+			}
+			acceptOnNextConfirmation = acceptOnNextConfirmationDefault;
+			return text;
+		} catch (WebDriverException wde) {
+			throw new Selenium2LibraryNonFatalException("There were no alerts");
+		}
 	}
 
 	/**
@@ -244,41 +279,25 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	 * Returns the text of current JavaScript alert.<br>
 	 * <br>
 	 * This keyword will fail if no alert is present. Note that following
-	 * keywords will fail unless the alert is dismissed by this keyword or
-	 * another like `Get Alert Message`.
+	 * keywords will fail unless the alert is confirmed by the keywords 'Alert
+	 * Should Be Present' or `Confirm Action`.
 	 * 
 	 * @return The alert message.
 	 */
 	@RobotKeyword
 	public String getAlertMessage() {
-		return closeAlert();
-	}
-
-	// ##############################
-	// Internal Methods
-	// ##############################
-
-	protected boolean cancelOnNextConfirmation = false;
-
-	protected String closeAlert() {
-		return closeAlert(false);
-	}
-
-	protected String closeAlert(boolean confirm) {
-		Alert alert = null;
 		try {
-			alert = browserManagement.getCurrentWebDriver().switchTo().alert();
+			Alert alert = browserManagement.getCurrentWebDriver().switchTo().alert();
 			String text = alert.getText().replace("\n", "");
-			if (!confirm) {
-				alert.dismiss();
-			} else {
-				alert.accept();
-			}
 			return text;
 		} catch (WebDriverException wde) {
 			throw new Selenium2LibraryNonFatalException("There were no alerts");
 		}
 	}
+
+	// ##############################
+	// Internal Methods
+	// ##############################
 
 	protected static String readFile(String path) throws IOException {
 		FileInputStream stream = new FileInputStream(new File(path));
