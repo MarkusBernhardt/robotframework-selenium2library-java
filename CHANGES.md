@@ -3,6 +3,7 @@ CHANGES
 
 unreleased
 ----------
+* Fixed the use of == to compare Strings in FormElement. See #49
 
 1.4.0.4
 -------

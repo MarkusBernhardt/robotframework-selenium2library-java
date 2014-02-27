@@ -893,7 +893,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 			return false;
 		}
 		String tag = element.getTagName().toLowerCase();
-		return tag == "input" || tag == "select" || tag == "textarea" || tag == "button" || tag == "option";
+		return "input".equals(tag) || "select".equals(tag) || "textarea".equals(tag) || "button".equals(tag) || "option".equals(tag);
 	}
 
 }
