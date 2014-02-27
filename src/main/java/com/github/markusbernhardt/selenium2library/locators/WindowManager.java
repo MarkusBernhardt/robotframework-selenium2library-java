@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
@@ -89,14 +90,25 @@ public class WindowManager {
 		abstract public void select(WebDriver webDriver, SelectCoordinates selectCoordinates);
 
 		protected static void selectMatching(WebDriver webDriver, Matcher matcher, String error) {
-			String startingHandle = webDriver.getWindowHandle();
-			for (String handle : webDriver.getWindowHandles()) {
-				webDriver.switchTo().window(handle);
-				if (matcher.match(getCurrentWindowInfo(webDriver))) {
-					return;
+			String startingHandle = null;
+			try {
+				startingHandle = webDriver.getWindowHandle();
+			} catch (NoSuchWindowException e) {
+				// Window of current WebDriver instance is already closed
+			}
+
+			try {
+				for (String handle : webDriver.getWindowHandles()) {
+					webDriver.switchTo().window(handle);
+					if (matcher.match(getCurrentWindowInfo(webDriver))) {
+						return;
+					}
+				}
+			} finally {
+				if (startingHandle != null) {
+					webDriver.switchTo().window(startingHandle);
 				}
 			}
-			webDriver.switchTo().window(startingHandle);
 			throw new Selenium2LibraryNonFatalException(error);
 		}
 	}
@@ -126,15 +138,23 @@ public class WindowManager {
 	}
 
 	public static List<List<String>> getWindowInfos(WebDriver webDriver) {
+		String startingHandle = null;
+		try {
+			startingHandle = webDriver.getWindowHandle();
+		} catch (NoSuchWindowException e) {
+			// Window of current WebDriver instance is already closed
+		}
+
 		List<List<String>> windowInfos = new ArrayList<List<String>>();
-		String startingHandle = webDriver.getWindowHandle();
 		try {
 			for (String handle : webDriver.getWindowHandles()) {
 				webDriver.switchTo().window(handle);
 				windowInfos.add(getCurrentWindowInfo(webDriver));
 			}
 		} finally {
-			webDriver.switchTo().window(startingHandle);
+			if (startingHandle != null) {
+				webDriver.switchTo().window(startingHandle);
+			}
 		}
 		return windowInfos;
 	}

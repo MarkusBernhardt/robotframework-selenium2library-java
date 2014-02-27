@@ -8,6 +8,7 @@ unreleased
   * 'Get Alert Message' does not confirm the Alert any more. 'Get Alert Message' + Confirm = 'Confirm Action'.
   * Added keyword 'Choose Cancel On Confirmation'
   * Added keyword 'Choose Ok On Confirmation'
+* Fixed 'Select Window' failing, when the current window is already closed. See #48
 
 1.4.0.4
 -------
