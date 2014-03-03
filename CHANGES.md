@@ -3,6 +3,9 @@ CHANGES
 
 unreleased
 ----------
+
+1.4.0.5
+-------
 * Fixed the use of == to compare Strings in FormElement. See #49
 * Fixed 'Get Alert Message'. See #50
   * 'Get Alert Message' does not confirm the Alert any more. 'Get Alert Message' + Confirm = 'Confirm Action'.
