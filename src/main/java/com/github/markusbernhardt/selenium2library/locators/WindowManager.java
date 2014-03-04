@@ -97,17 +97,15 @@ public class WindowManager {
 				// Window of current WebDriver instance is already closed
 			}
 
-			try {
-				for (String handle : webDriver.getWindowHandles()) {
-					webDriver.switchTo().window(handle);
-					if (matcher.match(getCurrentWindowInfo(webDriver))) {
-						return;
-					}
+			for (String handle : webDriver.getWindowHandles()) {
+				webDriver.switchTo().window(handle);
+				if (matcher.match(getCurrentWindowInfo(webDriver))) {
+					return;
 				}
-			} finally {
-				if (startingHandle != null) {
-					webDriver.switchTo().window(startingHandle);
-				}
+			}
+
+			if (startingHandle != null) {
+				webDriver.switchTo().window(startingHandle);
 			}
 			throw new Selenium2LibraryNonFatalException(error);
 		}

@@ -3,6 +3,7 @@ CHANGES
 
 unreleased
 ----------
+* Fixed 'Select Window' always selecting the last window and not the desired window.
 
 1.4.0.5
 -------
