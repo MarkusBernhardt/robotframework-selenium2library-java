@@ -526,7 +526,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	protected Object[] toStrings(Object[] args) {
 		Object[] newArgs = new Object[args.length];
 		for (int i = 0; i < newArgs.length; i++) {
-			if (args[i].getClass().isArray()) {
+			if (args[i] == null || args[i].getClass().isArray()) {
 				newArgs[i] = args[i];
 			} else {
 				newArgs[i] = args[i].toString();
