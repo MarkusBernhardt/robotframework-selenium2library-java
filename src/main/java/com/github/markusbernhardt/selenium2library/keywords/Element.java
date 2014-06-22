@@ -1572,7 +1572,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			return false;
 		}
 		String readonly = element.getAttribute("readonly");
-		if (readonly.equals("readonly") || readonly.equals("true")) {
+		if (readonly != null && (readonly.equals("readonly") || readonly.equals("true"))) {
 			return false;
 		}
 
