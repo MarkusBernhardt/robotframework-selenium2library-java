@@ -3,7 +3,7 @@ CHANGES
 
 unreleased
 ----------
-* Nothing
+* Avoid NullPointerException in isEnabled method. See #56. Great thanks to atcarmo for this patch.
 
 1.4.0.6
 -------
