@@ -26,7 +26,7 @@ import org.json.simple.JSONValue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-//import org.openqa.selenium.android.AndroidDriver;
+import io.selendroid.SelendroidDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -1388,9 +1388,13 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			} catch (Exception e) {
 				throw new Selenium2LibraryFatalException("Creating " + browserName + " instance failed.", e);
 			}
-		} else if ("android".equals(browserName)) {
-			return new AndroidDriver(desiredCapabilities);
-		}*/
+		} */ else if ("android".equals(browserName)) {
+			try {
+				return new SelendroidDriver(desiredCapabilities);
+			} catch (Exception e) {
+				throw new Selenium2LibraryFatalException(e);
+			}
+		}
 
 		throw new Selenium2LibraryFatalException(browserName + " is not a supported browser.");
 	}
