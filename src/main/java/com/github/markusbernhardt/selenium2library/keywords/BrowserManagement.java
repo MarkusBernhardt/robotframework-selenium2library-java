@@ -32,7 +32,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-//import org.openqa.selenium.iphone.IPhoneDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -1382,13 +1382,13 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			HtmlUnitDriver driver = new HtmlUnitDriver(desiredCapabilities);
 			driver.setJavascriptEnabled(true);
 			return driver;
-		} /*else if ("iphone".equals(browserName) || "ipad".equals(browserName)) {
+		} else if ("iphone".equals(browserName) || "ipad".equals(browserName)) {
 			try {
-				return new IPhoneDriver(desiredCapabilities);
+				return new IOSDriver(new URL(""), desiredCapabilities);
 			} catch (Exception e) {
 				throw new Selenium2LibraryFatalException("Creating " + browserName + " instance failed.", e);
 			}
-		} */ else if ("android".equals(browserName)) {
+		} else if ("android".equals(browserName)) {
 			try {
 				return new SelendroidDriver(desiredCapabilities);
 			} catch (Exception e) {
