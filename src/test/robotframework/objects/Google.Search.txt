@@ -5,7 +5,7 @@ Resource          ../adapters/Selenium2Library.txt
 
 *** Variables ***
 ${Google.Search.Locator.SearchField}    id=gbqfq
-${Google.Search.Locator.SearchResult.Rtomac}    xpath=//a[contains(.,'markusbernhardt')]
+${Google.Search.Locator.SearchResult.Rtomac}    xpath=//a[contains(.,'MarkusBernhardt')]
 
 *** Keywords ***
 Search String
