@@ -3,7 +3,13 @@ CHANGES
 
 unreleased
 ----------
-* Avoid NullPointerException in isEnabled method. See #56. Great thanks to atcarmo for this patch.
+* Avoid NullPointerException in isEnabled method. See #53, #56. Great thanks to atcarmo for this patch.
+* Updated selenium-server dependency to 2.43.1. See #58. Great thanks to WojtekKowaluk for this patch.
+  * Corrected Google Search word
+  * Fixed JSEvents test
+  * Added Selendroid
+  * Added Appium
+* Allow subclassing of Selenium2Library by moving it to a package.
 
 1.4.0.6
 -------

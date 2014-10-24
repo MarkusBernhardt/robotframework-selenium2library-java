@@ -256,11 +256,12 @@
 						<configuration>
 							<doclet>com.github.markusbernhardt.xmldoclet.XmlDoclet</doclet>
 							<additionalparam>-d ${project.build.directory}/classes -filename
-								Selenium2Library.javadoc</additionalparam>
+								com/github/markusbernhardt/selenium2library/Selenium2Library.javadoc</additionalparam>
 							<useStandardDocletOptions>false</useStandardDocletOptions>
 							<javadocExecutable>${java.home}/../bin</javadocExecutable>
 							<sourceFileIncludes>
 								<sourceFileInclude>*.java</sourceFileInclude>
+								<sourceFileInclude>com/github/markusbernhardt/selenium2library/Selenium2Library.java</sourceFileInclude>
 								<sourceFileInclude>com/github/markusbernhardt/selenium2library/keywords/*.java</sourceFileInclude>
 							</sourceFileIncludes>
 							<docletArtifact>
