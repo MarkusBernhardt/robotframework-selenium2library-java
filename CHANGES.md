@@ -1,6 +1,94 @@
 CHANGES
 =======
 
+unreleased
+----------
+* Avoid NullPointerException in isEnabled method. See #53, #56. Great thanks to atcarmo for this patch.
+* Updated selenium-server dependency to 2.43.1. See #58. Great thanks to WojtekKowaluk for this patch.
+  * Corrected Google Search word
+  * Fixed JSEvents test
+  * Added Selendroid
+  * Added Appium
+* Allow subclassing of Selenium2Library by moving it to a package.
+
+1.4.0.6
+-------
+* Fixed 'Select Window' always selecting the last window and not the desired window.
+
+1.4.0.5
+-------
+* Fixed the use of == to compare Strings in FormElement. See #49
+* Fixed 'Get Alert Message'. See #50
+  * 'Get Alert Message' does not confirm the Alert any more. 'Get Alert Message' + Confirm = 'Confirm Action'.
+  * Added keyword 'Choose Cancel On Confirmation'
+  * Added keyword 'Choose Ok On Confirmation'
+* Fixed 'Select Window' failing, when the current window is already closed. See #48
+
+1.4.0.4
+-------
+* Update xml-doclet to 1.0.4
+* Make selenium2library-java 1.6 compliant. See #44
+
+1.4.0.3
+-------
+* Update robotframework to 2.8.3
+* Fixed a UnicodeDecodeError at logging strings containing backslashes.
+
+1.4.0.2
+-------
+
+* Update selenium to 2.39.0
+* Update phantomjsdriver to 1.1.0
+* DesiredCapabilities can be specified as complex JSON strings now
+* Removed the ffProfileDir argument from Open Browser
+* Added browserOptions argument to Open Browser
+
+1.4.0.1
+-------
+
+* Fixed wrong separator in Javadoc2Libdoc. See #40
+* Fixed Page Should Contain Button fails to find buttons with the button tag. See #43
+
+1.4.0.0
+-------
+
+* Porting recent changes in the master branch of the Python Selenium2Library
+  from id b4a3e500 until cf971d91 to this Java port. This contains roughly:
+  * Added 'Get Window Size' and 'Set Window Size' keywords matching the Selenium functionality.
+  * Added new keyword 'Click Element At Coordinates'.
+  * Added keywords for verifying text entered into textarea elements.
+    * 'Textarea Should Contain'
+    * 'Textarea Should Not Contain'
+    * 'Textarea Value Should Be'
+    * 'Textarea Value Should Not Be'
+  * 'Mouse Up' doesn't click any more on the element.
+  * Raise exception in selecting non-existing item in list. Error handling varies
+    between single-select and multi-select lists. See keyword documentation for
+    more information.
+* Back-port recent changes from version 1.3 and 1.4 of Python library. See #35
+* Jump Version number to 1.4.0.0 to reflect the new version of the Python library.
+
+1.2.0.14
+--------
+
+* Fixed an ArrayIndexOutOfBoundsException in the Select Window keyword. See #27
+* Added the possibility to set logging directory. See #28.
+* Refactoring of the library to a JavaLibCore AnnotationLibrary. See #28.
+* Added keyword documentation from library for e.g. Ride. See #16, #28.
+* Added keyword missing documentation for new keywords. See #32.
+* Added access to the current WebDriver instance from custom libraries. #30
+* Generating libdoc from javadoc.
+
+1.2.0.13
+--------
+
+* Fixed a NullPointerException in Capture Page Screenshot when Log File is set to NONE. See #24
+* Fixed that library can't be instrumented with JaCoCo. See #22
+* Update robotframework to 2.8.1
+* Update robotframework-maven-plugin to 1.2
+* Update aspectj to 1.7.3
+* Update java.version to 1.7
+
 1.2.0.12
 --------
 

@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
 
-public class Robotframework {
+public abstract class Robotframework {
 
 	public static String getLinkPath(File target, File base) {
 		String path = getPathname(target, base);
@@ -22,9 +22,8 @@ public class Robotframework {
 		try {
 			for (int i = 0; i < s.length(); i++) {
 				final char c = s.charAt(i);
-				if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z'))
-						|| ((c >= '0') && (c <= '9')) || (c == '-')
-						|| (c == '.') || (c == '_') || (c == '~')) {
+				if (((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')) || ((c >= '0') && (c <= '9'))
+						|| (c == '-') || (c == '.') || (c == '_') || (c == '~')) {
 					sb.append(c);
 				} else {
 					final byte[] bytes = ("" + c).getBytes("UTF-8");
@@ -32,12 +31,10 @@ public class Robotframework {
 						sb.append('%');
 
 						int upper = (((int) b) >> 4) & 0xf;
-						sb.append(Integer.toHexString(upper).toUpperCase(
-								Locale.US));
+						sb.append(Integer.toHexString(upper).toUpperCase(Locale.US));
 
 						int lower = ((int) b) & 0xf;
-						sb.append(Integer.toHexString(lower).toUpperCase(
-								Locale.US));
+						sb.append(Integer.toHexString(lower).toUpperCase(Locale.US));
 					}
 				}
 			}
@@ -106,8 +103,7 @@ public class Robotframework {
 	public static double timestrToSecs(String timestr) {
 		timestr = normalizeTimestr(timestr);
 		if (timestr.length() == 0) {
-			throw new Selenium2LibraryNonFatalException("Invalid timestr: "
-					+ timestr);
+			throw new Selenium2LibraryNonFatalException("Invalid timestr: " + timestr);
 		}
 
 		try {
@@ -157,11 +153,9 @@ public class Robotframework {
 			}
 		}
 		if (stringBuilder.length() != 0) {
-			throw new Selenium2LibraryNonFatalException("Invalid timestr: "
-					+ timestr);
+			throw new Selenium2LibraryNonFatalException("Invalid timestr: " + timestr);
 		}
-		return sign
-				* (millis / 1000 + secs + mins * 60 + hours * 60 * 60 + days * 60 * 60 * 24);
+		return sign * (millis / 1000 + secs + mins * 60 + hours * 60 * 60 + days * 60 * 60 * 24);
 	}
 
 	public static String normalizeTimestr(String timestr) {

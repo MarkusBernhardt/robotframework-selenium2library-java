@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Defines which objects are available to
-...               all testcases for the BWM.digital website.
+...               all testcases for the Google website.
 Resource          ../objects/Google.Search.txt
 Resource          ../objects/Google.Site.txt
 Resource          ../objects/Google.TopNavi.txt
