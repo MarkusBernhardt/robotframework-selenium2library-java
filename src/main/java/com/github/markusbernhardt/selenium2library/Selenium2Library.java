@@ -360,13 +360,13 @@ public class Selenium2Library extends AnnotationLibrary {
 	 *            Default=Capture Page Screenshot. Optional custom keyword to
 	 *            run on failure.
 	 */
-	public Selenium2Library(String timeout, String implicitWait, String runOnFailure) {
+	public Selenium2Library(String timeout, String implicitWait, String keywordToRunOnFailure) {
 		super();
 		addKeywordPattern(KEYWORD_PATTERN);
 		createKeywordFactory(); // => init annotations
 		browserManagement.setSeleniumTimeout(timeout);
 		browserManagement.setSeleniumImplicitWait(implicitWait);
-		this.runOnFailure.registerKeywordToRunOnFailure(runOnFailure);
+		runOnFailure.registerKeywordToRunOnFailure(keywordToRunOnFailure);
 	}
 
 	// ##############################
@@ -510,6 +510,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	}
 
 	public static Selenium2Library getLibraryInstance() throws ScriptException {
+		System.out.println("Testi");
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("python");
 		engine.put("library", "Selenium2Library");
 		engine.eval("from robot.libraries.BuiltIn import BuiltIn");
