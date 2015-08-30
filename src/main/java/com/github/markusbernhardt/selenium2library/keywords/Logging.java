@@ -365,12 +365,13 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	}
 
 	protected File getLogDir() {
-		if (logDir == null) {
-			PyString logDirName = (PyString) loggingPythonInterpreter.get().eval("tempVariables['${LOG FILE}']");
+
+		if (logDir == null && !loggingPythonInterpreter.get().eval("EXECUTION_CONTEXTS.current").toString().equals("None")) {
+			PyString logDirName = (PyString) loggingPythonInterpreter.get().eval("BuiltIn().get_variables()['${LOG FILE}']");
 			if (logDirName != null && !(logDirName.asString().toUpperCase().equals("NONE"))) {
 				return new File(logDirName.asString()).getParentFile();
 			}
-			logDirName = (PyString) loggingPythonInterpreter.get().eval("tempVariables['${OUTPUTDIR}']");
+			logDirName = (PyString) loggingPythonInterpreter.get().eval("BuiltIn().get_variables()['${OUTPUTDIR}']");
 			return new File(logDirName.asString()).getParentFile();
 		} else {
 			return new File(logDir);
@@ -386,7 +387,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		@Override
 		protected PythonInterpreter initialValue() {
 			PythonInterpreter pythonInterpreter = new PythonInterpreter();
-			pythonInterpreter.exec("from robot.libraries.BuiltIn import BuiltIn; from robot.api import logger; tempVariables = BuiltIn().get_variables();");
+			pythonInterpreter.exec("from robot.libraries.BuiltIn import BuiltIn; from robot.running.context import EXECUTION_CONTEXTS; from robot.api import logger;");
 			return pythonInterpreter;
 		}
 	};
