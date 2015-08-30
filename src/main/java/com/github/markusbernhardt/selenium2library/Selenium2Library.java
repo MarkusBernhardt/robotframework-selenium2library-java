@@ -510,7 +510,6 @@ public class Selenium2Library extends AnnotationLibrary {
 	}
 
 	public static Selenium2Library getLibraryInstance() throws ScriptException {
-		System.out.println("Testi");
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("python");
 		engine.put("library", "Selenium2Library");
 		engine.eval("from robot.libraries.BuiltIn import BuiltIn");
