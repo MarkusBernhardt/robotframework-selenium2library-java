@@ -35,7 +35,11 @@ public class Javadoc2Libdoc {
 		try {
 			JAXBContext context = JAXBContext.newInstance(Root.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
-			return (Root) unmarshaller.unmarshal(inputStream);
+			if (inputStream != null && unmarshaller.unmarshal(inputStream) != null) {
+				return (Root) unmarshaller.unmarshal(inputStream);
+			} else {
+				return new ObjectFactory().createRoot();
+			}
 		} catch (JAXBException e) {
 			return new ObjectFactory().createRoot();
 		}
