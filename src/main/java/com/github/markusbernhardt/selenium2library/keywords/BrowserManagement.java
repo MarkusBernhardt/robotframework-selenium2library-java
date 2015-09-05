@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1593,16 +1594,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 
 		for (String argument : args) {
 			String key = argument.split("=",2)[0].toLowerCase();
-			switch (key) {
-			case "browsername":
-			case "alias":
-			case "remoteurl":
-			case "desiredcapabilities":
-			case "browseroptions":
+			String[] arguments = {"brosername","alias","remoteurl","desiredcapabilities","browseroptions"};
+			if (Arrays.asList(arguments).contains(key)) {
 				map.put(key, argument.split("=",2)[1]);
-				break;
-			default:
-				break;
 			}
 		}
 		
