@@ -23,7 +23,7 @@
 		<aspectj.version>1.7.3</aspectj.version>
 		<java.version>1.6</java.version>
 		<xml.doclet.version>1.0.4</xml.doclet.version>
-		<robotframework.version>2.9.1</robotframework.version>
+		<robotframework.version>2.9.2</robotframework.version>
 		<keywords.class>Selenium2Library</keywords.class>
 	</properties>
 
