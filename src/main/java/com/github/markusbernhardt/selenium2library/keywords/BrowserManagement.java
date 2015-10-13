@@ -357,8 +357,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	@RobotKeyword
 	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE",
 			"browserOptions=NONE" })
-//	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
-//			String desiredCapabilities, String browserOptions) throws Throwable {
 	public String openBrowser(String[] args) throws Throwable {
 		Map<String,String> map = this.handleOpenBrowserArguments(args);
 		
