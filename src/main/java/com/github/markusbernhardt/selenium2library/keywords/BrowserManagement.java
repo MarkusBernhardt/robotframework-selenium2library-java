@@ -192,31 +192,6 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		}
 	}
 
-//	@RobotKeywordOverload
-//	public String openBrowser(String url) throws Throwable {
-//		return openBrowser(url, "firefox");
-//	}
-//
-//	@RobotKeywordOverload
-//	public String openBrowser(String url, String browserName) throws Throwable {
-//		return openBrowser(url, browserName, null);
-//	}
-//
-//	@RobotKeywordOverload
-//	public String openBrowser(String url, String browserName, String alias) throws Throwable {
-//		return openBrowser(url, browserName, alias, null);
-//	}
-//
-//	@RobotKeywordOverload
-//	public String openBrowser(String url, String browserName, String alias, String remoteUrl) throws Throwable {
-//		return openBrowser(url, browserName, alias, remoteUrl, null);
-//	}
-//
-//	public String openBrowser(String url, String browserName, String alias, String remoteUrl, String desiredCapabilities)
-//			throws Throwable {
-//		return openBrowser(url, browserName, alias, remoteUrl, desiredCapabilities, null);
-//	}
-
 	/**
 	 * Opens a new browser instance to given URL.<br>
 	 * <br>
