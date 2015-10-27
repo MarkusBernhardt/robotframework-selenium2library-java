@@ -261,7 +261,7 @@ public class ElementFinder {
 		@Override
 		protected PythonInterpreter initialValue() {
 			PythonInterpreter pythonInterpreter = new PythonInterpreter();
-			pythonInterpreter.exec("from robot.variables import GLOBAL_VARIABLES; from robot.api import logger;");
+			pythonInterpreter.exec("from robot.libraries.BuiltIn import BuiltIn; from robot.api import logger;");
 			return pythonInterpreter;
 		}
 	};

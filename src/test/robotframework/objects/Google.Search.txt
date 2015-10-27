@@ -4,7 +4,7 @@ Documentation     Defines all required resources and keywords
 Resource          ../adapters/Selenium2Library.txt
 
 *** Variables ***
-${Google.Search.Locator.SearchField}    id=gbqfq
+${Google.Search.Locator.SearchField}    id=lst-ib
 ${Google.Search.Locator.SearchResult.Rtomac}    xpath=//a[contains(.,'MarkusBernhardt')]
 
 *** Keywords ***
