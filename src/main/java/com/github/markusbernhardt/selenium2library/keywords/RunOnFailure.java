@@ -99,7 +99,7 @@ public class RunOnFailure extends RunOnFailureKeywordsAdapter {
 		@Override
 		protected PythonInterpreter initialValue() {
 			PythonInterpreter pythonInterpreter = new PythonInterpreter();
-			pythonInterpreter.exec("from robot.libraries import BuiltIn; BUILTIN = BuiltIn.BuiltIn();");
+			pythonInterpreter.exec("from robot.libraries.BuiltIn import BuiltIn; from robot.running.context import EXECUTION_CONTEXTS; BIN = BuiltIn();");
 			return pythonInterpreter;
 		}
 	};
@@ -111,10 +111,13 @@ public class RunOnFailure extends RunOnFailureKeywordsAdapter {
 		if (runningOnFailureRoutine) {
 			return;
 		}
-		runningOnFailureRoutine = true;
+		if(runOnFailurePythonInterpreter.get().eval("EXECUTION_CONTEXTS.current").toString().equals("None")) {
+			return;
+		}
+		
 		try {
 			runOnFailurePythonInterpreter.get().exec(
-					String.format("BUILTIN.run_keyword('%s')",
+					String.format("BIN.run_keyword('%s')",
 							runOnFailureKeyword.replace("'", "\\'").replace("\n", "\\n")));
 		} catch (RuntimeException r) {
 			logging.warn(String.format("Keyword '%s' could not be run on failure%s", runOnFailureKeyword,

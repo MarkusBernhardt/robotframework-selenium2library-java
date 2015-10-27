@@ -1,5 +1,8 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
+import io.appium.java_client.ios.IOSDriver;
+import io.selendroid.client.SelendroidDriver;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -26,13 +29,11 @@ import org.json.simple.JSONValue;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import io.selendroid.SelendroidDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -1384,7 +1385,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			return driver;
 		} else if ("iphone".equals(browserName) || "ipad".equals(browserName)) {
 			try {
-				return new IOSDriver(new URL(""), desiredCapabilities);
+				return new IOSDriver<WebElement>(new URL(""), desiredCapabilities);
 			} catch (Exception e) {
 				throw new Selenium2LibraryFatalException("Creating " + browserName + " instance failed.", e);
 			}
