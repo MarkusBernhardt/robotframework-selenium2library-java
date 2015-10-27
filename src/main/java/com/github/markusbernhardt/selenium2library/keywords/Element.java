@@ -371,7 +371,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * expression. The identifier expires when the page is reloaded.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Assign ID to Element</td>
 	 * <td>xpath=//div[@id=\"first_div\"]</td>
@@ -949,7 +949,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * for details about locators.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Drag And Drop</td>
 	 * <td>elem1</td>
@@ -985,7 +985,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * for details about locators.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Drag And Drop By Offset</td>
 	 * <td>elem1</td>
@@ -1175,7 +1175,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * for details about locators.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Press Key</td>
 	 * <td>text_field</td>

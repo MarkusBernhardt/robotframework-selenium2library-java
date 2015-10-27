@@ -287,6 +287,8 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 	 * 
 	 * @param logDirectory
 	 *            The directory to log to.
+	 * @throws Exception
+	 *             - if anything goes wrong.
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "logDirectory" })
@@ -366,8 +368,10 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 
 	protected File getLogDir() {
 
-		if (logDir == null && !loggingPythonInterpreter.get().eval("EXECUTION_CONTEXTS.current").toString().equals("None")) {
-			PyString logDirName = (PyString) loggingPythonInterpreter.get().eval("BuiltIn().get_variables()['${LOG FILE}']");
+		if (logDir == null
+				&& !loggingPythonInterpreter.get().eval("EXECUTION_CONTEXTS.current").toString().equals("None")) {
+			PyString logDirName = (PyString) loggingPythonInterpreter.get().eval(
+					"BuiltIn().get_variables()['${LOG FILE}']");
 			if (logDirName != null && !(logDirName.asString().toUpperCase().equals("NONE"))) {
 				return new File(logDirName.asString()).getParentFile();
 			}
@@ -387,7 +391,8 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		@Override
 		protected PythonInterpreter initialValue() {
 			PythonInterpreter pythonInterpreter = new PythonInterpreter();
-			pythonInterpreter.exec("from robot.libraries.BuiltIn import BuiltIn; from robot.running.context import EXECUTION_CONTEXTS; from robot.api import logger;");
+			pythonInterpreter
+					.exec("from robot.libraries.BuiltIn import BuiltIn; from robot.running.context import EXECUTION_CONTEXTS; from robot.api import logger;");
 			return pythonInterpreter;
 		}
 	};

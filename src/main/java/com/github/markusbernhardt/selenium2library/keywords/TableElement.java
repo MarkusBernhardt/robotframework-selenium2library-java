@@ -155,7 +155,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 	 * merged with colspan="2", and the logical third column contains "C".<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Table Column Should Contain</td>
 	 * <td>tableId</td>

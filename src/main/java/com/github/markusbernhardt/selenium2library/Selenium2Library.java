@@ -1,4 +1,5 @@
 package com.github.markusbernhardt.selenium2library;
+
 import java.io.File;
 import java.util.ResourceBundle;
 
@@ -32,13 +33,13 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * instance and should work with most modern browsers and can be used with the
  * Jython interpreter or any other Java application.<br>
  * <br>
- * <font size="+1"><b>Before running tests</b></font><br>
+ * <span style="font-size: 120%;"><b>Before running tests</b></span><br>
  * Prior to running test cases using Selenium2Library, the library must be
  * imported into your Robot Framework test suite (see importing section), and
  * the `Open Browser` keyword must be used to open a browser to the desired
  * location.<br>
  * <br>
- * <font size="+1"><b>Locating elements</b></font><br>
+ * <span style="font-size: 120%;"><b>Locating elements</b></span><br>
  * All keywords in Selenium2Library that need to find an element on the page
  * take an locator argument.<br>
  * <br>
@@ -48,7 +49,7 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * <i>name</i> are key attributes to all elements.<br>
  * <br>
  * List of key attributes:
- * <table border="1" cellspacing="0">
+ * <table border="1" cellspacing="0" summary="">
  * <tr>
  * <td><b>Element Type</b></td>
  * <td><b>Key Attributes</b></td>
@@ -76,7 +77,7 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * </table>
  * <br>
  * Example:
- * <table border="1" cellspacing="0">
+ * <table border="1" cellspacing="0" summary="">
  * <tr>
  * <td>Click Element</td>
  * <td>my_element</td>
@@ -88,7 +89,7 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * find an element by specifying a locator strategy with a locator prefix.<br>
  * <br>
  * Supported strategies are:
- * <table border="1" cellspacing="0">
+ * <table border="1" cellspacing="0" summary="">
  * <tr>
  * <td><b>Strategy</b></td>
  * <td><b>Example</b></td>
@@ -152,7 +153,7 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * with the specified id attribute.<br>
  * <br>
  * Example:<br>
- * <table border="1" cellspacing="0">
+ * <table border="1" cellspacing="0" summary="">
  * <tr>
  * <td>Table Should Contain</td>
  * <td>my_table</td>
@@ -161,16 +162,18 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * </table>
  * <br>
  * More complex table locator strategies:
- * <table border="1" cellspacing="0">
+ * <table border="1" cellspacing="0" summary="">
  * <tr>
  * <td><b>Strategy</b></td>
  * <td><b>Example</b></td>
  * <td><b>Description</b></td>
  * </tr>
+ * <tr>
  * <td>xpath</td>
  * <td>Table Should Contain | xpath=//table/[@name="my_table"] | text</td>
  * <td>Matches by arbitrary XPath expression</td>
  * </tr>
+ * <tr>
  * <td>css</td>
  * <td>Table Should Contain | css=table.my_class | text</td>
  * <td>Matches by CSS selector</td>
@@ -182,7 +185,7 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * Strategy` for details about custom location strategies.<br>
  * <br>
  * Example:
- * <table border="1" cellspacing="0">
+ * <table border="1" cellspacing="0" summary="">
  * <tr>
  * <td>Add Location Strategy</td>
  * <td>custom</td>
@@ -195,7 +198,7 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * </tr>
  * </table>
  * <br>
- * <font size="+1"><b>Timeouts</b></font><br>
+ * <span style="font-size: 120%;"><b>Timeouts</b></span><br>
  * There are several Wait ... keywords that take <b>timeout</b> as an argument.
  * All of these timeout arguments are optional. The timeout used by all of them
  * can be set globally using the `Set Selenium Timeout keyword`.<br>
@@ -206,12 +209,12 @@ import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
  * "http://robotframework.googlecode.com/svn/trunk/doc/userguide/RobotFrameworkUserGuide.html#time-format"
  * >Time Format</a> for details about the time syntax.<br>
  * <br>
- * <font size="+1"><b>Log Level</b></font><br>
+ * <span style="font-size: 120%;"><b>Log Level</b></span><br>
  * There are several keywords that take <b>timeout</b> as an argument. All of
  * these timeout arguments are optional. The default is usually INFO.<br>
  * <br>
  * List of log levels:
- * <table border="1" cellspacing="0">
+ * <table border="1" cellspacing="0" summary="">
  * <tr>
  * <td><b>Log Level</b></td>
  * <td><b>Description</b></td>
@@ -307,7 +310,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 * about this functionality.<br>
 	 * <br>
 	 * Examples:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Library</td>
 	 * <td>Selenium2Library</td>
@@ -356,7 +359,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 *            Default=5.0. Optional custom timeout.
 	 * @param implicitWait
 	 *            Default=0.0. Optional custom implicit wait time.
-	 * @param runOnFailure
+	 * @param keywordToRunOnFailure
 	 *            Default=Capture Page Screenshot. Optional custom keyword to
 	 *            run on failure.
 	 */
@@ -509,6 +512,12 @@ public class Selenium2Library extends AnnotationLibrary {
 		return keywordDocumentation;
 	}
 
+	/**
+	 * Returns the currently active Selenium2Library instance.
+	 * 
+	 * @return the library instance
+	 * @throws ScriptException - if error occurs in script
+	 */
 	public static Selenium2Library getLibraryInstance() throws ScriptException {
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("python");
 		engine.put("library", "Selenium2Library");
@@ -523,6 +532,10 @@ public class Selenium2Library extends AnnotationLibrary {
 
 	/**
 	 * Convert all arguments in the object array to string
+	 * 
+	 * @param args
+	 *            array with object to convert to the return string
+	 * @return the return string
 	 */
 	protected Object[] toStrings(Object[] args) {
 		Object[] newArgs = new Object[args.length];
