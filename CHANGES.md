@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+Working on
+----------
+* Fixed 'Unable to open firefox when passing in desiredCapabilities and browserOptions arguments'. See #66, #75, #76. Thanks to Hi-FI !!!
+
 Unreleased
 ----------
 * Updating xml-doclet to version 1.0.5
@@ -8,6 +12,8 @@ Unreleased
 * Updating aspectjrt to version 1.8.7
 * Updating selendroid-client to version 0.17.0
 * Updating java-client to version 3.2.0
+* Fixed 'Library not loading with Robot Framework 2.9'. See #72, #73, #74. Thanks to Hi-FI !!!
+* Fixed 'Selenium update (v 2.48.2)'. See #65, #77
 
 1.4.0.7
 ----------
