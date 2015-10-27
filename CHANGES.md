@@ -1,7 +1,15 @@
 CHANGES
 =======
 
-unreleased
+Unreleased
+----------
+* Updating xml-doclet to version 1.0.5
+* Updating selenium-server to version 2.48.2
+* Updating aspectjrt to version 1.8.7
+* Updating selendroid-client to version 0.17.0
+* Updating java-client to version 3.2.0
+
+1.4.0.7
 ----------
 * Avoid NullPointerException in isEnabled method. See #53, #56. Great thanks to atcarmo for this patch.
 * Updated selenium-server dependency to 2.43.1. See #58. Great thanks to WojtekKowaluk for this patch.
