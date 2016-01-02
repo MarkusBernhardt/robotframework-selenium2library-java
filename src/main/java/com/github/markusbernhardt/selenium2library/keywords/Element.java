@@ -5,11 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
@@ -748,6 +744,47 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(locator, true, true);
 
 		elements.get(0).clear();
+	}
+
+
+	/**
+	 * Returns inner element id by index<b></b> of element identified by <b>locator</b> which is matched by <b>matchid</b>.<br>
+	 * <br>
+	 * The position is returned in pixels off the left side of the page, as an
+	 * integer. Fails if the matching element is not found.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about locators.<br>
+	 *
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param matchid
+	 *            partial inner element id to match
+	 * @param index
+	 * 			  position of the inner element to match
+	 * @return The element id
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "matchid", "index" })
+	public String getInnerElementId(String locator, String matchid, int index) {
+		List<WebElement> elements = elementFind(locator, true, true);
+
+		if (elements.size() == 0) {
+			throw new Selenium2LibraryNonFatalException(String.format("get Inner element '%s' not found.", locator));
+		}
+
+		String xpathId = ".//*[contains(@id,"+matchid+")]";
+
+		List<WebElement> tmpe = elements.get(0).findElements((By.xpath(xpathId)));
+		if (tmpe.size() == 0) {
+			throw new Selenium2LibraryNonFatalException(String.format("No Inner element '%s' not found by '%s'", locator,matchid));
+		}
+		String eId = tmpe.get(index).getAttribute("id");
+
+		logging.info(String.format("Found element ID: '%s'.", eId));
+
+		return eId;
+
 	}
 
 	/**
