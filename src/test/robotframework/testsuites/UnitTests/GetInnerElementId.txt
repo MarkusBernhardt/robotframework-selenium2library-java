@@ -1,0 +1,9 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Test Cases ***
+Get Inner Element Id test
+    Open Browser    https://www.google.co.in/#q=table+with+inner+element    firefox    mainbrowser
+    ${innerelementid}=    Get Inner Element Id  //*[@id="viewport"]    doc   0
+    Log Variables
+    Close Browser 
