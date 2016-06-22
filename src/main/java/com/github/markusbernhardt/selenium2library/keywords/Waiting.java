@@ -158,6 +158,36 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 	}
 
 	@RobotKeywordOverload
+	public void waitUntilPageDoesNotContain(String condition, String timeout) {
+		waitUntilPageDoesNotContain(condition, timeout, null);
+	}
+
+	@RobotKeywordOverload
+	public void waitUntilPageDoesNotContain(String condition) {
+		waitUntilPageDoesNotContain(condition, null);
+	}
+
+	/**
+	 * Waits until the current page does not contain <b>text</b>.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the text disappears. <br>
+	 * <br>
+	 * See `Introduction` for details about timeouts.<br>
+	 * 
+	 * @param text
+	 *            The text to verify.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "text", "timeout=NONE", "message=NONE" })
+	public void waitUntilPageDoesNotContain(final String text, String timeout, String message) {
+		waitUntilPageNotContains(text, timeout, message);
+	}
+
+	@RobotKeywordOverload
 	public void waitUntilPageContainsElement(String condition) {
 		waitUntilPageContainsElement(condition, null);
 	}
@@ -235,6 +265,37 @@ public class Waiting extends RunOnFailureKeywordsAdapter {
 				return !element.isElementPresent(locator);
 			}
 		});
+	}
+
+	@RobotKeywordOverload
+	public void waitUntilPageDoesNotContainElement(String locator) {
+		waitUntilPageDoesNotContainElement(locator, null);
+	}
+
+	@RobotKeywordOverload
+	public void waitUntilPageDoesNotContainElement(String locator, String timeout) {
+		waitUntilPageDoesNotContainElement(locator, timeout, null);
+	}
+
+	/**
+	 * Waits until the element identified by <b>locator</b> is not found on the
+	 * current page.<br>
+	 * <br>
+	 * Fails, if the timeout expires, before the element disappears. <br>
+	 * <br>
+	 * See `Introduction` for details about locators and timeouts.<br>
+	 * 
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param timeout
+	 *            Default=NONE. Optional timeout interval.
+	 * @param message
+	 *            Default=NONE. Optional custom error message.
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "timeout=NONE", "message=NONE" })
+	public void waitUntilPageDoesNotContainElement(final String locator, String timeout, String message) {
+	    waitUntilPageNotContainsElement(locator, timeout, message);
 	}
 
 	@RobotKeywordOverload
