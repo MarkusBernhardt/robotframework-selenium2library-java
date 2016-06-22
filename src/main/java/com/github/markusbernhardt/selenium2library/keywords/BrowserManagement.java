@@ -602,6 +602,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * 
 	 * @return The window <b>width</b> and <b>height</b> in px.
 	 */
+	@RobotKeyword
 	public Object[] getWindowSize() {
 		Dimension size = getCurrentWebDriver().manage().window().getSize();
 		return new Object[] { Integer.toString(size.width), Integer.toString(size.height) };
