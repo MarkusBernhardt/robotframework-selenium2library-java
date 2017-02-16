@@ -49,7 +49,7 @@ public class RunOnFailure extends RunOnFailureKeywordsAdapter {
 	 * keyword. It can be used to restore the original value later.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Register Keyword To Run On Failure</td>
 	 * <td>Log Source</td>

@@ -131,7 +131,7 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	 * called before the action that causes the confirmation dialog to be shown.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Click Button</td>
 	 * <td>Send</td>
@@ -207,7 +207,7 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	 * <i>window.document.getElementById('foo')</i>.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Execute JavaScript</td>
 	 * <td>return window.my_js_function('arg1', 'arg2');</td>
@@ -250,7 +250,7 @@ public class JavaScript extends RunOnFailureKeywordsAdapter {
 	 * <i>window.document.getElementById('foo')</i>.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Execute Async JavaScript</td>
 	 * <td>return window.my_js_function('arg1', 'arg2');</td>

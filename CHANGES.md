@@ -1,16 +1,26 @@
 CHANGES
 =======
 
+Working on
+----------
+* Fixed 'Unable to open firefox when passing in desiredCapabilities and browserOptions arguments'. See #66, #75, #76.
+
 Unreleased
 ----------
-* Updating xml-doclet to version 1.0.5
+
+1.4.0.8
+-------
+* Updating robotframework to version 2.9.2
 * Updating selenium-server to version 2.48.2
+* Updating xml-doclet to version 1.0.5
 * Updating aspectjrt to version 1.8.7
 * Updating selendroid-client to version 0.17.0
 * Updating java-client to version 3.2.0
+* Fixed 'Library not loading with Robot Framework 2.9'. See #72, #73, #74. Thanks to Hi-FI !!!
+* Fixed 'Selenium update (v 2.48.2)'. See #65, #77
 
 1.4.0.7
-----------
+-------
 * Avoid NullPointerException in isEnabled method. See #53, #56. Great thanks to atcarmo for this patch.
 * Updated selenium-server dependency to 2.43.1. See #58. Great thanks to WojtekKowaluk for this patch.
   * Corrected Google Search word

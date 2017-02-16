@@ -311,7 +311,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 * <b>groupName</b> to <b>value</b>.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Select Radio Button</td>
 	 * <td>size</td>
@@ -352,7 +352,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	 * Selenium Server is running.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Choose File</td>
 	 * <td>my_upload_field</td>

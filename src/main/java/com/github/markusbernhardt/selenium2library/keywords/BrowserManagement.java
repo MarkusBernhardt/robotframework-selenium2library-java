@@ -128,7 +128,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * locator in multiple arguments when executing the JavaScript function. <br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Add Location Strategy</td>
 	 * <td>byId</td>
@@ -142,7 +142,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </table>
 	 * <br>
 	 * Example with delimiter:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Add Location Strategy</td>
 	 * <td>byClassname</td>
@@ -215,7 +215,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Opens a new browser instance to given URL.<br>
 	 * <br>
 	 * Possible values for browser are as follows:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>firefox</td>
 	 * <td>FireFox</td>
@@ -288,14 +288,14 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * proxy, can be configured.<br>
 	 * <br>
 	 * Example of desiredCapabilities as simple string:<br>
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>platform:Windows 8,browserName:firefox,version:25</td>
 	 * </tr>
 	 * </table>
 	 * <br>
 	 * Example of desiredCapabilities as JSON object:<br>
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>
 	 * {<br>
@@ -318,7 +318,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * with the listed options are implemented.<br>
 	 * <br>
 	 * Firefox:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>
 	 * {<br>
@@ -355,7 +355,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 *            instance. The alias can be used later for switching between
 	 *            browsers instances, just as returned index.
 	 * @param remoteUrl
-	 *            Default=NONE. Optional remote grid URL. When specified no
+	 *            Default=False. Optional remote grid URL. When specified no
 	 *            local WebDriver instance is created, but a network connection
 	 *            to a Selenium 2 WebDriver Grid Hub at the given URL is opened.
 	 * @param desiredCapabilities
@@ -367,14 +367,17 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 *            href=
 	 *            "http://code.google.com/p/selenium/wiki/DesiredCapabilities"
 	 *            >DesiredCapabilities</a>
+	 * @param browserOptions
+	 *            Default=NONE. Extended browser options as JSON structure.
 	 * @return The index of the newly created browser instance.
+	 * @throws Throwable - if anything goes wrong
 	 * 
 	 * @see BrowserManagement#closeAllBrowsers
 	 * @see BrowserManagement#closeBrowser
 	 * @see BrowserManagement#switchBrowser
 	 */
 	@RobotKeyword
-	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=NONE", "desiredCapabilities=NONE",
+	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=False", "desiredCapabilities=NONE",
 			"browserOptions=NONE" })
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
 			String desiredCapabilities, String browserOptions) throws Throwable {
@@ -412,7 +415,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * it.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Open Browser</td>
 	 * <td>http://google.com</td>
@@ -473,7 +476,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * opening the first one because it used index '1' when switching to it
 	 * later. If you aren't sure about that you can store the index into a
 	 * variable as below.
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>${id} =</td>
 	 * <td>Open Browser</td>
@@ -589,7 +592,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Returns current window size as <b>width</b> then <b>height</b>.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>${width}</td>
 	 * <td>${height}=</td>
@@ -599,6 +602,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * 
 	 * @return The window <b>width</b> and <b>height</b> in px.
 	 */
+	@RobotKeyword
 	public Object[] getWindowSize() {
 		Dimension size = getCurrentWebDriver().manage().window().getSize();
 		return new Object[] { Integer.toString(size.width), Integer.toString(size.height) };
@@ -609,7 +613,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * specified values.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Set Window Size</td>
 	 * <td>800</td>
@@ -681,7 +685,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * The special locator main (default) can be used to select the main window.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Click Link</td>
 	 * <td>popup_link</td>
@@ -707,7 +711,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * It is also possible to specify the approach Selenium2Library should take
 	 * to find a window by specifying a locator strategy. See `Introduction` for
 	 * details about locators:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td><b>Strategy</b></td>
 	 * <td><b>Example</b></td>
@@ -1045,7 +1049,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * can be altered in importing the library.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>${orig timeout} =</td>
 	 * <td>Set Selenium Timeout</td>
@@ -1104,7 +1108,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * to be called one time per session.</i><br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>${orig wait} =</td>
 	 * <td>Set Selenium Implicit Wait</td>
@@ -1151,7 +1155,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * to be called one time per session.</i><br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>${orig wait} =</td>
 	 * <td>Set Browser Implicit Wait</td>

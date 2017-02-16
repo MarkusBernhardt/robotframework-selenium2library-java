@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -68,8 +69,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void currentFrameContains(String text, String logLevel) {
 		if (!isTextPresent(text)) {
 			logging.log(String.format("Current Frame Contains: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Page should have contained text '%s', but did not.", text));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Page should have contained text '%s', but did not.", text));
 		} else {
 			logging.log(String.format("Current Frame Contains: %s => OK", text), logLevel);
 		}
@@ -95,8 +96,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void currentFrameShouldNotContain(String text, String logLevel) {
 		if (isTextPresent(text)) {
 			logging.log(String.format("Current Frame Should Not Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Page should have not contained text '%s', but did.", text));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Page should have not contained text '%s', but did.", text));
 		} else {
 			logging.log(String.format("Current Frame Should Not Contain: %s => OK", text), logLevel);
 		}
@@ -126,8 +127,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 
 		if (!actual.toLowerCase().contains(text.toLowerCase())) {
 			logging.info(String.format("Element Should Contain: %s => FAILED", text));
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Element should have contained text '%s', but its text was %s.", text, actual));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Element should have contained text '%s', but its text was %s.", text, actual));
 		} else {
 			logging.info(String.format("Element Should Contain: %s => OK", text));
 		}
@@ -158,8 +159,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 
 		if (actual.toLowerCase().contains(text.toLowerCase())) {
 			logging.info(String.format("Element Should Not Contain: %s => FAILED", text));
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Element should not have contained text '%s', but its text was %s.", text, actual));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Element should not have contained text '%s', but its text was %s.", text, actual));
 		} else {
 			logging.info(String.format("Element Should Not Contain: %s => OK", text));
 		}
@@ -187,8 +188,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void frameShouldContain(String locator, String text, String logLevel) {
 		if (!frameContains(locator, text)) {
 			logging.log(String.format("Frame Should Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Frame should have contained text '%s', but did not.", text));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Frame should have contained text '%s', but did not.", text));
 		} else {
 			logging.log(String.format("Frame Should Contain: %s => OK", text), logLevel);
 		}
@@ -212,8 +213,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void frameShouldNotContain(String locator, String text, String logLevel) {
 		if (frameContains(locator, text)) {
 			logging.log(String.format("Frame Should Not Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Frame should not have contained text '%s', but did.", text));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Frame should not have contained text '%s', but did.", text));
 		} else {
 			logging.log(String.format("Frame Should Not Contain: %s => OK", text), logLevel);
 		}
@@ -239,8 +240,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void pageShouldContain(String text, String logLevel) {
 		if (!pageContains(text)) {
 			logging.log(String.format("Page Should Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Page should have contained text '%s' but did not.", text));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Page should have contained text '%s' but did not.", text));
 		} else {
 			logging.log(String.format("Page Should Contain: %s => OK", text), logLevel);
 		}
@@ -266,8 +267,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void pageShouldNotContain(String text, String logLevel) {
 		if (pageContains(text)) {
 			logging.log(String.format("Page Should Not Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Page should not have contained text '%s' but did.", text));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Page should not have contained text '%s' but did.", text));
 		} else {
 			logging.log(String.format("Page Should Not Contain: %s => OK", text), logLevel);
 		}
@@ -371,7 +372,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * expression. The identifier expires when the page is reloaded.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Assign ID to Element</td>
 	 * <td>xpath=//div[@id=\"first_div\"]</td>
@@ -395,8 +396,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		logging.info(String.format("Assigning temporary id '%s' to element '%s'", id, locator));
 		List<WebElement> elements = elementFind(locator, true, true);
 
-		((JavascriptExecutor) browserManagement.getCurrentWebDriver()).executeScript(
-				String.format("arguments[0].id = '%s';", id), elements.get(0));
+		((JavascriptExecutor) browserManagement.getCurrentWebDriver())
+				.executeScript(String.format("arguments[0].id = '%s';", id), elements.get(0));
 	}
 
 	/**
@@ -633,7 +634,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * <b>text</b>.<br>
 	 * <br>
 	 * In contrast to `Element Should Contain`, this keyword does not try a
-	 * substring match but an exact match on the element identified by locator.<br>
+	 * substring match but an exact match on the element identified by locator.
+	 * <br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
 	 * for details about locators.<br>
@@ -670,7 +672,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * exactly <b>text</b>.<br>
 	 * <br>
 	 * In contrast to `Element Should Not Contain`, this keyword does not try a
-	 * substring match but an exact match on the element identified by locator.<br>
+	 * substring match but an exact match on the element identified by locator.
+	 * <br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
 	 * for details about locators.<br>
@@ -751,6 +754,48 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
+	 * Returns inner element id by index<b></b> of element identified by
+	 * <b>locator</b> which is matched by <b>matchid</b>.<br>
+	 * <br>
+	 * The position is returned in pixels off the left side of the page, as an
+	 * integer. Fails if the matching element is not found.<br>
+	 * <br>
+	 * Key attributes for arbitrary elements are id and name. See `Introduction`
+	 * for details about locators.<br>
+	 *
+	 * @param locator
+	 *            The locator to locate the element.
+	 * @param matchid
+	 *            partial inner element id to match
+	 * @param index
+	 *            position of the inner element to match
+	 * @return The element id
+	 */
+	@RobotKeyword
+	@ArgumentNames({ "locator", "matchid", "index" })
+	public String getInnerElementId(String locator, String matchid, int index) {
+		List<WebElement> elements = elementFind(locator, true, true);
+
+		if (elements.size() == 0) {
+			throw new Selenium2LibraryNonFatalException(String.format("get Inner element '%s' not found.", locator));
+		}
+
+		String xpathId = ".//*[contains(@id," + matchid + ")]";
+
+		List<WebElement> tmpe = elements.get(0).findElements((By.xpath(xpathId)));
+		if (tmpe.size() == 0) {
+			throw new Selenium2LibraryNonFatalException(
+					String.format("No Inner element '%s' not found by '%s'", locator, matchid));
+		}
+		String eId = tmpe.get(index).getAttribute("id");
+
+		logging.info(String.format("Found element ID: '%s'.", eId));
+
+		return eId;
+
+	}
+
+	/**
 	 * Returns horizontal position of element identified by <b>locator</b>.<br>
 	 * <br>
 	 * The position is returned in pixels off the left side of the page, as an
@@ -777,7 +822,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Returns the value attribute of the element identified by <b>locator</b>.<br>
+	 * Returns the value attribute of the element identified by <b>locator</b>.
+	 * <br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
 	 * for details about locators.<br>
@@ -949,7 +995,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * for details about locators.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Drag And Drop</td>
 	 * <td>elem1</td>
@@ -985,7 +1031,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * for details about locators.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Drag And Drop By Offset</td>
 	 * <td>elem1</td>
@@ -1071,7 +1117,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Simulates moving the mouse over the element identified by <b>locator</b>.<br>
+	 * Simulates moving the mouse over the element identified by <b>locator</b>.
+	 * <br>
 	 * <br>
 	 * Key attributes for arbitrary elements are id and name. See `Introduction`
 	 * for details about locators.<br>
@@ -1165,8 +1212,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Simulates pressing <b>key</b> on the element identified by
-	 * <b>locator</b>.<br>
+	 * Simulates pressing <b>key</b> on the element identified by <b>locator</b>
+	 * .<br>
 	 * <br>
 	 * Key is either a single character, or a numerical ASCII code of the key
 	 * lead by '\\'.<br>
@@ -1175,7 +1222,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	 * for details about locators.<br>
 	 * <br>
 	 * Example:
-	 * <table border="1" cellspacing="0">
+	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Press Key</td>
 	 * <td>text_field</td>
@@ -1528,8 +1575,8 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = ElementFinder.find(browserManagement.getCurrentWebDriver(), locator, tag);
 
 		if (required && elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Element locator '%s' did not match any elements.", locator));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Element locator '%s' did not match any elements.", locator));
 		}
 
 		if (firstOnly) {
@@ -1609,12 +1656,12 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	protected String[] parseAttributeLocator(String attributeLocator) {
 		int index = attributeLocator.lastIndexOf('@');
 		if (index <= 0) {
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Attribute locator '%s' does not contain an element locator.", attributeLocator));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Attribute locator '%s' does not contain an element locator.", attributeLocator));
 		}
 		if (index + 1 == attributeLocator.length()) {
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Attribute locator '%s' does not contain an attribute name.", attributeLocator));
+			throw new Selenium2LibraryNonFatalException(
+					String.format("Attribute locator '%s' does not contain an attribute name.", attributeLocator));
 		}
 		String[] parts = new String[2];
 		parts[0] = attributeLocator.substring(0, index);
