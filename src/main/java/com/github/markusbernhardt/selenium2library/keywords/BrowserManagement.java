@@ -813,10 +813,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	public String getRemoteCapabilities() {
-		if (getCurrentWebDriver() instanceof RemoteWebDriver) {
+		//Null returned from jbrowserdriver
+		if (getCurrentWebDriver() instanceof RemoteWebDriver && ((RemoteWebDriver) getCurrentWebDriver()).getCapabilities() != null) {
+			System.out.println(getCurrentWebDriver());
 			return ((RemoteWebDriver) getCurrentWebDriver()).getCapabilities().toString();
 		} else {
-			return "No remote session id";
+			return "No remote session id or capabilities available";
 		}
 	}
 

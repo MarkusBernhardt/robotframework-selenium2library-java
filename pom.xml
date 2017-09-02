@@ -93,11 +93,6 @@
 			<version>1.1.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-remote-driver</artifactId>
-			<version>${selenium.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>io.selendroid</groupId>
 			<artifactId>selendroid-client</artifactId>
 			<version>0.17.0</version>
@@ -105,7 +100,7 @@
 		<dependency>
 			<groupId>io.appium</groupId>
 			<artifactId>java-client</artifactId>
-			<version>5.0.1</version>
+			<version>4.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -115,7 +110,7 @@
 		<dependency>
 			<groupId>com.machinepublishers</groupId>
 			<artifactId>jbrowserdriver</artifactId>
-			<version>0.17.5</version>
+			<version>0.17.9</version>
 		</dependency>
 	</dependencies>
 

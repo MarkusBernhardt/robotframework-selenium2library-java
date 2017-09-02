@@ -4,9 +4,9 @@ Suite Teardown    Close Browser
 Resource          ../../settings/Settings.txt
 
 *** Variables ***
-${URL Application}     http://dev.sencha.com/deploy/ext-4.0.0/examples/writer/writer.html
-${add}                 extJsButton=button[text='Add']
-${inputfield email}    extJsTextfield=textfield[name='email']
+${URL Application}     http://examples.sencha.com/extjs/6.5.0/examples/classic/ticket-app/index.html
+${login}                 extJsButton=button[text='Login']
+${inputfield password}    extJsTextfield=textfield[name='password']
 
 *** Keywords ***
 Open Page
@@ -19,9 +19,9 @@ Open Page
     Log Remote Capabilities
 
 *** Test Cases ***
-Add Employee
-    Click Button    ${add}
+Buy Ticket
+    Input Text    ${inputfield password}    password
     Capture Page Screenshot
 
-    Input Text    ${inputfield email}    Haaalloooo Welt
+    Click Element    ${login}
     Capture Page Screenshot
