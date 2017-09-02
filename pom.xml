@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -9,7 +10,7 @@
 
 	<groupId>com.github.markusbernhardt</groupId>
 	<artifactId>robotframework-selenium2library-java</artifactId>
-	<version>1.4.0.9-SNAPSHOT</version>
+	<version>2.53.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Robot Framework :: Selenium2Library</name>
@@ -20,11 +21,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<downloadSources>true</downloadSources>
 		<downloadJavadocs>true</downloadJavadocs>
-		<aspectj.version>1.8.7</aspectj.version>
+		<aspectj.version>1.8.10</aspectj.version>
 		<java.version>1.6</java.version>
 		<xml.doclet.version>1.0.5</xml.doclet.version>
-		<robotframework.version>2.9.2</robotframework.version>
-		<selenium.version>2.48.2</selenium.version>
+		<robotframework.version>3.0.2</robotframework.version>
+		<robotframework.maven.plugin.version>1.4.7</robotframework.maven.plugin.version>
+		<selenium.version>2.53.1</selenium.version>
 		<keywords.class>Selenium2Library</keywords.class>
 	</properties>
 
@@ -71,9 +73,9 @@
 			<version>1.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.detro.ghostdriver</groupId>
+			<groupId>com.codeborne</groupId>
 			<artifactId>phantomjsdriver</artifactId>
-			<version>1.1.0</version>
+			<version>1.4.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.robotframework</groupId>
@@ -103,7 +105,7 @@
 		<dependency>
 			<groupId>io.appium</groupId>
 			<artifactId>java-client</artifactId>
-			<version>3.2.0</version>
+			<version>5.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -137,7 +139,7 @@
 				<!-- Weave the failure handler into the code -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>1.4</version>
+				<version>1.10</version>
 				<executions>
 					<execution>
 						<goals>
@@ -163,7 +165,7 @@
 				<!-- Integration-Test, build documentation -->
 				<groupId>org.robotframework</groupId>
 				<artifactId>robotframework-maven-plugin</artifactId>
-				<version>1.4.5</version>
+				<version>${robotframework.maven.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>test</id>
