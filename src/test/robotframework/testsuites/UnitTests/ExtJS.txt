@@ -1,7 +1,7 @@
 *** Settings ***
 Suite Setup       Open Page
 Suite Teardown    Close Browser
-Library           Selenium2Library
+Resource          ../../settings/Settings.txt
 
 *** Variables ***
 ${URL Application}     http://dev.sencha.com/deploy/ext-4.0.0/examples/writer/writer.html
@@ -13,7 +13,7 @@ Open Page
     Add Location Strategy    extJs               return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).getId());
     Add Location Strategy    extJsButton         return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).btnEl.id);
     Add Location Strategy    extJsTextfield      return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).getInputId());
-    Open Browser    ${URL Application}    firefox    mainbrowser
+    Open Browser    ${URL Application}    ${browser}    mainbrowser
     Log System Info
     Log Remote Session Id
     Log Remote Capabilities
