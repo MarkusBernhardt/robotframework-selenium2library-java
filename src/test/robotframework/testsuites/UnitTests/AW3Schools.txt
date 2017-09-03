@@ -6,6 +6,17 @@ Resource          ../../settings/Settings.txt
 ${URL Application}    http://www.w3schools.com
 
 *** Test Cases *** 
+Select
+    Open Browser    ${URL Application}    ${browser}    mainbrowser
+    Go To    ${URL Application}/tags/tryit.asp?filename=tryhtml_select
+    Wait Until Page Contains Element    iframeResult
+    Select Frame    iframeResult
+    Wait Until Page Contains Element    xpath=//select
+    Select From List    xpath=//select    Opel
+    ${label}    Get Selected List Label    xpath=//select
+    Should Be Equal    ${label}    Opel
+    List Selection Should Be    xpath=//select    Opel
+    
 Multiple Browsers
     Open Browser    ${URL Application}    ${browser}    mainbrowser1
     Open Browser    ${URL Application}    ${browser}    mainbrowser2
