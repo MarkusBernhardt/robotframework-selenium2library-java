@@ -127,10 +127,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Registers a JavaScript function as locator with the specified strategy
 	 * name.<br>
 	 * <br>
-	 * The registered function has to return a WebElement, a List of WebElements
-	 * or null. Optionally a delimiter can be given to split the value of the
-	 * locator in multiple arguments when executing the JavaScript function.
-	 * <br>
+	 * The registered function has to return a WebElement, a List of WebElements or
+	 * null. Optionally a delimiter can be given to split the value of the locator
+	 * in multiple arguments when executing the JavaScript function. <br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0" summary="">
@@ -284,13 +283,13 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </table>
 	 * <br>
 	 * Returns the index of the newly created browser instance which can be used
-	 * later to switch back to it. Index starts from 1 and is reset back to it
-	 * when the `Close All Browsers` keyword is used.<br>
+	 * later to switch back to it. Index starts from 1 and is reset back to it when
+	 * the `Close All Browsers` keyword is used.<br>
 	 * <br>
 	 * <b>DesiredCapabilities</b><br>
-	 * The DesiredCapabilities can be specified in a simple key:value format or
-	 * as a JSON object. With the JSON format more complex parameters, like the
-	 * proxy, can be configured.<br>
+	 * The DesiredCapabilities can be specified in a simple key:value format or as a
+	 * JSON object. With the JSON format more complex parameters, like the proxy,
+	 * can be configured.<br>
 	 * <br>
 	 * Example of desiredCapabilities as simple string:<br>
 	 * <table border="1" cellspacing="0" summary="">
@@ -318,8 +317,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * <br>
 	 * <b>BrowserOptions</b><br>
 	 * The BrowserOptions can be specified as JSON object to set more complex
-	 * browser specific parameters. At the moment only the following browsers
-	 * with the listed options are implemented.<br>
+	 * browser specific parameters. At the moment only the following browsers with
+	 * the listed options are implemented.<br>
 	 * <br>
 	 * Firefox:
 	 * <table border="1" cellspacing="0" summary="">
@@ -342,10 +341,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </table>
 	 * <br>
 	 * <b>Internet Explorer</b><br>
-	 * Note, that you will encounter strange behavior, if you open multiple
-	 * Internet Explorer browser instances. That is also why `Switch Browser`
-	 * only works with one IE browser at most. For more information see:
-	 * <a href=
+	 * Note, that you will encounter strange behavior, if you open multiple Internet
+	 * Explorer browser instances. That is also why `Switch Browser` only works with
+	 * one IE browser at most. For more information see: <a href=
 	 * "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine"
 	 * >Strange errors with multiple IE instances</a><br>
 	 * 
@@ -358,16 +356,15 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 *            instance. The alias can be used later for switching between
 	 *            browsers instances, just as returned index.
 	 * @param remoteUrl
-	 *            Default=False. Optional remote grid URL. When specified no
-	 *            local WebDriver instance is created, but a network connection
-	 *            to a Selenium 2 WebDriver Grid Hub at the given URL is opened.
+	 *            Default=False. Optional remote grid URL. When specified no local
+	 *            WebDriver instance is created, but a network connection to a
+	 *            Selenium 2 WebDriver Grid Hub at the given URL is opened.
 	 * @param desiredCapabilities
-	 *            Default=NONE. Optional desired capabilities of the newly
-	 *            created remote browser instances can be specified in a simple
+	 *            Default=NONE. Optional desired capabilities of the newly created
+	 *            remote browser instances can be specified in a simple
 	 *            key1:val1,key2:val2 format or as a JSON object (see examples
 	 *            above). Used to communicate to the remote grid, which kind of
-	 *            browser, etc. should be used. For more information see:
-	 *            <a href=
+	 *            browser, etc. should be used. For more information see: <a href=
 	 *            "http://code.google.com/p/selenium/wiki/DesiredCapabilities" >
 	 *            DesiredCapabilities</a>
 	 * @param browserOptions
@@ -475,10 +472,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </tr>
 	 * </table>
 	 * <br>
-	 * The above example expects that there was no other open browsers when
-	 * opening the first one because it used index '1' when switching to it
-	 * later. If you aren't sure about that you can store the index into a
-	 * variable as below.
+	 * The above example expects that there was no other open browsers when opening
+	 * the first one because it used index '1' when switching to it later. If you
+	 * aren't sure about that you can store the index into a variable as below.
 	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>${id} =</td>
@@ -520,9 +516,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Closes all open browser instances and resets the browser cache.<br>
 	 * <br>
-	 * After this keyword new indexes returned from `Open Browser` keyword are
-	 * reset to 1. This keyword should be used in test or suite teardown to make
-	 * sure all browsers are closed.<br>
+	 * After this keyword new indexes returned from `Open Browser` keyword are reset
+	 * to 1. This keyword should be used in test or suite teardown to make sure all
+	 * browsers are closed.<br>
 	 * 
 	 * @see BrowserManagement#closeBrowser
 	 * @see BrowserManagement#openBrowser
@@ -556,8 +552,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Returns the names of all windows known to the current browser instance.
-	 * <br>
+	 * Returns the names of all windows known to the current browser instance. <br>
 	 * 
 	 * @return List of window names
 	 * 
@@ -573,8 +568,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Returns the titles of all windows known to the current browser instance.
-	 * <br>
+	 * Returns the titles of all windows known to the current browser instance. <br>
 	 * 
 	 * @return List of window titles
 	 * 
@@ -656,8 +650,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Selects the frame identified by <b>locator</b> as current frame.<br>
 	 * <br>
-	 * Key attributes for frames are <b>id</b> and <b>name</b>. See
-	 * `Introduction` for details about locators.<br>
+	 * Key attributes for frames are <b>id</b> and <b>name</b>. See `Introduction`
+	 * for details about locators.<br>
 	 * 
 	 * @param locator
 	 *            The locator to locate the frame
@@ -679,13 +673,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Selects the window identified by <b>locator</b> as the context of
 	 * actions.<br>
 	 * <br>
-	 * If the window is found, all subsequent commands use that window, until
-	 * this keyword is used again. If the window is not found, this keyword
-	 * fails.<br>
+	 * If the window is found, all subsequent commands use that window, until this
+	 * keyword is used again. If the window is not found, this keyword fails.<br>
 	 * <br>
-	 * By default, when a locator value is provided, it is matched against the
-	 * title of the window and the javascript name of the window. If multiple
-	 * windows with same identifier are found, the first one is selected.<br>
+	 * By default, when a locator value is provided, it is matched against the title
+	 * of the window and the javascript name of the window. If multiple windows with
+	 * same identifier are found, the first one is selected.<br>
 	 * <br>
 	 * The special locator main (default) can be used to select the main window.
 	 * <br>
@@ -714,8 +707,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </tr>
 	 * </table>
 	 * <br>
-	 * It is also possible to specify the approach Selenium2Library should take
-	 * to find a window by specifying a locator strategy. See `Introduction` for
+	 * It is also possible to specify the approach Selenium2Library should take to
+	 * find a window by specifying a locator strategy. See `Introduction` for
 	 * details about locators:
 	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
@@ -798,12 +791,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * instance.<br>
 	 * <br>
 	 * Not all server implementations will support every WebDriver feature.
-	 * Therefore, the client and server should use JSON objects with the
-	 * properties listed below when describing which features a user requests
-	 * that a session support. <b>If a session cannot support a capability that
-	 * is requested in the desired capabilities, no error is thrown;</b> a
-	 * read-only capabilities object is returned that indicates the capabilities
-	 * the session actually supports. For more information see:
+	 * Therefore, the client and server should use JSON objects with the properties
+	 * listed below when describing which features a user requests that a session
+	 * support. <b>If a session cannot support a capability that is requested in the
+	 * desired capabilities, no error is thrown;</b> a read-only capabilities object
+	 * is returned that indicates the capabilities the session actually supports.
+	 * For more information see:
 	 * <a href= "http://code.google.com/p/selenium/wiki/DesiredCapabilities" >
 	 * DesiredCapabilities</a><br>
 	 * 
@@ -813,8 +806,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	public String getRemoteCapabilities() {
-		//Null returned from jbrowserdriver
-		if (getCurrentWebDriver() instanceof RemoteWebDriver && ((RemoteWebDriver) getCurrentWebDriver()).getCapabilities() != null) {
+		// Null returned from jbrowserdriver
+		if (getCurrentWebDriver() instanceof RemoteWebDriver
+				&& ((RemoteWebDriver) getCurrentWebDriver()).getCapabilities() != null) {
 			System.out.println(getCurrentWebDriver());
 			return ((RemoteWebDriver) getCurrentWebDriver()).getCapabilities().toString();
 		} else {
@@ -1004,8 +998,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * <b>(NOT IMPLEMENTED)</b> Returns the delay in seconds that is waited
-	 * after each Selenium command.<br>
+	 * <b>(NOT IMPLEMENTED)</b> Returns the delay in seconds that is waited after
+	 * each Selenium command.<br>
 	 * 
 	 * @return The delay in seconds.
 	 * 
@@ -1017,8 +1011,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * <b>(NOT IMPLEMENTED)</b> Sets and returns the delay in seconds that is
-	 * waited after each Selenium command.<br>
+	 * <b>(NOT IMPLEMENTED)</b> Sets and returns the delay in seconds that is waited
+	 * after each Selenium command.<br>
 	 * 
 	 * @param timestr
 	 *            The delay in seconds.
@@ -1048,14 +1042,14 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Sets and returns the timeout in seconds that is used by various keywords.
 	 * <br>
 	 * <br>
-	 * There are several Wait ... keywords that take a timeout as an argument.
-	 * All of these timeout arguments are optional. The timeout used by all of
-	 * them can be set globally using this keyword. See `Introduction` for more
-	 * information about timeouts.<br>
+	 * There are several Wait ... keywords that take a timeout as an argument. All
+	 * of these timeout arguments are optional. The timeout used by all of them can
+	 * be set globally using this keyword. See `Introduction` for more information
+	 * about timeouts.<br>
 	 * <br>
-	 * The previous timeout value is returned by this keyword and can be used to
-	 * set the old value back later. The default timeout is 5 seconds, but it
-	 * can be altered in importing the library.<br>
+	 * The previous timeout value is returned by this keyword and can be used to set
+	 * the old value back later. The default timeout is 5 seconds, but it can be
+	 * altered in importing the library.<br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0" summary="">
@@ -1109,12 +1103,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Sets and returns the implicit wait time in seconds that is used by all
-	 * Selenium 2 WebDriver instances. This affects all currently open and from
-	 * now on opened instances.<br>
+	 * Selenium 2 WebDriver instances. This affects all currently open and from now
+	 * on opened instances.<br>
 	 * <br>
-	 * From selenium 2 function: <i>Sets a sticky timeout to implicitly wait for
-	 * an element to be found, or a command to complete. This method only needs
-	 * to be called one time per session.</i><br>
+	 * From selenium 2 function: <i>Sets a sticky timeout to implicitly wait for an
+	 * element to be found, or a command to complete. This method only needs to be
+	 * called one time per session.</i><br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0" summary="">
@@ -1159,9 +1153,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Sets and returns the implicit wait time in seconds that is used by the
 	 * current Selenium 2 WebDriver instance.<br>
 	 * <br>
-	 * From selenium 2 function: <i>Sets a sticky timeout to implicitly wait for
-	 * an element to be found, or a command to complete. This method only needs
-	 * to be called one time per session.</i><br>
+	 * From selenium 2 function: <i>Sets a sticky timeout to implicitly wait for an
+	 * element to be found, or a command to complete. This method only needs to be
+	 * called one time per session.</i><br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0" summary="">
@@ -1221,9 +1215,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	/**
 	 * Configures proxy handling for remote WebDriver instances.<br>
 	 * <br>
-	 * This is needed to connect to an external Selenium 2 WebDriver rid through
-	 * a local HTTP proxy. This implementation handles BASIC, DIGEST and NTLM
-	 * based authentication schemes correctly.<br>
+	 * This is needed to connect to an external Selenium 2 WebDriver rid through a
+	 * local HTTP proxy. This implementation handles BASIC, DIGEST and NTLM based
+	 * authentication schemes correctly.<br>
 	 * <br>
 	 * The given configuration will be used for all subsequent calls of `Open
 	 * Browser`. To remove the proxy call:<br>
@@ -1231,16 +1225,15 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * <br>
 	 * Some additional info:
 	 * <ul>
-	 * <li>If no <b>username</b> is provided, it looks for a username at the
-	 * Java property http.proxyUser and the environment variables HTTP_PROXY and
+	 * <li>If no <b>username</b> is provided, it looks for a username at the Java
+	 * property http.proxyUser and the environment variables HTTP_PROXY and
 	 * http_proxy. If a username is found, it is only used, if the host and port
 	 * also match.</li>
-	 * <li>If no <b>password</b> is provided, it looks for a password at the
-	 * Java property http.proxyUser and the environment variables HTTP_PROXY and
-	 * http_proxy. If a password is found, it is only used, if the host, port
-	 * and username also match.</li>
-	 * <li>If a <b>domain</b> is provided, NTLM based authentication is used
-	 * </li>
+	 * <li>If no <b>password</b> is provided, it looks for a password at the Java
+	 * property http.proxyUser and the environment variables HTTP_PROXY and
+	 * http_proxy. If a password is found, it is only used, if the host, port and
+	 * username also match.</li>
+	 * <li>If a <b>domain</b> is provided, NTLM based authentication is used</li>
 	 * <li>If no <b>workstation</b> is provided and NTLM based authentication is
 	 * used, the hostname is used as workstation name.</li>
 	 * </ul>
@@ -1510,11 +1503,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 						Iterator<?> iteratorExtensions = extensions.iterator();
 						while (iteratorExtensions.hasNext()) {
 							File file = new File(iteratorExtensions.next().toString().replace('/', File.separatorChar));
-							try {
-								firefoxProfile.addExtension(file);
-							} catch (IOException e) {
-								logging.warn("Could not load extension: " + file.getAbsolutePath());
-							}
+							firefoxProfile.addExtension(file);
 						}
 					} else {
 						logging.warn("Unknown browserOption: " + key + ":" + entry.getValue());
