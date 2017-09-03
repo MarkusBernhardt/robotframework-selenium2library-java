@@ -7,15 +7,12 @@ ${URL Application}    http://www.w3schools.com
 
 *** Test Cases *** 
 Select
-    Open Browser    ${URL Application}    ${browser}    mainbrowser
-    Go To    ${URL Application}/tags/tryit.asp?filename=tryhtml_select
-    Wait Until Page Contains Element    iframeResult
-    Select Frame    iframeResult
+    Open Browser    https://developer.mozilla.org/en/docs/Web/HTML/Element/select#Examples    ${browser}    mainbrowser
     Wait Until Page Contains Element    xpath=//select
-    Select From List    xpath=//select    Opel
+    Select From List    xpath=//select    Value 3
     ${label}    Get Selected List Label    xpath=//select
-    Should Be Equal    ${label}    Opel
-    List Selection Should Be    xpath=//select    Opel
+    Should Be Equal    ${label}    Value 3
+    List Selection Should Be    xpath=//select    Value 3
     
 Multiple Browsers
     Open Browser    ${URL Application}    ${browser}    mainbrowser1
