@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.keywords;
+package com.github.markusbernhardt.seleniumlibrary.keywords;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
-import com.github.markusbernhardt.selenium2library.locators.TableElementFinder;
+import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
+import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.locators.TableElementFinder;
 
 @RobotKeywords
 public class TableElement extends RunOnFailureKeywordsAdapter {

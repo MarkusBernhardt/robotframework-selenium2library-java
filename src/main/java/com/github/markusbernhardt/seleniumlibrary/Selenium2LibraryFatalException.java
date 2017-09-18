@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library;
+package com.github.markusbernhardt.seleniumlibrary;
 
 /**
  * A raised exception of this type ends all test executions.

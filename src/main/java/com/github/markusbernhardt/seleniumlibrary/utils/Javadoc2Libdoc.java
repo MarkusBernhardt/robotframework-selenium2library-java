@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.utils;
+package com.github.markusbernhardt.seleniumlibrary.utils;
 
 import java.io.InputStream;
 import java.util.HashMap;

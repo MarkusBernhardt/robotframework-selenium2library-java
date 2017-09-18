@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.utils;
+package com.github.markusbernhardt.seleniumlibrary.utils;
 
 import java.util.ArrayList;
 import java.util.List;

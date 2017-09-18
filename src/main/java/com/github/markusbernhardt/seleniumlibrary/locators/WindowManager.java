@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.locators;
+package com.github.markusbernhardt.seleniumlibrary.locators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 
-import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
 
 public class WindowManager {
 

@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.keywords;
+package com.github.markusbernhardt.seleniumlibrary.keywords;
 
 import org.python.util.PythonInterpreter;
 import org.robotframework.javalib.annotation.ArgumentNames;
@@ -6,7 +6,7 @@ import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
+import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
 
 @RobotKeywords
 public class RunOnFailure extends RunOnFailureKeywordsAdapter {

@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.locators;
+package com.github.markusbernhardt.seleniumlibrary.locators;
 
 import java.util.ArrayList;
 import java.util.List;

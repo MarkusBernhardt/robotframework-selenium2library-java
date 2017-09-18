@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library;
+package com.github.markusbernhardt.seleniumlibrary;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -10,18 +10,18 @@ import javax.script.ScriptException;
 import org.robotframework.javalib.annotation.Autowired;
 import org.robotframework.javalib.library.AnnotationLibrary;
 
-import com.github.markusbernhardt.selenium2library.keywords.BrowserManagement;
-import com.github.markusbernhardt.selenium2library.keywords.Cookie;
-import com.github.markusbernhardt.selenium2library.keywords.Element;
-import com.github.markusbernhardt.selenium2library.keywords.FormElement;
-import com.github.markusbernhardt.selenium2library.keywords.JavaScript;
-import com.github.markusbernhardt.selenium2library.keywords.Logging;
-import com.github.markusbernhardt.selenium2library.keywords.RunOnFailure;
-import com.github.markusbernhardt.selenium2library.keywords.Screenshot;
-import com.github.markusbernhardt.selenium2library.keywords.SelectElement;
-import com.github.markusbernhardt.selenium2library.keywords.TableElement;
-import com.github.markusbernhardt.selenium2library.keywords.Waiting;
-import com.github.markusbernhardt.selenium2library.utils.Javadoc2Libdoc;
+import com.github.markusbernhardt.seleniumlibrary.keywords.BrowserManagement;
+import com.github.markusbernhardt.seleniumlibrary.keywords.Cookie;
+import com.github.markusbernhardt.seleniumlibrary.keywords.Element;
+import com.github.markusbernhardt.seleniumlibrary.keywords.FormElement;
+import com.github.markusbernhardt.seleniumlibrary.keywords.JavaScript;
+import com.github.markusbernhardt.seleniumlibrary.keywords.Logging;
+import com.github.markusbernhardt.seleniumlibrary.keywords.RunOnFailure;
+import com.github.markusbernhardt.seleniumlibrary.keywords.Screenshot;
+import com.github.markusbernhardt.seleniumlibrary.keywords.SelectElement;
+import com.github.markusbernhardt.seleniumlibrary.keywords.TableElement;
+import com.github.markusbernhardt.seleniumlibrary.keywords.Waiting;
+import com.github.markusbernhardt.seleniumlibrary.utils.Javadoc2Libdoc;
 
 /**
  * Selenium2Library is a web testing library for the Robot Framework and was

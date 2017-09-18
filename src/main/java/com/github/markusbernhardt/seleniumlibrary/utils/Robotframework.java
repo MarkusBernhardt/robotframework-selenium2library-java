@@ -1,10 +1,10 @@
-package com.github.markusbernhardt.selenium2library.utils;
+package com.github.markusbernhardt.seleniumlibrary.utils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
-import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
 
 public abstract class Robotframework {
 

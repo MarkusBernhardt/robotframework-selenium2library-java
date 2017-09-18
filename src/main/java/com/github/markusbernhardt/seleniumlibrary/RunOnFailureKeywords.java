@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library;
+package com.github.markusbernhardt.seleniumlibrary;
 
 public interface RunOnFailureKeywords {
 

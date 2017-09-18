@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.utils;
+package com.github.markusbernhardt.seleniumlibrary.utils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 import org.openqa.selenium.WebDriver;
 
-import com.github.markusbernhardt.selenium2library.Selenium2LibraryFatalException;
+import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryFatalException;
 
 public class WebDriverCache {
 

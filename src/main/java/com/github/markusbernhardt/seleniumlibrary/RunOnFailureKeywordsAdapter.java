@@ -1,8 +1,8 @@
-package com.github.markusbernhardt.selenium2library;
+package com.github.markusbernhardt.seleniumlibrary;
 
 import org.robotframework.javalib.annotation.Autowired;
 
-import com.github.markusbernhardt.selenium2library.keywords.RunOnFailure;
+import com.github.markusbernhardt.seleniumlibrary.keywords.RunOnFailure;
 
 public abstract class RunOnFailureKeywordsAdapter implements RunOnFailureKeywords {
 

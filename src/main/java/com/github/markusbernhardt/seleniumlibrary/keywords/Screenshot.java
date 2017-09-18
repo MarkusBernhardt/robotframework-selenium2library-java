@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.keywords;
+package com.github.markusbernhardt.seleniumlibrary.keywords;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,8 +12,8 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.selenium2library.utils.Robotframework;
+import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
+import com.github.markusbernhardt.seleniumlibrary.utils.Robotframework;
 
 @RobotKeywords
 public class Screenshot extends RunOnFailureKeywordsAdapter {

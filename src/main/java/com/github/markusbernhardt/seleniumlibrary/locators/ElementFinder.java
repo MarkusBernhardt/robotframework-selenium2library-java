@@ -1,4 +1,4 @@
-package com.github.markusbernhardt.selenium2library.locators;
+package com.github.markusbernhardt.seleniumlibrary.locators;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -14,9 +14,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.python.util.PythonInterpreter;
 
-import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
-import com.github.markusbernhardt.selenium2library.keywords.Element;
-import com.github.markusbernhardt.selenium2library.utils.Python;
+import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.keywords.Element;
+import com.github.markusbernhardt.seleniumlibrary.utils.Python;
 
 public class ElementFinder {
 
