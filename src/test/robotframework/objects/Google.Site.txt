@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Defines all required resources and keywords
 ...               handling the google website.
-Resource          ../adapters/Selenium2Library.txt
+Resource          ../adapters/SeleniumLibrary.txt
 
 *** Variables ***
 ${Google.Site.Url}    http://www.google.de
