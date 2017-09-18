@@ -1,21 +1,18 @@
 package com.github.markusbernhardt.selenium2library.keywords;
 
+import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
+import com.github.markusbernhardt.selenium2library.Selenium2LibraryFatalException;
+import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.selenium2library.locators.ElementFinder;
+import com.github.markusbernhardt.selenium2library.locators.WindowManager;
+import com.github.markusbernhardt.selenium2library.utils.CustomHttpClientFactory;
+import com.github.markusbernhardt.selenium2library.utils.Robotframework;
+import com.github.markusbernhardt.selenium2library.utils.TimeUtils;
+import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
+import com.github.markusbernhardt.selenium2library.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
+import com.opera.core.systems.OperaDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.selendroid.client.SelendroidDriver;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
@@ -36,9 +33,11 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.http.HttpClient;
 import org.openqa.selenium.safari.SafariDriver;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.Autowired;
@@ -46,15 +45,19 @@ import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
-import com.github.markusbernhardt.selenium2library.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.selenium2library.Selenium2LibraryFatalException;
-import com.github.markusbernhardt.selenium2library.Selenium2LibraryNonFatalException;
-import com.github.markusbernhardt.selenium2library.locators.ElementFinder;
-import com.github.markusbernhardt.selenium2library.locators.WindowManager;
-import com.github.markusbernhardt.selenium2library.utils.Robotframework;
-import com.github.markusbernhardt.selenium2library.utils.WebDriverCache;
-import com.github.markusbernhardt.selenium2library.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
-import com.opera.core.systems.OperaDriver;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("deprecation")
 @RobotKeywords
@@ -211,6 +214,16 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return openBrowser(url, browserName, alias, remoteUrl, desiredCapabilities, null);
 	}
 
+	@RobotKeywordOverload
+	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
+			String desiredCapabilities, String browserOptions) throws Throwable {
+		// Magic constants '2 minutes' and '3 hours' are defined at HttpClientFactory, and hard-coded by default:
+		// HttpClientFactory.TIMEOUT_TWO_MINUTES
+		// HttpClientFactory.TIMEOUT_THREE_HOURS
+		return openBrowser(url, browserName, alias, remoteUrl, desiredCapabilities, browserOptions,
+				"2 minutes", "3 hours");
+	}
+
 	/**
 	 * Opens a new browser instance to given URL.<br>
 	 * <br>
@@ -345,7 +358,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * href=
 	 * "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine"
 	 * >Strange errors with multiple IE instances</a><br>
-	 * 
+	 *
 	 * @param url
 	 *            The URL to open in the newly created browser instance.
 	 * @param browserName
@@ -369,18 +382,23 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 *            >DesiredCapabilities</a>
 	 * @param browserOptions
 	 *            Default=NONE. Extended browser options as JSON structure.
+	 * @param connectionTimeout
+	 *            Default=2 minutes. Connection timeout value for (Remote) WebDriver.
+	 * @param socketTimeout
+	 *            Default=3 hours. Socket timeout value for (Remote) WebDriver.
 	 * @return The index of the newly created browser instance.
 	 * @throws Throwable - if anything goes wrong
-	 * 
+	 *
 	 * @see BrowserManagement#closeAllBrowsers
 	 * @see BrowserManagement#closeBrowser
 	 * @see BrowserManagement#switchBrowser
 	 */
 	@RobotKeyword
 	@ArgumentNames({ "url", "browserName=firefox", "alias=NONE", "remoteUrl=False", "desiredCapabilities=NONE",
-			"browserOptions=NONE" })
+			"browserOptions=NONE", "connectionTimeout=2 minutes", "socketTimeout=3 hours" })
 	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
-			String desiredCapabilities, String browserOptions) throws Throwable {
+							  String desiredCapabilities, String browserOptions, String connectionTimeout,
+							  String socketTimeout) throws Throwable {
 		try {
 			logging.info("browserName: " + browserName);
 			if (remoteUrl != null) {
@@ -389,8 +407,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			} else {
 				logging.info(String.format("Opening browser '%s' to base url '%s'", browserName, url));
 			}
-
-			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions);
+			final int connectionTimeoutMillis = TimeUtils.convertRobotTimeToMillis(connectionTimeout);
+			final int socketTimeoutMillis = TimeUtils.convertRobotTimeToMillis(socketTimeout);
+			WebDriver webDriver = createWebDriver(browserName, desiredCapabilities, remoteUrl, browserOptions,
+					CustomHttpClientFactory.createWithSpecificTimeout(connectionTimeoutMillis, socketTimeoutMillis));
 			webDriver.get(url);
 			String sessionId = webDriverCache.register(webDriver, alias);
 			logging.debug(String.format("Opened browser with session id %s", sessionId));
@@ -1350,14 +1370,14 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	protected WebDriver createWebDriver(String browserName, String desiredCapabilitiesString, String remoteUrlString,
-			String browserOptions) throws MalformedURLException {
+			String browserOptions, HttpClient.Factory factory) throws MalformedURLException {
 		browserName = browserName.toLowerCase().replace(" ", "");
 		DesiredCapabilities desiredCapabilities = createDesiredCapabilities(browserName, desiredCapabilitiesString,
 				browserOptions);
 
 		WebDriver webDriver;
 		if (remoteUrlString != null && !"False".equals(remoteUrlString)) {
-			webDriver = createRemoteWebDriver(desiredCapabilities, new URL(remoteUrlString));
+			webDriver = createRemoteWebDriver(desiredCapabilities, new URL(remoteUrlString), factory);
 		} else {
 			webDriver = createLocalWebDriver(browserName, desiredCapabilities);
 		}
@@ -1404,8 +1424,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		throw new Selenium2LibraryFatalException(browserName + " is not a supported browser.");
 	}
 
-	protected WebDriver createRemoteWebDriver(DesiredCapabilities desiredCapabilities, URL remoteUrl) {
-		HttpCommandExecutor httpCommandExecutor = new HttpCommandExecutor(remoteUrl);
+	protected WebDriver createRemoteWebDriver(DesiredCapabilities desiredCapabilities, URL remoteUrl,
+			HttpClient.Factory factory) {
+		HttpCommandExecutor httpCommandExecutor = new HttpCommandExecutor(Collections.<String, CommandInfo>emptyMap(),
+				remoteUrl, factory);
 		setRemoteWebDriverProxy(httpCommandExecutor);
 		return new Augmenter().augment(new RemoteWebDriver(httpCommandExecutor, desiredCapabilities));
 	}
