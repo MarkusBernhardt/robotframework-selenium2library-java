@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 
 	<name>Robot Framework :: SeleniumLibrary</name>
-	<description>Java port of the Selenium 2 (WebDriver) Python library for Robot Framework</description>
+	<description>Java port of the Python based SeleniumLibrary for Robot Framework</description>
 	<url>https://github.com/Hi-Fi/robotframework-seleniumlibrary-java</url>
 
 	<properties>
@@ -269,13 +269,13 @@
 						<configuration>
 							<doclet>com.github.markusbernhardt.xmldoclet.XmlDoclet</doclet>
 							<additionalparam>-d ${project.build.directory}/classes -filename
-								com/github/markusbernhardt/selenium2library/Selenium2Library.javadoc</additionalparam>
+								com/github/markusbernhardt/seleniumlibrary/SeleniumLibrary.javadoc</additionalparam>
 							<useStandardDocletOptions>false</useStandardDocletOptions>
 							<javadocExecutable>${java.home}/../bin</javadocExecutable>
 							<sourceFileIncludes>
 								<sourceFileInclude>*.java</sourceFileInclude>
-								<sourceFileInclude>com/github/markusbernhardt/selenium2library/Selenium2Library.java</sourceFileInclude>
-								<sourceFileInclude>com/github/markusbernhardt/selenium2library/keywords/*.java</sourceFileInclude>
+								<sourceFileInclude>com/github/markusbernhardt/seleniumlibrary/SeleniumLibrary.java</sourceFileInclude>
+								<sourceFileInclude>com/github/markusbernhardt/seleniumlibrary/keywords/*.java</sourceFileInclude>
 							</sourceFileIncludes>
 							<docletArtifact>
 								<groupId>com.github.markusbernhardt</groupId>

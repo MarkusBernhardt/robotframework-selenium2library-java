@@ -246,7 +246,7 @@ public class SeleniumLibrary extends AnnotationLibrary {
 	/**
 	 * The list of keyword patterns for the AnnotationLibrary
 	 */
-	public static final String KEYWORD_PATTERN = "com/github/hi_fi/seleniumlibrary/keywords/**/*.class";
+	public static final String KEYWORD_PATTERN = "com/github/markusbernhardt/seleniumlibrary/keywords/**/*.class";
 
 	/**
 	 * The javadoc to libdoc converter

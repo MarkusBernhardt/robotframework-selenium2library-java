@@ -22,7 +22,7 @@ Init
 
 Go To
     ${Current.Location}=    Get Location
-    Run Keyword If    '${Current.Location}'!='${Google.Site.Url}'    Selenium2Library.Go To    ${Google.Site.Url}
+    Run Keyword If    '${Current.Location}'!='${Google.Site.Url}'    SeleniumLibrary.Go To    ${Google.Site.Url}
     Title Should Be    ${Google.Site.PageTitle}
 
 Close

@@ -1,0 +1,3 @@
+*** Settings ***
+Documentation     Loads the SeleniumLibrary.
+Library           SeleniumLibrary

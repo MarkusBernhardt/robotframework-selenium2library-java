@@ -714,7 +714,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * </tr>
 	 * </table>
 	 * <br>
-	 * It is also possible to specify the approach Selenium2Library should take
+	 * It is also possible to specify the approach SeleniumLibrary should take
 	 * to find a window by specifying a locator strategy. See `Introduction` for
 	 * details about locators:
 	 * <table border="1" cellspacing="0" summary="">
