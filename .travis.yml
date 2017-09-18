@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
   - openjdk7
 install:
-  - mvn --settings .travis/settings.xml install -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
+  - mvn --settings .travis/settings.xml install -Dgpg.skip -B -V
 before_install:
   - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
   - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi
