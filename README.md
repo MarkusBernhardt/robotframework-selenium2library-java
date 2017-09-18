@@ -1,4 +1,4 @@
-Java port of the Selenium 2 (WebDriver) Python library for Robot Framework
+Java port of the Python based SeleniumLibrary for Robot Framework
 ==========================================================================
 
 Introduction
@@ -19,9 +19,7 @@ This Java version of SeleniumLibrary exists because of easier dependency managem
 Usage
 -----
 
-This library is a direct replacement to the Python Selenium2Library.
-There are almost no changes necesssary to the existing code. You 
-can execute the same testcases and keywords with Python and Jython.
+This library is a quite direct alternative to the Python SeleniumLibrary.
 
 If you are using the robotframework-maven-plugin you can
 use this library by adding the following dependency to 
