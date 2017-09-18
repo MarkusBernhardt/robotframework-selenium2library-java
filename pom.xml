@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -7,14 +8,14 @@
 		<version>7</version>
 	</parent>
 
-	<groupId>com.github.markusbernhardt</groupId>
-	<artifactId>robotframework-selenium2library-java</artifactId>
-	<version>1.4.0.9-SNAPSHOT</version>
+	<groupId>com.github.hi-fi</groupId>
+	<artifactId>robotframework-seleniumlibrary</artifactId>
+	<version>2.48.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Robot Framework :: Selenium2Library</name>
-	<description>Java port of the Selenium 2 (WebDriver) Python library for Robot Framework</description>
-	<url>https://github.com/MarkusBernhardt/robotframework-selenium2library-java</url>
+	<name>Robot Framework :: SeleniumLibrary</name>
+	<description>Java port of the Python based SeleniumLibrary for Robot Framework</description>
+	<url>https://github.com/Hi-Fi/robotframework-seleniumlibrary-java</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,14 +25,15 @@
 		<java.version>1.6</java.version>
 		<xml.doclet.version>1.0.5</xml.doclet.version>
 		<robotframework.version>2.9.2</robotframework.version>
+		<robotframework.maven.plugin.version>1.4.5</robotframework.maven.plugin.version>
 		<selenium.version>2.48.2</selenium.version>
-		<keywords.class>Selenium2Library</keywords.class>
+		<keywords.class>SeleniumLibrary</keywords.class>
 	</properties>
 
 	<scm>
-		<url>https://github.com/MarkusBernhardt/robotframework-selenium2library-java</url>
-		<connection>scm:git://github.com/MarkusBernhardt/robotframework-selenium2library-java.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/MarkusBernhardt/robotframework-selenium2library-java.git</developerConnection>
+		<url>https://github.com/Hi-Fi/robotframework-seleniumlibrary-java</url>
+		<connection>scm:git://github.com/Hi-Fi/robotframework-seleniumlibrary-java.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:Hi-Fi/robotframework-seleniumlibrary-java.git</developerConnection>
 	</scm>
 
 	<licenses>
@@ -46,6 +48,11 @@
 		<developer>
 			<name>Markus Bernhardt</name>
 			<email>markus.bernhardt@me.com</email>
+		</developer>
+		<developer>
+			<name>Juho Saarinen</name>
+			<email>juho.saarinen@gmail.com</email>
+			<id>hi-fi</id>
 		</developer>
 	</developers>
 
@@ -71,9 +78,9 @@
 			<version>1.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.detro.ghostdriver</groupId>
+			<groupId>com.codeborne</groupId>
 			<artifactId>phantomjsdriver</artifactId>
-			<version>1.1.0</version>
+			<version>1.4.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.robotframework</groupId>
@@ -91,11 +98,6 @@
 			<version>1.1.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-remote-driver</artifactId>
-			<version>${selenium.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>io.selendroid</groupId>
 			<artifactId>selendroid-client</artifactId>
 			<version>0.17.0</version>
@@ -103,12 +105,17 @@
 		<dependency>
 			<groupId>io.appium</groupId>
 			<artifactId>java-client</artifactId>
-			<version>3.2.0</version>
+			<version>4.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-exec</artifactId>
 			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.machinepublishers</groupId>
+			<artifactId>jbrowserdriver</artifactId>
+			<version>0.17.9</version>
 		</dependency>
 	</dependencies>
 
@@ -163,7 +170,7 @@
 				<!-- Integration-Test, build documentation -->
 				<groupId>org.robotframework</groupId>
 				<artifactId>robotframework-maven-plugin</artifactId>
-				<version>1.4.5</version>
+				<version>${robotframework.maven.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>test</id>
@@ -262,13 +269,13 @@
 						<configuration>
 							<doclet>com.github.markusbernhardt.xmldoclet.XmlDoclet</doclet>
 							<additionalparam>-d ${project.build.directory}/classes -filename
-								com/github/markusbernhardt/selenium2library/Selenium2Library.javadoc</additionalparam>
+								com/github/markusbernhardt/seleniumlibrary/SeleniumLibrary.javadoc</additionalparam>
 							<useStandardDocletOptions>false</useStandardDocletOptions>
 							<javadocExecutable>${java.home}/../bin</javadocExecutable>
 							<sourceFileIncludes>
 								<sourceFileInclude>*.java</sourceFileInclude>
-								<sourceFileInclude>com/github/markusbernhardt/selenium2library/Selenium2Library.java</sourceFileInclude>
-								<sourceFileInclude>com/github/markusbernhardt/selenium2library/keywords/*.java</sourceFileInclude>
+								<sourceFileInclude>com/github/markusbernhardt/seleniumlibrary/SeleniumLibrary.java</sourceFileInclude>
+								<sourceFileInclude>com/github/markusbernhardt/seleniumlibrary/keywords/*.java</sourceFileInclude>
 							</sourceFileIncludes>
 							<docletArtifact>
 								<groupId>com.github.markusbernhardt</groupId>
@@ -327,32 +334,39 @@
 
 	<profiles>
 		<profile>
-			<id>sonatype-oss-release</id>
+			<id>release</id>
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.10.3</version>
+						<version>2.9.1</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
 								<goals>
 									<goal>jar</goal>
 								</goals>
-								<configuration>
-									<use>false</use>
-									<links>
-										<link>http://java.sun.com/javase/7/docs/api/</link>
-									</links>
-								</configuration>
 							</execution>
 						</executions>
 					</plugin>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>1.9.1</version>
+						<version>1.10</version>
 						<executions>
 							<execution>
 								<id>attach-artifacts</id>
@@ -365,17 +379,86 @@
 										<artifact>
 											<file>${project.build.directory}/${keywords.class}.html</file>
 											<type>html</type>
-											<classifier>libdoc</classifier>
 										</artifact>
 										<artifact>
 											<file>${project.build.directory}/${keywords.class}.xml</file>
 											<type>xml</type>
-											<classifier>libdoc</classifier>
 										</artifact>
 									</artifacts>
 								</configuration>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.robotframework</groupId>
+						<artifactId>robotframework-maven-plugin</artifactId>
+						<version>1.4.7</version>
+						<executions>
+							<execution>
+								<id>html</id>
+								<phase>package</phase>
+								<goals>
+									<goal>libdoc</goal>
+								</goals>
+								<configuration>
+									<libdoc>
+										<outputDirectory>${project.build.directory}</outputDirectory>
+										<outputFile>${keywords.class}.html</outputFile>
+										<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
+									</libdoc>
+								</configuration>
+							</execution>
+							<execution>
+								<id>xml</id>
+								<phase>package</phase>
+								<goals>
+									<goal>libdoc</goal>
+								</goals>
+								<configuration>
+									<libdoc>
+										<outputDirectory>${project.build.directory}</outputDirectory>
+										<outputFile>${keywords.class}.xml</outputFile>
+										<libraryOrResourceFile>${keywords.class}</libraryOrResourceFile>
+									</libdoc>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.3</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-release-plugin</artifactId>
+						<version>2.5</version>
+						<configuration>
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+							<useReleaseProfile>false</useReleaseProfile>
+							<releaseProfiles>release</releaseProfiles>
+							<goals>deploy</goals>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>

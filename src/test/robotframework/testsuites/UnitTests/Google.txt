@@ -18,14 +18,14 @@ Search Robotframework Selenium2Library
     Google.Search.Search String    Robotframework Selenium2Library Java
     
 Search With JavaScript Locator
-    Selenium2Library.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
+    SeleniumLibrary.Add Location Strategy    elementById    return window.document.getElementById(arguments[0]);
     Input Text    elementById=lst-ib    Robotframework Selenium2Library Java
     Press Key    elementById=lst-ib    \\13
     Wait Until Element Is Visible    xpath=//a[contains(.,'MarkusBernhardt')]
     Capture Page Screenshot
    
 Search With JavaScript Locator Text
-    Selenium2Library.Add Location Strategy    text    return window.document.evaluate("//*[contains(@value,'" + arguments[0] + "')]", window.document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    SeleniumLibrary.Add Location Strategy    text    return window.document.evaluate("//*[contains(@value,'" + arguments[0] + "')]", window.document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     Wait Until Element Is Visible    text=Google-Suche
 
 Search Without Locator Type

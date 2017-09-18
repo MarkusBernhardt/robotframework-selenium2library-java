@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Defines all required resources and keywords
 ...               handling the google website.
-Resource          ../adapters/Selenium2Library.txt
+Resource          ../adapters/SeleniumLibrary.txt
 
 *** Variables ***
 ${Google.Site.Url}    http://www.google.de
@@ -22,7 +22,7 @@ Init
 
 Go To
     ${Current.Location}=    Get Location
-    Run Keyword If    '${Current.Location}'!='${Google.Site.Url}'    Selenium2Library.Go To    ${Google.Site.Url}
+    Run Keyword If    '${Current.Location}'!='${Google.Site.Url}'    SeleniumLibrary.Go To    ${Google.Site.Url}
     Title Should Be    ${Google.Site.PageTitle}
 
 Close

@@ -1,69 +1,49 @@
-Java port of the Selenium 2 (WebDriver) Python library for Robot Framework
+Java port of the Python based SeleniumLibrary for Robot Framework
 ==========================================================================
 
 Introduction
 ------------
 
-Selenium2Library is a web testing library for Robot Framework that leverages
-the [Selenium 2 (WebDriver)](http://docs.seleniumhq.org/docs/03_webdriver.jsp)
-libraries from the [Selenium](http://docs.seleniumhq.org) project.
-It is modeled after (and forked from) the Robot Framework
-[SeleniumLibrary](http://code.google.com/p/robotframework-seleniumlibrary/)
-library, but re-implemented to use Selenium 2 and WebDriver technologies.
+SeleniumLibrary is a web testing library for Robot Framework that leverages
+the Selenium libraries from the [Selenium](http://docs.seleniumhq.org) project.
+
+Version number follows Selenium's version numbers (first 3 numbers), and 4th number is reserved for e.g. issue fixes.
 * More information about this library can be found in the
-  [Keyword Documentation](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.8/robotframework-selenium2library-java-1.4.0.8-libdoc.html).
+  [Keyword Documentation](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.48.2.0/robotframework-seleniumlibrary-java-2.48.2.0-libdoc.html).
 * For keyword completion in RIDE you can download this
-  [Library Specs](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.8/robotframework-selenium2library-java-1.4.0.8-libdoc.xml)
+  [Library Specs](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.48.2.0/robotframework-seleniumlibrary-java-2.48.2.0-libdoc.xml)
   and place it in your PYTHONPATH.
 
-This Java port of the existing Selenium2Library was created to enable
-the usage of a Selenium 2 library with Jython.
-* Python Selenium2Library needs Python 2.6 upwards
-* The latests stable release of Jython is 2.5.3
-* Jython 2.7b2 is a beta version
-* There seems to be only slow development of a stable Jython 2.7
+This Java version of SeleniumLibrary exists because of easier dependency management when Robot Framework is used in Java-projects.
 
 Usage
 -----
 
-This library is a direct replacement to the Python Selenium2Library.
-There are almost no changes necesssary to the existing code. You 
-can execute the same testcases and keywords with Python and Jython.
+This library is a quite direct alternative to the Python SeleniumLibrary.
 
 If you are using the robotframework-maven-plugin you can
 use this library by adding the following dependency to 
 your pom.xml:
 
     <dependency>
-        <groupId>com.github.markusbernhardt</groupId>
-        <artifactId>robotframework-selenium2library-java</artifactId>
-        <version>1.4.0.8</version>
+        <groupId>com.github.hi_fi</groupId>
+        <artifactId>robotframework-seleniumlibrary-java</artifactId>
+        <version>2.48.2.0</version>
         <scope>test</scope>
     </dependency>
 
 If you cannot use the robotframework-maven-plugin you can use the
-[jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.8/robotframework-selenium2library-java-1.4.0.8-jar-with-dependencies.jar),
+[jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.48.2.0/robotframework-seleniumlibrary-java-2.48.2.0-jar-with-dependencies.jar),
 which contains all required libraries.
 
 If you want more control and feel adventurous you could you use this
-[jar](http://search.maven.org/remotecontent?filepath=com/github/markusbernhardt/robotframework-selenium2library-java/1.4.0.8/robotframework-selenium2library-java-1.4.0.8.jar)
+[jar](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.48.2.0/robotframework-seleniumlibrary-java-2.48.2.0.jar)
 and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
 
 Differences
 -----------
 
-* Selenium Speed not implemented
-
-  Setting the Selenium Speed is deprecated several years and not
-  implemented in WebDriver. The Python Selenium2Library tries to
-  emulate the old behavior. I have not implemented this emulation
-  for the following reasons.
-  
-  * As far as I understand the emulation is broken and only works
-    with RemoteWebDriver
-  * I do not know how to implement that in a correct way with Java 
-  * There is a reason, why this is not implemented in WebDriver.
-    It's a bad idea.
+* Some keyword differences between this and [Python version](https://github.com/robotframework/SeleniumLibrary) exists. (Same) keywords should be aligned in upcoming versions.
 
 Demo
 ----
@@ -79,5 +59,5 @@ Getting Help
 The [user group for Robot Framework](https://groups.google.com/forum/#!forum/robotframework-users)
 is the best place to get help. Consider including in the post:
 * Full description of what you are trying to do and expected outcome
-* Version number of Selenium2Library, Robot Framework, and Selenium
+* Version number of SeleniumLibrary, Robot Framework, and Selenium
 * StackTraces or other debug output containing error information

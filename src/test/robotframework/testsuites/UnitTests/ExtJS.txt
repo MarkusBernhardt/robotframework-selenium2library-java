@@ -1,27 +1,27 @@
 *** Settings ***
 Suite Setup       Open Page
 Suite Teardown    Close Browser
-Library           Selenium2Library
+Resource          ../../settings/Settings.txt
 
 *** Variables ***
-${URL Application}     http://dev.sencha.com/deploy/ext-4.0.0/examples/writer/writer.html
-${add}                 extJsButton=button[text='Add']
-${inputfield email}    extJsTextfield=textfield[name='email']
+${URL Application}     http://examples.sencha.com/extjs/6.5.0/examples/classic/ticket-app/index.html
+${login}                 extJsButton=button[text='Login']
+${inputfield password}    extJsTextfield=textfield[name='password']
 
 *** Keywords ***
 Open Page
     Add Location Strategy    extJs               return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).getId());
     Add Location Strategy    extJsButton         return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).btnEl.id);
     Add Location Strategy    extJsTextfield      return window.document.getElementById((Ext.ComponentQuery.query(arguments[0])[0]).getInputId());
-    Open Browser    ${URL Application}    firefox    mainbrowser
+    Open Browser    ${URL Application}    ${browser}    mainbrowser
     Log System Info
     Log Remote Session Id
     Log Remote Capabilities
 
 *** Test Cases ***
-Add Employee
-    Click Button    ${add}
+Buy Ticket
+    Input Text    ${inputfield password}    password
     Capture Page Screenshot
 
-    Input Text    ${inputfield email}    Haaalloooo Welt
+    Click Element    ${login}
     Capture Page Screenshot
