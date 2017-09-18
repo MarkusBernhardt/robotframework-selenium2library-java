@@ -7,14 +7,14 @@
 		<version>7</version>
 	</parent>
 
-	<groupId>com.github.markusbernhardt</groupId>
-	<artifactId>robotframework-selenium2library-java</artifactId>
-	<version>1.4.0.9-SNAPSHOT</version>
+	<groupId>com.github.hi-fi</groupId>
+	<artifactId>robotframework-seleniumlibrary</artifactId>
+	<version>2.48.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Robot Framework :: Selenium2Library</name>
+	<name>Robot Framework :: SeleniumLibrary</name>
 	<description>Java port of the Selenium 2 (WebDriver) Python library for Robot Framework</description>
-	<url>https://github.com/MarkusBernhardt/robotframework-selenium2library-java</url>
+	<url>https://github.com/Hi-Fi/robotframework-seleniumlibrary-java</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,9 +29,9 @@
 	</properties>
 
 	<scm>
-		<url>https://github.com/MarkusBernhardt/robotframework-selenium2library-java</url>
-		<connection>scm:git://github.com/MarkusBernhardt/robotframework-selenium2library-java.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/MarkusBernhardt/robotframework-selenium2library-java.git</developerConnection>
+		<url>https://github.com/Hi-Fi/robotframework-seleniumlibrary-java</url>
+		<connection>scm:git://github.com/Hi-Fi/robotframework-seleniumlibrary-java.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:Hi-Fi/robotframework-seleniumlibrary-java.git</developerConnection>
 	</scm>
 
 	<licenses>
@@ -46,6 +46,11 @@
 		<developer>
 			<name>Markus Bernhardt</name>
 			<email>markus.bernhardt@me.com</email>
+		</developer>
+		<developer>
+			<name>Juho Saarinen</name>
+			<email>juho.saarinen@gmail.com</email>
+			<id>hi-fi</id>
 		</developer>
 	</developers>
 
