@@ -1,7 +1,6 @@
 language: java
 jdk:
   - oraclejdk8
-  - openjdk7
 install:
   - mvn --settings .travis/settings.xml install -Dgpg.skip -B -V
 before_install:
