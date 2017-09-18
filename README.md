@@ -9,9 +9,9 @@ the Selenium libraries from the [Selenium](http://docs.seleniumhq.org) project.
 
 Version number follows Selenium's version numbers (first 3 numbers), and 4th number is reserved for e.g. issue fixes.
 * More information about this library can be found in the
-  [Keyword Documentation](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.48.2.0/robotframework-seleniumlibrary-java-2.48.2.0-libdoc.html).
+  [Keyword Documentation](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.53.1.0/robotframework-seleniumlibrary-java-2.53.1.0-libdoc.html).
 * For keyword completion in RIDE you can download this
-  [Library Specs](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.48.2.0/robotframework-seleniumlibrary-java-2.48.2.0-libdoc.xml)
+  [Library Specs](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.53.1.0/robotframework-seleniumlibrary-java-2.53.1.0-libdoc.xml)
   and place it in your PYTHONPATH.
 
 This Java version of SeleniumLibrary exists because of easier dependency management when Robot Framework is used in Java-projects.
@@ -28,16 +28,16 @@ your pom.xml:
     <dependency>
         <groupId>com.github.hi_fi</groupId>
         <artifactId>robotframework-seleniumlibrary-java</artifactId>
-        <version>2.48.2.0</version>
+        <version>2.53.1.0</version>
         <scope>test</scope>
     </dependency>
 
 If you cannot use the robotframework-maven-plugin you can use the
-[jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.48.2.0/robotframework-seleniumlibrary-java-2.48.2.0-jar-with-dependencies.jar),
+[jar-with-dependencies](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.53.1.0/robotframework-seleniumlibrary-java-2.53.1.0-jar-with-dependencies.jar),
 which contains all required libraries.
 
 If you want more control and feel adventurous you could you use this
-[jar](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.48.2.0/robotframework-seleniumlibrary-java-2.48.2.0.jar)
+[jar](http://search.maven.org/remotecontent?filepath=com/github/hi_fi/robotframework-seleniumlibrary-java/2.53.1.0/robotframework-seleniumlibrary-java-2.53.1.0.jar)
 and provide all required libraries from this [list](DEPENDENCIES.md) on your own.
 
 Differences
