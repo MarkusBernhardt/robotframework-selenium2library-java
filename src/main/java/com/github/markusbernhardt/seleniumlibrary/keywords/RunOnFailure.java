@@ -33,10 +33,10 @@ public class RunOnFailure extends RunOnFailureKeywordsAdapter {
 
 	/**
 	 * Sets the actual and returns the previous keyword to execute when a
-	 * Selenium2Library keyword fails.<br>
+	 * SeleniumLibrary keyword fails.<br>
 	 * <br>
 	 * The <b>keyword</b> is the name of a keyword (from any available
-	 * libraries) that will be executed, if a Selenium2Library keyword fails. It
+	 * libraries) that will be executed, if a SeleniumLibrary keyword fails. It
 	 * is not possible to use a keyword that requires arguments. Using the value
 	 * <b>Nothing</b> will disable this feature altogether.<br>
 	 * <br>

@@ -342,7 +342,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 			// There is a hard limit of 100k in the Jython source code parser
 			try {
 				// Write message to temp file
-				File tempFile = File.createTempFile("Selenium2Library-", ".log");
+				File tempFile = File.createTempFile("SeleniumLibrary-", ".log");
 				tempFile.deleteOnExit();
 				FileWriter writer = new FileWriter(tempFile);
 				writer.write(msg);

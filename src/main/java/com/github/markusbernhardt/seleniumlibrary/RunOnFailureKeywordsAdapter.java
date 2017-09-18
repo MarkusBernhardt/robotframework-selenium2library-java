@@ -11,7 +11,7 @@ public abstract class RunOnFailureKeywordsAdapter implements RunOnFailureKeyword
 
 	/**
 	 * This method is called by the
-	 * com.github.markusbernhardt.selenium2library.aspects.RunOnFailureAspect in
+	 * com.github.markusbernhardt.seleniumlibrary.aspects.RunOnFailureAspect in
 	 * case a exception is thrown in one of the public methods of a keyword
 	 * class.
 	 */
