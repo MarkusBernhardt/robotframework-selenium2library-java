@@ -24,7 +24,7 @@ import com.github.markusbernhardt.seleniumlibrary.keywords.Waiting;
 import com.github.markusbernhardt.seleniumlibrary.utils.Javadoc2Libdoc;
 
 /**
- * Selenium2Library is a web testing library for the Robot Framework and was
+ * SeleniumLibrary is a web testing library for the Robot Framework and was
  * originally written in Python. This is the Java port of the Selenium 2
  * (WebDriver) Python library for Robot Framework. It uses the Selenium 2
  * (WebDriver) libraries internally to control a web browser. See <a
@@ -34,13 +34,13 @@ import com.github.markusbernhardt.seleniumlibrary.utils.Javadoc2Libdoc;
  * Jython interpreter or any other Java application.<br>
  * <br>
  * <span style="font-size: 120%;"><b>Before running tests</b></span><br>
- * Prior to running test cases using Selenium2Library, the library must be
+ * Prior to running test cases using SeleniumLibrary, the library must be
  * imported into your Robot Framework test suite (see importing section), and
  * the `Open Browser` keyword must be used to open a browser to the desired
  * location.<br>
  * <br>
  * <span style="font-size: 120%;"><b>Locating elements</b></span><br>
- * All keywords in Selenium2Library that need to find an element on the page
+ * All keywords in SeleniumLibrary that need to find an element on the page
  * take an locator argument.<br>
  * <br>
  * <b>Key attributes</b><br>
@@ -85,7 +85,7 @@ import com.github.markusbernhardt.seleniumlibrary.utils.Javadoc2Libdoc;
  * </table>
  * <br>
  * <b>Locator strategies</b><br>
- * It is also possible to specify the approach Selenium2Library should take to
+ * It is also possible to specify the approach SeleniumLibrary should take to
  * find an element by specifying a locator strategy with a locator prefix.<br>
  * <br>
  * Supported strategies are:
@@ -241,17 +241,17 @@ import com.github.markusbernhardt.seleniumlibrary.utils.Javadoc2Libdoc;
  * </tr>
  * </table>
  */
-public class Selenium2Library extends AnnotationLibrary {
+public class SeleniumLibrary extends AnnotationLibrary {
 
 	/**
 	 * The list of keyword patterns for the AnnotationLibrary
 	 */
-	public static final String KEYWORD_PATTERN = "com/github/markusbernhardt/selenium2library/keywords/**/*.class";
+	public static final String KEYWORD_PATTERN = "com/github/hi_fi/seleniumlibrary/keywords/**/*.class";
 
 	/**
 	 * The javadoc to libdoc converter
 	 */
-	public static final Javadoc2Libdoc JAVADOC_2_LIBDOC = new Javadoc2Libdoc(Selenium2Library.class);
+	public static final Javadoc2Libdoc JAVADOC_2_LIBDOC = new Javadoc2Libdoc(SeleniumLibrary.class);
 
 	/**
 	 * The library documentation is written in HTML
@@ -270,27 +270,27 @@ public class Selenium2Library extends AnnotationLibrary {
 
 	private static String loadRobotLibraryVersion() {
 		try {
-			return ResourceBundle.getBundle(Selenium2Library.class.getCanonicalName().replace(".", File.separator))
+			return ResourceBundle.getBundle(SeleniumLibrary.class.getCanonicalName().replace(".", File.separator))
 					.getString("version");
 		} catch (RuntimeException e) {
 			return "unknown";
 		}
 	}
 
-	public Selenium2Library() {
+	public SeleniumLibrary() {
 		this("5.0");
 	}
 
-	public Selenium2Library(String timeout) {
+	public SeleniumLibrary(String timeout) {
 		this(timeout, "0.0");
 	}
 
-	public Selenium2Library(String timeout, String implicitWait) {
+	public SeleniumLibrary(String timeout, String implicitWait) {
 		this(timeout, implicitWait, "Capture Page Screenshot");
 	}
 
 	/**
-	 * Selenium2Library can be imported with optional arguments.<br>
+	 * SeleniumLibrary can be imported with optional arguments.<br>
 	 * <br>
 	 * <b>timeout</b> is the default timeout used to wait for all waiting
 	 * actions. It can be changed later with `Set Selenium Timeout`.<br>
@@ -303,7 +303,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 * details about WebDriver's implicit wait functionality.<br>
 	 * <br>
 	 * <b>runOnFailure</b> specifies the name of a keyword (from any available
-	 * libraries) to execute when a Selenium2Library keyword fails. By default
+	 * libraries) to execute when a SeleniumLibrary keyword fails. By default
 	 * `Capture Page Screenshot` will be used to take a screenshot of the
 	 * current page. Using the value \"Nothing\" will disable this feature
 	 * altogether. See `Register Keyword To Run On Failure` keyword for details
@@ -313,7 +313,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
 	 * <td>Library</td>
-	 * <td>Selenium2Library</td>
+	 * <td>SeleniumLibrary</td>
 	 * <td></td>
 	 * <td></td>
 	 * <td></td>
@@ -321,7 +321,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 * </tr>
 	 * <tr>
 	 * <td>Library</td>
-	 * <td>Selenium2Library</td>
+	 * <td>SeleniumLibrary</td>
 	 * <td>15</td>
 	 * <td></td>
 	 * <td></td>
@@ -329,7 +329,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 * </tr>
 	 * <tr>
 	 * <td>Library</td>
-	 * <td>Selenium2Library</td>
+	 * <td>SeleniumLibrary</td>
 	 * <td>0</td>
 	 * <td>5</td>
 	 * <td></td>
@@ -337,7 +337,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 * </tr>
 	 * <tr>
 	 * <td>Library</td>
-	 * <td>Selenium2Library</td>
+	 * <td>SeleniumLibrary</td>
 	 * <td>0</td>
 	 * <td>5</td>
 	 * <td>Log Source</td>
@@ -346,7 +346,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 * </tr>
 	 * <tr>
 	 * <td>Library</td>
-	 * <td>Selenium2Library</td>
+	 * <td>SeleniumLibrary</td>
 	 * <td>0</td>
 	 * <td>5</td>
 	 * <td>Nothing</td>
@@ -363,7 +363,7 @@ public class Selenium2Library extends AnnotationLibrary {
 	 *            Default=Capture Page Screenshot. Optional custom keyword to
 	 *            run on failure.
 	 */
-	public Selenium2Library(String timeout, String implicitWait, String keywordToRunOnFailure) {
+	public SeleniumLibrary(String timeout, String implicitWait, String keywordToRunOnFailure) {
 		super();
 		addKeywordPattern(KEYWORD_PATTERN);
 		createKeywordFactory(); // => init annotations
@@ -513,17 +513,17 @@ public class Selenium2Library extends AnnotationLibrary {
 	}
 
 	/**
-	 * Returns the currently active Selenium2Library instance.
+	 * Returns the currently active SeleniumLibrary instance.
 	 * 
 	 * @return the library instance
 	 * @throws ScriptException - if error occurs in script
 	 */
-	public static Selenium2Library getLibraryInstance() throws ScriptException {
+	public static SeleniumLibrary getLibraryInstance() throws ScriptException {
 		ScriptEngine engine = new ScriptEngineManager().getEngineByName("python");
-		engine.put("library", "Selenium2Library");
+		engine.put("library", "SeleniumLibrary");
 		engine.eval("from robot.libraries.BuiltIn import BuiltIn");
 		engine.eval("instance = BuiltIn().get_library_instance(library)");
-		return (Selenium2Library) engine.get("instance");
+		return (SeleniumLibrary) engine.get("instance");
 	}
 
 	// ##############################

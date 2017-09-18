@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 
 public abstract class Robotframework {
 
@@ -41,7 +41,7 @@ public abstract class Robotframework {
 
 			return sb.toString();
 		} catch (UnsupportedEncodingException uee) {
-			throw new Selenium2LibraryNonFatalException(uee);
+			throw new SeleniumLibraryNonFatalException(uee);
 		}
 	}
 
@@ -103,7 +103,7 @@ public abstract class Robotframework {
 	public static double timestrToSecs(String timestr) {
 		timestr = normalizeTimestr(timestr);
 		if (timestr.length() == 0) {
-			throw new Selenium2LibraryNonFatalException("Invalid timestr: " + timestr);
+			throw new SeleniumLibraryNonFatalException("Invalid timestr: " + timestr);
 		}
 
 		try {
@@ -153,7 +153,7 @@ public abstract class Robotframework {
 			}
 		}
 		if (stringBuilder.length() != 0) {
-			throw new Selenium2LibraryNonFatalException("Invalid timestr: " + timestr);
+			throw new SeleniumLibraryNonFatalException("Invalid timestr: " + timestr);
 		}
 		return sign * (millis / 1000 + secs + mins * 60 + hours * 60 * 60 + days * 60 * 60 * 24);
 	}

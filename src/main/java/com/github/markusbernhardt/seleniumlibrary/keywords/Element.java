@@ -19,7 +19,7 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 import com.github.markusbernhardt.seleniumlibrary.locators.ElementFinder;
 import com.github.markusbernhardt.seleniumlibrary.utils.Python;
 
@@ -69,7 +69,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void currentFrameContains(String text, String logLevel) {
 		if (!isTextPresent(text)) {
 			logging.log(String.format("Current Frame Contains: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Page should have contained text '%s', but did not.", text));
 		} else {
 			logging.log(String.format("Current Frame Contains: %s => OK", text), logLevel);
@@ -96,7 +96,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void currentFrameShouldNotContain(String text, String logLevel) {
 		if (isTextPresent(text)) {
 			logging.log(String.format("Current Frame Should Not Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Page should have not contained text '%s', but did.", text));
 		} else {
 			logging.log(String.format("Current Frame Should Not Contain: %s => OK", text), logLevel);
@@ -127,7 +127,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 
 		if (!actual.toLowerCase().contains(text.toLowerCase())) {
 			logging.info(String.format("Element Should Contain: %s => FAILED", text));
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Element should have contained text '%s', but its text was %s.", text, actual));
 		} else {
 			logging.info(String.format("Element Should Contain: %s => OK", text));
@@ -159,7 +159,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 
 		if (actual.toLowerCase().contains(text.toLowerCase())) {
 			logging.info(String.format("Element Should Not Contain: %s => FAILED", text));
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Element should not have contained text '%s', but its text was %s.", text, actual));
 		} else {
 			logging.info(String.format("Element Should Not Contain: %s => OK", text));
@@ -188,7 +188,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void frameShouldContain(String locator, String text, String logLevel) {
 		if (!frameContains(locator, text)) {
 			logging.log(String.format("Frame Should Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Frame should have contained text '%s', but did not.", text));
 		} else {
 			logging.log(String.format("Frame Should Contain: %s => OK", text), logLevel);
@@ -213,7 +213,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void frameShouldNotContain(String locator, String text, String logLevel) {
 		if (frameContains(locator, text)) {
 			logging.log(String.format("Frame Should Not Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Frame should not have contained text '%s', but did.", text));
 		} else {
 			logging.log(String.format("Frame Should Not Contain: %s => OK", text), logLevel);
@@ -240,7 +240,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void pageShouldContain(String text, String logLevel) {
 		if (!pageContains(text)) {
 			logging.log(String.format("Page Should Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Page should have contained text '%s' but did not.", text));
 		} else {
 			logging.log(String.format("Page Should Contain: %s => OK", text), logLevel);
@@ -267,7 +267,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	public void pageShouldNotContain(String text, String logLevel) {
 		if (pageContains(text)) {
 			logging.log(String.format("Page Should Not Contain: %s => FAILED", text), logLevel);
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Page should not have contained text '%s' but did.", text));
 		} else {
 			logging.log(String.format("Page Should Not Contain: %s => OK", text), logLevel);
@@ -311,7 +311,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 				message = String.format("Page should have contained %s '%s' but did not", name, locator);
 			}
 			logging.log(message, logLevel);
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		} else {
 			logging.log(String.format("Current page contains %s '%s'.", name, locator), logLevel);
 		}
@@ -354,7 +354,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 				message = String.format("Page should not have contained %s '%s' but did", name, locator);
 			}
 			logging.log(message, logLevel);
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		} else {
 			logging.log(String.format("Current page does not contain %s '%s'.", name, locator), logLevel);
 		}
@@ -413,7 +413,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator" })
 	public void elementShouldBeEnabled(String locator) {
 		if (!isEnabled(locator)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Element %s is disabled.", locator));
+			throw new SeleniumLibraryNonFatalException(String.format("Element %s is disabled.", locator));
 		}
 	}
 
@@ -430,7 +430,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator" })
 	public void elementShouldBeDisabled(String locator) {
 		if (isEnabled(locator)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Element %s is enabled.", locator));
+			throw new SeleniumLibraryNonFatalException(String.format("Element %s is enabled.", locator));
 		}
 	}
 
@@ -460,7 +460,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			if (message == null || message.equals("")) {
 				message = String.format("Element '%s' should be selected, but it is not.", locator);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -490,7 +490,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			if (message == null || message.equals("")) {
 				message = String.format("Element '%s' should not be selected, but it is.", locator);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -525,7 +525,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			if (message == null || message.equals("")) {
 				message = String.format("Element '%s' should be visible, but it is not.", locator);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -560,7 +560,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			if (message == null || message.equals("")) {
 				message = String.format("Element '%s' should not be visible, but it is.", locator);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -590,7 +590,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			if (message == null || message.equals("")) {
 				message = String.format("Element '%s' should be clickable, but it is not.", locator);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -620,7 +620,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 			if (message == null || message.equals("")) {
 				message = String.format("Element '%s' should not be clickable, but it is.", locator);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -658,7 +658,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 				message = String.format("The text of element '%s' should have been '%s', but it was '%s'.", locator,
 						text, actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -696,7 +696,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 				message = String.format("The text of element '%s' should have been '%s', but it was '%s'.", locator,
 						text, actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -721,7 +721,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(parts[0], true, false);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format("Element '%s' not found.", parts[0]));
+			throw new SeleniumLibraryNonFatalException(String.format("Element '%s' not found.", parts[0]));
 		}
 
 		return elements.get(0).getAttribute(parts[1]);
@@ -777,14 +777,14 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(locator, true, true);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format("get Inner element '%s' not found.", locator));
+			throw new SeleniumLibraryNonFatalException(String.format("get Inner element '%s' not found.", locator));
 		}
 
 		String xpathId = ".//*[contains(@id," + matchid + ")]";
 
 		List<WebElement> tmpe = elements.get(0).findElements((By.xpath(xpathId)));
 		if (tmpe.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("No Inner element '%s' not found by '%s'", locator, matchid));
 		}
 		String eId = tmpe.get(index).getAttribute("id");
@@ -814,7 +814,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Could not determine position for '%s'.", locator));
 		}
 
@@ -889,7 +889,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Could not determine position for '%s'.", locator));
 		}
 
@@ -1080,7 +1080,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
+			throw new SeleniumLibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
 		}
 
 		Actions action = new Actions(browserManagement.getCurrentWebDriver());
@@ -1104,7 +1104,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
+			throw new SeleniumLibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
 		}
 
 		WebElement element = elements.get(0);
@@ -1133,7 +1133,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
+			throw new SeleniumLibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
 		}
 
 		WebElement element = elements.get(0);
@@ -1158,7 +1158,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = elementFind(locator, true, false);
 
 		if (elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
+			throw new SeleniumLibraryNonFatalException(String.format("ERROR: Element %s not found.", locator));
 		}
 
 		WebElement element = elements.get(0);
@@ -1556,7 +1556,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 				message = String.format("Xpath %s should have matched %s times but matched %s times.", xpath,
 						expectedXpathCount, actualXpathCount);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 
 		logging.log(String.format("Current page contains %s elements matching '%s'.", actualXpathCount, xpath),
@@ -1575,7 +1575,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = ElementFinder.find(browserManagement.getCurrentWebDriver(), locator, tag);
 
 		if (required && elements.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Element locator '%s' did not match any elements.", locator));
 		}
 
@@ -1613,7 +1613,7 @@ public class Element extends RunOnFailureKeywordsAdapter {
 		WebElement element = elements.get(0);
 
 		if (!formElement.isFormElement(element)) {
-			throw new Selenium2LibraryNonFatalException(String.format("ERROR: Element %s is not an input.", locator));
+			throw new SeleniumLibraryNonFatalException(String.format("ERROR: Element %s is not an input.", locator));
 		}
 		if (!element.isEnabled()) {
 			return false;
@@ -1656,11 +1656,11 @@ public class Element extends RunOnFailureKeywordsAdapter {
 	protected String[] parseAttributeLocator(String attributeLocator) {
 		int index = attributeLocator.lastIndexOf('@');
 		if (index <= 0) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Attribute locator '%s' does not contain an element locator.", attributeLocator));
 		}
 		if (index + 1 == attributeLocator.length()) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					String.format("Attribute locator '%s' does not contain an attribute name.", attributeLocator));
 		}
 		String[] parts = new String[2];

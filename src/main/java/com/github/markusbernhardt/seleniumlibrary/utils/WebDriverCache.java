@@ -7,7 +7,7 @@ import java.util.TreeMap;
 
 import org.openqa.selenium.WebDriver;
 
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryFatalException;
 
 public class WebDriverCache {
 
@@ -126,7 +126,7 @@ public class WebDriverCache {
 			openSessionIds.push(currentSessionIdAliasWebDriverTuple.id);
 			return;
 		}
-		throw new Selenium2LibraryFatalException(String.format("Non-existing index or alias '%s'", sessionIdOrAlias));
+		throw new SeleniumLibraryFatalException(String.format("Non-existing index or alias '%s'", sessionIdOrAlias));
 	}
 
 	public Collection<SessionIdAliasWebDriverTuple> getWebDrivers() {

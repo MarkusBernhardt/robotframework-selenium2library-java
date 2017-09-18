@@ -1,4 +1,4 @@
-public class SeleniumLibrary extends com.github.markusbernhardt.seleniumlibrary.Selenium2Library {
+public class SeleniumLibrary extends com.github.markusbernhardt.seleniumlibrary.SeleniumLibrary {
 
 	public SeleniumLibrary(String timeout, String implicitWait, String runOnFailure) {
 		super(timeout, implicitWait, runOnFailure);

@@ -16,7 +16,7 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 
 @RobotKeywords
 public class Logging extends RunOnFailureKeywordsAdapter {
@@ -332,7 +332,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 		if (methodParameters != null) {
 			log0(msg, methodParameters[0], methodParameters[1]);
 		} else {
-			throw new Selenium2LibraryNonFatalException(String.format("Given log level %s is invalid.", logLevel));
+			throw new SeleniumLibraryNonFatalException(String.format("Given log level %s is invalid.", logLevel));
 		}
 	}
 
@@ -356,7 +356,7 @@ public class Logging extends RunOnFailureKeywordsAdapter {
 								methodArguments));
 
 			} catch (IOException e) {
-				throw new Selenium2LibraryNonFatalException("Error in handling temp file for long log message.", e);
+				throw new SeleniumLibraryNonFatalException("Error in handling temp file for long log message.", e);
 			}
 		} else {
 			// Message is small enough to get parsed by Jython

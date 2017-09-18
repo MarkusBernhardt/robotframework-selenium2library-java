@@ -11,7 +11,7 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 
 @RobotKeywords
 public class FormElement extends RunOnFailureKeywordsAdapter {
@@ -74,7 +74,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 		logging.info(String.format("Verifying checkbox '%s' is selected.", locator));
 		WebElement element = getCheckbox(locator);
 		if (!element.isSelected()) {
-			throw new Selenium2LibraryNonFatalException(String.format("Checkbox '%s' should have been selected.",
+			throw new SeleniumLibraryNonFatalException(String.format("Checkbox '%s' should have been selected.",
 					locator));
 		}
 	}
@@ -94,7 +94,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 		logging.info(String.format("Verifying checkbox '%s' is selected.", locator));
 		WebElement element = getCheckbox(locator);
 		if (element.isSelected()) {
-			throw new Selenium2LibraryNonFatalException(String.format("Checkbox '%s' should not have been selected.",
+			throw new SeleniumLibraryNonFatalException(String.format("Checkbox '%s' should not have been selected.",
 					locator));
 		}
 	}
@@ -279,7 +279,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = getRadioButtons(groupName);
 		String actualValue = getValueFromRadioButtons(elements);
 		if (actualValue == null || !actualValue.equals(value)) {
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Selection of radio button '%s' should have been '%s' but was '%s'", groupName, value, actualValue));
 		}
 	}
@@ -300,7 +300,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 		List<WebElement> elements = getRadioButtons(groupName);
 		String actualValue = getValueFromRadioButtons(elements);
 		if (actualValue != null) {
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Radio button group '%s' should not have had selection, but '%s' was selected", groupName,
 					actualValue));
 		}
@@ -506,7 +506,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 				message = String.format("Value of text field '%s' should have been '%s' but was '%s'", locator, text,
 						actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 		logging.info(String.format("Content of text field '%s' is '%s'.", locator, text));
 	}
@@ -543,7 +543,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 				message = String.format("Value of text field '%s' should not have been '%s' but was '%s'", locator,
 						text, actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 		logging.info(String.format("Content of text field '%s' is '%s'.", locator, text));
 	}
@@ -579,7 +579,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 				message = String.format("Text field '%s' should have contained text '%s', but was '%s'", locator, text,
 						actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 		logging.info(String.format("Text field '%s' contains text '%s'.", locator, text));
 	}
@@ -616,7 +616,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 				message = String.format("Text field '%s' should not have contained text '%s', but was '%s'", locator,
 						text, actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 		logging.info(String.format("Text field '%s' contains text '%s'.", locator, text));
 	}
@@ -652,7 +652,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 				message = String.format("Text area '%s' should have contained text '%s', but was '%s'", locator, text,
 						actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 		logging.info(String.format("Text field '%s' contains text '%s'.", locator, text));
 	}
@@ -688,7 +688,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 				message = String.format("Text area '%s' should not have contained text '%s', but was '%s'", locator, text,
 						actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 		logging.info(String.format("Text field '%s' contains text '%s'.", locator, text));
 	}
@@ -725,7 +725,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 				message = String.format("Value of text area '%s' should have been '%s' but was '%s'", locator, text,
 						actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 		logging.info(String.format("Content of text area '%s' is '%s'.", locator, text));
 	}
@@ -762,7 +762,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 				message = String.format("Value of text area '%s' should not have been '%s' but was '%s'", locator,
 						text, actual);
 			}
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 		logging.info(String.format("Content of text area '%s' is '%s'.", locator, text));
 	}
@@ -816,7 +816,7 @@ public class FormElement extends RunOnFailureKeywordsAdapter {
 	public void pageShouldContainButton(String locator, String message, String logLevel) {
 		try {
 			element.pageShouldContainElement(locator, "input", message, logLevel);
-		} catch (Selenium2LibraryNonFatalException e) {
+		} catch (SeleniumLibraryNonFatalException e) {
 			element.pageShouldContainElement(locator, "button", message, logLevel);
 		}
 	}

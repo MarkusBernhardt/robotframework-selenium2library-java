@@ -27,6 +27,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -47,13 +48,16 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryFatalException;
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 import com.github.markusbernhardt.seleniumlibrary.locators.ElementFinder;
 import com.github.markusbernhardt.seleniumlibrary.locators.WindowManager;
 import com.github.markusbernhardt.seleniumlibrary.utils.Robotframework;
 import com.github.markusbernhardt.seleniumlibrary.utils.WebDriverCache;
 import com.github.markusbernhardt.seleniumlibrary.utils.WebDriverCache.SessionIdAliasWebDriverTuple;
+import com.machinepublishers.jbrowserdriver.JBrowserDriver;
+import com.machinepublishers.jbrowserdriver.Settings;
+import com.machinepublishers.jbrowserdriver.Timezone;
 import com.opera.core.systems.OperaDriver;
 
 @SuppressWarnings("deprecation")
@@ -125,7 +129,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * <br>
 	 * The registered function has to return a WebElement, a List of WebElements
 	 * or null. Optionally a delimiter can be given to split the value of the
-	 * locator in multiple arguments when executing the JavaScript function. <br>
+	 * locator in multiple arguments when executing the JavaScript function.
+	 * <br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0" summary="">
@@ -206,8 +211,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		return openBrowser(url, browserName, alias, remoteUrl, null);
 	}
 
-	public String openBrowser(String url, String browserName, String alias, String remoteUrl, String desiredCapabilities)
-			throws Throwable {
+	public String openBrowser(String url, String browserName, String alias, String remoteUrl,
+			String desiredCapabilities) throws Throwable {
 		return openBrowser(url, browserName, alias, remoteUrl, desiredCapabilities, null);
 	}
 
@@ -297,8 +302,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Example of desiredCapabilities as JSON object:<br>
 	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
-	 * <td>
-	 * {<br>
+	 * <td>{<br>
 	 * &emsp;"platform":"Windows 8",<br>
 	 * &emsp;"browserName":"firefox",<br>
 	 * &emsp;"version":"25",<br>
@@ -320,8 +324,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Firefox:
 	 * <table border="1" cellspacing="0" summary="">
 	 * <tr>
-	 * <td>
-	 * {<br>
+	 * <td>{<br>
 	 * &emsp;"preferences":<br>
 	 * &emsp;{<br>
 	 * &emsp;&emsp;"extensions.firebug.currentVersion":"1.8.1",<br>
@@ -341,8 +344,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * <b>Internet Explorer</b><br>
 	 * Note, that you will encounter strange behavior, if you open multiple
 	 * Internet Explorer browser instances. That is also why `Switch Browser`
-	 * only works with one IE browser at most. For more information see: <a
-	 * href=
+	 * only works with one IE browser at most. For more information see:
+	 * <a href=
 	 * "http://selenium-grid.seleniumhq.org/faq.html#i_get_some_strange_errors_when_i_run_multiple_internet_explorer_instances_on_the_same_machine"
 	 * >Strange errors with multiple IE instances</a><br>
 	 * 
@@ -363,14 +366,15 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 *            created remote browser instances can be specified in a simple
 	 *            key1:val1,key2:val2 format or as a JSON object (see examples
 	 *            above). Used to communicate to the remote grid, which kind of
-	 *            browser, etc. should be used. For more information see: <a
-	 *            href=
-	 *            "http://code.google.com/p/selenium/wiki/DesiredCapabilities"
-	 *            >DesiredCapabilities</a>
+	 *            browser, etc. should be used. For more information see:
+	 *            <a href=
+	 *            "http://code.google.com/p/selenium/wiki/DesiredCapabilities" >
+	 *            DesiredCapabilities</a>
 	 * @param browserOptions
 	 *            Default=NONE. Extended browser options as JSON structure.
 	 * @return The index of the newly created browser instance.
-	 * @throws Throwable - if anything goes wrong
+	 * @throws Throwable
+	 *             - if anything goes wrong
 	 * 
 	 * @see BrowserManagement#closeAllBrowsers
 	 * @see BrowserManagement#closeBrowser
@@ -397,13 +401,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			return sessionId;
 		} catch (Throwable t) {
 			if (remoteUrl != null) {
-				logging.warn(String.format(
-						"Opening browser '%s' to base url '%s' through remote server at '%s' failed", browserName, url,
-						remoteUrl));
+				logging.warn(String.format("Opening browser '%s' to base url '%s' through remote server at '%s' failed",
+						browserName, url, remoteUrl));
 			} else {
 				logging.warn(String.format("Opening browser '%s' to base url '%s' failed", browserName, url));
 			}
-			throw new Selenium2LibraryFatalException(t);
+			throw new SeleniumLibraryFatalException(t);
 		}
 	}
 
@@ -509,8 +512,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			logging.debug(String.format("Switched to browser with Selenium session id %s",
 					webDriverCache.getCurrentSessionId()));
 		} catch (Throwable t) {
-			throw new Selenium2LibraryFatalException(String.format("No browser with index or alias '%s' found.",
-					indexOrAlias));
+			throw new SeleniumLibraryFatalException(
+					String.format("No browser with index or alias '%s' found.", indexOrAlias));
 		}
 	}
 
@@ -553,7 +556,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Returns the names of all windows known to the current browser instance.<br>
+	 * Returns the names of all windows known to the current browser instance.
+	 * <br>
 	 * 
 	 * @return List of window names
 	 * 
@@ -569,7 +573,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Returns the titles of all windows known to the current browser instance.<br>
+	 * Returns the titles of all windows known to the current browser instance.
+	 * <br>
 	 * 
 	 * @return List of window titles
 	 * 
@@ -682,7 +687,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * title of the window and the javascript name of the window. If multiple
 	 * windows with same identifier are found, the first one is selected.<br>
 	 * <br>
-	 * The special locator main (default) can be used to select the main window.<br>
+	 * The special locator main (default) can be used to select the main window.
+	 * <br>
 	 * <br>
 	 * Example:
 	 * <table border="1" cellspacing="0" summary="">
@@ -797,9 +803,9 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * that a session support. <b>If a session cannot support a capability that
 	 * is requested in the desired capabilities, no error is thrown;</b> a
 	 * read-only capabilities object is returned that indicates the capabilities
-	 * the session actually supports. For more information see: <a href=
-	 * "http://code.google.com/p/selenium/wiki/DesiredCapabilities"
-	 * >DesiredCapabilities</a><br>
+	 * the session actually supports. For more information see:
+	 * <a href= "http://code.google.com/p/selenium/wiki/DesiredCapabilities" >
+	 * DesiredCapabilities</a><br>
 	 * 
 	 * @return The capabilities of the remote node.
 	 * 
@@ -807,10 +813,12 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 */
 	@RobotKeyword
 	public String getRemoteCapabilities() {
-		if (getCurrentWebDriver() instanceof RemoteWebDriver) {
+		//Null returned from jbrowserdriver
+		if (getCurrentWebDriver() instanceof RemoteWebDriver && ((RemoteWebDriver) getCurrentWebDriver()).getCapabilities() != null) {
+			System.out.println(getCurrentWebDriver());
 			return ((RemoteWebDriver) getCurrentWebDriver()).getCapabilities().toString();
 		} else {
-			return "No remote session id";
+			return "No remote session id or capabilities available";
 		}
 	}
 
@@ -857,8 +865,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public void locationShouldBe(String url) {
 		String actual = getLocation();
 		if (!actual.equals(url)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Location should have been '%s', but was '%s'",
-					url, actual));
+			throw new SeleniumLibraryNonFatalException(
+					String.format("Location should have been '%s', but was '%s'", url, actual));
 		}
 		logging.info(String.format("Current location is '%s'.", url));
 	}
@@ -876,8 +884,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public void locationShouldContain(String url) {
 		String actual = getLocation();
 		if (!actual.contains(url)) {
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Location should have contained '%s', but was '%s'", url, actual));
+			throw new SeleniumLibraryNonFatalException(
+					String.format("Location should have contained '%s', but was '%s'", url, actual));
 		}
 		logging.info(String.format("Current location is '%s'.", url));
 	}
@@ -897,8 +905,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public void titleShouldBe(String title) {
 		String actual = getTitle();
 		if (!actual.equals(title)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Title should have been '%s', but was '%s'",
-					title, actual));
+			throw new SeleniumLibraryNonFatalException(
+					String.format("Title should have been '%s', but was '%s'", title, actual));
 		}
 		logging.info(String.format("Page title is '%s'.", title));
 	}
@@ -918,8 +926,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public void titleShouldNotBe(String title) {
 		String actual = getTitle();
 		if (actual.equals(title)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Title should not have been '%s', but was '%s'",
-					title, actual));
+			throw new SeleniumLibraryNonFatalException(
+					String.format("Title should not have been '%s', but was '%s'", title, actual));
 		}
 		logging.info(String.format("Page title is '%s'.", title));
 	}
@@ -939,8 +947,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public void titleShouldContain(String title) {
 		String actual = getTitle();
 		if (!actual.contains(title)) {
-			throw new Selenium2LibraryNonFatalException(String.format("Title should have contained '%s', but was '%s'",
-					title, actual));
+			throw new SeleniumLibraryNonFatalException(
+					String.format("Title should have contained '%s', but was '%s'", title, actual));
 		}
 		logging.info(String.format("Page title is '%s'.", title));
 	}
@@ -960,8 +968,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public void titleShouldNotContain(String title) {
 		String actual = getTitle();
 		if (actual.contains(title)) {
-			throw new Selenium2LibraryNonFatalException(String.format(
-					"Title should not have contained '%s', but was '%s'", title, actual));
+			throw new SeleniumLibraryNonFatalException(
+					String.format("Title should not have contained '%s', but was '%s'", title, actual));
 		}
 		logging.info(String.format("Page title is '%s'.", title));
 	}
@@ -1037,7 +1045,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	/**
-	 * Sets and returns the timeout in seconds that is used by various keywords.<br>
+	 * Sets and returns the timeout in seconds that is used by various keywords.
+	 * <br>
 	 * <br>
 	 * There are several Wait ... keywords that take a timeout as an argument.
 	 * All of these timeout arguments are optional. The timeout used by all of
@@ -1080,8 +1089,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		timeout = Robotframework.timestrToSecs(timestr);
 
 		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : webDriverCache.getWebDrivers()) {
-			sessionIdAliasWebDriverTuple.webDriver.manage().timeouts()
-					.setScriptTimeout((int) (timeout * 1000.0), TimeUnit.MILLISECONDS);
+			sessionIdAliasWebDriverTuple.webDriver.manage().timeouts().setScriptTimeout((int) (timeout * 1000.0),
+					TimeUnit.MILLISECONDS);
 		}
 		return oldWait;
 	}
@@ -1140,8 +1149,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 		implicitWait = Robotframework.timestrToSecs(timestr);
 
 		for (SessionIdAliasWebDriverTuple sessionIdAliasWebDriverTuple : webDriverCache.getWebDrivers()) {
-			sessionIdAliasWebDriverTuple.webDriver.manage().timeouts()
-					.implicitlyWait((int) (implicitWait * 1000.0), TimeUnit.MILLISECONDS);
+			sessionIdAliasWebDriverTuple.webDriver.manage().timeouts().implicitlyWait((int) (implicitWait * 1000.0),
+					TimeUnit.MILLISECONDS);
 		}
 		return oldWait;
 	}
@@ -1184,8 +1193,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	public String setBrowserImplicitWait(String timestr) {
 		String oldWait = getSeleniumTimeout();
 		implicitWait = Robotframework.timestrToSecs(timestr);
-		webDriverCache.getCurrent().manage().timeouts()
-				.implicitlyWait((int) (implicitWait * 1000.0), TimeUnit.MILLISECONDS);
+		webDriverCache.getCurrent().manage().timeouts().implicitlyWait((int) (implicitWait * 1000.0),
+				TimeUnit.MILLISECONDS);
 		return oldWait;
 	}
 
@@ -1230,7 +1239,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	 * Java property http.proxyUser and the environment variables HTTP_PROXY and
 	 * http_proxy. If a password is found, it is only used, if the host, port
 	 * and username also match.</li>
-	 * <li>If a <b>domain</b> is provided, NTLM based authentication is used</li>
+	 * <li>If a <b>domain</b> is provided, NTLM based authentication is used
+	 * </li>
 	 * <li>If no <b>workstation</b> is provided and NTLM based authentication is
 	 * used, the hostname is used as workstation name.</li>
 	 * </ul>
@@ -1276,7 +1286,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 				}
 			}
 		} catch (MalformedURLException e) {
-			throw new Selenium2LibraryNonFatalException(e.getMessage());
+			throw new SeleniumLibraryNonFatalException(e.getMessage());
 		}
 
 		if (username.length() == 0) {
@@ -1369,6 +1379,7 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 	}
 
 	protected WebDriver createLocalWebDriver(String browserName, DesiredCapabilities desiredCapabilities) {
+		System.out.println(browserName);
 		if ("ff".equals(browserName) || "firefox".equals(browserName)) {
 			return new FirefoxDriver(desiredCapabilities);
 		} else if ("ie".equals(browserName) || "internetexplorer".equals(browserName)) {
@@ -1391,17 +1402,19 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			try {
 				return new IOSDriver<WebElement>(new URL(""), desiredCapabilities);
 			} catch (Exception e) {
-				throw new Selenium2LibraryFatalException("Creating " + browserName + " instance failed.", e);
+				throw new SeleniumLibraryFatalException("Creating " + browserName + " instance failed.", e);
 			}
 		} else if ("android".equals(browserName)) {
 			try {
 				return new SelendroidDriver(desiredCapabilities);
 			} catch (Exception e) {
-				throw new Selenium2LibraryFatalException(e);
+				throw new SeleniumLibraryFatalException(e);
 			}
+		} else if ("jbrowser".equals(browserName)) {
+			return new JBrowserDriver(Settings.builder().build());
 		}
 
-		throw new Selenium2LibraryFatalException(browserName + " is not a supported browser.");
+		throw new SeleniumLibraryFatalException(browserName + " is not a supported browser.");
 	}
 
 	protected WebDriver createRemoteWebDriver(DesiredCapabilities desiredCapabilities, URL remoteUrl) {
@@ -1434,8 +1447,10 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			desiredCapabilities = DesiredCapabilities.android();
 		} else if ("htmlunit".equals(browserName) || "htmlunitwithjs".equals(browserName)) {
 			desiredCapabilities = DesiredCapabilities.htmlUnit();
+		} else if ("jbrowser".equals(browserName)) {
+			desiredCapabilities = new DesiredCapabilities("jbrowser", "1", Platform.ANY);
 		} else {
-			throw new Selenium2LibraryFatalException(browserName + " is not a supported browser.");
+			throw new SeleniumLibraryFatalException(browserName + " is not a supported browser.");
 		}
 
 		if (desiredCapabilitiesString != null && !"None".equals(desiredCapabilitiesString)) {
@@ -1535,10 +1550,8 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 						new UsernamePasswordCredentials(remoteWebDriverProxyUser, remoteWebDriverProxyPassword));
 			} else {
 				// NTLM Authentication
-				client.getCredentialsProvider().setCredentials(
-						authScope,
-						new NTCredentials(remoteWebDriverProxyUser, remoteWebDriverProxyPassword,
-								remoteWebDriverProxyWorkstation, remoteWebDriverProxyDomain));
+				client.getCredentialsProvider().setCredentials(authScope, new NTCredentials(remoteWebDriverProxyUser,
+						remoteWebDriverProxyPassword, remoteWebDriverProxyWorkstation, remoteWebDriverProxyDomain));
 			}
 
 			// Set the RoutePlanner back to something that handles
@@ -1547,20 +1560,20 @@ public class BrowserManagement extends RunOnFailureKeywordsAdapter {
 			HttpHost proxy = new HttpHost(remoteWebDriverProxyHost, Integer.parseInt(remoteWebDriverProxyPort));
 			client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 		} catch (SecurityException e) {
-			throw new Selenium2LibraryFatalException(String.format(
-					"The SecurityManager does not allow us to lookup to the %s field.", fieldName));
+			throw new SeleniumLibraryFatalException(
+					String.format("The SecurityManager does not allow us to lookup to the %s field.", fieldName));
 		} catch (NoSuchFieldException e) {
-			throw new Selenium2LibraryFatalException(String.format(
-					"The RemoteWebDriver dose not declare the %s field any more.", fieldName));
+			throw new SeleniumLibraryFatalException(
+					String.format("The RemoteWebDriver dose not declare the %s field any more.", fieldName));
 		} catch (IllegalArgumentException e) {
-			throw new Selenium2LibraryFatalException(String.format("The field %s does not belong to the given object.",
-					fieldName));
+			throw new SeleniumLibraryFatalException(
+					String.format("The field %s does not belong to the given object.", fieldName));
 		} catch (IllegalAccessException e) {
-			throw new Selenium2LibraryFatalException(String.format(
-					"The SecurityManager does not allow us to access to the %s field.", fieldName));
+			throw new SeleniumLibraryFatalException(
+					String.format("The SecurityManager does not allow us to access to the %s field.", fieldName));
 		} catch (ClassCastException e) {
-			throw new Selenium2LibraryFatalException(String.format("The %s field does not contain a %s.", fieldName,
-					className));
+			throw new SeleniumLibraryFatalException(
+					String.format("The %s field does not contain a %s.", fieldName, className));
 		}
 	}
 

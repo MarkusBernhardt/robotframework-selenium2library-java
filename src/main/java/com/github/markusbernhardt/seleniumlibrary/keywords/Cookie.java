@@ -9,7 +9,7 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 
 @RobotKeywords
 public class Cookie extends RunOnFailureKeywordsAdapter {
@@ -84,7 +84,7 @@ public class Cookie extends RunOnFailureKeywordsAdapter {
 		if (cookie != null) {
 			return cookie.getValue();
 		} else {
-			throw new Selenium2LibraryNonFatalException(String.format("Cookie with name %s not found.", name));
+			throw new SeleniumLibraryNonFatalException(String.format("Cookie with name %s not found.", name));
 		}
 	}
 

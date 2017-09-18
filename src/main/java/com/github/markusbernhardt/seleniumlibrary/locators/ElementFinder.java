@@ -14,7 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.python.util.PythonInterpreter;
 
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 import com.github.markusbernhardt.seleniumlibrary.keywords.Element;
 import com.github.markusbernhardt.seleniumlibrary.utils.Python;
 
@@ -244,10 +244,10 @@ public class ElementFinder {
 
 	public static List<WebElement> find(WebDriver webDriver, String locator, String tag) {
 		if (webDriver == null) {
-			throw new Selenium2LibraryNonFatalException("ElementFinder.find: webDriver is null.");
+			throw new SeleniumLibraryNonFatalException("ElementFinder.find: webDriver is null.");
 		}
 		if (locator == null) {
-			throw new Selenium2LibraryNonFatalException("ElementFinder.find: locator is null.");
+			throw new SeleniumLibraryNonFatalException("ElementFinder.find: locator is null.");
 		}
 
 		FindByCoordinates findByCoordinates = new FindByCoordinates();

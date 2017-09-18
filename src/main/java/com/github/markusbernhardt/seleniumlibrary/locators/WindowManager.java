@@ -7,7 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 
 public class WindowManager {
 
@@ -37,7 +37,7 @@ public class WindowManager {
 					return;
 				} catch (Throwable t) {
 				}
-				throw new Selenium2LibraryNonFatalException("Unable to locate window with name or title '"
+				throw new SeleniumLibraryNonFatalException("Unable to locate window with name or title '"
 						+ selectCoordinates.criteria + "'");
 			}
 		},
@@ -107,7 +107,7 @@ public class WindowManager {
 			if (startingHandle != null) {
 				webDriver.switchTo().window(startingHandle);
 			}
-			throw new Selenium2LibraryNonFatalException(error);
+			throw new SeleniumLibraryNonFatalException(error);
 		}
 	}
 
@@ -159,7 +159,7 @@ public class WindowManager {
 
 	public static void select(WebDriver webDriver, String locator) {
 		if (webDriver == null) {
-			throw new Selenium2LibraryNonFatalException("WindowManager.select: webDriver is null.");
+			throw new SeleniumLibraryNonFatalException("WindowManager.select: webDriver is null.");
 		}
 
 		SelectCoordinates selectCoordinates = new SelectCoordinates();

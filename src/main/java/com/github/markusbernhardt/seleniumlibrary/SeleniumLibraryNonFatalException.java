@@ -5,26 +5,26 @@ package com.github.markusbernhardt.seleniumlibrary;
  * all test executions.
  */
 @SuppressWarnings("serial")
-public class Selenium2LibraryNonFatalException extends RuntimeException {
+public class SeleniumLibraryNonFatalException extends RuntimeException {
 
 	/**
 	 * Mark this exception as non fatal
 	 */
 	public static final boolean ROBOT_EXIT_ON_FAILURE = false;
 
-	public Selenium2LibraryNonFatalException() {
+	public SeleniumLibraryNonFatalException() {
 		super();
 	}
 
-	public Selenium2LibraryNonFatalException(String string) {
+	public SeleniumLibraryNonFatalException(String string) {
 		super(string);
 	}
 
-	public Selenium2LibraryNonFatalException(Throwable t) {
+	public SeleniumLibraryNonFatalException(Throwable t) {
 		super(t);
 	}
 
-	public Selenium2LibraryNonFatalException(String string, Throwable t) {
+	public SeleniumLibraryNonFatalException(String string, Throwable t) {
 		super(string, t);
 	}
 }

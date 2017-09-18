@@ -11,7 +11,7 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 import com.github.markusbernhardt.seleniumlibrary.locators.TableElementFinder;
 
 @RobotKeywords
@@ -84,7 +84,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 			}
 		}
 		logging.logSource(logLevel);
-		throw new Selenium2LibraryNonFatalException(String.format(
+		throw new SeleniumLibraryNonFatalException(String.format(
 				"Cell in table %s in row #%d and column #%d could not be found.", tableLocator, row, column));
 	}
 
@@ -125,15 +125,15 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 		String content = "";
 		try {
 			content = getTableCell(tableLocator, row, column, logLevel);
-		} catch (Selenium2LibraryNonFatalException e) {
+		} catch (SeleniumLibraryNonFatalException e) {
 			logging.info(e.getMessage());
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 
 		logging.info(String.format("Cell contains %s.", content));
 		if (!content.contains(text)) {
 			logging.logSource(logLevel);
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		}
 	}
 
@@ -186,7 +186,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 				text);
 		if (element == null) {
 			logging.logSource(logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Column #%d in table identified by '%s' should have contained text '%s'.", col, tableLocator, text));
 		}
 	}
@@ -217,7 +217,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 				text);
 		if (element == null) {
 			logging.logSource(logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Footer in table identified by '%s' should have contained text '%s'.", tableLocator, text));
 		}
 	}
@@ -248,7 +248,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 				text);
 		if (element == null) {
 			logging.logSource(logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Header in table identified by '%s' should have contained text '%s'.", tableLocator, text));
 		}
 	}
@@ -289,7 +289,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 				text);
 		if (element == null) {
 			logging.logSource(logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Row #%d in table identified by '%s' should have contained text '%s'.", row, tableLocator, text));
 		}
 	}
@@ -320,7 +320,7 @@ public class TableElement extends RunOnFailureKeywordsAdapter {
 				text);
 		if (element == null) {
 			logging.logSource(logLevel);
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Table identified by '%s' should have contained text '%s'.", tableLocator, text));
 		}
 	}

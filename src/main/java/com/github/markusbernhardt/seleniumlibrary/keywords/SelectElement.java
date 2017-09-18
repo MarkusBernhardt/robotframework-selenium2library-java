@@ -13,7 +13,7 @@ import org.robotframework.javalib.annotation.RobotKeywordOverload;
 import org.robotframework.javalib.annotation.RobotKeywords;
 
 import com.github.markusbernhardt.seleniumlibrary.RunOnFailureKeywordsAdapter;
-import com.github.markusbernhardt.seleniumlibrary.Selenium2LibraryNonFatalException;
+import com.github.markusbernhardt.seleniumlibrary.SeleniumLibraryNonFatalException;
 import com.github.markusbernhardt.seleniumlibrary.utils.Python;
 
 @RobotKeywords
@@ -94,7 +94,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		List<WebElement> options = getSelectListOptionsSelected(locator);
 
 		if (options.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Select list with locator '%s' does not have any selected values.", locator));
 		}
 
@@ -145,7 +145,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		List<WebElement> options = getSelectListOptionsSelected(locator);
 
 		if (options.size() == 0) {
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"Select list with locator '%s' does not have any selected values.", locator));
 		}
 
@@ -181,13 +181,13 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		String message = String.format("List '%s' should have had selection [ %s ] but it was [ %s ].", locator,
 				Python.join(" | ", items), Python.join(" | ", selectedLabels));
 		if (items.length != options.size()) {
-			throw new Selenium2LibraryNonFatalException(message);
+			throw new SeleniumLibraryNonFatalException(message);
 		} else {
 			List<String> selectedValues = getValuesForOptions(options);
 
 			for (String item : items) {
 				if (!selectedValues.contains(item) && !selectedLabels.contains(item)) {
-					throw new Selenium2LibraryNonFatalException(message);
+					throw new SeleniumLibraryNonFatalException(message);
 				}
 			}
 		}
@@ -212,7 +212,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		if (!options.equals(null)) {
 			List<String> selectedLabels = getLabelsForOptions(options);
 			String items = Python.join(" | ", selectedLabels);
-			throw new Selenium2LibraryNonFatalException(String.format(
+			throw new SeleniumLibraryNonFatalException(String.format(
 					"List '%s' should have had no selection (selection was [ %s ]).", locator, items.toString()));
 		}
 	}
@@ -296,7 +296,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 
 		Select select = getSelectList(locator);
 		if (!isMultiselectList(select)) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					"Keyword 'Select all from list' works only for multiselect lists.");
 		}
 
@@ -361,7 +361,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		if (nonExistingItems.size() != 0) {
 			// multi-selection list => throw immediately
 			if (select.isMultiple()) {
-				throw new Selenium2LibraryNonFatalException(String.format("Options '%s' not in list '%s'.",
+				throw new SeleniumLibraryNonFatalException(String.format("Options '%s' not in list '%s'.",
 						Python.join(", ", nonExistingItems), locator));
 			}
 
@@ -371,7 +371,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 
 			// single-selection list => throw if last item was not found
 			if (!lastItemFound) {
-				throw new Selenium2LibraryNonFatalException(String.format("Option '%s' not in list '%s'.",
+				throw new SeleniumLibraryNonFatalException(String.format("Option '%s' not in list '%s'.",
 						nonExistingItems.get(nonExistingItems.size() - 1), locator));
 			}
 		}
@@ -397,7 +397,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "*indexes" })
 	public void selectFromListByIndex(String locator, String... indexes) {
 		if (indexes.length == 0) {
-			throw new Selenium2LibraryNonFatalException("No index given.");
+			throw new SeleniumLibraryNonFatalException("No index given.");
 		}
 
 		List<String> tmp = new ArrayList<String>();
@@ -430,7 +430,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "*values" })
 	public void selectFromListByValue(String locator, String... values) {
 		if (values.length == 0) {
-			throw new Selenium2LibraryNonFatalException("No value given.");
+			throw new SeleniumLibraryNonFatalException("No value given.");
 		}
 
 		String items = String.format("value(s) '%s'", Python.join(", ", values));
@@ -459,7 +459,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "*labels" })
 	public void selectFromListByLabel(String locator, String... labels) {
 		if (labels.length == 0) {
-			throw new Selenium2LibraryNonFatalException("No value given.");
+			throw new SeleniumLibraryNonFatalException("No value given.");
 		}
 
 		String items = String.format("label(s) '%s'", Python.join(", ", labels));
@@ -500,7 +500,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		Select select = getSelectList(locator);
 
 		if (!isMultiselectList(select)) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					"Keyword 'Unselect from list' works only for multiselect lists.");
 		}
 
@@ -533,7 +533,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "*indexes" })
 	public void unselectFromListByIndex(String locator, Integer... indexes) {
 		if (indexes.equals(null)) {
-			throw new Selenium2LibraryNonFatalException("No index given.");
+			throw new SeleniumLibraryNonFatalException("No index given.");
 		}
 
 		List<String> tmp = new ArrayList<String>();
@@ -546,7 +546,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		Select select = getSelectList(locator);
 
 		if (!isMultiselectList(select)) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					"Keyword 'Unselect from list' works only for multiselect lists.");
 		}
 
@@ -572,7 +572,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "*values" })
 	public void unselectFromListByValue(String locator, String... values) {
 		if (values.equals(null)) {
-			throw new Selenium2LibraryNonFatalException("No value given.");
+			throw new SeleniumLibraryNonFatalException("No value given.");
 		}
 
 		String items = String.format("value(s) '%s'", Python.join(", ", values));
@@ -581,7 +581,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		Select select = getSelectList(locator);
 
 		if (!isMultiselectList(select)) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					"Keyword 'Unselect from list' works only for multiselect lists.");
 		}
 
@@ -607,7 +607,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 	@ArgumentNames({ "locator", "*labels" })
 	public void unselectFromListByLabel(String locator, String... labels) {
 		if (labels.equals(null)) {
-			throw new Selenium2LibraryNonFatalException("No value given.");
+			throw new SeleniumLibraryNonFatalException("No value given.");
 		}
 
 		String items = String.format("label(s) '%s'", Python.join(", ", labels));
@@ -616,7 +616,7 @@ public class SelectElement extends RunOnFailureKeywordsAdapter {
 		Select select = getSelectList(locator);
 
 		if (!isMultiselectList(select)) {
-			throw new Selenium2LibraryNonFatalException(
+			throw new SeleniumLibraryNonFatalException(
 					"Keyword 'Unselect from list' works only for multiselect lists.");
 		}
 
