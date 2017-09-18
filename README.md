@@ -1,6 +1,10 @@
 Java port of the Selenium 2 (WebDriver) Python library for Robot Framework
 ==========================================================================
 
+Repository moved
+------------
+Maintainer of the library is changed, and new repository is at https://github.com/Hi-Fi/robotframework-seleniumlibrary-java.
+
 Introduction
 ------------
 
