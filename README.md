@@ -72,16 +72,16 @@ Differences
 Demo
 ----
 
-This is a maven project. If you have firefox installed,
-you can execute the unit tests with:
+This is a maven project. If you have firefox installed, you can execute the unit tests with:
 
-    mvn integration-test
+ mvn integration-test
 
 Getting Help
 ------------
 
 The [user group for Robot Framework](https://groups.google.com/forum/#!forum/robotframework-users)
 is the best place to get help. Consider including in the post:
+
 * Full description of what you are trying to do and expected outcome
 * Version number of Selenium2Library, Robot Framework, and Selenium
 * StackTraces or other debug output containing error information
